@@ -1,15 +1,20 @@
-import { View, StyleSheet } from "react-native";
+import { router } from 'expo-router';
+import { Text, View, StyleSheet } from 'react-native';
 import { Image } from 'expo-image';
 import { SafeAreaView } from 'react-native-safe-area-context';
+
 // components
+import { useSession } from '@/components/authentication/ctx';
 import HvButton from "@/components/ui/hvButton";
+
 // constants
 import { LIGHT_GREEN } from "@/constants/colors";
 import { WIN_WIDTH } from "@/constants/window";
 
 
-// export default function IndexScreen() {
-const LoginPage = () => {
+const SignIn = () => {
+  const { signIn } = useSession();
+
   return (
     <SafeAreaView
       style={Styles.pageContainer}
@@ -19,11 +24,15 @@ const LoginPage = () => {
         contentFit="contain"
         style={Styles.homeImage}
       />
-      {/* LINK */}
       <HvButton 
         text="Innskráning" 
-        onPress={() => console.log("innskráning pressed")}
         width={WIN_WIDTH * 0.75}
+        onPress={() => {
+          signIn();
+          // Navigate after signing in. You may want to tweak this to ensure sign-in is
+          // successful before navigating.
+          router.replace('/');
+        }}
       />
     </SafeAreaView>
   );
@@ -42,4 +51,4 @@ const Styles = StyleSheet.create({
   },
 });
 
-export default LoginPage;
+export default SignIn;
