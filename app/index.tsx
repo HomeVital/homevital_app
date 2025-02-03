@@ -1,50 +1,45 @@
-import { Pressable, Dimensions, Text, View } from "react-native";
+import { View, StyleSheet } from "react-native";
 import { Image } from 'expo-image';
-import { StyleSheet } from "react-native";
+import { SafeAreaView } from 'react-native-safe-area-context';
+// components
+import HvButton from "@/components/ui/hvButton";
+// constants
+import { LIGHT_GREEN } from "@/constants/colors";
+import { WIN_WIDTH } from "@/constants/window";
 
-import { DARK_GREEN, LIGHT_GREEN } from "@/constants/colors";
 
-
-export default function IndexScreen() {
+// export default function IndexScreen() {
+const LoginPage = () => {
   return (
-    <View
-      style={allStyles.pageContainer}
+    <SafeAreaView
+      style={Styles.pageContainer}
     >
       <Image
         source={require('@/assets/svgs/homeVitalScalable.svg')}
-        style={allStyles.image}
+        contentFit="contain"
+        style={Styles.homeImage}
       />
-       {/* LINK */}
-      <Pressable style={allStyles.button}>
-        <Text style={allStyles.text}>Innskráning</Text>
-      </Pressable>
-    </View>
+      {/* LINK */}
+      <HvButton 
+        text="Innskráning" 
+        onPress={() => console.log("innskráning pressed")}
+        width={WIN_WIDTH * 0.75}
+      />
+    </SafeAreaView>
   );
 }
 
-const allStyles = StyleSheet.create({
+const Styles = StyleSheet.create({
   pageContainer: {
     flex: 1, // take up entire screen
-    justifyContent: "space-evenly", // center vertically
+    justifyContent: "space-around", // center vertically
     alignItems: "center", // center horizontally
-    // space between items
-
-
     backgroundColor: LIGHT_GREEN,
   },
-  image: {
-    width: Dimensions.get('window').width * 0.66,
-    height: Dimensions.get('window').width * 0.66,
-  },
-  button: {
-    backgroundColor: DARK_GREEN,
-    padding: 10,
-    borderRadius: 10,
+  homeImage: {
+    height: "50%",
     width: "70%",
-    alignItems: "center",
   },
-  text: {
-    color: "white",
-    fontSize: 20,
-  }
 });
+
+export default LoginPage;
