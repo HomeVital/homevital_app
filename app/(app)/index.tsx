@@ -6,7 +6,7 @@ import { useSession } from '@/components/authentication/ctx';
 
 const MainScreen = () => {
   return (
-    <SafeAreaView >
+    <SafeAreaView style={Styles.container}>
       <Text
         style={{ fontFamily: 'OpenSans', fontSize: 20 }}
       >
