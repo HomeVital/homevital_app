@@ -12,6 +12,7 @@ import { LIGHT_GRAY } from '@/constants/colors';
 const RootLayout = () => {
   const [loaded] = useFonts({
     OpenSans: require('../assets/fonts/OpenSans-Regular.ttf'),
+    OpenSansSemibold: require('../assets/fonts/OpenSans-Semibold.ttf'),
   });
 
   useEffect(() => {

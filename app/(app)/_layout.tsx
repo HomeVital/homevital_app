@@ -4,7 +4,6 @@ import { Redirect, Stack } from 'expo-router';
 import { useEffect } from 'react';
 // components
 import { useSession } from '@/components/authentication/ctx';
-import { TabRouter } from '@react-navigation/native';
 
 const AppLayout = () => {
   const { session, isLoading, signOut } = useSession();

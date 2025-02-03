@@ -1,17 +1,14 @@
-import { Text, StyleSheet } from 'react-native';
+import { StyleSheet } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 // components
-import { useSession } from '@/components/authentication/ctx';
-
+import HvHeader from '@/components/homeScreen/hvHeader';
+// constants
+import { LIGHT_GRAY } from '@/constants/colors';
 
 const MainScreen = () => {
   return (
     <SafeAreaView style={Styles.container}>
-      <Text
-        style={{ fontFamily: 'OpenSans', fontSize: 20 }}
-      >
-        Main Screen
-      </Text>
+    <HvHeader name="jakub" />
     </SafeAreaView>
   );
 }
@@ -19,8 +16,8 @@ const MainScreen = () => {
 const Styles = StyleSheet.create({
   container: {
     flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
+    backgroundColor: LIGHT_GRAY,
+    paddingHorizontal: 20,
   },
 });
 
