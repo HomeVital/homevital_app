@@ -16,7 +16,7 @@ const HvButton = ({ text, width, onPress, style = {}}: Props) => {
       <TouchableOpacity 
         style={Styles.button}
         onPress={onPress}
-        activeOpacity={0.8}
+        activeOpacity={0.7}
       >
         <Text style={Styles.text}>{ text }</Text>
       </TouchableOpacity>

@@ -1,4 +1,4 @@
-import { View, Text, StyleSheet } from "react-native";
+import { View, Text, StyleSheet, TouchableOpacity } from "react-native";
 import { Image } from 'expo-image';
 // constants
 import { DARK_GREEN } from "@/constants/colors";
@@ -15,12 +15,14 @@ const HvHeader = ({ name }: Props) => {
         contentFit='contain'
         style={Styles.headerLogo}
         />
-        <Text style={Styles.headerText}>Velkomin <Text style={Styles.headerName}>{name}</Text></Text>
-        <Image
-        source={require('@/assets/svgs/notification.svg')}
-        contentFit='contain'
-        style={Styles.headerRight}
-        />
+        <Text style={Styles.headerText}>Velkomin {name}</Text>
+        <TouchableOpacity>
+          <Image
+          source={require('@/assets/svgs/notificationBellScalable.svg')}
+          contentFit='contain'
+          style={Styles.headerRight}
+          />
+        </TouchableOpacity>
     </View>
   );
 }
@@ -30,9 +32,7 @@ const Styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     height: 60,
-    paddingHorizontal: 10,
-    borderColor: 'black',
-    borderWidth: 1,
+    paddingHorizontal: 30,
   },
   headerLogo: {
     width: 40,
@@ -40,14 +40,10 @@ const Styles = StyleSheet.create({
   },
   headerText: {
     flex: 1,
+    textAlign: 'center',
     fontFamily: 'OpenSansSemibold',
     fontSize: 18,
     color: DARK_GREEN,
-    textAlign: 'center',
-    // borderColor: 'black',
-    // borderWidth: 1,
-  },
-  headerName: {
     textTransform: 'capitalize',
   },
   headerRight: {

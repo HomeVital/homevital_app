@@ -1,9 +1,10 @@
-
+import React, { useEffect } from 'react';
 import { AppState, Text } from 'react-native';
 import { Redirect, Stack } from 'expo-router';
-import { useEffect } from 'react';
 // components
-import { useSession } from '@/components/authentication/ctx';
+import { useSession } from '@/authentication/ctx';
+import HvTabBar from '@/components/ui/hvTabBar';
+import { LIGHT_THEME } from '@/constants/colors';
 
 const AppLayout = () => {
   const { session, isLoading, signOut } = useSession();
@@ -39,9 +40,16 @@ const AppLayout = () => {
 
   // This layout can be deferred because it's not the root layout.
   return (
-    <Stack screenOptions={{ headerShown: false }}>
-      <Stack.Screen name="index" />
-    </Stack>
+    <>
+      <Stack 
+      screenOptions={{ 
+        headerShown: false,
+        contentStyle: { backgroundColor: LIGHT_THEME }
+      }}>
+        <Stack.Screen name="index"/>
+      </Stack>
+    <HvTabBar />
+    </>
   );
 }
 

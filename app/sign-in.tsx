@@ -3,7 +3,7 @@ import { StyleSheet } from 'react-native';
 import { Image } from 'expo-image';
 import { SafeAreaView } from 'react-native-safe-area-context';
 // components
-import { useSession } from '@/components/authentication/ctx';
+import { useSession } from '@/authentication/ctx';
 import HvButton from "@/components/ui/hvButton";
 // constants
 import { LIGHT_GREEN } from "@/constants/colors";
@@ -14,9 +14,7 @@ const SignIn = () => {
   const { signIn } = useSession();
 
   return (
-    <SafeAreaView
-      style={Styles.container}
-    >
+    <SafeAreaView style={Styles.container}>
       <Image
         source={require('@/assets/svgs/homeVitalScalable.svg')}
         contentFit="contain"
