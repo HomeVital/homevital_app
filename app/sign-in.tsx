@@ -17,7 +17,7 @@ const SignIn = () => {
 
   return (
     <SafeAreaView
-      style={Styles.pageContainer}
+      style={Styles.container}
     >
       <Image
         source={require('@/assets/svgs/homeVitalScalable.svg')}
@@ -39,7 +39,7 @@ const SignIn = () => {
 }
 
 const Styles = StyleSheet.create({
-  pageContainer: {
+  container: {
     flex: 1, // take up entire screen
     justifyContent: "space-around", // center vertically
     alignItems: "center", // center horizontally

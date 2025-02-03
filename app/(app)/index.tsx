@@ -1,19 +1,28 @@
-import { Text, View } from 'react-native';
+import { Text, StyleSheet } from 'react-native';
+import { SafeAreaView } from 'react-native-safe-area-context';
 // components
 import { useSession } from '@/components/authentication/ctx';
 
-export default function Index() {
-  const { signOut } = useSession();
+
+const MainScreen = () => {
   return (
-    <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
+    <SafeAreaView >
       <Text
-        onPress={() => {
-          // The `app/(app)/_layout.tsx` will redirect to the sign-in screen.
-          signOut();
-        }}>
-        Sign Out
+        style={{ fontFamily: 'OpenSans', fontSize: 20 }}
+      >
+        Main Screen
       </Text>
-    </View>
+    </SafeAreaView>
   );
 }
 
+const Styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+});
+
+
+export default MainScreen;
