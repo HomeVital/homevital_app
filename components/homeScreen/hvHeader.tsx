@@ -11,14 +11,14 @@ const HvHeader = ({ name }: Props) => {
   return (
     <View style={Styles.container}>
         <Image
-        source={require('@/assets/svgs/homeVitalHomeScalable.svg')}
+        source={require('@/assets/svgs/logoSmall.svg')}
         contentFit='contain'
         style={Styles.headerLogo}
         />
         <Text style={Styles.headerText}>Velkomin {name}</Text>
         <TouchableOpacity>
           <Image
-          source={require('@/assets/svgs/notificationBellScalable.svg')}
+          source={require('@/assets/svgs/notificationBell.svg')}
           contentFit='contain'
           style={Styles.headerRight}
           />

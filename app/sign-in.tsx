@@ -16,7 +16,7 @@ const SignIn = () => {
   return (
     <SafeAreaView style={Styles.container}>
       <Image
-        source={require('@/assets/svgs/homeVitalScalable.svg')}
+        source={require('@/assets/svgs/logo.svg')}
         contentFit="contain"
         style={Styles.homeImage}
       />

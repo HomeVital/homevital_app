@@ -1,20 +1,12 @@
+import { useState } from "react";
 import { Text } from "react-native";
 
 const MainMeasurements = () => {
+    const [isEnabled, setIsEnabled] = useState(false);
+    
     return (
-        <Text>Measurements</Text>
+        <Text></Text>
     );
-  }
-  
-//   const Styles = StyleSheet.create({
-//     container: {
-//       // display: 'flex',
-//       flexDirection: 'column',
-//       // justifyContent: 'space-between',
-//       flex: 1,
-//       backgroundColor: LIGHT_THEME,
-//     },
-//   });
-  
-  
-  export default MainMeasurements;
+}
+
+export default MainMeasurements;

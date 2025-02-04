@@ -1,59 +1,69 @@
-import { View, Text, StyleSheet, Touchable, TouchableOpacity } from "react-native";
+import { useState } from "react";
+import { View, Text, StyleSheet, TouchableOpacity } from "react-native";
 import { Image } from 'expo-image';
 // import { Link, RelativePathString } from "expo-router";
-import { router, useRouter } from 'expo-router';
+import { RelativePathString, router} from 'expo-router';
 // constants
 import { DARK_GREEN, LIGHT_GRAY, WHITE } from "@/constants/colors";
 
-interface Props {
-    // measurementRoute: RelativePathString;
-    // registrationRoute: string;
-    // settingsRoute: string;
-    // measurementsText: string;
-    // registrationText: string;
-    // SettingsText: string;
+
+// for updating routes right
+const handleTabRoute = (route: string, prev: string) => {
+    if (router.canDismiss() && prev !== route) {
+        router.dismiss();
+    }
+    router.push(route as RelativePathString);
+    return route;
 }
 
+
 const HvTabBar = () => {
-  return (
-    <View style={Styles.container}>
-        
-        <TouchableOpacity 
-            style={Styles.tabContainer}
-            activeOpacity={0.3}
-            onPress={() => router.push('/(app)/(measurements)')}
-        >
+    const [stackName, setStackName] = useState("");
+    return (
+        <View style={Styles.container}>
+            
+            <TouchableOpacity 
+                style={Styles.tabContainer}
+                activeOpacity={0.5}
+                onPress={() => {
+                    setStackName(handleTabRoute("/(app)/(measurements)", stackName));
+                }}
+            >
+                    <Image
+                        source={require('@/assets/svgs/barChart.svg')}
+                        contentFit='contain'
+                        style={Styles.tabLogo}
+                    />
+                    <Text style={Styles.tabText}>Mælingar</Text>
+            </TouchableOpacity>
+            <TouchableOpacity 
+                style={Styles.tabContainer}
+                activeOpacity={0.5}
+            >
                 <Image
-                source={require('@/assets/svgs/barChartScalable.svg')}
-                contentFit='contain'
-                style={Styles.tabLogo}
+                    source={require('@/assets/svgs/add.svg')}
+                    contentFit='contain'
+                    style={Styles.tabLogoLarge}
                 />
-                <Text style={Styles.tabText}>Mælingar</Text>
-        </TouchableOpacity>
-        <TouchableOpacity 
-            style={Styles.tabContainer}
-            activeOpacity={0.3}
-        >
-            <Image
-            source={require('@/assets/svgs/add.svg')}
-            contentFit='contain'
-            style={Styles.tabLogoLarge}
-            />
-            <Text style={Styles.tabText}>Skrá mælingu</Text>
-        </TouchableOpacity>
-        <TouchableOpacity 
-            style={Styles.tabContainer}
-            activeOpacity={0.3}
-        >
-            <Image
-            source={require('@/assets/svgs/profileScalable.svg')}
-            contentFit='contain'
-            style={Styles.tabLogo}
-            />
-            <Text style={Styles.tabText}>Stillingar</Text>
-        </TouchableOpacity>
-    </View>
-  );
+                <Text style={Styles.tabText}>Skrá mælingu</Text>
+            </TouchableOpacity>
+            <TouchableOpacity 
+                style={Styles.tabContainer}
+                activeOpacity={0.5}
+                onPress={() => {
+                    setStackName(handleTabRoute("/(app)/(settings)", stackName));
+                }}
+
+            >
+                <Image
+                    source={require('@/assets/svgs/manUser.svg')}
+                    contentFit='contain'
+                    style={Styles.tabLogo}
+                />
+                <Text style={Styles.tabText}>Stillingar</Text>
+            </TouchableOpacity>
+        </View>
+    );
 }
 
 const Styles = StyleSheet.create({

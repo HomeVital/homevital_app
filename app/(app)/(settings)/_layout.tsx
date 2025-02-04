@@ -6,7 +6,7 @@ import { TouchableOpacity } from 'react-native';
 import { LIGHT_THEME } from '@/constants/colors';
 import { STYLES as Styles } from '@/constants/styles';
 
-const MeasurementsLayout = () => {
+const SettingsLayout = () => {
   // This layout can be deferred because it's not the root layout.
   return (
     <Stack screenOptions={{ 
@@ -19,7 +19,7 @@ const MeasurementsLayout = () => {
     }}>
       <Stack.Screen name="index" 
       options={{
-            title: "Mælingar",
+            title: "Stillingar",
             headerTitleStyle: { 
                 ...Styles.headerTitle,
             },
@@ -44,4 +44,4 @@ const MeasurementsLayout = () => {
   );
 }
 
-export default MeasurementsLayout;
+export default SettingsLayout;
