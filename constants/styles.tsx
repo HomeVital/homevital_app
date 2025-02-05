@@ -1,7 +1,7 @@
 import { StyleSheet } from 'react-native';
 // constants
 import { DARK_GREEN } from '@/constants/colors';
-import { TAB_HEIGHT, TAB_ICON_SIZE, TAB_TEXT_HEIGHT } from './sizes';
+import { TAB_HEIGHT, TAB_ICON_SIZE } from './sizes';
 
 
 export const STYLES = StyleSheet.create({

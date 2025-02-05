@@ -36,9 +36,9 @@ const MainSettings = () => {
         <View style={Styles.leftRightContainer}>
           <HvText>Áminningar</HvText>
           <Switch 
-            value={isSwitchOn} 
-            onValueChange={onToggleSwitch} 
-            color={BRIGHT_GREEN}
+          value={isSwitchOn} 
+          onValueChange={onToggleSwitch} 
+          color={BRIGHT_GREEN}
           />
         </View>
         <HvText>Sími: xxx-xxxx</HvText>

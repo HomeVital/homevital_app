@@ -1,7 +1,7 @@
 import React from "react";
 import { TouchableOpacity, StyleSheet, View } from "react-native";
 import { Image } from 'expo-image';
-import Animated, { withTiming, useAnimatedStyle, Easing } from 'react-native-reanimated';
+import Animated, { withTiming, useAnimatedStyle } from 'react-native-reanimated';
 // components
 import HvText from "../hvText";
 // constants

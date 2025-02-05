@@ -32,7 +32,7 @@ const RootLayout = () => {
       {/* <PaperProvider> */}
         <StatusBar style="dark" backgroundColor={LIGHT_THEME} />
         {/* <View style={Styles.container}> */}
-            <Slot />
+          <Slot />
         {/* </View> */}
       {/* </PaperProvider> */}
     </SessionProvider	>

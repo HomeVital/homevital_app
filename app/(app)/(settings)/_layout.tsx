@@ -9,37 +9,37 @@ import { STYLES as Styles } from '@/constants/styles';
 const SettingsLayout = () => {
   // This layout can be deferred because it's not the root layout.
   return (
-    <Stack screenOptions={{ 
-        headerShown: true,
-        contentStyle: { backgroundColor: LIGHT_THEME },
-        headerBackButtonDisplayMode: "default",
-        headerStyle: {
-            backgroundColor: LIGHT_THEME,
-        },
+    <Stack 
+    screenOptions={{ 
+      headerShown: true,
+      contentStyle: { backgroundColor: LIGHT_THEME },
+      headerBackButtonDisplayMode: "default",
+      headerStyle: {
+          backgroundColor: LIGHT_THEME,
+      },
     }}>
-      <Stack.Screen name="index" 
+      <Stack.Screen 
+      name="index" 
       options={{
-            title: "Stillingar",
-            headerTitleStyle: { 
-                ...Styles.headerTitle,
-            },
-            headerBlurEffect: "light",
-            headerShadowVisible: false,
-            headerLeft: () => (
-                <TouchableOpacity
-                    style={Styles.headerBack}
-                    onPressIn={() => router.back()}
-                >
-                <Image
-                    source={require('@/assets/svgs/back.svg')}
-                    contentFit='contain'
-                    style={Styles.headerBackIcon}
-                />
-                </TouchableOpacity>
-            ),
-        }
-      }
-      />
+        title: "Stillingar",
+        headerTitleStyle: { 
+            ...Styles.headerTitle,
+        },
+        headerBlurEffect: "light",
+        headerShadowVisible: false,
+        headerLeft: () => (
+          <TouchableOpacity
+          style={Styles.headerBack}
+          onPressIn={() => router.back()}
+          >
+          <Image
+          source={require('@/assets/svgs/back.svg')}
+          contentFit='contain'
+          style={Styles.headerBackIcon}
+          />
+          </TouchableOpacity>
+        ),
+      }}/>
     </Stack>
   );
 }

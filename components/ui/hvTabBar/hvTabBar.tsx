@@ -45,24 +45,23 @@ const HvTabBar = () => {
         <>
         <Animated.View style={[Styles.tabContainer, hiddenStyle]}>
         <Image
-            source={require('@/assets/svgs/add.svg')}
-            contentFit='contain'
-            style={[ Styles.tabLogoLarge ]}
+        source={require('@/assets/svgs/add.svg')}
+        contentFit='contain'
+        style={[ Styles.tabLogoLarge ]}
         />
         <Image
-            source={require('@/assets/svgs/add.svg')}
-            contentFit='contain'
-            style={[ Styles.tabLogoLarge, { position: 'absolute', left: 90, top: 50 } ]}
+        source={require('@/assets/svgs/add.svg')}
+        contentFit='contain'
+        style={[ Styles.tabLogoLarge, { position: 'absolute', left: 90, top: 50 } ]}
         />
         <Image
-            source={require('@/assets/svgs/add.svg')}
-            contentFit='contain'
-            style={[ Styles.tabLogoLarge, { position: 'absolute', right: 90, top: 50} ]}
+        source={require('@/assets/svgs/add.svg')}
+        contentFit='contain'
+        style={[ Styles.tabLogoLarge, { position: 'absolute', right: 90, top: 50} ]}
         />
         </Animated.View>
 
         <View style={Styles.container}>
-
             <HvTabItem
             onPress={() => {setStackName(handleTabRoute("/(app)/(measurements)", stackName))}} 
             source={require('@/assets/svgs/barChart.svg')}
