@@ -1,7 +1,7 @@
-import { View, Text, StyleSheet, TouchableOpacity } from "react-native";
+import { View, StyleSheet, TouchableOpacity } from "react-native";
 import { Image } from 'expo-image';
-// constants
-import { DARK_GREEN } from "@/constants/colors";
+// components
+import HvText from "../ui/hvText";
 
 interface Props {
     name: string;
@@ -15,7 +15,7 @@ const HvHeader = ({ name }: Props) => {
         contentFit='contain'
         style={Styles.headerLogo}
         />
-        <Text style={Styles.headerText}>Velkomin {name}</Text>
+        <HvText size="l" weight="semibold" style={Styles.headerText}>Velkomin {name}</HvText>
         <TouchableOpacity>
           <Image
           source={require('@/assets/svgs/notificationBell.svg')}
@@ -41,9 +41,6 @@ const Styles = StyleSheet.create({
   headerText: {
     flex: 1,
     textAlign: 'center',
-    fontFamily: 'OpenSansSemibold',
-    fontSize: 18,
-    color: DARK_GREEN,
     textTransform: 'capitalize',
   },
   headerRight: {

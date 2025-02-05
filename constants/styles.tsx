@@ -1,6 +1,7 @@
 import { StyleSheet } from 'react-native';
 // constants
 import { DARK_GREEN } from '@/constants/colors';
+import { TAB_HEIGHT, TAB_ICON_SIZE, TAB_TEXT_HEIGHT } from './sizes';
 
 
 export const STYLES = StyleSheet.create({
@@ -21,5 +22,10 @@ export const STYLES = StyleSheet.create({
     headerBackIcon: {
         width: '100%',
         height: 40,
-    }
+    },
+    defaultView: {
+        paddingHorizontal: 20,
+        gap: 12,
+        marginBottom: TAB_HEIGHT + TAB_ICON_SIZE + 10,
+    },
 });

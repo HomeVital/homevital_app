@@ -1,10 +1,13 @@
 import React, { useEffect } from 'react';
-import { AppState, Text } from 'react-native';
+import { AppState } from 'react-native';
 import { Redirect, Stack } from 'expo-router';
 // components
 import { useSession } from '@/authentication/ctx';
-import HvTabBar from '@/components/ui/hvTabBar';
+import HvText from '@/components/ui/hvText';
+import HvTabBar from '@/components/ui/hvTabBar/hvTabBar';
+// constants
 import { LIGHT_THEME } from '@/constants/colors';
+
 
 const AppLayout = () => {
   const { session, isLoading, signOut } = useSession();
@@ -23,11 +26,11 @@ const AppLayout = () => {
     return () => {
       subscription.remove();
     };
-  }, []);
+  }, [signOut]);
 
   // You can keep the splash screen open, or render a loading screen like we do here.
   if (isLoading) {
-    return <Text>Loading...</Text>;
+    return <HvText>Loading...</HvText>;
   }
 
   // Only require authentication within the (app) group's layout as users
