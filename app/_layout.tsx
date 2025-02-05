@@ -15,6 +15,7 @@ const RootLayout = () => {
   const [loaded] = useFonts({
     OpenSans: require('../assets/fonts/OpenSans-Regular.ttf'),
     OpenSansSemibold: require('../assets/fonts/OpenSans-Semibold.ttf'),
+    OpenSansLight: require('../assets/fonts/OpenSans-Light.ttf'),
   });
 
   useEffect(() => {

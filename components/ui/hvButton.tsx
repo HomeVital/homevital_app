@@ -1,21 +1,22 @@
 import { View, StyleSheet, TouchableOpacity } from 'react-native';
-import { DARK_GREEN } from '@/constants/colors';
 // components
 import HvText from './hvText';
 // import { TouchableRipple } from 'react-native-paper';
+// constants
+import { DARK_GREEN } from '@/constants/colors';
 
 
 interface Props {
     text: string;
-    width: number;
     onPress: () => void;
+    width?: number;
     style?: object; // optional
 }
 
 
-const HvButton = ({ text, width, onPress, style = {}}: Props) => {
+const HvButton = ({ text, onPress, width, style = {}}: Props) => {
   return (
-    <View style={[{ width: width, borderRadius: 10 }, style]}>
+    <View style={[{ width: width ? width : {}, borderRadius: 10 }, style]}>
       <TouchableOpacity
         style={Styles.button}
         onPress={onPress}

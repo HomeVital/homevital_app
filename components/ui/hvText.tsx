@@ -19,6 +19,9 @@ const HvText = ({ children, style, ...props }: Props) => {
         case "semibold":
             fontWeight = Styles.semibold;
             break;
+        case "light":
+            fontWeight = Styles.light;
+            break;
         default:
             fontWeight = Styles.regular;
             break;
@@ -39,6 +42,9 @@ const HvText = ({ children, style, ...props }: Props) => {
             break;
         case "xl":
             fontSize = Styles.xl;
+            break;
+        case "xxl":
+            fontSize = Styles.xxl;
             break;
         default:
             fontSize = Styles.m;
@@ -80,6 +86,9 @@ const Styles = StyleSheet.create({
     semibold: {
         fontFamily: "OpenSansSemibold",
     },
+    light: {
+        fontFamily: "OpenSansLight",
+    },
     xs: {
         fontSize: 12,
     },
@@ -94,6 +103,9 @@ const Styles = StyleSheet.create({
     },
     xl: {
         fontSize: 20,
+    },
+    xxl: {
+        fontSize: 24,
     },
     darkGreen: {
         color: DARK_GREEN,

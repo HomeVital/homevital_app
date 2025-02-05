@@ -3,6 +3,7 @@ import { View, StyleSheet } from "react-native";
 import { Image } from 'expo-image';
 import { RelativePathString, router} from 'expo-router';
 import Animated, { withTiming, useAnimatedStyle } from 'react-native-reanimated';
+import HideWithKeyboard from 'react-native-hide-with-keyboard';
 // components
 import HvTabItem from "./hvTabItem";
 // constants
@@ -13,8 +14,12 @@ import { ANIMATION_CONFIG } from "./constants";
 
 // for updating routes right
 const handleTabRoute = (route: string, prev: string) => {
-    if (router.canDismiss() && prev !== route) {
+    
+    if (router.canDismiss()) {
         router.dismiss();
+        if (prev === route) {
+            return route;
+        }
     }
     router.push(route as RelativePathString);
     return route;
@@ -61,7 +66,11 @@ const HvTabBar = () => {
         />
         </Animated.View>
 
+
+
+        <HideWithKeyboard>
         <View style={Styles.container}>
+
             <HvTabItem
             onPress={() => {setStackName(handleTabRoute("/(app)/(measurements)", stackName))}} 
             source={require('@/assets/svgs/barChart.svg')}
@@ -83,6 +92,7 @@ const HvTabBar = () => {
             text='Stillingar'
             />
         </View>
+        </HideWithKeyboard>
         </>
     );
 }

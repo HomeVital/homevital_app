@@ -51,7 +51,7 @@ const AppLayout = () => {
       }}>
         <Stack.Screen name="index"/>
       </Stack>
-    <HvTabBar />
+      <HvTabBar />
     </>
   );
 }

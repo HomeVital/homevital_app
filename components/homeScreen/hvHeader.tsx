@@ -15,7 +15,7 @@ const HvHeader = ({ name }: Props) => {
         contentFit='contain'
         style={Styles.headerLogo}
         />
-        <HvText size="l" weight="semibold" style={Styles.headerText}>Velkomin {name}</HvText>
+        <HvText size="l" weight="semibold" style={Styles.headerText}>Velkominn {name}</HvText>
         <TouchableOpacity>
           <Image
           source={require('@/assets/svgs/notificationBell.svg')}

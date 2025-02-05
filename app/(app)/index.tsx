@@ -1,6 +1,6 @@
+import { SafeAreaView } from 'react-native-safe-area-context';
 // components
 import HvHeader from '@/components/homeScreen/hvHeader';
-import { SafeAreaView } from 'react-native-safe-area-context';
 
 const MainScreen = () => {
   return (
