@@ -16,7 +16,7 @@ const AppLayout = () => {
   useEffect(() => {
     const handleAppStateChange = (nextAppState: string
     ) => {
-      if (nextAppState === 'background' || nextAppState === 'inactive') {
+      if (nextAppState === 'background') { //  || nextAppState === 'inactive'
         console.log('App is in background, maybe inactive');
         signOut();
       }

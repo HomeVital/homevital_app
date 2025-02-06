@@ -1,13 +1,13 @@
 import { useState } from 'react';
-import { View, StyleSheet, TouchableOpacity, TextInput, ScrollView } from 'react-native';
+import { View, StyleSheet, TouchableOpacity, TextInput } from 'react-native';
 import { Image } from 'expo-image';
 // components
+import HvScrollView from '@/components/ui/HvScrollView';
 import HvText from '@/components/ui/hvText';
 import HvInputForm from '@/components/ui/hvInputForm/hvInputForm';
 // constants
 import { STYLES } from '@/constants/styles';
 import { DARK_GREEN, LIGHT_THEME, WHITE } from '@/constants/colors';
-import { Button } from 'react-native-paper';
 
 
 const MainMeasurements = () => {
@@ -49,17 +49,16 @@ const MainMeasurements = () => {
     }
 
     return (
-        <ScrollView fadingEdgeLength={50}>
+        <HvScrollView>
             <View style={STYLES.defaultView}>
-                <View style={[STYLES.defaultView, Styles.container]}>
+                <View style={Styles.container}>
                 
                     <View style={Styles.itemsContainer}>
-
                         <View style={Styles.itemContainer}>
                             <View style={Styles.inputContainer}>
 
                                 <View style={Styles.descriptionContainer}>
-                                    <HvText weight='semibold' size='xl'>Mæli hönd</HvText>
+                                    <HvText weight='semibold' size='l'>Mæli hönd</HvText>
                                     <HvText size='s'>{hand}</HvText>
                                 </View>
 
@@ -70,7 +69,7 @@ const MainMeasurements = () => {
                                     >
                                         <Image source={require('@/assets/svgs/circle.svg')} style={Styles.circle}/>
                                         <Image source={require('@/assets/svgs/handLeft.svg')} style={Styles.iconInCircle}/>
-                                        <HvText size='s'>Vinstri</HvText>
+                                        <HvText size='xs' style={Styles.test}>Vinstri</HvText>
                                     </TouchableOpacity>
                                     <TouchableOpacity
                                     onPress={selectRight}
@@ -78,18 +77,19 @@ const MainMeasurements = () => {
                                     >
                                         <Image source={require('@/assets/svgs/circle.svg')} style={Styles.circle}/>
                                         <Image source={require('@/assets/svgs/handRight.svg')} style={Styles.iconInCircle}/>
-                                        <HvText size='s'>Hægri</HvText>
+                                        <HvText size='xs'>Hægri</HvText>
                                     </TouchableOpacity>
                                 </View>
                             </View>
                         </View>
+                    </View>
 
-
+                    <View style={Styles.itemsContainer}>
                         <View style={Styles.itemContainer}>
                             <View style={Styles.inputContainer}>
 
                                 <View style={Styles.descriptionContainer}>
-                                    <HvText weight='semibold' size='xl'>Mæli hönd</HvText>
+                                    <HvText weight='semibold' size='l'>Líkamsstaða</HvText>
                                     <HvText size='s'>{position}</HvText>
                                 </View>
 
@@ -98,9 +98,9 @@ const MainMeasurements = () => {
                                     onPress={selectSitting}
                                     style={position != 'Sitjandi' ? {opacity: 0.3} : {}}
                                     >
-                                        <Image source={require('@/assets/svgs/circle.svg')} style={Styles.circle}/>
-                                        <Image source={require('@/assets/svgs/sitting.svg')} style={Styles.iconInCircle}/>
-                                        <HvText size='s'>Sitjandi</HvText>
+                                            <Image source={require('@/assets/svgs/circle.svg')} style={Styles.circle}/>
+                                            <Image source={require('@/assets/svgs/sitting.svg')} style={Styles.iconInCircle}/>
+                                        <HvText size='xs' style={Styles.test}>Sitjandi</HvText>
                                     </TouchableOpacity>
                                     <TouchableOpacity
                                     onPress={selectLaying}
@@ -108,35 +108,11 @@ const MainMeasurements = () => {
                                     >
                                         <Image source={require('@/assets/svgs/circle.svg')} style={Styles.circle}/>
                                         <Image source={require('@/assets/svgs/laying.svg')} style={Styles.iconInCircle}/>
-                                        <HvText size='s'>Liggjandi</HvText>
+                                        <HvText size='xs'>Liggjandi</HvText>
                                     </TouchableOpacity>
                                 </View>
                             </View>
                         </View>
-
-                        {/* <View style={Styles.itemContainer}>
-                            <View style={Styles.inputContainer}>
-
-                                <View style={Styles.descriptionContainer}>
-                                    <HvText weight='semibold' size='xl'>Mæli hönd</HvText>
-                                    <HvText size='s'>Hægri</HvText>
-                                </View>
-
-                                <View style={Styles.radioContainer}>
-                                    <TouchableOpacity>
-                                        <Image source={require('@/assets/svgs/circle.svg')} style={Styles.circle}/>
-                                        <Image source={require('@/assets/svgs/sitting.svg')} style={Styles.iconInCircle}/>
-                                        <HvText size='s'>Vinstri</HvText>
-                                    </TouchableOpacity>
-                                    <TouchableOpacity>
-                                        <Image source={require('@/assets/svgs/circle.svg')} style={Styles.circle}/>
-                                        <Image source={require('@/assets/svgs/laying.svg')} style={Styles.iconInCircle}/>
-                                        <HvText size='s'>Hægri</HvText>
-                                    </TouchableOpacity>
-                                </View>
-                            </View>
-                        </View> */}
-
                     </View>
 
 
@@ -147,7 +123,7 @@ const MainMeasurements = () => {
                             <View style={Styles.inputContainer}>
                                 <View style={Styles.descriptionContainer}>
                                     <HvText weight='semibold' size='xxl'>SYS</HvText>
-                                    <HvText size='s'>mmHg</HvText>
+                                    <HvText size='xs'>mmHg</HvText>
                                 </View>
                                 <View style={Styles.inputShadow}>
                                     <TextInput
@@ -170,7 +146,7 @@ const MainMeasurements = () => {
                             <View style={Styles.inputContainer}>
                                 <View style={Styles.descriptionContainer}>
                                     <HvText weight='semibold' size='xxl'>DIA</HvText>
-                                    <HvText size='s'>mmHg</HvText>
+                                    <HvText size='xs'>mmHg</HvText>
                                 </View>
                                 <View style={Styles.inputShadow}>
                                     <TextInput
@@ -193,7 +169,7 @@ const MainMeasurements = () => {
                             <View style={Styles.inputContainer}>
                                 <View style={Styles.descriptionContainer}>
                                     <HvText weight='semibold' size='xxl'>Púls</HvText>
-                                    <HvText size='s'>bpm</HvText>
+                                    <HvText size='xs'>bpm</HvText>
                                 </View>
                                 <View style={Styles.inputShadow}>
                                     <TextInput
@@ -211,11 +187,10 @@ const MainMeasurements = () => {
                             </View>
                         </View>
                     </View>
-                    <Button mode="contained" onPress={() => console.log("banana")}>Senda</Button>
                     <HvInputForm onPress={() => console.log("banana")} />
                 </View>
             </View>
-        </ScrollView>
+        </HvScrollView>
     );
 }
 
@@ -243,7 +218,9 @@ const Styles = StyleSheet.create({
     },
     radioContainer: {
         flexDirection: 'row',
+        justifyContent: 'flex-start',
         gap: 20,
+        width: 120,
     },
     descriptionContainer: {
         justifyContent: 'center',
@@ -275,6 +252,13 @@ const Styles = StyleSheet.create({
         left: 4,
         width: 32,
         height: 32,
+    },
+    test: {
+        position: 'absolute',
+        width: 100,
+        textAlign: 'right',
+        bottom: 0,
+        right: 0,
     },
 });
 

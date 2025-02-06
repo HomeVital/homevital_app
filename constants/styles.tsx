@@ -1,7 +1,7 @@
 import { StyleSheet } from 'react-native';
 // constants
 import { DARK_GREEN } from '@/constants/colors';
-import { TAB_HEIGHT, TAB_ICON_SIZE } from './sizes';
+import { TAB_ICON_SIZE } from './sizes';
 
 
 export const STYLES = StyleSheet.create({
@@ -26,6 +26,6 @@ export const STYLES = StyleSheet.create({
     defaultView: {
         paddingHorizontal: 20,
         gap: 12,
-        marginBottom: TAB_HEIGHT + TAB_ICON_SIZE + 10,
+        marginBottom: TAB_ICON_SIZE + 10,
     },
 });

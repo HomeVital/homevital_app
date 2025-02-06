@@ -1,7 +1,8 @@
 import React, { useState } from "react";
-import { View, StyleSheet, ScrollView } from "react-native";
+import { View, StyleSheet } from "react-native";
 import { Switch } from "react-native-paper";
 // components
+import HvScrollView from "@/components/ui/HvScrollView";
 import HvDivider from "@/components/ui/hvDivider";
 import HvText from "@/components/ui/hvText";
 // constants
@@ -14,7 +15,7 @@ const MainSettings = () => {
   const onToggleSwitch = () => setIsSwitchOn(!isSwitchOn);
 
   return (
-    <ScrollView fadingEdgeLength={50}>
+    <HvScrollView>
       <View style={STYLES.defaultView}>
         <HvDivider/>
         <HvText>Nafn</HvText>
@@ -102,7 +103,7 @@ const MainSettings = () => {
         <HvText>Sími: xxx-xxxx</HvText>
         <HvDivider/>
       </View>
-    </ScrollView>
+    </HvScrollView>
   );
 }
 
