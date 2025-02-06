@@ -9,7 +9,7 @@ import HvToggleSelect from "@/components/ui/hvInputForm/hvToggleSelect";
 import HvInputField from "@/components/ui/hvInputForm/hvInputField";
 import HvInputFormContainer from "@/components/ui/hvInputForm/hvInputFormContainer";
 
-const MainMeasurements = () => {
+const bloodPressure = () => {
   // radio buttons
   const [hand, setHand] = useState("Hægri");
   const [position, setPosition] = useState("Sitjandi");
@@ -74,7 +74,7 @@ const MainMeasurements = () => {
   );
 };
 
-export default MainMeasurements;
+export default bloodPressure;
 
 {
   /* <Card>

@@ -1,20 +1,18 @@
-import { View, StyleSheet, TouchableOpacity } from 'react-native';
+import { View, StyleSheet, TouchableOpacity } from "react-native";
 // components
-import HvText from './hvText';
+import HvText from "./hvText";
 // import { TouchableRipple } from 'react-native-paper';
 // constants
-import { DARK_GREEN } from '@/constants/colors';
-
+import { DARK_GREEN } from "@/constants/colors";
 
 interface Props {
-    text: string;
-    onPress: () => void;
-    width?: number;
-    style?: object; // optional
+  text: string;
+  onPress: () => void;
+  width?: number;
+  style?: object; // optional
 }
 
-
-const HvButton = ({ text, onPress, width, style = {}}: Props) => {
+const HvButton = ({ text, onPress, width, style = {} }: Props) => {
   return (
     <View style={[{ width: width ? width : {}, borderRadius: 10 }, style]}>
       <TouchableOpacity
@@ -24,22 +22,23 @@ const HvButton = ({ text, onPress, width, style = {}}: Props) => {
         // rippleColor="rgba(0, 0, 0, .32)"
         // borderless={true}
       >
-        <HvText size="l" color="white" weight="semibold">{ text }</HvText>
+        <HvText size="l" color="white" weight="semibold">
+          {text}
+        </HvText>
       </TouchableOpacity>
     </View>
   );
-}
-
+};
 
 const Styles = StyleSheet.create({
-    button: {
-      // height: 56, // expected 48
-      backgroundColor: DARK_GREEN,
-      padding: 15,
-      borderRadius: 10,
-      alignItems: "center",
-      justifyContent: "center",
-    },
+  button: {
+    // height: 56, // expected 48
+    backgroundColor: DARK_GREEN,
+    padding: 15,
+    borderRadius: 10,
+    alignItems: "center",
+    justifyContent: "center",
+  },
 });
 
 export default HvButton;

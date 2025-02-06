@@ -1,36 +1,38 @@
 import { View, StyleSheet, TouchableOpacity } from "react-native";
-import { Image } from 'expo-image';
+import { Image } from "expo-image";
 // components
 import HvText from "../ui/hvText";
 
 interface Props {
-    name: string;
+  name: string;
 }
 
 const HvHeader = ({ name }: Props) => {
   return (
     <View style={Styles.container}>
-        <Image
-        source={require('@/assets/svgs/logoSmall.svg')}
-        contentFit='contain'
+      <Image
+        source={require("@/assets/svgs/logoSmall.svg")}
+        contentFit="contain"
         style={Styles.headerLogo}
-        />
-        <HvText size="l" weight="semibold" style={Styles.headerText}>Velkominn {name}</HvText>
-        <TouchableOpacity>
-          <Image
-          source={require('@/assets/svgs/notificationBell.svg')}
-          contentFit='contain'
+      />
+      <HvText size="l" weight="semibold" style={Styles.headerText}>
+        Velkominn {name}
+      </HvText>
+      <TouchableOpacity>
+        <Image
+          source={require("@/assets/svgs/notificationBell.svg")}
+          contentFit="contain"
           style={Styles.headerRight}
-          />
-        </TouchableOpacity>
+        />
+      </TouchableOpacity>
     </View>
   );
-}
+};
 
 const Styles = StyleSheet.create({
   container: {
-    flexDirection: 'row',
-    alignItems: 'center',
+    flexDirection: "row",
+    alignItems: "center",
     height: 60,
     paddingHorizontal: 30,
   },
@@ -40,13 +42,13 @@ const Styles = StyleSheet.create({
   },
   headerText: {
     flex: 1,
-    textAlign: 'center',
-    textTransform: 'capitalize',
+    textAlign: "center",
+    textTransform: "capitalize",
   },
   headerRight: {
     width: 40,
     height: 34,
-  }
+  },
 });
 
 export default HvHeader;

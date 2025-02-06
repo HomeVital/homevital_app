@@ -1,21 +1,20 @@
-import React, { useEffect } from 'react';
-import { useFonts } from 'expo-font';
-import * as SplashScreen from 'expo-splash-screen';
-import { StatusBar } from 'expo-status-bar'; // battery life and such
+import React, { useEffect } from "react";
+import { useFonts } from "expo-font";
+import * as SplashScreen from "expo-splash-screen";
+import { StatusBar } from "expo-status-bar"; // battery life and such
 import { Slot } from "expo-router";
 
 // components
-import { SessionProvider } from '@/authentication/ctx';
+import { SessionProvider } from "@/authentication/ctx";
 // constants
-import { LIGHT_THEME } from '@/constants/colors';
+import { LIGHT_THEME } from "@/constants/colors";
 // import { PaperProvider } from 'react-native-paper';
-
 
 const RootLayout = () => {
   const [loaded] = useFonts({
-    OpenSans: require('../assets/fonts/OpenSans-Regular.ttf'),
-    OpenSansSemibold: require('../assets/fonts/OpenSans-Semibold.ttf'),
-    OpenSansLight: require('../assets/fonts/OpenSans-Light.ttf'),
+    OpenSans: require("../assets/fonts/OpenSans-Regular.ttf"),
+    OpenSansSemibold: require("../assets/fonts/OpenSans-Semibold.ttf"),
+    OpenSansLight: require("../assets/fonts/OpenSans-Light.ttf"),
   });
 
   useEffect(() => {
@@ -31,14 +30,14 @@ const RootLayout = () => {
   return (
     <SessionProvider>
       {/* <PaperProvider> */}
-        <StatusBar style="dark" backgroundColor={LIGHT_THEME} />
-        {/* <View style={Styles.container}> */}
-          <Slot />
-        {/* </View> */}
+      <StatusBar style="dark" backgroundColor={LIGHT_THEME} />
+      {/* <View style={Styles.container}> */}
+      <Slot />
+      {/* </View> */}
       {/* </PaperProvider> */}
-    </SessionProvider	>
+    </SessionProvider>
   );
-}
+};
 
 // const Styles = StyleSheet.create({
 //   container: {

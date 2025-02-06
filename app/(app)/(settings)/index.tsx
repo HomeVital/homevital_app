@@ -6,7 +6,7 @@ import HvScrollView from "@/components/ui/HvScrollView";
 import HvDivider from "@/components/ui/hvDivider";
 import HvText from "@/components/ui/hvText";
 // constants
-import { BRIGHT_GREEN} from "@/constants/colors";
+import { BRIGHT_GREEN } from "@/constants/colors";
 import { STYLES } from "@/constants/styles";
 
 const MainSettings = () => {
@@ -15,103 +15,41 @@ const MainSettings = () => {
   const onToggleSwitch = () => setIsSwitchOn(!isSwitchOn);
 
   return (
-    <HvScrollView>
-      <View style={STYLES.defaultView}>
-        <HvDivider/>
-        <HvText>Nafn</HvText>
-        <HvText>Heimili: gata 123</HvText>
-        <HvText>Sími: xxx-xxxx</HvText>
-        <HvDivider/>
-        {/* <Link href="/(app)/(measurements)/eitthvað"> */}
-          <HvText>Tengiliðir</HvText>
-        {/* </Link> */}
-        <HvDivider/>
-        {/* <Link href="/(app)/(measurements)/eitthvað"> */}
-          <HvText>Tæki</HvText>
-        {/* </Link> */}
-        <HvDivider/>
-        <View style={Styles.leftRightContainer}>
-          <HvText>Tungumál</HvText>
-          {/* tungumál takki með mynd */}
-        </View>
-        <View style={Styles.leftRightContainer}>
-          <HvText>Áminningar</HvText>
-          <Switch 
-          value={isSwitchOn} 
-          onValueChange={onToggleSwitch} 
-          color={BRIGHT_GREEN}
-          />
-        </View>
-        <HvText>Sími: xxx-xxxx</HvText>
-        <HvDivider/>
-        <HvText>Sími: xxx-xxxx</HvText>
-        <HvDivider/>
-        <HvText>Sími: xxx-xxxx</HvText>
-        <HvDivider/>
-        <HvText>Sími: xxx-xxxx</HvText>
-        <HvDivider/>
-        <HvText>Sími: xxx-xxxx</HvText>
-        <HvDivider/>
-        <HvText>Sími: xxx-xxxx</HvText>
-        <HvDivider/>
-        <HvText>Sími: xxx-xxxx</HvText>
-        <HvDivider/>
-        <HvText>Sími: xxx-xxxx</HvText>
-        <HvDivider/>
-        <HvText>Sími: xxx-xxxx</HvText>
-        <HvDivider/>
-        <HvText>Sími: xxx-xxxx</HvText>
-        <HvDivider/>
-        <HvText>Sími: xxx-xxxx</HvText>
-        <HvDivider/>
-        <HvText>Sími: xxx-xxxx</HvText>
-        <HvDivider/>
-        <HvText>Sími: xxx-xxxx</HvText>
-        <HvDivider/>
-        <HvText>Sími: xxx-xxxx</HvText>
-        <HvDivider/>
-        <HvText>Sími: xxx-xxxx</HvText>
-        <HvDivider/>
-        <HvText>Sími: xxx-xxxx</HvText>
-        <HvDivider/>
-        <HvText>Sími: xxx-xxxx</HvText>
-        <HvDivider/>
-        <HvText>Sími: xxx-xxxx</HvText>
-        <HvDivider/>
-        <HvText>Sími: xxx-xxxx</HvText>
-        <HvDivider/>
-        <HvText>Sími: xxx-xxxx</HvText>
-        <HvDivider/>
-        <HvText>Sími: xxx-xxxx</HvText>
-        <HvDivider/>
-        <HvText>Sími: xxx-xxxx</HvText>
-        <HvDivider/>
-        <HvText>Sími: xxx-xxxx</HvText>
-        <HvDivider/>
-        <HvText>Sími: xxx-xxxx</HvText>
-        <HvDivider/>
-        <HvText>Sími: xxx-xxxx</HvText>
-        <HvDivider/>
-        <HvText>Sími: xxx-xxxx</HvText>
-        <HvDivider/>
-        <HvText>Sími: xxx-xxxx</HvText>
-        <HvDivider/>
-        <HvText>Sími: xxx-xxxx</HvText>
-        <HvDivider/>
-        <HvText>Sími: xxx-xxxx</HvText>
-        <HvDivider/>
-        <HvText>Sími: xxx-xxxx</HvText>
-        <HvDivider/>
+    <View style={STYLES.defaultView}>
+      <HvDivider />
+      <HvText>Nafn</HvText>
+      <HvText>Heimili: gata 123</HvText>
+      <HvText>Sími: xxx-xxxx</HvText>
+      <HvDivider />
+      {/* <Link href="/(app)/(measurements)/eitthvað"> */}
+      <HvText>Tengiliðir</HvText>
+      {/* </Link> */}
+      <HvDivider />
+      {/* <Link href="/(app)/(measurements)/eitthvað"> */}
+      <HvText>Tæki</HvText>
+      {/* </Link> */}
+      <HvDivider />
+      <View style={Styles.leftRightContainer}>
+        <HvText>Tungumál</HvText>
+        {/* tungumál takki með mynd */}
       </View>
-    </HvScrollView>
+      <View style={Styles.leftRightContainer}>
+        <HvText>Áminningar</HvText>
+        <Switch
+          value={isSwitchOn}
+          onValueChange={onToggleSwitch}
+          color={BRIGHT_GREEN}
+        />
+      </View>
+    </View>
   );
-}
+};
 
 const Styles = StyleSheet.create({
   leftRightContainer: {
     flexDirection: "row",
     justifyContent: "space-between",
-  }
+  },
 });
-  
+
 export default MainSettings;

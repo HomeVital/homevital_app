@@ -1,25 +1,20 @@
-import { View, StyleSheet, ViewProps } from 'react-native';
+import { View, StyleSheet, ViewProps } from "react-native";
 // constants
-import { WHITE } from '@/constants/colors';
-import HvButton from '../hvButton';
-
-
+import { WHITE } from "@/constants/colors";
+import HvButton from "../hvButton";
 
 interface Props extends ViewProps {
-    onPress: () => void;
+  onPress: () => void;
 }
 
-
 const HvInputForm = ({ onPress, ...props }: Props) => {
-return (
-    <View 
-    style={[Styles.container, props.style]}
-    >
-        {props.children}
-        <HvButton text='Vista' onPress={onPress} />
+  return (
+    <View style={[Styles.container, props.style]}>
+      {props.children}
+      <HvButton text="Vista" onPress={onPress} />
     </View>
-)}
-
+  );
+};
 
 const Styles = StyleSheet.create({
   container: {
@@ -29,7 +24,7 @@ const Styles = StyleSheet.create({
     borderRadius: 10,
     backgroundColor: WHITE,
     maxWidth: 500,
-  }
+  },
 });
 
 export default HvInputForm;
