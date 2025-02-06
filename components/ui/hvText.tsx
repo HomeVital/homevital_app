@@ -10,7 +10,7 @@ interface Props extends TextProps {
 }
 
 
-const HvText = ({ children, style, ...props }: Props) => {
+const HvText = ({ ...props }: Props) => {
     let fontWeight;
     let fontSize;
     let fontColor;
@@ -65,15 +65,14 @@ const HvText = ({ children, style, ...props }: Props) => {
 
     return (
         <Text 
-            {...props}
-            style={[
-                fontWeight,
-                fontSize,
-                fontColor,
-                style,
-            ]}
+        style={[
+            fontWeight,
+            fontSize,
+            fontColor,
+            props.style
+        ]}
         >
-            {children}
+            {props.children}
         </Text>
     );
 }

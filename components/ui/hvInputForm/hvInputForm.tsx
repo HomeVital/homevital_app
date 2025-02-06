@@ -1,27 +1,35 @@
-import { View, StyleSheet, TouchableOpacity } from 'react-native';
-// components
-import HvText from '../hvText';
+import { View, StyleSheet, ViewProps } from 'react-native';
 // constants
-import { DARK_GREEN } from '@/constants/colors';
+import { WHITE } from '@/constants/colors';
 import HvButton from '../hvButton';
 
 
-interface Props {
+
+interface Props extends ViewProps {
     onPress: () => void;
 }
 
 
-const HvInputForm = ({ onPress }: Props) => {
-  return (
-    <View>
-      <HvButton text='Vista' onPress={onPress} />
+const HvInputForm = ({ onPress, ...props }: Props) => {
+return (
+    <View 
+    style={[Styles.container, props.style]}
+    >
+        {props.children}
+        <HvButton text='Vista' onPress={onPress} />
     </View>
-  );
-}
+)}
 
 
-// const Styles = StyleSheet.create({
-
-// });
+const Styles = StyleSheet.create({
+  container: {
+    marginTop: 10,
+    padding: 20,
+    gap: 20,
+    borderRadius: 10,
+    backgroundColor: WHITE,
+    maxWidth: 500,
+  }
+});
 
 export default HvInputForm;
