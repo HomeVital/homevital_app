@@ -3,10 +3,7 @@ import { View, StyleSheet, ViewProps } from 'react-native';
 import { LIGHT_THEME } from '@/constants/colors';
 
 
-interface Props extends ViewProps {}
-
-
-const HvInputFormContainer = ({  ...props }: Props) => {
+const HvInputFormContainer = (props: ViewProps) => {
 return (
     <View 
     style={[Styles.itemsContainer, props.style]}

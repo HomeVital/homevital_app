@@ -3,10 +3,7 @@ import { ScrollView, ScrollViewProps } from 'react-native';
 import { TAB_HEIGHT } from '@/constants/sizes';
 
 
-interface Props extends ScrollViewProps {
-}
-
-const HvScrollView = ({ ...props }: Props) => {
+const HvScrollView = (props: ScrollViewProps) => {
 
     return (
         <ScrollView

@@ -1,11 +1,10 @@
 import { useState } from 'react';
-import { View, StyleSheet } from 'react-native';
+import { View } from 'react-native';
 // components
 import HvScrollView from '@/components/ui/HvScrollView';
 import HvInputForm from '@/components/ui/hvInputForm/hvInputForm';
 // constants
 import { STYLES } from '@/constants/styles';
-import { LIGHT_THEME, WHITE } from '@/constants/colors';
 import HvToggleSelect from '@/components/ui/hvInputForm/hvToggleSelect';
 import HvInputField from '@/components/ui/hvInputForm/hvInputField';
 import HvInputFormContainer from '@/components/ui/hvInputForm/hvInputFormContainer';
@@ -75,23 +74,6 @@ const MainMeasurements = () => {
         </HvScrollView>
     );
 }
-
-const Styles = StyleSheet.create({
-    container: {
-        marginTop: 10,
-        padding: 20,
-        gap: 20,
-        borderRadius: 10,
-        backgroundColor: WHITE,
-        maxWidth: 500,
-    },
-    itemsContainer: {
-        padding: 20,
-        gap: 30,
-        borderRadius: 10,
-        backgroundColor: LIGHT_THEME,
-    },
-});
 
 
 export default MainMeasurements;

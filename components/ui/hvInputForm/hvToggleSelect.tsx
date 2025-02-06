@@ -41,7 +41,7 @@ return (
         <View style={Styles.radioContainer}>
             <TouchableOpacity
             onPress={selectLeft}
-            style={itemState != leftText ? {opacity: 0.3} : {}}
+            style={itemState !== leftText ? {opacity: 0.3} : {}}
             >
                 <Image source={require('@/assets/svgs/circle.svg')} style={Styles.circle}/>
                 <Image source={leftIcon} style={Styles.iconInCircle}/>
@@ -49,7 +49,7 @@ return (
             </TouchableOpacity>
             <TouchableOpacity
             onPress={selectRight}
-            style={itemState != rightText ? {opacity: 0.3} : {}}
+            style={itemState !== rightText ? {opacity: 0.3} : {}}
             >
                 <Image source={require('@/assets/svgs/circle.svg')} style={Styles.circle}/>
                 <Image source={rightIcon} style={Styles.iconInCircle}/>
