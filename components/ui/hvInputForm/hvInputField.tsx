@@ -7,17 +7,19 @@ import { DARK_GREEN, WHITE } from "@/constants/colors";
 interface Props {
   itemState: string;
   setItemState: (value: string) => void;
-  header?: string;
   description: string;
-  metric: string;
+  header?: string;
+  metric?: string;
+  keyboardMax?: number;
 }
 
 const HvInputField = ({
   itemState,
   setItemState,
   description,
-  metric,
   header = "",
+  metric = "",
+  keyboardMax = 3,
 }: Props) => {
   return (
     <View style={Styles.itemContainer}>
@@ -35,7 +37,7 @@ const HvInputField = ({
           <TextInput
             value={itemState}
             keyboardType="numeric"
-            maxLength={3}
+            maxLength={keyboardMax}
             // placeholder='ex. 120'
             selectTextOnFocus={true}
             textAlign="right"

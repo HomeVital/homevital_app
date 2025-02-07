@@ -46,7 +46,7 @@ const bloodPressure = () => {
             />
           </HvInputFormContainer>
 
-          <HvInputFormContainer>
+          <HvInputFormContainer textInput>
             <HvInputField
               itemState={sys}
               setItemState={setSys}
@@ -75,17 +75,3 @@ const bloodPressure = () => {
 };
 
 export default bloodPressure;
-
-{
-  /* <Card>
-    <TouchableRipple
-        onPress={() => console.log('Pressed')}
-        rippleColor="rgba(0, 0, 0, .32)"
-    >
-        <Card.Content>
-            <HvText>Þyngd</HvText>
-            <HvText>Hæð</HvText>
-        </Card.Content>
-    </TouchableRipple>
-</Card> */
-}

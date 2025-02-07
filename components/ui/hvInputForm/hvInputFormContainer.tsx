@@ -2,9 +2,21 @@ import { View, StyleSheet, ViewProps } from "react-native";
 // constants
 import { LIGHT_THEME } from "@/constants/colors";
 
-const HvInputFormContainer = (props: ViewProps) => {
+interface Props extends ViewProps {
+  textInput?: boolean;
+}
+
+const HvInputFormContainer = ({ textInput = false, ...props }: Props) => {
   return (
-    <View style={[Styles.itemsContainer, props.style]}>{props.children}</View>
+    <View
+      style={[
+        Styles.itemsContainer,
+        props.style,
+        { paddingBottom: textInput ? 50 : null },
+      ]}
+    >
+      {props.children}
+    </View>
   );
 };
 

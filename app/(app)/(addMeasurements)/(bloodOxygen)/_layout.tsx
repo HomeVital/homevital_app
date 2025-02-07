@@ -5,7 +5,7 @@ import { TouchableOpacity } from "react-native";
 import { LIGHT_THEME } from "@/constants/colors";
 import { STYLES as Styles } from "@/constants/styles";
 
-const AddBloodPressureLayout = () => {
+const AddBloodOxygenLayout = () => {
   // This layout can be deferred because it's not the root layout.
   return (
     <Stack
@@ -21,7 +21,7 @@ const AddBloodPressureLayout = () => {
       <Stack.Screen
         name="index"
         options={{
-          title: "Skrá blóðþrýsting",
+          title: "Skrá súrefnismettun",
           headerTitleStyle: {
             ...Styles.headerTitle,
           },
@@ -45,4 +45,4 @@ const AddBloodPressureLayout = () => {
   );
 };
 
-export default AddBloodPressureLayout;
+export default AddBloodOxygenLayout;
