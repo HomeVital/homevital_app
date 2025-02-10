@@ -23,7 +23,7 @@ const Styles = StyleSheet.create({
     gap: 20,
     borderRadius: 10,
     backgroundColor: WHITE,
-    maxWidth: 500,
+    maxWidth: 800,
   },
 });
 

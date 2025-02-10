@@ -65,7 +65,7 @@ const bloodPressure = () => {
               itemState={pulse}
               setItemState={setPulse}
               description="Púls"
-              metric="bpm"
+              // metric="bpm"
             />
           </HvInputFormContainer>
         </HvInputForm>

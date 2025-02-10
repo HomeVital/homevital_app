@@ -6,6 +6,7 @@ import { STYLES } from "@/constants/styles";
 import { WHITE } from "@/constants/colors";
 import HvText from "@/components/ui/hvText";
 import { Image } from "expo-image";
+import { WIN_WIDTH } from "@/constants/window";
 
 const MainMeasurements = () => {
   return (
@@ -16,9 +17,10 @@ const MainMeasurements = () => {
             <TouchableOpacity style={Styles.item}>
               <Image
                 source={require("@/assets/svgs/handLeft.svg")}
-                contentFit="cover"
+                contentFit="contain"
                 style={Styles.itemImage}
               />
+              <HvText center>Blóðþrýstingur</HvText>
             </TouchableOpacity>
           </View>
 
@@ -26,9 +28,10 @@ const MainMeasurements = () => {
             <TouchableOpacity style={Styles.item}>
               <Image
                 source={require("@/assets/svgs/handLeft.svg")}
-                contentFit="cover"
+                contentFit="contain"
                 style={Styles.itemImage}
               />
+              <HvText center>Súrefnismettun</HvText>
             </TouchableOpacity>
           </View>
 
@@ -36,9 +39,10 @@ const MainMeasurements = () => {
             <TouchableOpacity style={Styles.item}>
               <Image
                 source={require("@/assets/svgs/handLeft.svg")}
-                contentFit="cover"
+                contentFit="contain"
                 style={Styles.itemImage}
               />
+              <HvText center>Þyngd</HvText>
             </TouchableOpacity>
           </View>
         </View>
@@ -52,19 +56,24 @@ const Styles = StyleSheet.create({
     display: "flex",
     flexDirection: "row",
     flexWrap: "wrap",
+    width: "100%",
   },
   itemContainer: {
-    width: "50%",
+    // since grid doesn't work, I force height height to be same as width
+    width: WIN_WIDTH / 2 - 20,
+    height: WIN_WIDTH / 2 - 20,
     padding: 10,
   },
   item: {
+    width: "100%",
+    height: "100%",
     borderRadius: 10,
     backgroundColor: WHITE,
     boxShadow: "0px 2px 4px rgba(0, 0, 0, 0.25)",
   },
   itemImage: {
     width: "100%",
-    height: "100%",
+    height: "70%",
   },
 });
 

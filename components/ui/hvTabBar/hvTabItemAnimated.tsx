@@ -72,7 +72,10 @@ const HvTabItemAnimated = ({
       onPress={onPress}
     >
       <Animated.View
-        style={[animatedStyle, large ? Styles.largeContainer : null]}
+        style={[
+          animatedStyle,
+          large ? Styles.largeContainer : Styles.smallContainer,
+        ]}
       >
         <Image
           source={source}
@@ -81,7 +84,10 @@ const HvTabItemAnimated = ({
         />
       </Animated.View>
       <Animated.View
-        style={[animatedStyle2, large ? Styles.largeContainer : null]}
+        style={[
+          animatedStyle2,
+          large ? Styles.largeContainer : Styles.smallContainer,
+        ]}
       >
         <Image
           source={source2}
@@ -89,7 +95,7 @@ const HvTabItemAnimated = ({
           style={large ? Styles.tabLogoLarge : Styles.tabLogo}
         />
       </Animated.View>
-      {large ? <View style={{ height: TAB_ICON_SIZE }} /> : null}
+      <View style={{ height: TAB_ICON_SIZE }} />
       <HvText size={FONT_SIZE} style={Styles.tabText}>
         {text}
       </HvText>
@@ -104,18 +110,26 @@ const Styles = StyleSheet.create({
     paddingVertical: TAB_BAR_PADDING,
   },
   tabLogo: {
-    width: "100%",
+    width: TAB_ICON_SIZE,
     height: TAB_ICON_SIZE,
   },
   tabLogoLarge: {
-    width: "100%",
+    width: TAB_ICON_SIZE * 2,
     height: TAB_ICON_SIZE * 2,
   },
   largeContainer: {
     position: "absolute",
     bottom: TAB_HEIGHT - TAB_ICON_SIZE + 1,
-    width: "100%",
     height: TAB_ICON_SIZE * 2,
+    left: "50%",
+    marginLeft: -TAB_ICON_SIZE,
+  },
+  smallContainer: {
+    position: "absolute",
+    bottom: TAB_TEXT_HEIGHT + TAB_BAR_PADDING,
+    height: TAB_ICON_SIZE,
+    left: "50%",
+    marginLeft: -TAB_ICON_SIZE / 2,
   },
   tabText: {
     textAlign: "center",

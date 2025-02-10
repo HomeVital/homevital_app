@@ -5,12 +5,14 @@ interface Props extends TextProps {
   weight?: string; // Allows overriding if needed
   size?: string; // Allows overriding if needed
   color?: string;
+  center?: boolean;
 }
 
 const HvText = ({ ...props }: Props) => {
   let fontWeight;
   let fontSize;
   let fontColor;
+  let textAlign = props.center ? Styles.center : null;
 
   switch (props.weight) {
     case "semibold":
@@ -61,7 +63,7 @@ const HvText = ({ ...props }: Props) => {
   }
 
   return (
-    <Text style={[fontWeight, fontSize, fontColor, props.style]}>
+    <Text style={[fontWeight, fontSize, fontColor, textAlign, props.style]}>
       {props.children}
     </Text>
   );
@@ -100,6 +102,9 @@ const Styles = StyleSheet.create({
   },
   white: {
     color: WHITE,
+  },
+  center: {
+    textAlign: "center",
   },
 });
 

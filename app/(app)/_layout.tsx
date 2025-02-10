@@ -32,7 +32,7 @@ const AppLayout = () => {
 
   // You can keep the splash screen open, or render a loading screen like we do here.
   if (isLoading) {
-    return <HvText>Loading...</HvText>;
+    return <HvText center>Loading...</HvText>;
   }
 
   // Only require authentication within the (app) group's layout as users
