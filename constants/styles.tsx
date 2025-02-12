@@ -27,4 +27,8 @@ export const STYLES = StyleSheet.create({
     gap: 12,
     marginBottom: TAB_ICON_SIZE + 10,
   },
+  imageView: {
+    // gap: 12,
+    marginBottom: TAB_ICON_SIZE + 10,
+  },
 });

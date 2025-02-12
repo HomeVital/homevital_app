@@ -17,7 +17,7 @@ import HideWithKeyboard from "react-native-hide-with-keyboard";
 import HvTabItem from "./hvTabItem";
 // constants
 import { LIGHT_GRAY, WHITE } from "@/constants/colors";
-import { TAB_ICON_SIZE } from "@/constants/sizes";
+import { PADDING, TAB_HEIGHT, TAB_ICON_SIZE } from "@/constants/sizes";
 import HvLayeredIcon from "../hvLayeredIcon";
 import HvTabItemAnimated from "./hvTabItemAnimated";
 
@@ -52,44 +52,119 @@ const HvTabBar = () => {
     };
   });
 
+  const tempButtons = [
+    {
+      route: "/(app)/(bloodSugar)",
+      icon: require("@/assets/svgs/heart.svg"),
+    },
+    {
+      route: "/(app)/(bloodPressure)",
+      icon: require("@/assets/svgs/heart.svg"),
+    },
+    {
+      route: "/(app)/(weight)",
+      icon: require("@/assets/svgs/scale.svg"),
+    },
+    {
+      route: "/(app)/(bloodOxygen)",
+      icon: require("@/assets/svgs/lungs.svg"),
+    },
+    {
+      route: "/(app)/(temperature)",
+      icon: require("@/assets/svgs/lungs.svg"),
+    },
+  ];
+
+  const bottomPaddings = {
+    1: [
+      {
+        paddingBottom: TAB_ICON_SIZE,
+      },
+    ],
+    2: [
+      {
+        paddingBottom: TAB_ICON_SIZE * 0.75,
+      },
+      {
+        paddingBottom: TAB_ICON_SIZE * 0.75,
+      },
+    ],
+    3: [
+      {
+        paddingBottom: 0,
+      },
+      {
+        paddingBottom: TAB_ICON_SIZE,
+      },
+      {
+        paddingBottom: 0,
+      },
+    ],
+    4: [
+      {
+        paddingBottom: 0,
+        left: PADDING,
+      },
+      {
+        paddingBottom: TAB_ICON_SIZE + PADDING,
+        left: 0,
+      },
+      {
+        paddingBottom: TAB_ICON_SIZE + PADDING,
+        left: 0,
+      },
+      {
+        paddingBottom: 0,
+        left: -PADDING,
+      },
+    ],
+    5: [
+      {
+        paddingBottom: 0,
+        left: PADDING * 2,
+      },
+      {
+        paddingBottom: 70,
+        left: 5,
+      },
+      {
+        paddingBottom: 100,
+        left: 0,
+      },
+      {
+        paddingBottom: 70,
+        left: -5,
+      },
+      {
+        paddingBottom: 0,
+        left: -PADDING * 2,
+      },
+    ],
+  };
+
   return (
     <>
       <TouchableWithoutFeedback onPressOut={() => setAddOpen(false)}>
         <Animated.View style={[Styles.animatedContainer, animatedStyle]}>
-          <TouchableOpacity
-            onPress={() => {
-              setStackName(handleTabRoute("/(app)/(bloodPressure)", stackName));
-            }}
-          >
-            <HvLayeredIcon
-              size={TAB_ICON_SIZE * 2}
-              outerIcon={require("@/assets/svgs/filledCircle.svg")}
-              innerIcon={require("@/assets/svgs/heart.svg")}
-            />
-          </TouchableOpacity>
-          <TouchableOpacity
-            onPress={() => {
-              setStackName(handleTabRoute("/(app)/(weight)", stackName));
-            }}
-          >
-            <HvLayeredIcon
-              size={TAB_ICON_SIZE * 2}
-              outerIcon={require("@/assets/svgs/filledCircle.svg")}
-              innerIcon={require("@/assets/svgs/scale.svg")}
-            />
-          </TouchableOpacity>
-          <TouchableOpacity
-            onPress={() => {
-              setStackName(handleTabRoute("/(app)/(bloodOxygen)", stackName));
-            }}
-          >
-            <HvLayeredIcon
-              size={TAB_ICON_SIZE * 2}
-              outerIcon={require("@/assets/svgs/filledCircle.svg")}
-              innerIcon={require("@/assets/svgs/lungs.svg")}
-              shiftUp={3}
-            />
-          </TouchableOpacity>
+          {tempButtons.map((button, index) => (
+            <TouchableOpacity
+              key={index}
+              onPress={() => {
+                setStackName(handleTabRoute(button.route, stackName));
+              }}
+              style={{
+                paddingBottom:
+                  bottomPaddings[tempButtons.length][index].paddingBottom,
+                left: bottomPaddings[tempButtons.length][index].left,
+              }}
+            >
+              <HvLayeredIcon
+                size={TAB_ICON_SIZE * 2}
+                outerIcon={require("@/assets/svgs/filledCircle.svg")}
+                innerIcon={button.icon}
+              />
+            </TouchableOpacity>
+          ))}
         </Animated.View>
       </TouchableWithoutFeedback>
 
@@ -143,7 +218,7 @@ const Styles = StyleSheet.create({
     height: "100%",
     alignItems: "flex-end",
     justifyContent: "center",
-    paddingBottom: 130,
+    paddingBottom: TAB_HEIGHT + 25,
     gap: 10,
     backgroundColor: "rgba(0, 0, 0, 0.3)",
   },

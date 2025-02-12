@@ -31,7 +31,7 @@ const HvInputField = ({
           <HvText weight="semibold" size="xxl">
             {description}
           </HvText>
-          <HvText size="xs">{metric}</HvText>
+          {metric && <HvText size="xs">{metric}</HvText>}
         </View>
         <View style={Styles.inputShadow}>
           <TextInput
