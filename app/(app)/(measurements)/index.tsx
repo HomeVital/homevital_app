@@ -7,11 +7,12 @@ import { WHITE } from "@/constants/colors";
 import HvText from "@/components/ui/hvText";
 import { Image } from "expo-image";
 import { WIN_WIDTH } from "@/constants/window";
+import { PADDING } from "@/constants/sizes";
 
 const MainMeasurements = () => {
   return (
     <HvScrollView>
-      <View style={STYLES.defaultView}>
+      <View style={STYLES.imageView}>
         <View style={Styles.container}>
           <View style={Styles.itemContainer}>
             <TouchableOpacity style={Styles.item}>
@@ -20,7 +21,7 @@ const MainMeasurements = () => {
                 contentFit="contain"
                 style={Styles.itemImage}
               />
-              <HvText center>Blóðþrýstingur</HvText>
+              <HvText>Blóðþrýstingur</HvText>
             </TouchableOpacity>
           </View>
 
@@ -31,7 +32,7 @@ const MainMeasurements = () => {
                 contentFit="contain"
                 style={Styles.itemImage}
               />
-              <HvText center>Súrefnismettun</HvText>
+              <HvText>Súrefnismettun</HvText>
             </TouchableOpacity>
           </View>
 
@@ -42,7 +43,7 @@ const MainMeasurements = () => {
                 contentFit="contain"
                 style={Styles.itemImage}
               />
-              <HvText center>Þyngd</HvText>
+              <HvText>Þyngd</HvText>
             </TouchableOpacity>
           </View>
         </View>
@@ -57,14 +58,16 @@ const Styles = StyleSheet.create({
     flexDirection: "row",
     flexWrap: "wrap",
     width: "100%",
+    padding: PADDING,
   },
   itemContainer: {
-    // since grid doesn't work, I force height height to be same as width
-    width: WIN_WIDTH / 2 - 20,
-    height: WIN_WIDTH / 2 - 20,
-    padding: 10,
+    width: WIN_WIDTH / 2 - PADDING,
+    height: WIN_WIDTH / 2 - PADDING,
+    padding: PADDING,
   },
   item: {
+    justifyContent: "center",
+    alignItems: "center",
     width: "100%",
     height: "100%",
     borderRadius: 10,
@@ -72,8 +75,8 @@ const Styles = StyleSheet.create({
     boxShadow: "0px 2px 4px rgba(0, 0, 0, 0.25)",
   },
   itemImage: {
-    width: "100%",
-    height: "70%",
+    width: "80%",
+    minHeight: "80%",
   },
 });
 

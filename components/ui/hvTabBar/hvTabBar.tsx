@@ -17,9 +17,10 @@ import HideWithKeyboard from "react-native-hide-with-keyboard";
 import HvTabItem from "./hvTabItem";
 // constants
 import { LIGHT_GRAY, WHITE } from "@/constants/colors";
-import { TAB_ICON_SIZE } from "@/constants/sizes";
+import { PADDING, TAB_HEIGHT, TAB_ICON_SIZE } from "@/constants/sizes";
 import HvLayeredIcon from "../hvLayeredIcon";
 import HvTabItemAnimated from "./hvTabItemAnimated";
+import HvTabButtonWheel from "./hvTabButtonWheel";
 
 const HvTabBar = () => {
   const [stackName, setStackName] = useState("");
@@ -52,44 +53,47 @@ const HvTabBar = () => {
     };
   });
 
+  // TODO: change later
+  const tempButtons = [
+    {
+      icon: require("@/assets/svgs/heart.svg") as string,
+      onPress: () =>
+        setStackName(handleTabRoute("/(app)/(bloodSugar)", stackName)),
+    },
+    {
+      icon: require("@/assets/svgs/heart.svg") as string,
+      onPress: () =>
+        setStackName(handleTabRoute("/(app)/(bloodPressure)", stackName)),
+    },
+    {
+      icon: require("@/assets/svgs/scale.svg") as string,
+      onPress: () => setStackName(handleTabRoute("/(app)/(weight)", stackName)),
+    },
+    {
+      icon: require("@/assets/svgs/lungs.svg") as string,
+      onPress: () =>
+        setStackName(handleTabRoute("/(app)/(bloodOxygen)", stackName)),
+    },
+    {
+      icon: require("@/assets/svgs/lungs.svg") as string,
+      onPress: () =>
+        setStackName(handleTabRoute("/(app)/(temperature)", stackName)),
+    },
+  ];
+
+  const bottomPaddings = [35, 15, -5, -5, -5];
+
   return (
     <>
       <TouchableWithoutFeedback onPressOut={() => setAddOpen(false)}>
         <Animated.View style={[Styles.animatedContainer, animatedStyle]}>
-          <TouchableOpacity
-            onPress={() => {
-              setStackName(handleTabRoute("/(app)/(bloodPressure)", stackName));
-            }}
-          >
-            <HvLayeredIcon
-              size={TAB_ICON_SIZE * 2}
-              outerIcon={require("@/assets/svgs/filledCircle.svg")}
-              innerIcon={require("@/assets/svgs/heart.svg")}
-            />
-          </TouchableOpacity>
-          <TouchableOpacity
-            onPress={() => {
-              setStackName(handleTabRoute("/(app)/(weight)", stackName));
-            }}
-          >
-            <HvLayeredIcon
-              size={TAB_ICON_SIZE * 2}
-              outerIcon={require("@/assets/svgs/filledCircle.svg")}
-              innerIcon={require("@/assets/svgs/scale.svg")}
-            />
-          </TouchableOpacity>
-          <TouchableOpacity
-            onPress={() => {
-              setStackName(handleTabRoute("/(app)/(bloodOxygen)", stackName));
-            }}
-          >
-            <HvLayeredIcon
-              size={TAB_ICON_SIZE * 2}
-              outerIcon={require("@/assets/svgs/filledCircle.svg")}
-              innerIcon={require("@/assets/svgs/lungs.svg")}
-              shiftUp={3}
-            />
-          </TouchableOpacity>
+          <HvTabButtonWheel
+            state={addOpen}
+            bottom={bottomPaddings[tempButtons.length - 1]}
+            radius={65}
+            roundness={0.5}
+            buttons={tempButtons}
+          />
         </Animated.View>
       </TouchableWithoutFeedback>
 
@@ -143,8 +147,6 @@ const Styles = StyleSheet.create({
     height: "100%",
     alignItems: "flex-end",
     justifyContent: "center",
-    paddingBottom: 130,
-    gap: 10,
     backgroundColor: "rgba(0, 0, 0, 0.3)",
   },
 });
