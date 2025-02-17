@@ -20,6 +20,7 @@ import { LIGHT_GRAY, WHITE } from "@/constants/colors";
 import { PADDING, TAB_HEIGHT, TAB_ICON_SIZE } from "@/constants/sizes";
 import HvLayeredIcon from "../hvLayeredIcon";
 import HvTabItemAnimated from "./hvTabItemAnimated";
+import HvTabButtonWheel from "./hvTabButtonWheel";
 
 const HvTabBar = () => {
   const [stackName, setStackName] = useState("");
@@ -52,119 +53,47 @@ const HvTabBar = () => {
     };
   });
 
+  // TODO: change later
   const tempButtons = [
     {
-      route: "/(app)/(bloodSugar)",
-      icon: require("@/assets/svgs/heart.svg"),
+      icon: require("@/assets/svgs/heart.svg") as string,
+      onPress: () =>
+        setStackName(handleTabRoute("/(app)/(bloodSugar)", stackName)),
     },
     {
-      route: "/(app)/(bloodPressure)",
-      icon: require("@/assets/svgs/heart.svg"),
+      icon: require("@/assets/svgs/heart.svg") as string,
+      onPress: () =>
+        setStackName(handleTabRoute("/(app)/(bloodPressure)", stackName)),
     },
     {
-      route: "/(app)/(weight)",
-      icon: require("@/assets/svgs/scale.svg"),
+      icon: require("@/assets/svgs/scale.svg") as string,
+      onPress: () => setStackName(handleTabRoute("/(app)/(weight)", stackName)),
     },
     {
-      route: "/(app)/(bloodOxygen)",
-      icon: require("@/assets/svgs/lungs.svg"),
+      icon: require("@/assets/svgs/lungs.svg") as string,
+      onPress: () =>
+        setStackName(handleTabRoute("/(app)/(bloodOxygen)", stackName)),
     },
     {
-      route: "/(app)/(temperature)",
-      icon: require("@/assets/svgs/lungs.svg"),
+      icon: require("@/assets/svgs/lungs.svg") as string,
+      onPress: () =>
+        setStackName(handleTabRoute("/(app)/(temperature)", stackName)),
     },
   ];
 
-  const bottomPaddings = {
-    1: [
-      {
-        paddingBottom: TAB_ICON_SIZE,
-      },
-    ],
-    2: [
-      {
-        paddingBottom: TAB_ICON_SIZE * 0.75,
-      },
-      {
-        paddingBottom: TAB_ICON_SIZE * 0.75,
-      },
-    ],
-    3: [
-      {
-        paddingBottom: 0,
-      },
-      {
-        paddingBottom: TAB_ICON_SIZE,
-      },
-      {
-        paddingBottom: 0,
-      },
-    ],
-    4: [
-      {
-        paddingBottom: 0,
-        left: PADDING,
-      },
-      {
-        paddingBottom: TAB_ICON_SIZE + PADDING,
-        left: 0,
-      },
-      {
-        paddingBottom: TAB_ICON_SIZE + PADDING,
-        left: 0,
-      },
-      {
-        paddingBottom: 0,
-        left: -PADDING,
-      },
-    ],
-    5: [
-      {
-        paddingBottom: 0,
-        left: PADDING * 2,
-      },
-      {
-        paddingBottom: 70,
-        left: 5,
-      },
-      {
-        paddingBottom: 100,
-        left: 0,
-      },
-      {
-        paddingBottom: 70,
-        left: -5,
-      },
-      {
-        paddingBottom: 0,
-        left: -PADDING * 2,
-      },
-    ],
-  };
+  const bottomPaddings = [35, 15, -5, -5, -5];
 
   return (
     <>
       <TouchableWithoutFeedback onPressOut={() => setAddOpen(false)}>
         <Animated.View style={[Styles.animatedContainer, animatedStyle]}>
-          {tempButtons.map((button, index) => (
-            <TouchableOpacity
-              key={index}
-              onPress={() => {
-                setStackName(handleTabRoute(button.route, stackName));
-              }}
-              style={{
-                paddingBottom:
-                  bottomPaddings[tempButtons.length][index].paddingBottom,
-                left: bottomPaddings[tempButtons.length][index].left,
-              }}
-            >
-              <HvLayeredIcon
-                size={TAB_ICON_SIZE * 2}
-                outerIcon={require("@/assets/svgs/filledCircle.svg")}
-                innerIcon={button.icon}
-              />
-            </TouchableOpacity>
-          ))}
+          <HvTabButtonWheel
+            state={addOpen}
+            bottom={bottomPaddings[tempButtons.length - 1]}
+            radius={65}
+            roundness={0.5}
+            buttons={tempButtons}
+          />
         </Animated.View>
       </TouchableWithoutFeedback>
 
@@ -218,8 +147,6 @@ const Styles = StyleSheet.create({
     height: "100%",
     alignItems: "flex-end",
     justifyContent: "center",
-    paddingBottom: TAB_HEIGHT + 25,
-    gap: 10,
     backgroundColor: "rgba(0, 0, 0, 0.3)",
   },
 });
