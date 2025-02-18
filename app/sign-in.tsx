@@ -31,7 +31,7 @@ const SignIn = () => {
         text="Some sign in"
         width={WIN_WIDTH * 0.75}
         onPress={() => {
-          signIn();
+          signIn(SSN);
           // Navigate after signing in. You may want to tweak this to ensure sign-in is
           // successful before navigating.
           router.replace("/");

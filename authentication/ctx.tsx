@@ -2,7 +2,7 @@ import { useContext, createContext, type PropsWithChildren } from "react";
 import { useStorageState } from "./useStorageState";
 
 const AuthContext = createContext<{
-  signIn: () => void;
+  signIn: (SSN: string) => void;
   signOut: () => void;
   session?: string | null;
   isLoading: boolean;
@@ -31,7 +31,10 @@ export function SessionProvider({ children }: PropsWithChildren) {
   return (
     <AuthContext.Provider
       value={{
-        signIn: () => {
+        signIn: (SSN: string) => {
+          if (SSN.length !== 10) {
+            return;
+          }
           // Perform sign-in logic here
           setSession("xxx");
         },
