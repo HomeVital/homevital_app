@@ -1,26 +1,34 @@
 import { router } from "expo-router";
-import { StyleSheet } from "react-native";
-import { Image } from "expo-image";
+import { StyleSheet, TextInput, View } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
+import { useState } from "react";
 // components
 import { useSession } from "@/authentication/ctx";
 import HvButton from "@/components/ui/hvButton";
 // constants
-import { LIGHT_GREEN } from "@/constants/colors";
+import { GRAY, LIGHT_GREEN, WHITE } from "@/constants/colors";
 import { WIN_WIDTH } from "@/constants/window";
 
 const SignIn = () => {
   const { signIn } = useSession();
+  const [SSN, setSSN] = useState("");
 
   return (
     <SafeAreaView style={Styles.container}>
-      <Image
-        source={require("@/assets/svgs/logo.svg")}
-        contentFit="contain"
-        style={Styles.homeImage}
-      />
+      <View style={Styles.form}>
+        <TextInput
+          style={Styles.input}
+          placeholder="SSN"
+          value={SSN}
+          onChangeText={setSSN}
+          keyboardType="numeric"
+          autoCapitalize="none"
+          // length should always be 10
+          maxLength={10}
+        />
+      </View>
       <HvButton
-        text="Innskráning"
+        text="Some sign in"
         width={WIN_WIDTH * 0.75}
         onPress={() => {
           signIn();
@@ -36,13 +44,26 @@ const SignIn = () => {
 const Styles = StyleSheet.create({
   container: {
     flex: 1, // take up entire screen
-    justifyContent: "space-around", // center vertically
+    justifyContent: "center", // center vertically
     alignItems: "center", // center horizontally
+    padding: 20,
+    gap: 20,
     backgroundColor: LIGHT_GREEN,
   },
   homeImage: {
     height: "50%",
     width: "70%",
+  },
+  form: {
+    width: "80%",
+  },
+  input: {
+    height: 40,
+    backgroundColor: WHITE,
+    borderColor: GRAY,
+    borderWidth: 1,
+    marginBottom: 12,
+    paddingHorizontal: 8,
   },
 });
 

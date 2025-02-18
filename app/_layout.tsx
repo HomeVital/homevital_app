@@ -2,7 +2,8 @@ import React, { useEffect } from "react";
 import { useFonts } from "expo-font";
 import * as SplashScreen from "expo-splash-screen";
 import { StatusBar } from "expo-status-bar"; // battery life and such
-import { Slot } from "expo-router";
+import { Redirect, Slot } from "expo-router";
+// import { router } from "expo-router";
 
 // components
 import { SessionProvider } from "@/authentication/ctx";
@@ -20,6 +21,7 @@ const RootLayout = () => {
   useEffect(() => {
     if (loaded) {
       SplashScreen.hideAsync();
+      // router.replace("/initial-screen");
     }
   }, [loaded]);
 
@@ -33,6 +35,8 @@ const RootLayout = () => {
       <StatusBar style="dark" backgroundColor={LIGHT_THEME} />
       {/* <View style={Styles.container}> */}
       <Slot />
+
+      <Redirect href="/initial-screen" />
       {/* </View> */}
       {/* </PaperProvider> */}
     </SessionProvider>
