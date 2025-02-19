@@ -1,7 +1,7 @@
 import { router } from "expo-router";
 import { StyleSheet, TextInput, View } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 // components
 import { useSession } from "@/authentication/ctx";
 import HvButton from "@/components/ui/hvButton";
@@ -10,8 +10,15 @@ import { GRAY, LIGHT_GREEN, WHITE } from "@/constants/colors";
 import { WIN_WIDTH } from "@/constants/window";
 
 const SignIn = () => {
-  const { signIn } = useSession();
+  const { signIn, session } = useSession();
   const [SSN, setSSN] = useState("");
+
+  useEffect(() => {
+    if (session) {
+      // Navigate to the app screen if there is a session
+      router.replace("/");
+    }
+  }, [session]);
 
   return (
     <SafeAreaView style={Styles.container}>
@@ -34,6 +41,7 @@ const SignIn = () => {
           signIn(SSN);
           // Navigate after signing in. You may want to tweak this to ensure sign-in is
           // successful before navigating.
+          if (router.canDismiss()) router.dismiss();
           router.replace("/");
         }}
       />

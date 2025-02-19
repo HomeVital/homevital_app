@@ -1,6 +1,6 @@
 import React, { useEffect } from "react";
 import { AppState } from "react-native";
-import { Redirect, Stack } from "expo-router";
+import { Redirect, router, Stack } from "expo-router";
 // components
 import { useSession } from "@/authentication/ctx";
 import HvText from "@/components/ui/hvText";
@@ -17,6 +17,7 @@ const AppLayout = () => {
       if (nextAppState === "background") {
         //  || nextAppState === 'inactive'
         console.log("App is in background, maybe inactive");
+        // router.replace("/initial-screen");
         signOut();
       }
     };
