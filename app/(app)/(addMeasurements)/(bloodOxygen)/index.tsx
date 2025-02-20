@@ -1,33 +1,33 @@
-import { useState } from "react";
-import { View } from "react-native";
+import { useState } from 'react';
+import { View } from 'react-native';
 // components
-import HvScrollView from "@/components/ui/HvScrollView";
-import HvInputForm from "@/components/ui/hvInputForm/hvInputForm";
+import HvScrollView from '@/components/ui/HvScrollView';
+import HvInputForm from '@/components/ui/hvInputForm/hvInputForm';
 // constants
-import { STYLES } from "@/constants/styles";
-import HvInputField from "@/components/ui/hvInputForm/hvInputField";
-import HvInputFormContainer from "@/components/ui/hvInputForm/hvInputFormContainer";
+import { STYLES } from '@/constants/styles';
+import HvInputField from '@/components/ui/hvInputForm/hvInputField';
+import HvInputFormContainer from '@/components/ui/hvInputForm/hvInputFormContainer';
 
-const bloodPressure = () => {
-  // num inputs
-  const [bloodOxygen, setBloodOxygen] = useState("");
+const BloodOxygen = (): JSX.Element => {
+	// num inputs
+	const [bloodOxygen, setBloodOxygen] = useState('');
 
-  return (
-    <HvScrollView>
-      <View style={STYLES.defaultView}>
-        <HvInputForm onPress={() => console.log("banana")}>
-          <HvInputFormContainer textInput>
-            <HvInputField
-              itemState={bloodOxygen}
-              setItemState={setBloodOxygen}
-              description="%"
-              keyboardMax={2}
-            />
-          </HvInputFormContainer>
-        </HvInputForm>
-      </View>
-    </HvScrollView>
-  );
+	return (
+		<HvScrollView>
+			<View style={STYLES.defaultView}>
+				<HvInputForm onPress={() => {}}>
+					<HvInputFormContainer textInput>
+						<HvInputField
+							itemState={bloodOxygen}
+							setItemState={setBloodOxygen}
+							description='%'
+							keyboardMax={2}
+						/>
+					</HvInputFormContainer>
+				</HvInputForm>
+			</View>
+		</HvScrollView>
+	);
 };
 
-export default bloodPressure;
+export default BloodOxygen;
