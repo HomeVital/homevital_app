@@ -3,13 +3,14 @@ import { useFonts } from 'expo-font';
 import * as SplashScreen from 'expo-splash-screen';
 import { StatusBar } from 'expo-status-bar'; // battery life and such
 import { Redirect, Slot } from 'expo-router';
-// import { router } from "expo-router";
-
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 // components
 import { SessionProvider } from '@/authentication/ctx';
 // constants
 import { LIGHT_THEME } from '@/constants/colors';
 // import { PaperProvider } from 'react-native-paper';
+
+const queryClient = new QueryClient();
 
 const RootLayout = (): JSX.Element => {
 	const [loaded] = useFonts({
@@ -21,7 +22,6 @@ const RootLayout = (): JSX.Element => {
 	useEffect(() => {
 		if (loaded) {
 			SplashScreen.hideAsync();
-			// router.replace("/initial-screen");
 		}
 	}, [loaded]);
 
@@ -30,16 +30,15 @@ const RootLayout = (): JSX.Element => {
 	}
 	// Set up the auth context and render our layout inside of it.
 	return (
-		<SessionProvider>
-			{/* <PaperProvider> */}
-			<StatusBar style='dark' backgroundColor={LIGHT_THEME} />
-			{/* <View style={Styles.container}> */}
-			<Slot />
-
-			<Redirect href='/initial-screen' />
-			{/* </View> */}
-			{/* </PaperProvider> */}
-		</SessionProvider>
+		<QueryClientProvider client={queryClient}>
+			<SessionProvider>
+				{/* <PaperProvider> */}
+				<StatusBar style='dark' backgroundColor={LIGHT_THEME} />
+				<Slot />
+				<Redirect href='/initial-screen' />
+				{/* </PaperProvider> */}
+			</SessionProvider>
+		</QueryClientProvider>
 	);
 };
 

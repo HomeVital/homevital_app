@@ -52,7 +52,7 @@ const HvTabBar = (): JSX.Element => {
 		{
 			icon: require('@/assets/svgs/heart.svg') as string,
 			onPress: () => setStackName(handleTabRoute('/(app)/(bloodPressure)', stackName)),
-			isVisible: true,
+			isVisible: false,
 		},
 		{
 			icon: require('@/assets/svgs/scale.svg') as string,
@@ -67,7 +67,7 @@ const HvTabBar = (): JSX.Element => {
 		{
 			icon: require('@/assets/svgs/lungs.svg') as string,
 			onPress: () => setStackName(handleTabRoute('/(app)/(temperature)', stackName)),
-			isVisible: true,
+			isVisible: false,
 		},
 	];
 

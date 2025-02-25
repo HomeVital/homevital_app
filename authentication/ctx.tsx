@@ -1,5 +1,8 @@
 import { useContext, createContext, type PropsWithChildren } from 'react';
 import { useStorageState } from './useStorageState';
+import { GetRafraenSkilriki, GetUserId } from './queries';
+// import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
+// import { LOGIN_URL } from '@/constants/api';
 
 const AuthContext = createContext<{
 	signIn: (SSN: string) => void;
@@ -14,34 +17,57 @@ const AuthContext = createContext<{
 });
 
 // This hook can be used to access the user info.
-export function useSession(): {
+export const useSession = (): {
 	signIn: (SSN: string) => void;
 	signOut: () => void;
 	session?: string | null;
 	isLoading: boolean;
-} {
+} => {
 	const value = useContext(AuthContext);
 	if (process.env.NODE_ENV !== 'production') {
 		if (!value) {
 			throw new Error('useSession must be wrapped in a <SessionProvider />');
 		}
 	}
-
 	return value;
-}
+};
 
-export function SessionProvider({ children }: PropsWithChildren): JSX.Element {
+export const SessionProvider = ({ children }: PropsWithChildren): JSX.Element => {
 	const [[isLoading, session], setSession] = useStorageState('session');
+
+	// const queryClient = useQueryClient();
+	const HandleSignIn = async (SSN: string) => {
+		try {
+			const userSSN = await GetRafraenSkilriki(SSN);
+			const userId = await GetUserId(userSSN);
+			setSession(userId);
+		} catch (error) {
+			console.error('Sign-in error:', error);
+		}
+	};
+
+	// const signInMutation = useMutation<string, Error, string>(
+	// 	async (SSN: string) => {
+	// 		const userSSN = await GetRafraenSkilriki(SSN);
+	// 		const userId = await GetUserId(userSSN);
+	// 		return userId;
+	// 	},
+	// 	{
+	// 		onSuccess: (userId: string) => {
+	// 			setSession(userId);
+	// 			queryClient.setQueryData(['session'], userId);
+	// 		},
+	// 		onError: (error: Error) => {
+	// 			console.error('Sign-in error:', error);
+	// 		},
+	// 	},
+	// );
 
 	return (
 		<AuthContext.Provider
 			value={{
 				signIn: (SSN: string) => {
-					if (SSN.length !== 10) {
-						return;
-					}
-					// Perform sign-in logic here
-					setSession('xxx');
+					HandleSignIn(SSN);
 				},
 				signOut: () => {
 					setSession(null);
@@ -53,4 +79,4 @@ export function SessionProvider({ children }: PropsWithChildren): JSX.Element {
 			{children}
 		</AuthContext.Provider>
 	);
-}
+};
