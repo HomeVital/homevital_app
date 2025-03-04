@@ -2,8 +2,8 @@ import React from 'react';
 import { TouchableOpacity, View, StyleSheet } from 'react-native';
 import HvLayeredIcon from '../hvLayeredIcon';
 import { TAB_ICON_SIZE } from '@/constants/sizes';
-// import useButtonAnimation from "@/hooks/useButtonAnimation";
-// import Animated from "react-native-reanimated";
+// import useButtonAnimation from '@/hooks/useButtonAnimation';
+// import Animated from 'react-native-reanimated';
 
 interface Props {
 	state: boolean;
@@ -17,24 +17,24 @@ interface Props {
 }
 
 // const useButtonAnimations = (
-//   state: boolean,
-//   radius: number,
-//   roundness: number,
-//   buttons: Props["buttons"],
+// 	state: boolean,
+// 	radius: number,
+// 	roundness: number,
+// 	buttons: Props['buttons'],
 // ) => {
-//   const bottomPaddings = [35, 15, -5, -5, -5];
-//   const filteredButtons = buttons.filter((button) => button.isVisible);
+// 	const bottomPaddings = [35, 15, -5, -5, -5];
+// 	const filteredButtons = buttons.filter((button) => button.isVisible);
 
-//   return filteredButtons.map((button, index) =>
-//     useButtonAnimation({
-//       state,
-//       index,
-//       bottom: bottomPaddings[filteredButtons.length - 1],
-//       radius,
-//       roundness,
-//       buttonsLength: filteredButtons.length,
-//     }),
-//   );
+// 	return filteredButtons.map((button, index) =>
+// 		useButtonAnimation({
+// 			state,
+// 			index,
+// 			bottom: bottomPaddings[filteredButtons.length - 1],
+// 			radius,
+// 			roundness,
+// 			buttonsLength: filteredButtons.length,
+// 		}),
+// 	);
 // };
 
 const HvTabButtonWheel = ({ state, radius, roundness, buttons }: Props): JSX.Element => {
@@ -46,7 +46,7 @@ const HvTabButtonWheel = ({ state, radius, roundness, buttons }: Props): JSX.Ele
 				if (!button.isVisible) return null;
 				return (
 					<TouchableOpacity key={index} onPress={button.onPress}>
-						{/* <Animated.View style={buttonStyles[tmpIndex]}> */}
+						{/* <Animated.View style={buttonStyles[index]}> */}
 						<HvLayeredIcon
 							size={TAB_ICON_SIZE * 2}
 							outerIcon={require('@/assets/svgs/filledCircle.svg')}

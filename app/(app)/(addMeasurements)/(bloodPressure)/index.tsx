@@ -1,5 +1,7 @@
 import { useState } from 'react';
 import { View } from 'react-native';
+import axios from 'axios';
+import { router } from 'expo-router';
 // components
 import HvScrollView from '@/components/ui/HvScrollView';
 import HvInputForm from '@/components/ui/hvInputForm/hvInputForm';
@@ -8,8 +10,19 @@ import { STYLES } from '@/constants/styles';
 import HvToggleSelect from '@/components/ui/hvInputForm/hvToggleSelect';
 import HvInputField from '@/components/ui/hvInputForm/hvInputField';
 import HvInputFormContainer from '@/components/ui/hvInputForm/hvInputFormContainer';
+import { BLOODPRESSURE_URL } from '@/constants/api';
+import { useSession } from '@/authentication/ctx';
+import { useMutation, useQueryClient } from '@tanstack/react-query';
+import { AddBloodPressure } from '@/interfaces/bloodPressureInterfaces';
+
+const postBloodPressure = async (sessionId: string, measurement: AddBloodPressure) => {
+	const response = await axios.post(`${BLOODPRESSURE_URL}/${sessionId}`, measurement);
+	return response.data;
+};
 
 const BloodPressure = (): JSX.Element => {
+	const queryClient = useQueryClient();
+	const { session } = useSession();
 	// radio buttons
 	const [hand, setHand] = useState('Hægri');
 	const [position, setPosition] = useState('Sitjandi');
@@ -18,10 +31,37 @@ const BloodPressure = (): JSX.Element => {
 	const [dia, setDia] = useState('');
 	const [pulse, setPulse] = useState('');
 
+	const { mutateAsync: addMutation } = useMutation({
+		mutationFn: async (measurement: AddBloodPressure) =>
+			postBloodPressure(session?.toString() || '', measurement),
+		onSuccess: () => {
+			// route back to main screen
+			queryClient.invalidateQueries({ queryKey: ['bloodpressure'] });
+			if (router.canGoBack()) router.back();
+		},
+	});
+
 	return (
 		<HvScrollView>
 			<View style={STYLES.defaultView}>
-				<HvInputForm onPress={() => {}}>
+				<HvInputForm
+					onPress={async () => {
+						try {
+							await addMutation({
+								patientID: parseInt(session?.toString() || '0', 10),
+								measureHand: hand === 'Vinstri' ? 'Left' : 'Right',
+								bodyPosition: position === 'Sitjandi' ? 'Sitting' : 'Laying',
+								systolic: parseInt(sys, 10),
+								diastolic: parseInt(dia, 10),
+								pulse: parseInt(pulse, 10),
+								date: new Date().toISOString(),
+								status: 'pending',
+							});
+						} catch (error) {
+							console.error('Error adding blood pressure:', error);
+						}
+					}}
+				>
 					<HvInputFormContainer>
 						<HvToggleSelect
 							itemState={hand}

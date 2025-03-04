@@ -1,8 +1,6 @@
 import { useContext, createContext, type PropsWithChildren } from 'react';
 import { useStorageState } from './useStorageState';
-import { GetRafraenSkilriki, GetUserId } from './queries';
-// import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
-// import { LOGIN_URL } from '@/constants/api';
+import { GetRafraenSkilriki, GetUserId } from '@/queries/queries';
 
 const AuthContext = createContext<{
 	signIn: (SSN: string) => void;
@@ -39,7 +37,8 @@ export const SessionProvider = ({ children }: PropsWithChildren): JSX.Element =>
 	const HandleSignIn = async (SSN: string) => {
 		try {
 			const userSSN = await GetRafraenSkilriki(SSN);
-			const userId = await GetUserId(userSSN);
+			const userId = await GetUserId(String(userSSN));
+
 			setSession(userId);
 		} catch (error) {
 			console.error('Sign-in error:', error);
