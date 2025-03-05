@@ -1,23 +1,23 @@
-import { StyleSheet, TouchableOpacity, View } from 'react-native';
-// constants
-import { STYLES } from '@/constants/styles';
-import { WHITE } from '@/constants/colors';
-import HvText from '@/components/ui/hvText';
+import { StyleSheet, View } from 'react-native';
 import { Image } from 'expo-image';
-import { WIN_WIDTH } from '@/constants/window';
-import { PADDING } from '@/constants/sizes';
+// components
+import HvToggler from '@/components/ui/hvToggler';
+import { STYLES } from '@/constants/styles';
+import HvText from '@/components/ui/hvText';
 import { useSession } from '@/authentication/ctx';
 import { useQuery } from '@tanstack/react-query';
 import { fetchBodyTemperature } from '@/queries/queries';
+import HvScrollView from '@/components/ui/HvScrollView';
+import { useState } from 'react';
+import HvCard from '@/components/ui/hvCard';
+import { formatDate } from '@/utility/utility';
+import { PADDING } from '@/constants/sizes';
 
-const MainMeasurements = (): JSX.Element => {
+const Temperature = (): JSX.Element => {
 	const { session } = useSession();
+	const [toggle, setToggle] = useState(false);
 
-	const {
-		data: bodytemperature,
-		isError,
-		isLoading,
-	} = useQuery({
+	const { data, isError, isLoading } = useQuery({
 		queryKey: ['bodytemperature'],
 		queryFn: async () => fetchBodyTemperature(session?.toString() || ''),
 	});
@@ -39,61 +39,50 @@ const MainMeasurements = (): JSX.Element => {
 	}
 
 	return (
-		// <HvScrollView>
-		<View style={STYLES.imageView}>
-			<View style={Styles.container}>
-				{bodytemperature && bodytemperature.length > 0 && (
-					<View style={Styles.itemContainer}>
-						<TouchableOpacity
-							style={Styles.item}
-							// onPress={() =>
-							// 	handleTabRoute(
-							// 		'/app/measurements/bloodPressure',
-							// 		'/app/measurements',
-							// 	)
-							// }
-						>
-							<Image
-								source={require('@/assets/images/heartDark.png')}
-								contentFit='contain'
-								style={Styles.itemImage}
-							/>
-							<HvText>Blóðþrýstingur</HvText>
-						</TouchableOpacity>
-					</View>
-				)}
+		<HvScrollView>
+			<View style={STYLES.defaultView}>
+				<HvToggler
+					toggled={toggle}
+					setToggled={setToggle}
+					textLeft='Graf'
+					textRight='Mælingar'
+				/>
+				<View style={Styles.container}>
+					{data?.map((item) => (
+						<HvCard key={item.id} style={{ paddingInline: 20, height: 80 }}>
+							<View style={Styles.left}>
+								<Image
+									source={require('@/assets/svgs/measurementLabel/good.svg')}
+									contentFit='contain'
+									style={Styles.indicator}
+								/>
+								<HvText weight='semibold'>{formatDate(item.date)}</HvText>
+							</View>
+							<HvText size='xxl' weight='semibold'>
+								{item.temperature} °C
+							</HvText>
+						</HvCard>
+					))}
+				</View>
 			</View>
-		</View>
-		// </HvScrollView>
+		</HvScrollView>
 	);
 };
 
 const Styles = StyleSheet.create({
 	container: {
-		display: 'flex',
-		flexDirection: 'row',
-		flexWrap: 'wrap',
-		width: '100%',
-		padding: PADDING,
+		paddingVertical: PADDING,
+		gap: 12,
 	},
-	itemContainer: {
-		width: WIN_WIDTH / 2 - PADDING,
-		height: WIN_WIDTH / 2 - PADDING,
-		padding: PADDING,
-	},
-	item: {
-		justifyContent: 'center',
-		alignItems: 'center',
-		width: '100%',
+	left: {
 		height: '100%',
-		borderRadius: 10,
-		backgroundColor: WHITE,
-		boxShadow: '0px 2px 4px rgba(0, 0, 0, 0.25)',
+		justifyContent: 'space-evenly',
+		alignItems: 'center',
 	},
-	itemImage: {
-		width: '70%',
-		minHeight: '70%',
+	indicator: {
+		width: 26,
+		height: 26,
 	},
 });
 
-export default MainMeasurements;
+export default Temperature;

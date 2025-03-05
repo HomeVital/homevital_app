@@ -1,16 +1,8 @@
 import { WHITE } from '@/constants/colors';
 import { StyleSheet, ViewProps, View } from 'react-native';
 
-interface Props extends ViewProps {
-	key?: number;
-}
-
-const HvCard = ({ key, ...props }: Props): JSX.Element => {
-	return (
-		<View {...(key ? { key } : {})} style={[props.style, Styles.item]}>
-			{props.children}
-		</View>
-	);
+const HvCard = ({ ...props }: ViewProps): JSX.Element => {
+	return <View style={[props.style, Styles.item]}>{props.children}</View>;
 };
 
 const Styles = StyleSheet.create({

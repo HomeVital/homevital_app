@@ -11,16 +11,13 @@ import HvScrollView from '@/components/ui/HvScrollView';
 import { useState } from 'react';
 import HvCard from '@/components/ui/hvCard';
 import { formatDate } from '@/utility/utility';
+import { PADDING } from '@/constants/sizes';
 
 const Weight = (): JSX.Element => {
 	const { session } = useSession();
 	const [toggle, setToggle] = useState(false);
 
-	const {
-		data: bodyweight,
-		isError,
-		isLoading,
-	} = useQuery({
+	const { data, isError, isLoading } = useQuery({
 		queryKey: ['bodyweight'],
 		queryFn: async () => fetchBodyWeight(session?.toString() || ''),
 	});
@@ -50,9 +47,9 @@ const Weight = (): JSX.Element => {
 					textLeft='Graf'
 					textRight='Mælingar'
 				/>
-				<View>
-					{bodyweight?.map((item) => (
-						<HvCard key={item.id} style={{ paddingInline: 20 }}>
+				<View style={Styles.container}>
+					{data?.map((item) => (
+						<HvCard key={item.id} style={{ paddingInline: 20, height: 80 }}>
 							<View style={Styles.left}>
 								<Image
 									source={require('@/assets/svgs/measurementLabel/good.svg')}
@@ -73,6 +70,10 @@ const Weight = (): JSX.Element => {
 };
 
 const Styles = StyleSheet.create({
+	container: {
+		paddingVertical: PADDING,
+		gap: 12,
+	},
 	left: {
 		height: '100%',
 		justifyContent: 'space-evenly',
