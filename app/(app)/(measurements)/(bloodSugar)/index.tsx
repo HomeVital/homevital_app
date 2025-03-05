@@ -49,7 +49,7 @@ const BloodSugar = (): JSX.Element => {
 				/>
 				<View style={Styles.container}>
 					{data?.map((item) => (
-						<HvCard key={item.id} style={{ paddingInline: 20, height: 80 }}>
+						<HvCard key={item.id} style={{ paddingInline: 20, height: 90 }}>
 							<View style={Styles.left}>
 								<Image
 									source={require('@/assets/svgs/measurementLabel/good.svg')}
