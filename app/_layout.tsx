@@ -15,6 +15,7 @@ const queryClient = new QueryClient();
 const RootLayout = (): JSX.Element => {
 	const [loaded] = useFonts({
 		OpenSans: require('../assets/fonts/OpenSans-Regular.ttf'),
+		OpenSansBold: require('../assets/fonts/OpenSans-Bold.ttf'),
 		OpenSansSemibold: require('../assets/fonts/OpenSans-Semibold.ttf'),
 		OpenSansLight: require('../assets/fonts/OpenSans-Light.ttf'),
 	});

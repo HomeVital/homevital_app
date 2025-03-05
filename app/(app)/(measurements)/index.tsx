@@ -1,4 +1,5 @@
 import { StyleSheet, TouchableOpacity, View } from 'react-native';
+import { RelativePathString, router } from 'expo-router';
 // components
 // import HvScrollView from '@/components/ui/HvScrollView';
 // constants
@@ -19,6 +20,11 @@ import {
 
 const MainMeasurements = (): JSX.Element => {
 	const { session } = useSession();
+
+	// for updating routes right
+	const handleTabRoute = (route: string): void => {
+		router.push(route as RelativePathString);
+	};
 
 	const { data: bloodpressure, isLoading: bpLoading } = useQuery({
 		queryKey: ['bloodpressure'],
@@ -56,7 +62,7 @@ const MainMeasurements = (): JSX.Element => {
 					<View style={Styles.itemContainer}>
 						<TouchableOpacity
 							style={Styles.item}
-							// onPress={() => }
+							onPress={() => handleTabRoute('/(app)/(measurements)/(bloodPressure)')}
 						>
 							<Image
 								source={require('@/assets/images/heartDark.png')}
@@ -72,7 +78,7 @@ const MainMeasurements = (): JSX.Element => {
 					<View style={Styles.itemContainer}>
 						<TouchableOpacity
 							style={Styles.item}
-							// onPress={() => }
+							onPress={() => handleTabRoute('/(app)/(measurements)/(bloodSugar)')}
 						>
 							<Image
 								source={require('@/assets/images/waterDark.png')}
@@ -88,7 +94,7 @@ const MainMeasurements = (): JSX.Element => {
 					<View style={Styles.itemContainer}>
 						<TouchableOpacity
 							style={Styles.item}
-							// onPress={() => }
+							onPress={() => handleTabRoute('/(app)/(measurements)/(weight)')}
 						>
 							<Image
 								source={require('@/assets/images/scaleDark.png')}
@@ -104,7 +110,7 @@ const MainMeasurements = (): JSX.Element => {
 					<View style={Styles.itemContainer}>
 						<TouchableOpacity
 							style={Styles.item}
-							// onPress={() => }
+							onPress={() => handleTabRoute('/(app)/(measurements)/(temperature)')}
 						>
 							<Image
 								source={require('@/assets/images/warmDark.png')}
@@ -144,8 +150,8 @@ const Styles = StyleSheet.create({
 		boxShadow: '0px 2px 4px rgba(0, 0, 0, 0.25)',
 	},
 	itemImage: {
-		width: '80%',
-		minHeight: '80%',
+		width: '70%',
+		minHeight: '70%',
 	},
 });
 

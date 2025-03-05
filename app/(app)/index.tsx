@@ -48,36 +48,36 @@ const MainScreen = (): JSX.Element => {
 		);
 	}
 
-	if (!patient) {
-		return <></>;
-	}
-
 	return (
 		<SafeAreaView>
-			<HvHeader name={patient.name} />
-			<HvScrollView>
-				<View style={STYLES.defaultView}>
-					<HvText weight='semibold' size='l'>
-						Seinustu Mælingar
-					</HvText>
-					{measurements?.map((measurement: IBloodPressure) => (
-						<Card key={measurement.id}>
-							<Card.Content>
-								<HvText>{measurement.patientID}</HvText>
-								<View>
-									<HvText>{measurement.measureHand}</HvText>
-									<HvText>{measurement.bodyPosition}</HvText>
-									<HvText>{measurement.systolic}</HvText>
-									<HvText>{measurement.diastolic}</HvText>
-									<HvText>{measurement.pulse}</HvText>
-									<HvText>{measurement.date}</HvText>
-									<HvText>{measurement.status}</HvText>
-								</View>
-							</Card.Content>
-						</Card>
-					))}
-				</View>
-			</HvScrollView>
+			{patient && (
+				<>
+					<HvHeader name={patient.name} />
+					<HvScrollView>
+						<View style={STYLES.defaultView}>
+							<HvText weight='semibold' size='l'>
+								Seinustu Mælingar
+							</HvText>
+							{measurements?.map((measurement: IBloodPressure) => (
+								<Card key={measurement.id}>
+									<Card.Content>
+										<HvText>{measurement.patientID}</HvText>
+										<View>
+											<HvText>{measurement.measureHand}</HvText>
+											<HvText>{measurement.bodyPosition}</HvText>
+											<HvText>{measurement.systolic}</HvText>
+											<HvText>{measurement.diastolic}</HvText>
+											<HvText>{measurement.pulse}</HvText>
+											<HvText>{measurement.date}</HvText>
+											<HvText>{measurement.status}</HvText>
+										</View>
+									</Card.Content>
+								</Card>
+							))}
+						</View>
+					</HvScrollView>
+				</>
+			)}
 		</SafeAreaView>
 	);
 };

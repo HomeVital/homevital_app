@@ -23,16 +23,10 @@ const HvToggleSelect = ({
 	rightText,
 }: Props): JSX.Element => {
 	const selectLeft = (): void => {
-		// if (itemState == leftText)
-		//     setItemState('');
-		// else
 		setItemState(leftText);
 	};
 
 	const selectRight = (): void => {
-		// if (itemState == rightText)
-		//     setItemState('');
-		// else
 		setItemState(rightText);
 	};
 

@@ -5,7 +5,7 @@ import { TouchableOpacity } from 'react-native';
 import { LIGHT_THEME } from '@/constants/colors';
 import { STYLES as Styles } from '@/constants/styles';
 
-const MeasurementsLayout = (): JSX.Element => {
+const AddBloodPressureLayout = (): JSX.Element => {
 	// This layout can be deferred because it's not the root layout.
 	return (
 		<Stack
@@ -21,7 +21,7 @@ const MeasurementsLayout = (): JSX.Element => {
 			<Stack.Screen
 				name='index'
 				options={{
-					title: 'Mælingar',
+					title: 'Blóðsykur',
 					headerTitleStyle: {
 						...Styles.headerTitle,
 					},
@@ -38,32 +38,8 @@ const MeasurementsLayout = (): JSX.Element => {
 					),
 				}}
 			/>
-			<Stack.Screen
-				name='(bloodPressure)'
-				options={{
-					headerShown: false,
-				}}
-			/>
-			<Stack.Screen
-				name='(bloodSugar)'
-				options={{
-					headerShown: false,
-				}}
-			/>
-			<Stack.Screen
-				name='(temperature)'
-				options={{
-					headerShown: false,
-				}}
-			/>
-			<Stack.Screen
-				name='(weight)'
-				options={{
-					headerShown: false,
-				}}
-			/>
 		</Stack>
 	);
 };
 
-export default MeasurementsLayout;
+export default AddBloodPressureLayout;

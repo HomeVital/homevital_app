@@ -13,9 +13,9 @@ import HvInputFormContainer from '@/components/ui/hvInputForm/hvInputFormContain
 import { BLOODPRESSURE_URL } from '@/constants/api';
 import { useSession } from '@/authentication/ctx';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
-import { AddBloodPressure } from '@/interfaces/bloodPressureInterfaces';
+import { IAddBloodPressure } from '@/interfaces/bloodPressureInterfaces';
 
-const postBloodPressure = async (sessionId: string, measurement: AddBloodPressure) => {
+const postBloodPressure = async (sessionId: string, measurement: IAddBloodPressure) => {
 	const response = await axios.post(`${BLOODPRESSURE_URL}/${sessionId}`, measurement);
 	return response.data;
 };
@@ -32,7 +32,7 @@ const BloodPressure = (): JSX.Element => {
 	const [pulse, setPulse] = useState('');
 
 	const { mutateAsync: addMutation } = useMutation({
-		mutationFn: async (measurement: AddBloodPressure) =>
+		mutationFn: async (measurement: IAddBloodPressure) =>
 			postBloodPressure(session?.toString() || '', measurement),
 		onSuccess: () => {
 			// route back to main screen

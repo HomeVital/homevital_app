@@ -15,6 +15,9 @@ const HvText = ({ ...props }: Props): JSX.Element => {
 	const textAlign = props.center ? Styles.center : null;
 
 	switch (props.weight) {
+		case 'bold':
+			fontWeight = Styles.bold;
+			break;
 		case 'semibold':
 			fontWeight = Styles.semibold;
 			break;
@@ -75,6 +78,9 @@ const Styles = StyleSheet.create({
 	},
 	semibold: {
 		fontFamily: 'OpenSansSemibold',
+	},
+	bold: {
+		fontFamily: 'OpenSansBold',
 	},
 	light: {
 		fontFamily: 'OpenSansLight',
