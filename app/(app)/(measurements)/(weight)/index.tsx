@@ -1,4 +1,4 @@
-import { StyleSheet, View } from 'react-native';
+import { ActivityIndicator, StyleSheet, View } from 'react-native';
 import { Image } from 'expo-image';
 // components
 import HvToggler from '@/components/ui/hvToggler';
@@ -25,7 +25,7 @@ const Weight = (): JSX.Element => {
 	if (isError) {
 		return (
 			<View style={STYLES.defaultView}>
-				<HvText>Error loading bloodpressure measurements</HvText>
+				<HvText>Error loading</HvText>
 			</View>
 		);
 	}
@@ -33,7 +33,7 @@ const Weight = (): JSX.Element => {
 	if (isLoading) {
 		return (
 			<View style={STYLES.defaultView}>
-				<HvText>Loading...</HvText>
+				<ActivityIndicator size='large' color='#3A7283' />
 			</View>
 		);
 	}

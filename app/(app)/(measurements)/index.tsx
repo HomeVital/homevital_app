@@ -1,4 +1,4 @@
-import { StyleSheet, TouchableOpacity, View } from 'react-native';
+import { ActivityIndicator, StyleSheet, TouchableOpacity, View } from 'react-native';
 import { RelativePathString, router } from 'expo-router';
 // components
 // import HvScrollView from '@/components/ui/HvScrollView';
@@ -49,7 +49,7 @@ const MainMeasurements = (): JSX.Element => {
 	if (bpLoading || bsLoading || btLoading || bwLoading) {
 		return (
 			<View style={STYLES.defaultView}>
-				<HvText>Loading...</HvText>
+				<ActivityIndicator size='large' color='#3A7283' />
 			</View>
 		);
 	}
