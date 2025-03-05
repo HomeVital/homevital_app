@@ -1,7 +1,18 @@
-import { BLOODPRESSURE_URL, LOGIN_URL, MOCK_LOGIN_URL, PATIENT_URL } from '@/constants/api';
+import {
+	BLOODPRESSURE_URL,
+	BLOODSUGAR_URL,
+	BODYTEMPERATURE_URL,
+	BODYWEIGHT_URL,
+	LOGIN_URL,
+	MOCK_LOGIN_URL,
+	PATIENT_URL,
+} from '@/constants/api';
 import axios from 'axios';
-import { GetPatient } from '@/interfaces/patientInterfaces';
-import { GetBloodPressure } from '@/interfaces/bloodPressureInterfaces';
+import { IPatient } from '@/interfaces/patientInterfaces';
+import { IBloodPressure } from '@/interfaces/bloodPressureInterfaces';
+import { IBloodSugar } from '@/interfaces/bloodSugarInterfaces';
+import { IBodyTemperature } from '@/interfaces/bodyTemperatureInterfaces';
+import { IBodyWeight } from '@/interfaces/bodyWeightInterfaces';
 
 /**
  * Sends a POST request to the MOCK_LOGIN_URL with the provided social security number (ssn).
@@ -53,13 +64,39 @@ export const GetUserId = async (SSN: string): Promise<string> => {
 };
 
 // get measurements by patient id
-export const fetchBloodPressure = async (sessionId: string): Promise<GetBloodPressure[]> => {
+export const fetchBloodPressure = async (sessionId: string): Promise<IBloodPressure[]> => {
 	const response = await axios.get(`${BLOODPRESSURE_URL}/${sessionId}`);
 	return response.data;
 };
 
+export const fetchBloodSugar = async (sessionId: string): Promise<IBloodSugar[]> => {
+	const response = await axios.get(`${BLOODSUGAR_URL}/${sessionId}`);
+	return response.data;
+};
+
+export const fetchBodyTemperature = async (sessionId: string): Promise<IBodyTemperature[]> => {
+	const response = await axios.get(`${BODYTEMPERATURE_URL}/${sessionId}`);
+	return response.data;
+};
+
+export const fetchBodyWeight = async (sessionId: string): Promise<IBodyWeight[]> => {
+	const response = await axios.get(`${BODYWEIGHT_URL}/${sessionId}`);
+	return response.data;
+};
+
+// // get measurements by patient id
+// export const fetchBloodOxygen = async (sessionId: string): Promise<GetBloodOxygen[]> => {
+// 	const response = await axios.get(`${BLOODOXYGEN_URL}/${sessionId}`);
+// 	return response.data;
+// };
+
+// export const fetchAllMeasurements = async (sessionId: string): Promise<any[]> => {
+// 	const response = await axios.get(`${MEASUREMENTS_URL}/getById?${sessionId}`);
+// 	return response.data;
+// };
+
 // get measurements by patient id
-export const fetchPatient = async (sessionId: string): Promise<GetPatient> => {
+export const fetchPatient = async (sessionId: string): Promise<IPatient> => {
 	const response = await axios.get(`${PATIENT_URL}/${sessionId}`);
 	return response.data;
 };

@@ -43,12 +43,11 @@ const HvTabBar = (): JSX.Element => {
 
 	// TODO: change later
 	const tempButtons = [
-		// {
-		// 	icon: require('@/assets/svgs/heart.svg') as string,
-		// 	onPress: () => setStackName(handleTabRoute('/(app)/(bloodSugar)', stackName)),
-		// 	isVisible: true,
-		// },
-
+		{
+			icon: require('@/assets/images/warm.png') as string,
+			onPress: () => setStackName(handleTabRoute('/(app)/(temperature)', stackName)),
+			isVisible: true,
+		},
 		{
 			icon: require('@/assets/svgs/heart.svg') as string,
 			onPress: () => setStackName(handleTabRoute('/(app)/(bloodPressure)', stackName)),
@@ -62,13 +61,13 @@ const HvTabBar = (): JSX.Element => {
 		{
 			icon: require('@/assets/svgs/lungs.svg') as string,
 			onPress: () => setStackName(handleTabRoute('/(app)/(bloodOxygen)', stackName)),
+			isVisible: false,
+		},
+		{
+			icon: require('@/assets/images/water.png') as string,
+			onPress: () => setStackName(handleTabRoute('/(app)/(bloodSugar)', stackName)),
 			isVisible: true,
 		},
-		// {
-		// 	icon: require('@/assets/svgs/lungs.svg') as string,
-		// 	onPress: () => setStackName(handleTabRoute('/(app)/(temperature)', stackName)),
-		// 	isVisible: true,
-		// },
 	];
 
 	// const activeButtons = tempButtons.filter((button) => button.isVisible);

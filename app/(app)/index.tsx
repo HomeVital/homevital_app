@@ -7,7 +7,7 @@ import HvText from '@/components/ui/hvText';
 import { STYLES } from '@/constants/styles';
 import { Card } from 'react-native-paper';
 import { useSession } from '@/authentication/ctx';
-import { GetBloodPressure } from '@/interfaces/bloodPressureInterfaces';
+import { IBloodPressure } from '@/interfaces/bloodPressureInterfaces';
 import HvScrollView from '@/components/ui/HvScrollView';
 import { fetchBloodPressure, fetchPatient } from '@/queries/queries';
 
@@ -60,7 +60,7 @@ const MainScreen = (): JSX.Element => {
 					<HvText weight='semibold' size='l'>
 						Seinustu Mælingar
 					</HvText>
-					{measurements?.map((measurement: GetBloodPressure) => (
+					{measurements?.map((measurement: IBloodPressure) => (
 						<Card key={measurement.id}>
 							<Card.Content>
 								<HvText>{measurement.patientID}</HvText>

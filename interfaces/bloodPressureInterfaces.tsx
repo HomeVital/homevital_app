@@ -1,14 +1,14 @@
-export interface AddBloodPressure {
+export interface IAddBloodPressure {
 	patientID: number;
 	measureHand: string;
 	bodyPosition: string;
 	systolic: number;
 	diastolic: number;
 	pulse: number;
-	date: string;
 	status: string;
+	date: string;
 }
 
-export interface GetBloodPressure extends AddBloodPressure {
+export interface IBloodPressure extends IAddBloodPressure {
 	id: number;
 }
