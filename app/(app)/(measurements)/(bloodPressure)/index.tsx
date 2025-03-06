@@ -39,61 +39,64 @@ const BloodPressure = (): JSX.Element => {
 	}
 
 	return (
-		<HvScrollView>
-			<View style={STYLES.defaultView}>
-				<HvToggler
-					toggled={toggle}
-					setToggled={setToggle}
-					textLeft='Graf'
-					textRight='Mælingar'
-				/>
+		<View style={STYLES.defaultView}>
+			<HvToggler
+				toggled={toggle}
+				setToggled={setToggle}
+				textLeft='Graf'
+				textRight='Mælingar'
+			/>
+			<HvScrollView>
 				<View style={Styles.container}>
-					{data?.map((item) => (
-						<HvCard key={item.id} style={{ paddingInline: 20, height: 90 }}>
-							<View style={Styles.left}>
-								<Image
-									source={require('@/assets/svgs/measurementLabel/good.svg')}
-									contentFit='contain'
-									style={Styles.indicator}
-								/>
-								<HvText weight='semibold'>{formatDate(item.date)}</HvText>
-							</View>
-							<HvText size='xxl' weight='semibold'>
-								{item.systolic}/{item.diastolic}
-							</HvText>
-							<View style={Styles.right}>
-								{item.bodyPosition === 'Laying' ? (
+					{data
+						?.slice()
+						.reverse()
+						.map((item) => (
+							<HvCard key={item.id} style={{ paddingInline: 20, height: 90 }}>
+								<View style={Styles.left}>
 									<Image
-										source={require('@/assets/svgs/laying.svg')}
+										source={require('@/assets/svgs/measurementLabel/good.svg')}
 										contentFit='contain'
 										style={Styles.indicator}
 									/>
-								) : (
-									<Image
-										source={require('@/assets/svgs/sitting.svg')}
-										contentFit='contain'
-										style={Styles.indicator}
-									/>
-								)}
-								{item.measureHand === 'Left' ? (
-									<Image
-										source={require('@/assets/svgs/handLeft.svg')}
-										contentFit='contain'
-										style={Styles.indicator}
-									/>
-								) : (
-									<Image
-										source={require('@/assets/svgs/handRight.svg')}
-										contentFit='contain'
-										style={Styles.indicator}
-									/>
-								)}
-							</View>
-						</HvCard>
-					))}
+									<HvText weight='semibold'>{formatDate(item.date)}</HvText>
+								</View>
+								<HvText size='xxl' weight='semibold'>
+									{item.systolic}/{item.diastolic}
+								</HvText>
+								<View style={Styles.right}>
+									{item.bodyPosition === 'Laying' ? (
+										<Image
+											source={require('@/assets/svgs/laying.svg')}
+											contentFit='contain'
+											style={Styles.icon}
+										/>
+									) : (
+										<Image
+											source={require('@/assets/svgs/sitting.svg')}
+											contentFit='contain'
+											style={Styles.icon}
+										/>
+									)}
+									{item.measureHand === 'Left' ? (
+										<Image
+											source={require('@/assets/svgs/handLeft.svg')}
+											contentFit='contain'
+											style={Styles.icon}
+										/>
+									) : (
+										<Image
+											source={require('@/assets/svgs/handRight.svg')}
+											contentFit='contain'
+											style={Styles.icon}
+										/>
+									)}
+								</View>
+							</HvCard>
+						))}
 				</View>
-			</View>
-		</HvScrollView>
+			</HvScrollView>
+		</View>
 	);
 };
 
@@ -113,6 +116,10 @@ const Styles = StyleSheet.create({
 	},
 	right: {
 		flexDirection: 'row',
+	},
+	icon: {
+		width: 34,
+		height: 34,
 	},
 });
 

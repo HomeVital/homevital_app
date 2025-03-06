@@ -39,33 +39,36 @@ const BloodSugar = (): JSX.Element => {
 	}
 
 	return (
-		<HvScrollView>
-			<View style={STYLES.defaultView}>
-				<HvToggler
-					toggled={toggle}
-					setToggled={setToggle}
-					textLeft='Graf'
-					textRight='Mælingar'
-				/>
+		<View style={STYLES.defaultView}>
+			<HvToggler
+				toggled={toggle}
+				setToggled={setToggle}
+				textLeft='Graf'
+				textRight='Mælingar'
+			/>
+			<HvScrollView>
 				<View style={Styles.container}>
-					{data?.map((item) => (
-						<HvCard key={item.id} style={{ paddingInline: 20, height: 90 }}>
-							<View style={Styles.left}>
-								<Image
-									source={require('@/assets/svgs/measurementLabel/good.svg')}
-									contentFit='contain'
-									style={Styles.indicator}
-								/>
-								<HvText weight='semibold'>{formatDate(item.date)}</HvText>
-							</View>
-							<HvText size='xxl' weight='semibold'>
-								{item.bloodsugarLevel} mmol/L
-							</HvText>
-						</HvCard>
-					))}
+					{data
+						?.slice()
+						.reverse()
+						.map((item) => (
+							<HvCard key={item.id} style={{ paddingInline: 20, height: 90 }}>
+								<View style={Styles.left}>
+									<Image
+										source={require('@/assets/svgs/measurementLabel/good.svg')}
+										contentFit='contain'
+										style={Styles.indicator}
+									/>
+									<HvText weight='semibold'>{formatDate(item.date)}</HvText>
+								</View>
+								<HvText size='xxl' weight='semibold'>
+									{item.bloodsugarLevel} mmol/L
+								</HvText>
+							</HvCard>
+						))}
 				</View>
-			</View>
-		</HvScrollView>
+			</HvScrollView>
+		</View>
 	);
 };
 

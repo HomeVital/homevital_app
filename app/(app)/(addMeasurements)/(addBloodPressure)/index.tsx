@@ -35,33 +35,31 @@ const BloodPressure = (): JSX.Element => {
 		mutationFn: async (measurement: IAddBloodPressure) =>
 			postBloodPressure(session?.toString() || '', measurement),
 		onSuccess: () => {
-			// route back to main screen
 			queryClient.invalidateQueries({ queryKey: ['bloodpressure'] });
 			if (router.canGoBack()) router.back();
 		},
 	});
 
+	const HandleMutation = async (): Promise<void> => {
+		try {
+			await addMutation({
+				patientID: parseInt(session?.toString() || '0', 10),
+				measureHand: hand === 'Vinstri' ? 'Left' : 'Right',
+				bodyPosition: position === 'Sitjandi' ? 'Sitting' : 'Laying',
+				systolic: parseInt(sys, 10),
+				diastolic: parseInt(dia, 10),
+				pulse: parseInt(pulse, 10),
+				status: 'pending',
+			});
+		} catch (error) {
+			console.error('Error adding blood pressure:', error);
+		}
+	};
+
 	return (
 		<HvScrollView>
 			<View style={STYLES.defaultView}>
-				<HvInputForm
-					onPress={async () => {
-						try {
-							await addMutation({
-								patientID: parseInt(session?.toString() || '0', 10),
-								measureHand: hand === 'Vinstri' ? 'Left' : 'Right',
-								bodyPosition: position === 'Sitjandi' ? 'Sitting' : 'Laying',
-								systolic: parseInt(sys, 10),
-								diastolic: parseInt(dia, 10),
-								pulse: parseInt(pulse, 10),
-								date: new Date().toISOString(),
-								status: 'pending',
-							});
-						} catch (error) {
-							console.error('Error adding blood pressure:', error);
-						}
-					}}
-				>
+				<HvInputForm onPress={HandleMutation}>
 					<HvInputFormContainer>
 						<HvToggleSelect
 							itemState={hand}

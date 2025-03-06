@@ -17,8 +17,8 @@ const HvTabBar = (): JSX.Element => {
 	// for updating routes right
 	const handleTabRoute = (route: string, prev: string): string => {
 		setAddOpen(false); // close add tab if open
-		if (router.canGoBack()) {
-			router.back();
+		if (router.canDismiss()) {
+			router.dismiss();
 			if (prev === route) {
 				return route;
 			}
@@ -45,27 +45,27 @@ const HvTabBar = (): JSX.Element => {
 	const tempButtons = [
 		{
 			icon: require('@/assets/images/warm.png') as string,
-			onPress: () => setStackName(handleTabRoute('/(app)/(temperature)', stackName)),
+			onPress: () => setStackName(handleTabRoute('/(app)/(addTemperature)', stackName)),
 			isVisible: true,
 		},
 		{
 			icon: require('@/assets/svgs/heart.svg') as string,
-			onPress: () => setStackName(handleTabRoute('/(app)/(bloodPressure)', stackName)),
+			onPress: () => setStackName(handleTabRoute('/(app)/(addBloodPressure)', stackName)),
 			isVisible: true,
 		},
 		{
 			icon: require('@/assets/svgs/scale.svg') as string,
-			onPress: () => setStackName(handleTabRoute('/(app)/(weight)', stackName)),
+			onPress: () => setStackName(handleTabRoute('/(app)/(addWeight)', stackName)),
 			isVisible: true,
 		},
 		{
 			icon: require('@/assets/svgs/lungs.svg') as string,
-			onPress: () => setStackName(handleTabRoute('/(app)/(bloodOxygen)', stackName)),
+			onPress: () => setStackName(handleTabRoute('/(app)/(addBloodOxygen)', stackName)),
 			isVisible: false,
 		},
 		{
 			icon: require('@/assets/images/water.png') as string,
-			onPress: () => setStackName(handleTabRoute('/(app)/(bloodSugar)', stackName)),
+			onPress: () => setStackName(handleTabRoute('/(app)/(addBloodSugar)', stackName)),
 			isVisible: true,
 		},
 	];

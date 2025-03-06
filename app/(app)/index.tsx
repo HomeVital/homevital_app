@@ -5,34 +5,23 @@ import { useQuery } from '@tanstack/react-query';
 import HvHeader from '@/components/homeScreen/hvHeader';
 import HvText from '@/components/ui/hvText';
 import { STYLES } from '@/constants/styles';
-import { Card } from 'react-native-paper';
 import { useSession } from '@/authentication/ctx';
-import { IBloodPressure } from '@/interfaces/bloodPressureInterfaces';
 import HvScrollView from '@/components/ui/HvScrollView';
-import { fetchBloodPressure, fetchPatient } from '@/queries/queries';
+import { fetchPatient } from '@/queries/queries';
 
 const MainScreen = (): JSX.Element => {
 	const { session } = useSession();
 
 	const {
-		data: measurements,
-		isError,
-		isLoading,
-	} = useQuery({
-		queryKey: ['bloodpressure'],
-		queryFn: async () => fetchBloodPressure(session?.toString() || ''),
-	});
-
-	const {
 		data: patient,
-		isError: userError,
-		isLoading: userLoading,
+		isError: pError,
+		isLoading: pLoading,
 	} = useQuery({
 		queryKey: ['name'],
 		queryFn: async () => fetchPatient(session?.toString() || ''),
 	});
 
-	if (isError || userError) {
+	if (pError) {
 		return (
 			<SafeAreaView style={STYLES.defaultView}>
 				<HvText>Error loading</HvText>
@@ -40,7 +29,7 @@ const MainScreen = (): JSX.Element => {
 		);
 	}
 
-	if (isLoading || userLoading) {
+	if (pLoading) {
 		return (
 			<SafeAreaView style={STYLES.defaultView}>
 				<ActivityIndicator size='large' color='#3A7283' />
@@ -58,22 +47,6 @@ const MainScreen = (): JSX.Element => {
 							<HvText weight='semibold' size='l'>
 								Seinustu Mælingar
 							</HvText>
-							{measurements?.map((measurement: IBloodPressure) => (
-								<Card key={measurement.id}>
-									<Card.Content>
-										<HvText>{measurement.patientID}</HvText>
-										<View>
-											<HvText>{measurement.measureHand}</HvText>
-											<HvText>{measurement.bodyPosition}</HvText>
-											<HvText>{measurement.systolic}</HvText>
-											<HvText>{measurement.diastolic}</HvText>
-											<HvText>{measurement.pulse}</HvText>
-											<HvText>{measurement.date}</HvText>
-											<HvText>{measurement.status}</HvText>
-										</View>
-									</Card.Content>
-								</Card>
-							))}
 						</View>
 					</HvScrollView>
 				</>
