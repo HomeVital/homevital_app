@@ -48,7 +48,7 @@ const MainMeasurements = (): JSX.Element => {
 
 	if (bpLoading || bsLoading || btLoading || bwLoading) {
 		return (
-			<View style={STYLES.defaultView}>
+			<View style={STYLES.loadingView}>
 				<ActivityIndicator size='large' color='#3A7283' />
 			</View>
 		);

@@ -24,7 +24,7 @@ const BloodSugar = (): JSX.Element => {
 
 	if (isError) {
 		return (
-			<View style={STYLES.defaultView}>
+			<View style={STYLES.loadingView}>
 				<HvText>Error loading</HvText>
 			</View>
 		);
@@ -32,7 +32,7 @@ const BloodSugar = (): JSX.Element => {
 
 	if (isLoading) {
 		return (
-			<View style={STYLES.defaultView}>
+			<View style={STYLES.loadingView}>
 				<ActivityIndicator size='large' color='#3A7283' />
 			</View>
 		);

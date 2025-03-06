@@ -23,7 +23,7 @@ const MainScreen = (): JSX.Element => {
 
 	if (pError) {
 		return (
-			<SafeAreaView style={STYLES.defaultView}>
+			<SafeAreaView style={STYLES.loadingView}>
 				<HvText>Error loading</HvText>
 			</SafeAreaView>
 		);
@@ -31,7 +31,7 @@ const MainScreen = (): JSX.Element => {
 
 	if (pLoading) {
 		return (
-			<SafeAreaView style={STYLES.defaultView}>
+			<SafeAreaView style={STYLES.loadingView}>
 				<ActivityIndicator size='large' color='#3A7283' />
 			</SafeAreaView>
 		);
