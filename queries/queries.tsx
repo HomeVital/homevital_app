@@ -22,16 +22,7 @@ import { IBodyWeight } from '@/interfaces/bodyWeightInterfaces';
  * @throws {Error} - Throws an error if the response is not ok.
  */
 export const GetRafraenSkilriki = async (ssn: string): Promise<string> => {
-	const response = await axios.post(
-		MOCK_LOGIN_URL,
-		{ kennitala: ssn },
-		{
-			headers: {
-				'Content-Type': 'application/json',
-				accept: 'text/plain',
-			},
-		},
-	);
+	const response = await axios.post(MOCK_LOGIN_URL, { kennitala: ssn });
 	if (response.status !== 200) {
 		console.error('Response:', response);
 		throw new Error('Failed to sign in');
@@ -47,16 +38,7 @@ export const GetRafraenSkilriki = async (ssn: string): Promise<string> => {
  * @throws {Error} - Throws an error if the response is not ok.
  */
 export const GetUserId = async (SSN: string): Promise<string> => {
-	const response = await axios.post(
-		LOGIN_URL,
-		{ kennitala: SSN },
-		{
-			headers: {
-				'Content-Type': 'application/json',
-				accept: 'text/plain',
-			},
-		},
-	);
+	const response = await axios.post(LOGIN_URL, { kennitala: SSN });
 	if (response.status !== 200) {
 		throw new Error('Failed to set session');
 	}
@@ -87,11 +69,6 @@ export const fetchBodyWeight = async (sessionId: string): Promise<IBodyWeight[]>
 // // get measurements by patient id
 // export const fetchBloodOxygen = async (sessionId: string): Promise<GetBloodOxygen[]> => {
 // 	const response = await axios.get(`${BLOODOXYGEN_URL}/${sessionId}`);
-// 	return response.data;
-// };
-
-// export const fetchAllMeasurements = async (sessionId: string): Promise<any[]> => {
-// 	const response = await axios.get(`${MEASUREMENTS_URL}/getById?${sessionId}`);
 // 	return response.data;
 // };
 

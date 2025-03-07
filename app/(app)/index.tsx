@@ -14,20 +14,21 @@ const MainScreen = (): JSX.Element => {
 
 	const {
 		data: patient,
-		isError: pError,
 		isLoading: pLoading,
+		isError: pError,
 	} = useQuery({
-		queryKey: ['name'],
+		queryKey: ['patient'],
 		queryFn: async () => fetchPatient(session?.toString() || ''),
 	});
 
-	if (pError) {
-		return (
-			<SafeAreaView style={STYLES.loadingView}>
-				<HvText>Error loading</HvText>
-			</SafeAreaView>
-		);
-	}
+	// const {
+	// 	data: measurements,
+	// 	isError: mError,
+	// 	isLoading: mLoading,
+	// } = useQuery({
+	// 	queryKey: ['measurements'],
+	// 	queryFn: async () => fetchAllMeasurements(session?.toString() || ''),
+	// });
 
 	if (pLoading) {
 		return (
@@ -36,6 +37,54 @@ const MainScreen = (): JSX.Element => {
 			</SafeAreaView>
 		);
 	}
+
+	if (pError) {
+		return (
+			<SafeAreaView>
+				<HvText>Error loading</HvText>
+			</SafeAreaView>
+		);
+	}
+
+	// if (mError) {
+	// 	return (
+	// 		<SafeAreaView>
+	// 			{patient && (
+	// 				<>
+	// 					<HvHeader name={patient.name} />
+	// 					<HvScrollView>
+	// 						<View style={STYLES.defaultView}>
+	// 							<HvText weight='semibold' size='l'>
+	// 								Seinustu Mælingar
+	// 							</HvText>
+	// 							<HvText>Error loading</HvText>
+	// 						</View>
+	// 					</HvScrollView>
+	// 				</>
+	// 			)}
+	// 		</SafeAreaView>
+	// 	);
+	// }
+
+	// if (mLoading) {
+	// 	return (
+	// 		<SafeAreaView>
+	// 			{patient && (
+	// 				<>
+	// 					<HvHeader name={patient.name} />
+	// 					<HvScrollView>
+	// 						<View style={STYLES.defaultView}>
+	// 							<HvText weight='semibold' size='l'>
+	// 								Seinustu Mælingar
+	// 							</HvText>
+	// 							<ActivityIndicator size='large' color='#3A7283' />
+	// 						</View>
+	// 					</HvScrollView>
+	// 				</>
+	// 			)}
+	// 		</SafeAreaView>
+	// 	);
+	// }
 
 	return (
 		<SafeAreaView>

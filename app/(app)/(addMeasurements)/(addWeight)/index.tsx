@@ -37,7 +37,7 @@ const Weight = (): JSX.Element => {
 		try {
 			await addMutation({
 				patientID: parseInt(session?.toString() || '0', 10),
-				weight: Number(parseFloat(weight).toFixed(1)),
+				weight: Number(weight),
 			});
 		} catch (error) {
 			console.error('Error adding blood pressure:', error);

@@ -10,7 +10,7 @@ import { STYLES } from '@/constants/styles';
 import { useSession } from '@/authentication/ctx';
 import { useQuery } from '@tanstack/react-query';
 import { fetchPatient } from '@/queries/queries';
-import { GetPatient } from '@/interfaces/patientInterfaces';
+import { IPatient } from '@/interfaces/patientInterfaces';
 
 const MainSettings = (): JSX.Element => {
 	const { session } = useSession();
@@ -22,7 +22,7 @@ const MainSettings = (): JSX.Element => {
 		data: patient,
 		isError,
 		isLoading,
-	} = useQuery<GetPatient>({
+	} = useQuery<IPatient>({
 		queryKey: ['patient'],
 		queryFn: async () => fetchPatient(session?.toString() || ''),
 	});

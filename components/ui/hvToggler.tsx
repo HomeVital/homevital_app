@@ -9,11 +9,18 @@ interface Props {
 	setToggled: (value: boolean) => void;
 	textLeft: string;
 	textRight: string;
+	margin?: number;
 }
 
-const HvToggler = ({ toggled, setToggled, textLeft, textRight }: Props): JSX.Element => {
+const HvToggler = ({
+	toggled,
+	setToggled,
+	textLeft,
+	textRight,
+	margin = 0,
+}: Props): JSX.Element => {
 	return (
-		<View style={Styles.container}>
+		<View style={[Styles.container, { marginHorizontal: margin }]}>
 			<TouchableOpacity
 				style={[toggled ? Styles.toggled : {}, Styles.toggler]}
 				onPress={() => setToggled(true)}

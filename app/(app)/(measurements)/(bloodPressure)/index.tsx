@@ -12,6 +12,7 @@ import { useState } from 'react';
 import HvCard from '@/components/ui/hvCard';
 import { formatDate } from '@/utility/utility';
 import { PADDING } from '@/constants/sizes';
+import { TAB_ICON_SIZE } from '@/constants/sizes';
 
 const BloodPressure = (): JSX.Element => {
 	const { session } = useSession();
@@ -39,12 +40,13 @@ const BloodPressure = (): JSX.Element => {
 	}
 
 	return (
-		<View style={STYLES.defaultView}>
+		<View style={STYLES.defaultNoPadView}>
 			<HvToggler
 				toggled={toggle}
 				setToggled={setToggle}
 				textLeft='Graf'
 				textRight='Mælingar'
+				margin={20}
 			/>
 			<HvScrollView>
 				<View style={Styles.container}>
@@ -102,7 +104,9 @@ const BloodPressure = (): JSX.Element => {
 
 const Styles = StyleSheet.create({
 	container: {
+		paddingHorizontal: 20,
 		paddingVertical: PADDING,
+		marginBottom: TAB_ICON_SIZE + PADDING,
 		gap: 12,
 	},
 	left: {

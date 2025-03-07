@@ -11,7 +11,7 @@ import HvScrollView from '@/components/ui/HvScrollView';
 import { useState } from 'react';
 import HvCard from '@/components/ui/hvCard';
 import { formatDate } from '@/utility/utility';
-import { PADDING } from '@/constants/sizes';
+import { PADDING, TAB_ICON_SIZE } from '@/constants/sizes';
 
 const BloodSugar = (): JSX.Element => {
 	const { session } = useSession();
@@ -39,12 +39,13 @@ const BloodSugar = (): JSX.Element => {
 	}
 
 	return (
-		<View style={STYLES.defaultView}>
+		<View style={STYLES.defaultNoPadView}>
 			<HvToggler
 				toggled={toggle}
 				setToggled={setToggle}
 				textLeft='Graf'
 				textRight='Mælingar'
+				margin={20}
 			/>
 			<HvScrollView>
 				<View style={Styles.container}>
@@ -74,7 +75,9 @@ const BloodSugar = (): JSX.Element => {
 
 const Styles = StyleSheet.create({
 	container: {
+		paddingHorizontal: 20,
 		paddingVertical: PADDING,
+		marginBottom: TAB_ICON_SIZE + PADDING,
 		gap: 12,
 	},
 	left: {

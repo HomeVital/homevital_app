@@ -1,4 +1,4 @@
-import { ActivityIndicator, StyleSheet, View } from 'react-native';
+import { ActivityIndicator, StyleSheet, TouchableOpacity, View } from 'react-native';
 import { Image } from 'expo-image';
 // components
 import HvToggler from '@/components/ui/hvToggler';
@@ -11,7 +11,7 @@ import HvScrollView from '@/components/ui/HvScrollView';
 import { useState } from 'react';
 import HvCard from '@/components/ui/hvCard';
 import { formatDate } from '@/utility/utility';
-import { PADDING } from '@/constants/sizes';
+import { PADDING, TAB_ICON_SIZE } from '@/constants/sizes';
 
 const Weight = (): JSX.Element => {
 	const { session } = useSession();
@@ -39,12 +39,13 @@ const Weight = (): JSX.Element => {
 	}
 
 	return (
-		<View style={STYLES.defaultView}>
+		<View style={STYLES.defaultNoPadView}>
 			<HvToggler
 				toggled={toggle}
 				setToggled={setToggle}
 				textLeft='Graf'
 				textRight='Mælingar'
+				margin={20}
 			/>
 			<HvScrollView>
 				<View style={Styles.container}>
@@ -52,19 +53,21 @@ const Weight = (): JSX.Element => {
 						?.slice()
 						.reverse()
 						.map((item) => (
-							<HvCard key={item.id} style={{ paddingInline: 20, height: 90 }}>
-								<View style={Styles.left}>
-									<Image
-										source={require('@/assets/svgs/measurementLabel/good.svg')}
-										contentFit='contain'
-										style={Styles.indicator}
-									/>
-									<HvText weight='semibold'>{formatDate(item.date)}</HvText>
-								</View>
-								<HvText size='xxl' weight='semibold'>
-									{item.weight} Kg
-								</HvText>
-							</HvCard>
+							<TouchableOpacity key={item.id}>
+								<HvCard style={{ paddingInline: 20, height: 90 }}>
+									<View style={Styles.left}>
+										<Image
+											source={require('@/assets/svgs/measurementLabel/good.svg')}
+											contentFit='contain'
+											style={Styles.indicator}
+										/>
+										<HvText weight='semibold'>{formatDate(item.date)}</HvText>
+									</View>
+									<HvText size='xxl' weight='semibold'>
+										{item.weight} Kg
+									</HvText>
+								</HvCard>
+							</TouchableOpacity>
 						))}
 				</View>
 			</HvScrollView>
@@ -74,7 +77,9 @@ const Weight = (): JSX.Element => {
 
 const Styles = StyleSheet.create({
 	container: {
+		paddingHorizontal: 20,
 		paddingVertical: PADDING,
+		marginBottom: TAB_ICON_SIZE + PADDING,
 		gap: 12,
 	},
 	left: {
