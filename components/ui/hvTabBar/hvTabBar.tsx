@@ -61,7 +61,7 @@ const HvTabBar = (): JSX.Element => {
 		{
 			icon: require('@/assets/svgs/lungs.svg') as string,
 			onPress: () => setStackName(handleTabRoute('/(app)/(addBloodOxygen)', stackName)),
-			isVisible: false,
+			isVisible: true,
 		},
 		{
 			icon: require('@/assets/images/water.png') as string,
@@ -83,7 +83,7 @@ const HvTabBar = (): JSX.Element => {
 						// bottom={bottomPaddings[tempButtons.length - 1]}
 						radius={65}
 						roundness={0.5}
-						buttons={tempButtons}
+						buttons={tempButtons.filter((button) => button.isVisible)}
 					/>
 				</Animated.View>
 			</TouchableWithoutFeedback>

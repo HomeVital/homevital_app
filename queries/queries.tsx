@@ -23,10 +23,10 @@ import { IBodyWeight } from '@/interfaces/bodyWeightInterfaces';
  */
 export const GetRafraenSkilriki = async (ssn: string): Promise<string> => {
 	const response = await axios.post(MOCK_LOGIN_URL, { kennitala: ssn });
-	if (response.status !== 200) {
-		console.error('Response:', response);
-		throw new Error('Failed to sign in');
-	}
+	// if (response.status !== 200) {
+	// 	console.error('Response:', response);
+	// 	throw new Error('Failed to sign in');
+	// }
 	return response.data;
 };
 
@@ -39,9 +39,9 @@ export const GetRafraenSkilriki = async (ssn: string): Promise<string> => {
  */
 export const GetUserId = async (SSN: string): Promise<string> => {
 	const response = await axios.post(LOGIN_URL, { kennitala: SSN });
-	if (response.status !== 200) {
-		throw new Error('Failed to set session');
-	}
+	// if (response.status !== 200) {
+	// 	throw new Error('Failed to set session');
+	// }
 	return response.data;
 };
 
