@@ -70,17 +70,11 @@ const HvTabBar = (): JSX.Element => {
 		},
 	];
 
-	// const activeButtons = tempButtons.filter((button) => button.isVisible);
-
-	// const bottomPaddings = [35, 15, -5, -5, -5];
-
 	return (
 		<>
 			<TouchableWithoutFeedback onPressOut={() => setAddOpen(false)}>
 				<Animated.View style={[Styles.animatedContainer, animatedStyle]}>
 					<HvTabButtonWheel
-						state={addOpen}
-						// bottom={bottomPaddings[tempButtons.length - 1]}
 						radius={65}
 						roundness={0.5}
 						buttons={tempButtons.filter((button) => button.isVisible)}
