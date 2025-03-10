@@ -90,7 +90,7 @@ const MainScreen = (): JSX.Element => {
 		<SafeAreaView>
 			{patient && (
 				<>
-					<HvHeader name={patient.name} />
+					<HvHeader name={patient.name.split(' ')[0]} />
 					<HvScrollView>
 						<View style={STYLES.defaultView}>
 							<HvText weight='semibold' size='l'>
