@@ -8,6 +8,7 @@ import HvButton from '@/components/ui/hvButton';
 // constants
 import { GRAY, LIGHT_GREEN, WHITE } from '@/constants/colors';
 import { WIN_WIDTH } from '@/constants/window';
+// import { Svg, Circle, Polygon, Polyline, Path, Rect, G } from 'react-native-svg';
 
 const SignIn = (): JSX.Element => {
 	const { signIn, session } = useSession();
@@ -22,6 +23,16 @@ const SignIn = (): JSX.Element => {
 
 	return (
 		<SafeAreaView style={Styles.container}>
+			{/* <Svg height={20} width={20}>
+				<G>
+					<Path
+						d='M 0 0 L 0 100 L 100 100 L 100 0 Z'
+						fill='red'
+						stroke='blue'
+						strokeWidth='3'
+					/>
+				</G>
+			</Svg> */}
 			<View style={Styles.form}>
 				<TextInput
 					style={Styles.input}
