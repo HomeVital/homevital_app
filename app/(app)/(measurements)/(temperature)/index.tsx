@@ -54,7 +54,7 @@ const Temperature = (): JSX.Element => {
 						?.slice()
 						.reverse()
 						.map((item) => (
-							<HvCard key={item.id} style={{ paddingInline: 20, height: 90 }}>
+							<HvCard key={item.id} style={{ paddingInline: 20, height: 90 }} row>
 								<View style={Styles.left}>
 									<Image
 										source={require('@/assets/svgs/measurementLabel/good.svg')}

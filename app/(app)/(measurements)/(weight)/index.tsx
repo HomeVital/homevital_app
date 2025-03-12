@@ -54,7 +54,7 @@ const Weight = (): JSX.Element => {
 						.reverse()
 						.map((item) => (
 							<TouchableOpacity key={item.id}>
-								<HvCard style={{ paddingInline: 20, height: 90 }}>
+								<HvCard style={{ paddingInline: 20, height: 90 }} row>
 									<View style={Styles.left}>
 										<Image
 											source={require('@/assets/svgs/measurementLabel/good.svg')}

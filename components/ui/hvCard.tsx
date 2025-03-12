@@ -1,13 +1,33 @@
 import { WHITE } from '@/constants/colors';
 import { StyleSheet, ViewProps, View } from 'react-native';
 
-const HvCard = ({ ...props }: ViewProps): JSX.Element => {
-	return <View style={[props.style, Styles.item]}>{props.children}</View>;
+interface Props extends ViewProps {
+	row?: boolean;
+	spacing?:
+		| 'flex-start'
+		| 'flex-end'
+		| 'center'
+		| 'space-between'
+		| 'space-around'
+		| 'space-evenly';
+}
+
+const HvCard = ({ row = false, spacing = 'space-between', ...props }: Props): JSX.Element => {
+	return (
+		<View
+			style={[
+				props.style,
+				Styles.item,
+				{ flexDirection: row ? 'row' : 'column', justifyContent: spacing },
+			]}
+		>
+			{props.children}
+		</View>
+	);
 };
 
 const Styles = StyleSheet.create({
 	item: {
-		flexDirection: 'row',
 		justifyContent: 'space-between',
 		alignItems: 'center',
 		borderRadius: 10,

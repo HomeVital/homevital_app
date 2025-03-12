@@ -13,7 +13,9 @@ import HvCard from '@/components/ui/hvCard';
 import { formatDate } from '@/utility/utility';
 import { PADDING } from '@/constants/sizes';
 import { TAB_ICON_SIZE } from '@/constants/sizes';
-import { LineChart } from 'react-native-gifted-charts';
+import { CurveType, LineChart } from 'react-native-gifted-charts';
+import { WIN_WIDTH } from '@/constants/window';
+import { DARK_GREEN, LIGHT_BLUE, LIGHT_GRAY, LIGHT_GREEN } from '@/constants/colors';
 
 const BloodPressure = (): JSX.Element => {
 	const { session } = useSession();
@@ -23,8 +25,6 @@ const BloodPressure = (): JSX.Element => {
 		queryKey: ['bloodpressure'],
 		queryFn: async () => fetchBloodPressure(session?.toString() || ''),
 	});
-
-	const datax = [{ value: 50 }, { value: 80 }, { value: 90 }, { value: 70 }];
 
 	if (isError) {
 		return (
@@ -47,7 +47,7 @@ const BloodPressure = (): JSX.Element => {
 			?.slice()
 			.reverse()
 			.map((item) => (
-				<HvCard key={item.id} style={{ paddingInline: 20, height: 90 }}>
+				<HvCard key={item.id} style={{ paddingInline: 20, height: 90 }} row>
 					<View style={Styles.left}>
 						<Image
 							source={require('@/assets/svgs/measurementLabel/good.svg')}
@@ -94,13 +94,117 @@ const BloodPressure = (): JSX.Element => {
 	// Call it in your component
 
 	const GraphView = () => {
+		const SYS = data?.map((item) => ({ value: Number(item.systolic) })) || [];
+		const DIA = data?.map((item) => ({ value: Number(item.diastolic) })) || [];
+		const pulse = data?.map((item) => ({ value: Number(item.pulse) })) || [];
+
+		const refRanges = { '7': 50, '30': 50 * 0.2333, '90': 50 * 0.0777 };
+		const spacingX = refRanges['7'];
+
+		// Object.keys(refRanges).forEach((key) => {
+		// 	switch (key) {
+		// 		case '7':
+		// 			spacingX = refRanges[key];
+		// 		case '30':
+		// 			spacingX = refRanges[key];
+		// 		case '90':
+		// 			break;
+		// 		default:
+		// 			break;
+		// 	}
+		// });
+
 		return (
-			<View>
+			<HvCard
+				style={{
+					gap: 30,
+				}}
+				spacing='flex-start'
+			>
 				<HvText size='xl' weight='semibold'>
-					Blood Pressure Chart
+					7 daga
 				</HvText>
-				<LineChart data={datax} />
-			</View>
+				<LineChart
+					data={SYS}
+					data2={DIA}
+					data3={pulse}
+					focusEnabled
+					// line on touch
+					showStripOnFocus
+					stripHeight={200}
+					stripWidth={1}
+					//data points
+					showDataPointOnFocus
+					focusedDataPointRadius={7}
+					focusedDataPointColor={DARK_GREEN}
+					// data lines
+					curved
+					curveType={CurveType.QUADRATIC}
+					// curvature={0.17}
+					thickness={3.5}
+					width={WIN_WIDTH - 95}
+					color1={LIGHT_GREEN}
+					color2={DARK_GREEN}
+					color3={LIGHT_BLUE}
+					stripColor='black'
+					yAxisOffset={30}
+					// rules (long x-axis lines)
+					noOfSections={4}
+					rulesType='solid'
+					rulesColor={LIGHT_GRAY}
+					xAxisColor={LIGHT_GRAY}
+					initialSpacing={7} // distance from left side of start chart
+					spacing={spacingX} // distance between each point
+					disableScroll
+					// y-axis
+					yAxisThickness={0}
+					yAxisTextStyle={{ color: DARK_GREEN, fontSize: 16 }}
+					// horizontalRulesStyle={{ width: 100 }}
+				/>
+				<View
+					style={{
+						flexDirection: 'row',
+						justifyContent: 'center',
+						gap: 40,
+						marginTop: -40,
+						marginBottom: 10,
+					}}
+				>
+					<View style={{ flexDirection: 'row', alignItems: 'center' }}>
+						<View
+							style={{
+								width: 30,
+								height: 10,
+								backgroundColor: LIGHT_GREEN,
+								marginRight: 8,
+							}}
+						/>
+						<HvText>SYS</HvText>
+					</View>
+					<View style={{ flexDirection: 'row', alignItems: 'center' }}>
+						<View
+							style={{
+								width: 30,
+								height: 10,
+								backgroundColor: DARK_GREEN,
+								marginRight: 8,
+							}}
+						/>
+						<HvText>DIA</HvText>
+					</View>
+					<View style={{ flexDirection: 'row', alignItems: 'center' }}>
+						<View
+							style={{
+								width: 30,
+								height: 10,
+								backgroundColor: LIGHT_BLUE,
+								marginRight: 8,
+							}}
+						/>
+						<HvText>Púls</HvText>
+					</View>
+				</View>
+			</HvCard>
 		);
 	};
 
