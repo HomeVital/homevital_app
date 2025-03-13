@@ -163,6 +163,7 @@ const BloodPressure = (): JSX.Element => {
 		};
 
 		const handleDateRange = (range: string) => {
+			if (dateRange === range) return;
 			setDateRange(range);
 			setFocusIndex(undefined);
 			setItem(undefined);
