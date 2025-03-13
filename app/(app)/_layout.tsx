@@ -16,7 +16,6 @@ const AppLayout = (): JSX.Element => {
 		const handleAppStateChange = (nextAppState: string) => {
 			if (nextAppState === 'background') {
 				//  || nextAppState === 'inactive'
-
 				// router.replace("/initial-screen");
 				signOut();
 			}

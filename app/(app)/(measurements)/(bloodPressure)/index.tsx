@@ -1,4 +1,4 @@
-import { ActivityIndicator, ColorValue, StyleSheet, View } from 'react-native';
+import { ActivityIndicator, ColorValue, StyleSheet, TouchableOpacity, View } from 'react-native';
 import { Image } from 'expo-image';
 // components
 import HvToggler from '@/components/ui/hvToggler';
@@ -91,10 +91,14 @@ const BloodPressure = (): JSX.Element => {
 	};
 
 	const ScrollView = () => {
-		return data
-			?.slice()
-			.reverse()
-			.map((item) => cardItem(item));
+		return (
+			<View style={Styles.container}>
+				{data
+					?.slice()
+					.reverse()
+					.map((item) => cardItem(item))}
+			</View>
+		);
 	};
 
 	const HvGraphLegend = (legends: [string, ColorValue][]) => {
@@ -104,8 +108,7 @@ const BloodPressure = (): JSX.Element => {
 					flexDirection: 'row',
 					justifyContent: 'center',
 					gap: 40,
-					marginTop: -40,
-					marginBottom: 10,
+					marginBottom: 15,
 				}}
 			>
 				{legends.map(([name, color], index) => (
@@ -133,22 +136,18 @@ const BloodPressure = (): JSX.Element => {
 			diastolic: { name: 'DIA', color: DARK_GREEN },
 			pulse: { name: 'Púls', color: LIGHT_BLUE },
 		};
-
+		const [item, setItem] = useState(undefined as IBloodPressure | undefined);
+		// selected data point indexing
+		const [focusIndex, setFocusIndex] = useState(undefined as number | undefined);
+		const [moving, setMoving] = useState(false);
+		let INDEX = undefined as number | undefined;
+		// month range
+		const refRanges = { '7': 50, '30': 50 * 0.2333, '90': 50 * 0.0777 };
+		const [dateRange, setDateRange] = useState('7');
+		// processed data
 		const filteredData = Object.keys(dataTypes).map((key) =>
 			data?.map((item) => ({ value: Number(item[key as keyof IBloodPressure]) })),
 		);
-
-		// const [currentData, setCurrentData] = useState(filteredData);
-		const [item, setItem] = useState(undefined as IBloodPressure | undefined);
-
-		// month range
-		const refRanges = { '7': 50, '30': 50 * 0.2333, '90': 50 * 0.0777 };
-		const spacingX = refRanges['7'];
-
-		// selected data point indexing
-		let INDEX = undefined as number | undefined;
-		const [focusIndex, setFocusIndex] = useState(undefined as number | undefined);
-		const [moving, setMoving] = useState(false);
 
 		// pointer and item data
 		const handleFocus = (index: number | undefined) => {
@@ -163,17 +162,68 @@ const BloodPressure = (): JSX.Element => {
 			}
 		};
 
+		const handleDateRange = (range: string) => {
+			setDateRange(range);
+			setFocusIndex(undefined);
+			setItem(undefined);
+		};
+
 		return (
-			<View>
-				<HvCard
-					style={{
-						gap: 30,
-					}}
-					spacing='flex-start'
-				>
-					<HvText size='xl' weight='semibold'>
-						7 daga
-					</HvText>
+			<View style={Styles.container}>
+				<HvCard spacing='flex-start'>
+					<View
+						style={{
+							flexDirection: 'row',
+							justifyContent: 'space-evenly',
+							width: '100%',
+						}}
+					>
+						<TouchableOpacity
+							onPress={() => {
+								handleDateRange('7');
+							}}
+							style={{
+								marginVertical: 20,
+								paddingVertical: 4,
+								opacity: dateRange === '7' ? 1 : 0.3,
+								width: 90,
+							}}
+						>
+							<HvText weight='bold' size='l' center>
+								7 daga
+							</HvText>
+						</TouchableOpacity>
+						<TouchableOpacity
+							onPress={() => {
+								handleDateRange('30');
+							}}
+							style={{
+								marginVertical: 20,
+								paddingVertical: 4,
+								opacity: dateRange === '30' ? 1 : 0.3,
+								width: 90,
+							}}
+						>
+							<HvText weight='bold' size='l' center>
+								30 daga
+							</HvText>
+						</TouchableOpacity>
+						<TouchableOpacity
+							onPress={() => {
+								handleDateRange('90');
+							}}
+							style={{
+								marginVertical: 20,
+								paddingVertical: 4,
+								opacity: dateRange === '90' ? 1 : 0.3,
+								width: 90,
+							}}
+						>
+							<HvText weight='bold' size='l' center>
+								90 daga
+							</HvText>
+						</TouchableOpacity>
+					</View>
 
 					<LineChart
 						data={filteredData[0]}
@@ -211,13 +261,12 @@ const BloodPressure = (): JSX.Element => {
 						// data lines
 						curved
 						curveType={CurveType.QUADRATIC}
-						onDataChangeAnimationDuration={500}
-						animateOnDataChange
-						animationDuration={1000}
+						// animateOnDataChange
+						// onDataChangeAnimationDuration={500}
+						animationDuration={2000}
 						animationEasing={'ease-in-out'}
 						isAnimated
 						animateTogether
-						// curvature={0.17}
 						thickness={3.5}
 						width={WIN_WIDTH - 95}
 						color1={Object.values(dataTypes)[0].color}
@@ -231,7 +280,7 @@ const BloodPressure = (): JSX.Element => {
 						rulesColor={LIGHT_GRAY}
 						xAxisColor={LIGHT_GRAY}
 						initialSpacing={7} // distance from left side of start chart
-						spacing={spacingX} // distance between each point
+						spacing={refRanges[dateRange as keyof typeof refRanges]} // distance between each point
 						disableScroll
 						// y-axis
 						yAxisThickness={0}
@@ -258,9 +307,7 @@ const BloodPressure = (): JSX.Element => {
 				textRight='Mælingar'
 				margin={20}
 			/>
-			<HvScrollView>
-				<View style={Styles.container}>{toggle ? <GraphView /> : <ScrollView />}</View>
-			</HvScrollView>
+			<HvScrollView>{toggle ? <GraphView /> : <ScrollView />}</HvScrollView>
 		</View>
 	);
 };
