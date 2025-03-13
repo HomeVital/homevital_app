@@ -16,6 +16,8 @@ import { TAB_ICON_SIZE } from '@/constants/sizes';
 import { CurveType, LineChart } from 'react-native-gifted-charts';
 import { WIN_WIDTH } from '@/constants/window';
 import { DARK_GREEN, LIGHT_BLUE, LIGHT_GRAY, LIGHT_GREEN } from '@/constants/colors';
+import React from 'react';
+import { IBloodPressure } from '@/interfaces/bloodPressureInterfaces';
 
 const BloodPressure = (): JSX.Element => {
 	const { session } = useSession();
@@ -98,314 +100,283 @@ const BloodPressure = (): JSX.Element => {
 		const DIA = data?.map((item) => ({ value: Number(item.diastolic) })) || [];
 		const pulse = data?.map((item) => ({ value: Number(item.pulse) })) || [];
 
+		// const [currentData, setCurrentData] = useState([SYS, DIA, pulse]);
+		const currentData = [SYS, DIA, pulse];
+		const [item, setItem] = useState(undefined as IBloodPressure | undefined);
+
+		// const handleChangeData = () => {
+		// 	const newData = [
+		// 		SYS.map((item) => ({ value: item.value + Math.floor(Math.random() * 31) + 10 })),
+		// 		DIA.map((item) => ({ value: item.value + Math.floor(Math.random() * 31) + 10 })),
+		// 		pulse.map((item) => ({ value: item.value + Math.floor(Math.random() * 31) + 10 })),
+		// 	];
+		// 	setCurrentData(newData);
+		// };
+
+		// month range
 		const refRanges = { '7': 50, '30': 50 * 0.2333, '90': 50 * 0.0777 };
 		const spacingX = refRanges['7'];
 
-		// Object.keys(refRanges).forEach((key) => {
-		// 	switch (key) {
-		// 		case '7':
-		// 			spacingX = refRanges[key];
-		// 		case '30':
-		// 			spacingX = refRanges[key];
-		// 		case '90':
-		// 			break;
-		// 		default:
-		// 			break;
-		// 	}
-		// });
+		// selected data point indexing
+		let INDEX = undefined as number | undefined;
+		const [focusIndex, setFocusIndex] = useState(undefined as number | undefined);
+		const [moving, setMoving] = useState(false);
+
+		const handleFocus = (index: number | undefined) => {
+			// focusIndex === index ? setFocusIndex(undefined) : setFocusIndex(index);
+			if (focusIndex === index) {
+				setFocusIndex(undefined);
+				setItem(undefined);
+			} else {
+				setFocusIndex(index);
+				// item = data[]
+				if (index !== undefined) {
+					// const itemId = IDs[index].id;
+					// item = data?.find((item) => item.id === itemId);
+					setItem(data && data[index]);
+					//
+				}
+			}
+		};
 
 		return (
-			<HvCard
-				style={{
-					gap: 30,
-				}}
-				spacing='flex-start'
-			>
-				<HvText size='xl' weight='semibold'>
-					7 daga
-				</HvText>
-				<LineChart
-					data={SYS}
-					data2={DIA}
-					data3={pulse}
-					focusEnabled
-					// line on touch
-					showStripOnFocus
-					stripHeight={200}
-					stripWidth={1}
-					//data points
-					showDataPointOnFocus
-					focusedDataPointRadius={7}
-					focusedDataPointColor={DARK_GREEN}
-					// data lines
-					curved
-					curveType={CurveType.QUADRATIC}
-					// curvature={0.17}
-					thickness={3.5}
-					width={WIN_WIDTH - 95}
-					color1={LIGHT_GREEN}
-					color2={DARK_GREEN}
-					color3={LIGHT_BLUE}
-					stripColor='black'
-					yAxisOffset={30}
-					// rules (long x-axis lines)
-					noOfSections={4}
-					rulesType='solid'
-					rulesColor={LIGHT_GRAY}
-					xAxisColor={LIGHT_GRAY}
-					initialSpacing={7} // distance from left side of start chart
-					spacing={spacingX} // distance between each point
-					disableScroll
-					// y-axis
-					yAxisThickness={0}
-					yAxisTextStyle={{ color: DARK_GREEN, fontSize: 16 }}
-					// horizontalRulesStyle={{ width: 100 }}
-				/>
-				<View
+			<View>
+				<HvCard
 					style={{
-						flexDirection: 'row',
-						justifyContent: 'center',
-						gap: 40,
-						marginTop: -40,
-						marginBottom: 10,
+						gap: 30,
 					}}
+					spacing='flex-start'
 				>
-					<View style={{ flexDirection: 'row', alignItems: 'center' }}>
+					<HvText size='xl' weight='semibold'>
+						7 daga
+					</HvText>
+
+					{/* {focusIndex !== undefined && (
+					<View
+						style={{
+							alignItems: 'center',
+							marginTop: 10,
+							padding: 12,
+							backgroundColor: '#F5F5F5',
+							borderRadius: 8,
+						}}>
+						<HvText weight='semibold'>Selected Data Point</HvText>
 						<View
 							style={{
-								width: 30,
-								height: 10,
-								backgroundColor: LIGHT_GREEN,
-								marginRight: 8,
-							}}
-						/>
-						<HvText>SYS</HvText>
+								flexDirection: 'row',
+								justifyContent: 'space-between',
+								width: '100%',
+								marginTop: 8,
+							}}>
+							<View style={{ alignItems: 'center' }}>
+								<View
+									style={{
+										width: 15,
+										height: 15,
+										backgroundColor: LIGHT_GREEN,
+										marginBottom: 5,
+									}}
+								/>
+								<HvText size='lg' weight='semibold'>
+									{currentData[0][focusIndex]?.value || '-'}
+								</HvText>
+								<HvText size='sm'>SYS</HvText>
+							</View>
+
+							<View style={{ alignItems: 'center' }}>
+								<View
+									style={{
+										width: 15,
+										height: 15,
+										backgroundColor: DARK_GREEN,
+										marginBottom: 5,
+									}}
+								/>
+								<HvText size='lg' weight='semibold'>
+									{currentData[1][focusIndex]?.value || '-'}
+								</HvText>
+								<HvText size='sm'>DIA</HvText>
+							</View>
+
+							<View style={{ alignItems: 'center' }}>
+								<View
+									style={{
+										width: 15,
+										height: 15,
+										backgroundColor: LIGHT_BLUE,
+										marginBottom: 5,
+									}}
+								/>
+								<HvText size='lg' weight='semibold'>
+									{currentData[2][focusIndex]?.value || '-'}
+								</HvText>
+								<HvText size='sm'>PÚLS</HvText>
+							</View>
+						</View>
+
+						{data && focusIndex < data.length && (
+							<HvText style={{ marginTop: 8 }}>
+								{formatDate(data[data.length - 1 - focusIndex]?.date)}
+							</HvText>
+						)}
 					</View>
-					<View style={{ flexDirection: 'row', alignItems: 'center' }}>
-						<View
-							style={{
-								width: 30,
-								height: 10,
-								backgroundColor: DARK_GREEN,
-								marginRight: 8,
-							}}
-						/>
-						<HvText>DIA</HvText>
+				)} */}
+
+					<LineChart
+						data={currentData[0]}
+						data2={currentData[1]}
+						data3={currentData[2]}
+						scrollToEnd
+						onDataChangeAnimationDuration={500}
+						animateOnDataChange
+						animationDuration={1000}
+						animationEasing={'ease-in-out'}
+						isAnimated
+						animateTogether
+						pointerConfig={{
+							pointerColor: DARK_GREEN,
+							hidePointers: !focusIndex && !moving,
+							pointerStripWidth: !focusIndex && !moving ? 0 : 1,
+							pointerStripColor: 'black',
+							radius: 8,
+							dynamicLegendComponent: (_: [], index: number) => {
+								if (index !== -1) INDEX = index;
+							},
+							onResponderGrant: () => {
+								setMoving(true);
+							},
+							onResponderEnd: () => {
+								handleFocus(INDEX);
+								setMoving(false);
+							},
+							pointerVanishDelay: Infinity,
+							resetPointerIndexOnRelease: true,
+							activatePointersInstantlyOnTouch: true,
+
+							pointerStripUptoDataPoint: true,
+							showPointerStrip: true,
+						}}
+						// line on touch
+						showStripOnFocus
+						stripWidth={1}
+						//data points
+						showDataPointOnFocus
+						focusedDataPointRadius={7}
+						focusedDataPointColor={DARK_GREEN}
+						// data lines
+						curved
+						curveType={CurveType.QUADRATIC}
+						// curvature={0.17}
+						thickness={3.5}
+						width={WIN_WIDTH - 95}
+						color1={LIGHT_GREEN}
+						color2={DARK_GREEN}
+						color3={LIGHT_BLUE}
+						stripColor='black'
+						yAxisOffset={30}
+						// rules (long x-axis lines)
+						noOfSections={4}
+						rulesType='solid'
+						rulesColor={LIGHT_GRAY}
+						xAxisColor={LIGHT_GRAY}
+						initialSpacing={7} // distance from left side of start chart
+						spacing={spacingX} // distance between each point
+						disableScroll
+						// y-axis
+						yAxisThickness={0}
+						yAxisTextStyle={{ color: DARK_GREEN, fontSize: 16 }}
+						// horizontalRulesStyle={{ width: 100 }}
+					/>
+					<View
+						style={{
+							flexDirection: 'row',
+							justifyContent: 'center',
+							gap: 40,
+							marginTop: -40,
+							marginBottom: 10,
+						}}
+					>
+						<View style={{ flexDirection: 'row', alignItems: 'center' }}>
+							<View
+								style={{
+									width: 30,
+									height: 10,
+									backgroundColor: LIGHT_GREEN,
+									marginRight: 8,
+								}}
+							/>
+							<HvText>SYS</HvText>
+						</View>
+						<View style={{ flexDirection: 'row', alignItems: 'center' }}>
+							<View
+								style={{
+									width: 30,
+									height: 10,
+									backgroundColor: DARK_GREEN,
+									marginRight: 8,
+								}}
+							/>
+							<HvText>DIA</HvText>
+						</View>
+						<View style={{ flexDirection: 'row', alignItems: 'center' }}>
+							<View
+								style={{
+									width: 30,
+									height: 10,
+									backgroundColor: LIGHT_BLUE,
+									marginRight: 8,
+								}}
+							/>
+							<HvText>Púls</HvText>
+						</View>
 					</View>
-					<View style={{ flexDirection: 'row', alignItems: 'center' }}>
-						<View
-							style={{
-								width: 30,
-								height: 10,
-								backgroundColor: LIGHT_BLUE,
-								marginRight: 8,
-							}}
-						/>
-						<HvText>Púls</HvText>
-					</View>
-				</View>
-			</HvCard>
+				</HvCard>
+				{focusIndex !== undefined && (
+					<HvCard style={{ paddingInline: 20, height: 90 }} row>
+						<View style={Styles.left}>
+							<Image
+								source={require('@/assets/svgs/measurementLabel/good.svg')}
+								contentFit='contain'
+								style={Styles.indicator}
+							/>
+							<HvText weight='semibold'>{formatDate(item?.date as string)}</HvText>
+						</View>
+						<HvText size='xxl' weight='semibold'>
+							{item?.systolic}/{item?.diastolic}
+						</HvText>
+						<View style={Styles.right}>
+							{item?.bodyPosition === 'Laying' ? (
+								<Image
+									source={require('@/assets/svgs/laying.svg')}
+									contentFit='contain'
+									style={Styles.icon}
+								/>
+							) : (
+								<Image
+									source={require('@/assets/svgs/sitting.svg')}
+									contentFit='contain'
+									style={Styles.icon}
+								/>
+							)}
+							{item?.measureHand === 'Left' ? (
+								<Image
+									source={require('@/assets/svgs/handLeft.svg')}
+									contentFit='contain'
+									style={Styles.icon}
+								/>
+							) : (
+								<Image
+									source={require('@/assets/svgs/handRight.svg')}
+									contentFit='contain'
+									style={Styles.icon}
+								/>
+							)}
+						</View>
+					</HvCard>
+				)}
+			</View>
 		);
 	};
-
-	// const GraphView = () => {
-	// 	// Extract systolic and diastolic values
-	// 	const systolicValues = data?.slice(-5).map((item) => item.systolic) || [];
-	// 	const diastolicValues = data?.slice(-5).map((item) => item.diastolic) || [];
-	// 	const dates =
-	// 		data?.slice(-5).map((item) => {
-	// 			const date = new Date(item.date);
-	// 			return `${date.getDate()}/${date.getMonth() + 1}`;
-	// 		}) || [];
-
-	// 	// Find max value for scaling
-	// 	const maxValue = Math.max(...systolicValues, ...diastolicValues, 140);
-	// 	const chartHeight = 180;
-	// 	const chartWidth = 300;
-
-	// 	return (
-	// 		<View>
-	// 			<HvText size='xl' weight='semibold'>
-	// 				Blood Pressure Chart
-	// 			</HvText>
-
-	// 			{/* Chart container */}
-	// 			<View style={{ marginTop: 20, height: chartHeight + 30, width: '100%' }}>
-	// 				{/* Y-axis labels */}
-	// 				<View
-	// 					style={{
-	// 						position: 'absolute',
-	// 						height: chartHeight,
-	// 						justifyContent: 'space-between',
-	// 					}}>
-	// 					{[0, 1, 2, 3].map((i) => (
-	// 						<HvText key={i} style={{ fontSize: 10, color: '#666' }}>
-	// 							{Math.round((maxValue / 3) * (3 - i))}
-	// 						</HvText>
-	// 					))}
-	// 				</View>
-
-	// 				{/* Chart area */}
-	// 				<View style={{ marginLeft: 25, height: chartHeight, position: 'relative' }}>
-	// 					{/* Horizontal grid lines */}
-	// 					{[0, 1, 2, 3].map((i) => (
-	// 						<View
-	// 							key={i}
-	// 							style={{
-	// 								position: 'absolute',
-	// 								top: (i * chartHeight) / 3,
-	// 								width: '100%',
-	// 								height: 1,
-	// 								backgroundColor: '#ddd',
-	// 							}}
-	// 						/>
-	// 					))}
-
-	// 					{/* Systolic Line */}
-	// 					{systolicValues.map((value, index) => {
-	// 						if (index === 0) return null;
-	// 						const prevValue = systolicValues[index - 1];
-	// 						const startX = ((index - 1) / (systolicValues.length - 1)) * chartWidth;
-	// 						const startY = chartHeight - (prevValue / maxValue) * chartHeight;
-	// 						const endX = (index / (systolicValues.length - 1)) * chartWidth;
-	// 						const endY = chartHeight - (value / maxValue) * chartHeight;
-
-	// 						return (
-	// 							<View
-	// 								key={`sys-${index}`}
-	// 								style={{
-	// 									position: 'absolute',
-	// 									left: startX,
-	// 									top: startY,
-	// 									width: endX - startX,
-	// 									height: 2,
-	// 									backgroundColor: '#3A7283',
-	// 									transform: [
-	// 										{
-	// 											rotate: `${Math.atan2(endY - startY, endX - startX) * (180 / Math.PI)}deg`,
-	// 										},
-	// 									],
-	// 									transformOrigin: 'left',
-	// 								}}
-	// 							/>
-	// 						);
-	// 					})}
-
-	// 					{/* Diastolic Line */}
-	// 					{diastolicValues.map((value, index) => {
-	// 						if (index === 0) return null;
-	// 						const prevValue = diastolicValues[index - 1];
-	// 						const startX =
-	// 							((index - 1) / (diastolicValues.length - 1)) * chartWidth;
-	// 						const startY = chartHeight - (prevValue / maxValue) * chartHeight;
-	// 						const endX = (index / (diastolicValues.length - 1)) * chartWidth;
-	// 						const endY = chartHeight - (value / maxValue) * chartHeight;
-
-	// 						return (
-	// 							<View
-	// 								key={`dia-${index}`}
-	// 								style={{
-	// 									position: 'absolute',
-	// 									left: startX,
-	// 									top: startY,
-	// 									width: endX - startX,
-	// 									height: 2,
-	// 									backgroundColor: '#8FC0CE',
-	// 									transform: [
-	// 										{
-	// 											rotate: `${Math.atan2(endY - startY, endX - startX) * (180 / Math.PI)}deg`,
-	// 										},
-	// 									],
-	// 									transformOrigin: 'left',
-	// 								}}
-	// 							/>
-	// 						);
-	// 					})}
-
-	// 					{/* Data points - systolic */}
-	// 					{systolicValues.map((value, index) => (
-	// 						<View
-	// 							key={`sys-dot-${index}`}
-	// 							style={{
-	// 								position: 'absolute',
-	// 								left: (index / (systolicValues.length - 1)) * chartWidth - 4,
-	// 								top: chartHeight - (value / maxValue) * chartHeight - 4,
-	// 								width: 8,
-	// 								height: 8,
-	// 								borderRadius: 4,
-	// 								backgroundColor: '#3A7283',
-	// 							}}
-	// 						/>
-	// 					))}
-
-	// 					{/* Data points - diastolic */}
-	// 					{diastolicValues.map((value, index) => (
-	// 						<View
-	// 							key={`dia-dot-${index}`}
-	// 							style={{
-	// 								position: 'absolute',
-	// 								left: (index / (diastolicValues.length - 1)) * chartWidth - 4,
-	// 								top: chartHeight - (value / maxValue) * chartHeight - 4,
-	// 								width: 8,
-	// 								height: 8,
-	// 								borderRadius: 4,
-	// 								backgroundColor: '#8FC0CE',
-	// 							}}
-	// 						/>
-	// 					))}
-	// 				</View>
-
-	// 				{/* X-axis labels */}
-	// 				<View
-	// 					style={{
-	// 						marginLeft: 25,
-	// 						marginTop: 5,
-	// 						flexDirection: 'row',
-	// 						justifyContent: 'space-between',
-	// 					}}>
-	// 					{dates.map((date, index) => (
-	// 						<HvText
-	// 							key={index}
-	// 							style={{
-	// 								fontSize: 10,
-	// 								color: '#666',
-	// 								position: 'absolute',
-	// 								left: (index / (dates.length - 1)) * chartWidth - 10,
-	// 							}}>
-	// 							{date}
-	// 						</HvText>
-	// 					))}
-	// 				</View>
-	// 			</View>
-
-	// 			{/* Legend */}
-	// 			<View style={{ flexDirection: 'row', justifyContent: 'center', marginTop: 30 }}>
-	// 				<View style={{ flexDirection: 'row', alignItems: 'center', marginRight: 20 }}>
-	// 					<View
-	// 						style={{
-	// 							width: 10,
-	// 							height: 10,
-	// 							backgroundColor: '#3A7283',
-	// 							marginRight: 5,
-	// 						}}
-	// 					/>
-	// 					<HvText style={{ fontSize: 12 }}>Systolic</HvText>
-	// 				</View>
-	// 				<View style={{ flexDirection: 'row', alignItems: 'center' }}>
-	// 					<View
-	// 						style={{
-	// 							width: 10,
-	// 							height: 10,
-	// 							backgroundColor: '#8FC0CE',
-	// 							marginRight: 5,
-	// 						}}
-	// 					/>
-	// 					<HvText style={{ fontSize: 12 }}>Diastolic</HvText>
-	// 				</View>
-	// 			</View>
-	// 		</View>
-	// 	);
-	// };
 
 	return (
 		<View style={STYLES.defaultNoPadView}>
