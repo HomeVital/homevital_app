@@ -1,4 +1,4 @@
-import { ActivityIndicator, StyleSheet, View } from 'react-native';
+import { ActivityIndicator, ColorValue, StyleSheet, View } from 'react-native';
 import { Image } from 'expo-image';
 // components
 import HvToggler from '@/components/ui/hvToggler';
@@ -44,74 +44,102 @@ const BloodPressure = (): JSX.Element => {
 		);
 	}
 
+	const cardItem = (item: IBloodPressure) => {
+		return (
+			<HvCard key={item.id} style={{ paddingInline: 20, height: 90 }} row>
+				<View style={Styles.left}>
+					<Image
+						source={require('@/assets/svgs/measurementLabel/good.svg')}
+						contentFit='contain'
+						style={Styles.indicator}
+					/>
+					<HvText weight='semibold'>{formatDate(item.date)}</HvText>
+				</View>
+				<HvText size='xxl' weight='semibold'>
+					{item.systolic}/{item.diastolic}
+				</HvText>
+				<View style={Styles.right}>
+					{item.bodyPosition === 'Laying' ? (
+						<Image
+							source={require('@/assets/svgs/laying.svg')}
+							contentFit='contain'
+							style={Styles.icon}
+						/>
+					) : (
+						<Image
+							source={require('@/assets/svgs/sitting.svg')}
+							contentFit='contain'
+							style={Styles.icon}
+						/>
+					)}
+					{item.measureHand === 'Left' ? (
+						<Image
+							source={require('@/assets/svgs/handLeft.svg')}
+							contentFit='contain'
+							style={Styles.icon}
+						/>
+					) : (
+						<Image
+							source={require('@/assets/svgs/handRight.svg')}
+							contentFit='contain'
+							style={Styles.icon}
+						/>
+					)}
+				</View>
+			</HvCard>
+		);
+	};
+
 	const ScrollView = () => {
 		return data
 			?.slice()
 			.reverse()
-			.map((item) => (
-				<HvCard key={item.id} style={{ paddingInline: 20, height: 90 }} row>
-					<View style={Styles.left}>
-						<Image
-							source={require('@/assets/svgs/measurementLabel/good.svg')}
-							contentFit='contain'
-							style={Styles.indicator}
+			.map((item) => cardItem(item));
+	};
+
+	const HvGraphLegend = (legends: [string, ColorValue][]) => {
+		return (
+			<View
+				style={{
+					flexDirection: 'row',
+					justifyContent: 'center',
+					gap: 40,
+					marginTop: -40,
+					marginBottom: 10,
+				}}
+			>
+				{legends.map(([name, color], index) => (
+					<View key={index} style={{ flexDirection: 'row', alignItems: 'center' }}>
+						<View
+							style={{
+								width: 30,
+								height: 10,
+								backgroundColor: color,
+								marginRight: 8,
+							}}
 						/>
-						<HvText weight='semibold'>{formatDate(item.date)}</HvText>
+						<HvText>{name}</HvText>
 					</View>
-					<HvText size='xxl' weight='semibold'>
-						{item.systolic}/{item.diastolic}
-					</HvText>
-					<View style={Styles.right}>
-						{item.bodyPosition === 'Laying' ? (
-							<Image
-								source={require('@/assets/svgs/laying.svg')}
-								contentFit='contain'
-								style={Styles.icon}
-							/>
-						) : (
-							<Image
-								source={require('@/assets/svgs/sitting.svg')}
-								contentFit='contain'
-								style={Styles.icon}
-							/>
-						)}
-						{item.measureHand === 'Left' ? (
-							<Image
-								source={require('@/assets/svgs/handLeft.svg')}
-								contentFit='contain'
-								style={Styles.icon}
-							/>
-						) : (
-							<Image
-								source={require('@/assets/svgs/handRight.svg')}
-								contentFit='contain'
-								style={Styles.icon}
-							/>
-						)}
-					</View>
-				</HvCard>
-			));
+				))}
+			</View>
+		);
 	};
 
 	// Call it in your component
 
 	const GraphView = () => {
-		const SYS = data?.map((item) => ({ value: Number(item.systolic) })) || [];
-		const DIA = data?.map((item) => ({ value: Number(item.diastolic) })) || [];
-		const pulse = data?.map((item) => ({ value: Number(item.pulse) })) || [];
+		const dataTypes = {
+			systolic: { name: 'SYS', color: LIGHT_GREEN },
+			diastolic: { name: 'DIA', color: DARK_GREEN },
+			pulse: { name: 'Púls', color: LIGHT_BLUE },
+		};
 
-		// const [currentData, setCurrentData] = useState([SYS, DIA, pulse]);
-		const currentData = [SYS, DIA, pulse];
+		const filteredData = Object.keys(dataTypes).map((key) =>
+			data?.map((item) => ({ value: Number(item[key as keyof IBloodPressure]) })),
+		);
+
+		// const [currentData, setCurrentData] = useState(filteredData);
 		const [item, setItem] = useState(undefined as IBloodPressure | undefined);
-
-		// const handleChangeData = () => {
-		// 	const newData = [
-		// 		SYS.map((item) => ({ value: item.value + Math.floor(Math.random() * 31) + 10 })),
-		// 		DIA.map((item) => ({ value: item.value + Math.floor(Math.random() * 31) + 10 })),
-		// 		pulse.map((item) => ({ value: item.value + Math.floor(Math.random() * 31) + 10 })),
-		// 	];
-		// 	setCurrentData(newData);
-		// };
 
 		// month range
 		const refRanges = { '7': 50, '30': 50 * 0.2333, '90': 50 * 0.0777 };
@@ -122,19 +150,15 @@ const BloodPressure = (): JSX.Element => {
 		const [focusIndex, setFocusIndex] = useState(undefined as number | undefined);
 		const [moving, setMoving] = useState(false);
 
+		// pointer and item data
 		const handleFocus = (index: number | undefined) => {
-			// focusIndex === index ? setFocusIndex(undefined) : setFocusIndex(index);
 			if (focusIndex === index) {
 				setFocusIndex(undefined);
 				setItem(undefined);
 			} else {
 				setFocusIndex(index);
-				// item = data[]
 				if (index !== undefined) {
-					// const itemId = IDs[index].id;
-					// item = data?.find((item) => item.id === itemId);
 					setItem(data && data[index]);
-					//
 				}
 			}
 		};
@@ -151,88 +175,11 @@ const BloodPressure = (): JSX.Element => {
 						7 daga
 					</HvText>
 
-					{/* {focusIndex !== undefined && (
-					<View
-						style={{
-							alignItems: 'center',
-							marginTop: 10,
-							padding: 12,
-							backgroundColor: '#F5F5F5',
-							borderRadius: 8,
-						}}>
-						<HvText weight='semibold'>Selected Data Point</HvText>
-						<View
-							style={{
-								flexDirection: 'row',
-								justifyContent: 'space-between',
-								width: '100%',
-								marginTop: 8,
-							}}>
-							<View style={{ alignItems: 'center' }}>
-								<View
-									style={{
-										width: 15,
-										height: 15,
-										backgroundColor: LIGHT_GREEN,
-										marginBottom: 5,
-									}}
-								/>
-								<HvText size='lg' weight='semibold'>
-									{currentData[0][focusIndex]?.value || '-'}
-								</HvText>
-								<HvText size='sm'>SYS</HvText>
-							</View>
-
-							<View style={{ alignItems: 'center' }}>
-								<View
-									style={{
-										width: 15,
-										height: 15,
-										backgroundColor: DARK_GREEN,
-										marginBottom: 5,
-									}}
-								/>
-								<HvText size='lg' weight='semibold'>
-									{currentData[1][focusIndex]?.value || '-'}
-								</HvText>
-								<HvText size='sm'>DIA</HvText>
-							</View>
-
-							<View style={{ alignItems: 'center' }}>
-								<View
-									style={{
-										width: 15,
-										height: 15,
-										backgroundColor: LIGHT_BLUE,
-										marginBottom: 5,
-									}}
-								/>
-								<HvText size='lg' weight='semibold'>
-									{currentData[2][focusIndex]?.value || '-'}
-								</HvText>
-								<HvText size='sm'>PÚLS</HvText>
-							</View>
-						</View>
-
-						{data && focusIndex < data.length && (
-							<HvText style={{ marginTop: 8 }}>
-								{formatDate(data[data.length - 1 - focusIndex]?.date)}
-							</HvText>
-						)}
-					</View>
-				)} */}
-
 					<LineChart
-						data={currentData[0]}
-						data2={currentData[1]}
-						data3={currentData[2]}
-						scrollToEnd
-						onDataChangeAnimationDuration={500}
-						animateOnDataChange
-						animationDuration={1000}
-						animationEasing={'ease-in-out'}
-						isAnimated
-						animateTogether
+						data={filteredData[0]}
+						data2={filteredData.length > 1 ? filteredData[1] : undefined}
+						data3={filteredData.length > 2 ? filteredData[2] : undefined}
+						// scrollToEnd
 						pointerConfig={{
 							pointerColor: DARK_GREEN,
 							hidePointers: !focusIndex && !moving,
@@ -260,18 +207,22 @@ const BloodPressure = (): JSX.Element => {
 						showStripOnFocus
 						stripWidth={1}
 						//data points
-						showDataPointOnFocus
-						focusedDataPointRadius={7}
-						focusedDataPointColor={DARK_GREEN}
+						hideDataPoints
 						// data lines
 						curved
 						curveType={CurveType.QUADRATIC}
+						onDataChangeAnimationDuration={500}
+						animateOnDataChange
+						animationDuration={1000}
+						animationEasing={'ease-in-out'}
+						isAnimated
+						animateTogether
 						// curvature={0.17}
 						thickness={3.5}
 						width={WIN_WIDTH - 95}
-						color1={LIGHT_GREEN}
-						color2={DARK_GREEN}
-						color3={LIGHT_BLUE}
+						color1={Object.values(dataTypes)[0].color}
+						color2={Object.values(dataTypes)[1]?.color}
+						color3={Object.values(dataTypes)[2]?.color}
 						stripColor='black'
 						yAxisOffset={30}
 						// rules (long x-axis lines)
@@ -287,93 +238,13 @@ const BloodPressure = (): JSX.Element => {
 						yAxisTextStyle={{ color: DARK_GREEN, fontSize: 16 }}
 						// horizontalRulesStyle={{ width: 100 }}
 					/>
-					<View
-						style={{
-							flexDirection: 'row',
-							justifyContent: 'center',
-							gap: 40,
-							marginTop: -40,
-							marginBottom: 10,
-						}}
-					>
-						<View style={{ flexDirection: 'row', alignItems: 'center' }}>
-							<View
-								style={{
-									width: 30,
-									height: 10,
-									backgroundColor: LIGHT_GREEN,
-									marginRight: 8,
-								}}
-							/>
-							<HvText>SYS</HvText>
-						</View>
-						<View style={{ flexDirection: 'row', alignItems: 'center' }}>
-							<View
-								style={{
-									width: 30,
-									height: 10,
-									backgroundColor: DARK_GREEN,
-									marginRight: 8,
-								}}
-							/>
-							<HvText>DIA</HvText>
-						</View>
-						<View style={{ flexDirection: 'row', alignItems: 'center' }}>
-							<View
-								style={{
-									width: 30,
-									height: 10,
-									backgroundColor: LIGHT_BLUE,
-									marginRight: 8,
-								}}
-							/>
-							<HvText>Púls</HvText>
-						</View>
-					</View>
+					{HvGraphLegend(
+						Object.entries(dataTypes).map(
+							([_, value]) => [value.name, value.color] as [string, ColorValue],
+						),
+					)}
 				</HvCard>
-				{focusIndex !== undefined && (
-					<HvCard style={{ paddingInline: 20, height: 90 }} row>
-						<View style={Styles.left}>
-							<Image
-								source={require('@/assets/svgs/measurementLabel/good.svg')}
-								contentFit='contain'
-								style={Styles.indicator}
-							/>
-							<HvText weight='semibold'>{formatDate(item?.date as string)}</HvText>
-						</View>
-						<HvText size='xxl' weight='semibold'>
-							{item?.systolic}/{item?.diastolic}
-						</HvText>
-						<View style={Styles.right}>
-							{item?.bodyPosition === 'Laying' ? (
-								<Image
-									source={require('@/assets/svgs/laying.svg')}
-									contentFit='contain'
-									style={Styles.icon}
-								/>
-							) : (
-								<Image
-									source={require('@/assets/svgs/sitting.svg')}
-									contentFit='contain'
-									style={Styles.icon}
-								/>
-							)}
-							{item?.measureHand === 'Left' ? (
-								<Image
-									source={require('@/assets/svgs/handLeft.svg')}
-									contentFit='contain'
-									style={Styles.icon}
-								/>
-							) : (
-								<Image
-									source={require('@/assets/svgs/handRight.svg')}
-									contentFit='contain'
-									style={Styles.icon}
-								/>
-							)}
-						</View>
-					</HvCard>
-				)}
+				{focusIndex !== undefined && cardItem(item as IBloodPressure)}
 			</View>
 		);
 	};
