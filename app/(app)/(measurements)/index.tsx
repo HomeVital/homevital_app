@@ -46,7 +46,12 @@ const MainMeasurements = (): JSX.Element => {
 		queryFn: async () => fetchBodyWeight(session?.toString() || ''),
 	});
 
-	if (bpLoading || bsLoading || btLoading || bwLoading) {
+	const { data: oxygensaturation, isLoading: osLoading } = useQuery({
+		queryKey: ['oxygensaturation'],
+		queryFn: async () => fetchBodyWeight(session?.toString() || ''),
+	});
+
+	if (bpLoading || bsLoading || btLoading || bwLoading || osLoading) {
 		return (
 			<View style={STYLES.loadingView}>
 				<ActivityIndicator size='large' color='#3A7283' />
@@ -118,6 +123,24 @@ const MainMeasurements = (): JSX.Element => {
 								style={Styles.itemImage}
 							/>
 							<HvText>Hiti</HvText>
+						</TouchableOpacity>
+					</View>
+				)}
+
+				{oxygensaturation && oxygensaturation.length > 0 && (
+					<View style={Styles.itemContainer}>
+						<TouchableOpacity
+							style={Styles.item}
+							onPress={() =>
+								handleTabRoute('/(app)/(measurements)/(oxygenSaturation)')
+							}
+						>
+							<Image
+								source={require('@/assets/svgs/lungsDark.svg')}
+								contentFit='contain'
+								style={Styles.itemImage}
+							/>
+							<HvText>Súrefnismettun</HvText>
 						</TouchableOpacity>
 					</View>
 				)}

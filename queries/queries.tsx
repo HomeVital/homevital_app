@@ -5,6 +5,7 @@ import {
 	BODYWEIGHT_URL,
 	LOGIN_URL,
 	MOCK_LOGIN_URL,
+	OXYGENSATURATION_URL,
 	PATIENT_URL,
 } from '@/constants/api';
 import axios from 'axios';
@@ -13,6 +14,7 @@ import { IBloodPressure } from '@/interfaces/bloodPressureInterfaces';
 import { IBloodSugar } from '@/interfaces/bloodSugarInterfaces';
 import { IBodyTemperature } from '@/interfaces/bodyTemperatureInterfaces';
 import { IBodyWeight } from '@/interfaces/bodyWeightInterfaces';
+import { IOxygenSaturation } from '@/interfaces/oxygenSaturationInterfaces';
 
 /**
  * Sends a POST request to the MOCK_LOGIN_URL with the provided social security number (ssn).
@@ -67,10 +69,10 @@ export const fetchBodyWeight = async (sessionId: string): Promise<IBodyWeight[]>
 };
 
 // // get measurements by patient id
-// export const fetchBloodOxygen = async (sessionId: string): Promise<GetBloodOxygen[]> => {
-// 	const response = await axios.get(`${BLOODOXYGEN_URL}/${sessionId}`);
-// 	return response.data;
-// };
+export const fetchOxygenSaturation = async (sessionId: string): Promise<IOxygenSaturation[]> => {
+	const response = await axios.get(`${OXYGENSATURATION_URL}/${sessionId}`);
+	return response.data;
+};
 
 // get measurements by patient id
 export const fetchPatient = async (sessionId: string): Promise<IPatient> => {
