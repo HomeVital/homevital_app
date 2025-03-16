@@ -24,12 +24,19 @@ import { IOxygenSaturation } from '@/interfaces/oxygenSaturationInterfaces';
  * @throws {Error} - Throws an error if the response is not ok.
  */
 export const GetRafraenSkilriki = async (ssn: string): Promise<string> => {
-	const response = await axios.post(MOCK_LOGIN_URL, { kennitala: ssn });
-	// if (response.status !== 200) {
-	// 	console.error('Response:', response);
-	// 	throw new Error('Failed to sign in');
-	// }
-	return response.data;
+	const response = await fetch(MOCK_LOGIN_URL, {
+		method: 'POST',
+		headers: {
+			'Content-Type': 'application/json',
+		},
+		body: JSON.stringify({ kennitala: ssn }),
+	});
+
+	if (response.status !== 200) {
+		console.error('Response:', response);
+		throw new Error('Failed to sign in');
+	}
+	return response.json();
 };
 
 /**

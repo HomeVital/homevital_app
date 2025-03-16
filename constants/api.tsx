@@ -1,4 +1,6 @@
-const API_URL = 'https://homevital-api-dev.azurewebsites.net/api/';
+// const API_URL = 'https://homevital-api-dev.azurewebsites.net/api/';
+const API_URL = 'https://homevitaldev-app.azurewebsites.net/api/';
+// const API_URL = 'http://localhost:5118/api/';
 
 export const MOCK_LOGIN_URL = API_URL + 'user/MockLogin';
 export const LOGIN_URL = API_URL + 'user/Login';

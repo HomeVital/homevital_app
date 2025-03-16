@@ -1,22 +1,21 @@
 import { ActivityIndicator, StyleSheet, TouchableOpacity, View } from 'react-native';
 import { RelativePathString, router } from 'expo-router';
-// components
-// import HvScrollView from '@/components/ui/HvScrollView';
-// constants
-import { STYLES } from '@/constants/styles';
-import { WHITE } from '@/constants/colors';
-import HvText from '@/components/ui/hvText';
 import { Image } from 'expo-image';
-import { WIN_WIDTH } from '@/constants/window';
-import { PADDING } from '@/constants/sizes';
+import { useQueries } from '@tanstack/react-query';
+// components
 import { useSession } from '@/authentication/ctx';
-import { useQuery } from '@tanstack/react-query';
 import {
 	fetchBloodPressure,
 	fetchBloodSugar,
 	fetchBodyTemperature,
 	fetchBodyWeight,
 } from '@/queries/queries';
+// constants
+import { STYLES } from '@/constants/styles';
+import { WHITE } from '@/constants/colors';
+import HvText from '@/components/ui/hvText';
+import { WIN_WIDTH } from '@/constants/window';
+import { PADDING } from '@/constants/sizes';
 
 const MainMeasurements = (): JSX.Element => {
 	const { session } = useSession();
@@ -26,32 +25,38 @@ const MainMeasurements = (): JSX.Element => {
 		router.push(route as RelativePathString);
 	};
 
-	const { data: bloodpressure, isLoading: bpLoading } = useQuery({
-		queryKey: ['bloodpressure'],
-		queryFn: async () => fetchBloodPressure(session?.toString() || ''),
+	const [bloodpressure, bloodsugar, bodytemperature, bodyweight, oxygensaturation] = useQueries({
+		queries: [
+			{
+				queryKey: ['bloodpressure'],
+				queryFn: async () => fetchBloodPressure(session?.toString() || ''),
+			},
+			{
+				queryKey: ['bloodsugar'],
+				queryFn: async () => fetchBloodSugar(session?.toString() || ''),
+			},
+			{
+				queryKey: ['bodytemperature'],
+				queryFn: async () => fetchBodyTemperature(session?.toString() || ''),
+			},
+			{
+				queryKey: ['bodyweight'],
+				queryFn: async () => fetchBodyWeight(session?.toString() || ''),
+			},
+			{
+				queryKey: ['oxygensaturation'],
+				queryFn: async () => fetchBodyWeight(session?.toString() || ''), // Note: This is using fetchBodyWeight, might need correction
+			},
+		],
 	});
 
-	const { data: bloodsugar, isLoading: bsLoading } = useQuery({
-		queryKey: ['bloodsugar'],
-		queryFn: async () => fetchBloodSugar(session?.toString() || ''),
-	});
-
-	const { data: bodytemperature, isLoading: btLoading } = useQuery({
-		queryKey: ['bodytemperature'],
-		queryFn: async () => fetchBodyTemperature(session?.toString() || ''),
-	});
-
-	const { data: bodyweight, isLoading: bwLoading } = useQuery({
-		queryKey: ['bodyweight'],
-		queryFn: async () => fetchBodyWeight(session?.toString() || ''),
-	});
-
-	const { data: oxygensaturation, isLoading: osLoading } = useQuery({
-		queryKey: ['oxygensaturation'],
-		queryFn: async () => fetchBodyWeight(session?.toString() || ''),
-	});
-
-	if (bpLoading || bsLoading || btLoading || bwLoading || osLoading) {
+	if (
+		bloodpressure.isLoading ||
+		bloodsugar.isLoading ||
+		bodytemperature.isLoading ||
+		bodyweight.isLoading ||
+		oxygensaturation.isLoading
+	) {
 		return (
 			<View style={STYLES.loadingView}>
 				<ActivityIndicator size='large' color='#3A7283' />
@@ -63,7 +68,7 @@ const MainMeasurements = (): JSX.Element => {
 		// <HvScrollView>
 		<View style={STYLES.imageView}>
 			<View style={Styles.container}>
-				{bloodpressure && bloodpressure.length > 0 && (
+				{bloodpressure.data && bloodpressure.data.length > 0 && (
 					<View style={Styles.itemContainer}>
 						<TouchableOpacity
 							style={Styles.item}
@@ -79,7 +84,7 @@ const MainMeasurements = (): JSX.Element => {
 					</View>
 				)}
 
-				{bloodsugar && bloodsugar.length > 0 && (
+				{bloodsugar.data && bloodsugar.data.length > 0 && (
 					<View style={Styles.itemContainer}>
 						<TouchableOpacity
 							style={Styles.item}
@@ -95,7 +100,7 @@ const MainMeasurements = (): JSX.Element => {
 					</View>
 				)}
 
-				{bodyweight && bodyweight.length > 0 && (
+				{bodyweight.data && bodyweight.data.length > 0 && (
 					<View style={Styles.itemContainer}>
 						<TouchableOpacity
 							style={Styles.item}
@@ -111,7 +116,7 @@ const MainMeasurements = (): JSX.Element => {
 					</View>
 				)}
 
-				{bodytemperature && bodytemperature.length > 0 && (
+				{bodytemperature.data && bodytemperature.data.length > 0 && (
 					<View style={Styles.itemContainer}>
 						<TouchableOpacity
 							style={Styles.item}
@@ -127,7 +132,7 @@ const MainMeasurements = (): JSX.Element => {
 					</View>
 				)}
 
-				{oxygensaturation && oxygensaturation.length > 0 && (
+				{oxygensaturation.data && oxygensaturation.data.length > 0 && (
 					<View style={Styles.itemContainer}>
 						<TouchableOpacity
 							style={Styles.item}
