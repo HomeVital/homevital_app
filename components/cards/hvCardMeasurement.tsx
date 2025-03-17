@@ -21,7 +21,7 @@ const isBloodPressure = (item: unknown): item is IBloodPressure =>
 	item !== null && typeof item === 'object' && 'systolic' in item && 'diastolic' in item;
 
 const isOxygenSaturation = (item: unknown): item is IOxygenSaturation =>
-	item !== null && typeof item === 'object' && 'oxygenSaturationLevel' in item;
+	item !== null && typeof item === 'object' && 'oxygenSaturationValue' in item;
 
 const isBodyTemperature = (item: unknown): item is IBodyTemperature =>
 	item !== null && typeof item === 'object' && 'temperature' in item;
@@ -42,7 +42,7 @@ const HvCardMeasurement = <T,>({ item }: Props<T>): JSX.Element => {
 		if (isBloodPressure(item)) {
 			return `${item.systolic}/${item.diastolic}`;
 		} else if (isOxygenSaturation(item)) {
-			return `${item.oxygenSaturationLevel} %`;
+			return `${item.oxygenSaturationValue} %`;
 		} else if (isBodyTemperature(item)) {
 			return `${item.temperature} °C`;
 		} else if (isBodyWeight(item)) {

@@ -42,10 +42,7 @@ const Weight = (): JSX.Element => {
 	const ScrollView = () => {
 		return (
 			<View style={Styles.container}>
-				{data
-					?.slice()
-					.reverse()
-					.map((item) => <HvCardMeasurement key={item.id} item={item} />)}
+				{data?.map((item) => <HvCardMeasurement key={item.id} item={item} />)}
 			</View>
 		);
 	};

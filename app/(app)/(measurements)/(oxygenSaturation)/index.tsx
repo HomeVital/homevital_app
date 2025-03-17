@@ -45,10 +45,7 @@ const BloodPressure = (): JSX.Element => {
 	const ScrollView = () => {
 		return (
 			<View style={Styles.container}>
-				{data
-					?.slice()
-					.reverse()
-					.map((item) => <HvCardMeasurement key={item.id} item={item} />)}
+				{data?.map((item) => <HvCardMeasurement key={item.id} item={item} />)}
 			</View>
 		);
 	};
@@ -56,7 +53,7 @@ const BloodPressure = (): JSX.Element => {
 	const GraphView = () => {
 		const [item, setItem] = useState(undefined as IOxygenSaturation | undefined);
 		const dataTypes = {
-			oxygenSaturationLevel: { name: '%', color: DARK_GREEN },
+			oxygenSaturationValue: { name: '%', color: DARK_GREEN },
 		};
 
 		return (

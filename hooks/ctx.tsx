@@ -3,12 +3,12 @@ import { useStorageState } from './useStorageState';
 import { GetRafraenSkilriki, GetUserId } from '@/queries/queries';
 
 const AuthContext = createContext<{
-	signIn: (SSN: string) => void;
+	signIn: (SSN: string) => Promise<string>;
 	signOut: () => void;
 	session?: string | null;
 	isLoading: boolean;
 }>({
-	signIn: () => null,
+	signIn: async () => '',
 	signOut: () => null,
 	session: null,
 	isLoading: false,
@@ -20,7 +20,7 @@ const AuthContext = createContext<{
  * @throws error if used outside of SessionProvider
  */
 export const useSession = (): {
-	signIn: (SSN: string) => void;
+	signIn: (SSN: string) => Promise<string>;
 	signOut: () => void;
 	session?: string | null;
 	isLoading: boolean;
@@ -43,41 +43,17 @@ export const SessionProvider = ({ children }: PropsWithChildren): JSX.Element =>
 	const [[isLoading, session], setSession] = useStorageState('session');
 
 	// const queryClient = useQueryClient();
-	const HandleSignIn = async (SSN: string) => {
-		try {
-			const userSSN = await GetRafraenSkilriki(SSN);
-
-			const userId = await GetUserId(String(userSSN));
-
-			setSession(userId);
-		} catch (error) {
-			console.error('Sign-in error:', error);
-		}
+	const HandleSignIn = async (SSN: string): Promise<string> => {
+		const userSSN = await GetRafraenSkilriki(SSN);
+		const userId = await GetUserId(String(userSSN));
+		setSession(userId);
+		return userId; // Return the user ID
 	};
-
-	// const signInMutation = useMutation<string, Error, string>(
-	// 	async (SSN: string) => {
-	// 		const userSSN = await GetRafraenSkilriki(SSN);
-	// 		const userId = await GetUserId(userSSN);
-	// 		return userId;
-	// 	},
-	// 	{
-	// 		onSuccess: (userId: string) => {
-	// 			setSession(userId);
-	// 			queryClient.setQueryData(['session'], userId);
-	// 		},
-	// 		onError: (error: Error) => {
-	// 			console.error('Sign-in error:', error);
-	// 		},
-	// 	},
-	// );
 
 	return (
 		<AuthContext.Provider
 			value={{
-				signIn: (SSN: string) => {
-					HandleSignIn(SSN);
-				},
+				signIn: HandleSignIn,
 				signOut: () => {
 					setSession(null);
 				},

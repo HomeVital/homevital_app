@@ -38,7 +38,7 @@ const BloodOxygen = (): JSX.Element => {
 		try {
 			await addMutation({
 				patientID: parseInt(session?.toString() || '0', 10),
-				oxygenSaturationLevel: parseInt(bloodOxygen, 10),
+				oxygenSaturationValue: parseInt(bloodOxygen, 10),
 			});
 		} catch (error) {
 			console.error('Error adding oxygen saturation:', error);

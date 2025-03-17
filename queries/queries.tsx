@@ -24,19 +24,20 @@ import { IOxygenSaturation } from '@/interfaces/oxygenSaturationInterfaces';
  * @throws {Error} - Throws an error if the response is not ok.
  */
 export const GetRafraenSkilriki = async (ssn: string): Promise<string> => {
-	const response = await fetch(MOCK_LOGIN_URL, {
-		method: 'POST',
-		headers: {
-			'Content-Type': 'application/json',
-		},
-		body: JSON.stringify({ kennitala: ssn }),
-	});
+	// const response = await fetch(MOCK_LOGIN_URL, {
+	// 	method: 'POST',
+	// 	headers: {
+	// 		'Content-Type': 'application/json',
+	// 	},
+	// 	body: JSON.stringify({ kennitala: ssn }),
+	// });
 
-	if (response.status !== 200) {
-		console.error('Response:', response);
-		throw new Error('Failed to sign in');
-	}
-	return response.json();
+	// if (response.status !== 200) {
+	// 	throw new Error('Failed to sign in');
+	// }
+	// return response.json();
+	const response = await axios.post(MOCK_LOGIN_URL, { kennitala: ssn });
+	return response.data;
 };
 
 /**
@@ -46,11 +47,8 @@ export const GetRafraenSkilriki = async (ssn: string): Promise<string> => {
  * @returns {Promise<string>} - A promise that resolves to the `id` value from the response data.
  * @throws {Error} - Throws an error if the response is not ok.
  */
-export const GetUserId = async (SSN: string): Promise<string> => {
-	const response = await axios.post(LOGIN_URL, { kennitala: SSN });
-	// if (response.status !== 200) {
-	// 	throw new Error('Failed to set session');
-	// }
+export const GetUserId = async (ssn: string): Promise<string> => {
+	const response = await axios.post(LOGIN_URL, { kennitala: ssn });
 	return response.data;
 };
 

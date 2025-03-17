@@ -3,14 +3,16 @@ import { View, StyleSheet, TextInput } from 'react-native';
 import HvText from '@/components/ui/hvText';
 // constants
 import { DARK_GREEN, WHITE } from '@/constants/colors';
+import { FieldError } from 'react-hook-form';
 
 interface Props {
-	itemState: string;
+	itemState: string | number;
 	setItemState: (value: string) => void;
 	description: string;
 	header?: string;
 	metric?: string;
 	keyboardMax?: number;
+	error?: FieldError | undefined;
 }
 
 /**
@@ -30,6 +32,7 @@ const HvInputField = ({
 	header = '',
 	metric = '',
 	keyboardMax = 3,
+	error = undefined,
 }: Props): JSX.Element => {
 	return (
 		<View style={Styles.itemContainer}>
@@ -45,8 +48,8 @@ const HvInputField = ({
 				</View>
 				<View style={Styles.inputShadow}>
 					<TextInput
-						value={itemState}
-						keyboardType='numeric'
+						value={itemState as string}
+						keyboardType='number-pad'
 						maxLength={keyboardMax}
 						// placeholder='ex. 120'
 						selectTextOnFocus={true}
