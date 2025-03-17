@@ -2,7 +2,7 @@ import { ActivityIndicator, StyleSheet, View } from 'react-native';
 import { Image } from 'expo-image';
 import { useQuery } from '@tanstack/react-query';
 // components
-import HvCard from '@/components/ui/hvCard';
+import HvCard from '@/components/cards/hvCard';
 import HvToggler from '@/components/ui/hvToggler';
 import HvText from '@/components/ui/hvText';
 import { useSession } from '@/hooks/ctx';

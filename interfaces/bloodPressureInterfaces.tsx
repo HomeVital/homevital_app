@@ -1,3 +1,5 @@
+import { IMeasurementBase } from './measurementBaseInterfaces';
+
 export interface IAddBloodPressure {
 	patientID: number;
 	measureHand: string;
@@ -8,7 +10,4 @@ export interface IAddBloodPressure {
 	status: string;
 }
 
-export interface IBloodPressure extends IAddBloodPressure {
-	id: number;
-	date: string;
-}
+export interface IBloodPressure extends IAddBloodPressure, IMeasurementBase {}

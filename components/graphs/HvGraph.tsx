@@ -1,6 +1,6 @@
 import { ColorValue, TouchableOpacity, View } from 'react-native';
 import HvText from '../ui/hvText';
-import HvCard from '../ui/hvCard';
+import HvCard from '../cards/hvCard';
 import { CurveType, LineChart } from 'react-native-gifted-charts';
 import { useState } from 'react';
 import { DARK_GREEN, LIGHT_GRAY } from '@/constants/colors';

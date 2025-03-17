@@ -8,7 +8,7 @@ import { useSession } from '@/hooks/ctx';
 import { useQuery } from '@tanstack/react-query';
 import { fetchBloodSugar } from '@/queries/queries';
 import HvScrollView from '@/components/ui/HvScrollView';
-import HvCard from '@/components/ui/hvCard';
+import HvCard from '@/components/cards/hvCard';
 import { formatDate } from '@/utility/utility';
 import { PADDING, TAB_ICON_SIZE } from '@/constants/sizes';
 import { useToggle } from '@/hooks/UseToggle';

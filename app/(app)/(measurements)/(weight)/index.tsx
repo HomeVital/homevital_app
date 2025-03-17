@@ -1,5 +1,4 @@
-import { ActivityIndicator, StyleSheet, TouchableOpacity, View } from 'react-native';
-import { Image } from 'expo-image';
+import { ActivityIndicator, StyleSheet, View } from 'react-native';
 // components
 import HvToggler from '@/components/ui/hvToggler';
 import { STYLES } from '@/constants/styles';
@@ -8,10 +7,13 @@ import { useSession } from '@/hooks/ctx';
 import { useQuery } from '@tanstack/react-query';
 import { fetchBodyWeight } from '@/queries/queries';
 import HvScrollView from '@/components/ui/HvScrollView';
-import HvCard from '@/components/ui/hvCard';
-import { formatDate } from '@/utility/utility';
 import { PADDING, TAB_ICON_SIZE } from '@/constants/sizes';
 import { useToggle } from '@/hooks/UseToggle';
+import HvCardMeasurement from '@/components/cards/hvCardMeasurement';
+import { IBodyWeight } from '@/interfaces/bodyWeightInterfaces';
+import { DARK_GREEN } from '@/constants/colors';
+import { useState } from 'react';
+import HvGraph from '@/components/graphs/HvGraph';
 
 const Weight = (): JSX.Element => {
 	const { session } = useSession();
@@ -37,6 +39,31 @@ const Weight = (): JSX.Element => {
 		);
 	}
 
+	const ScrollView = () => {
+		return (
+			<View style={Styles.container}>
+				{data
+					?.slice()
+					.reverse()
+					.map((item) => <HvCardMeasurement key={item.id} item={item} />)}
+			</View>
+		);
+	};
+
+	const GraphView = () => {
+		const [item, setItem] = useState(undefined as IBodyWeight | undefined);
+		const dataTypes = {
+			weight: { name: 'Kg', color: DARK_GREEN },
+		};
+
+		return (
+			<View style={Styles.container}>
+				<HvGraph data={data as IBodyWeight[]} dataTypes={dataTypes} setItem={setItem} />
+				{item !== undefined && <HvCardMeasurement item={item} />}
+			</View>
+		);
+	};
+
 	return (
 		<View style={STYLES.defaultNoPadView}>
 			<HvToggler
@@ -47,7 +74,8 @@ const Weight = (): JSX.Element => {
 				textRight='Mælingar'
 				margin={20}
 			/>
-			<HvScrollView>
+			<HvScrollView>{toggled ? <GraphView /> : <ScrollView />}</HvScrollView>
+			{/* <HvScrollView>
 				<View style={Styles.container}>
 					{data
 						?.slice()
@@ -70,7 +98,7 @@ const Weight = (): JSX.Element => {
 							</TouchableOpacity>
 						))}
 				</View>
-			</HvScrollView>
+			</HvScrollView> */}
 		</View>
 	);
 };

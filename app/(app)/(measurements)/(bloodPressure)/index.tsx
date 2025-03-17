@@ -1,5 +1,4 @@
 import { ActivityIndicator, StyleSheet, View } from 'react-native';
-import { Image } from 'expo-image';
 // components
 import HvToggler from '@/components/ui/hvToggler';
 import { STYLES } from '@/constants/styles';
@@ -9,8 +8,6 @@ import { useQuery } from '@tanstack/react-query';
 import { fetchBloodPressure } from '@/queries/queries';
 import HvScrollView from '@/components/ui/HvScrollView';
 import { useState } from 'react';
-import HvCard from '@/components/ui/hvCard';
-import { formatDate } from '@/utility/utility';
 import { PADDING } from '@/constants/sizes';
 import { TAB_ICON_SIZE } from '@/constants/sizes';
 import { DARK_GREEN, LIGHT_BLUE, LIGHT_GREEN } from '@/constants/colors';
@@ -18,6 +15,7 @@ import React from 'react';
 import { IBloodPressure } from '@/interfaces/bloodPressureInterfaces';
 import HvGraph from '@/components/graphs/HvGraph';
 import { useToggle } from '@/hooks/UseToggle';
+import HvCardMeasurement from '@/components/cards/hvCardMeasurement';
 
 const BloodPressure = (): JSX.Element => {
 	const { session } = useSession();
@@ -44,76 +42,29 @@ const BloodPressure = (): JSX.Element => {
 		);
 	}
 
-	const cardItem = (item: IBloodPressure) => {
-		return (
-			<HvCard key={item.id} style={{ paddingInline: 20, height: 90 }} row>
-				<View style={Styles.left}>
-					<Image
-						source={require('@/assets/svgs/measurementLabel/good.svg')}
-						contentFit='contain'
-						style={Styles.indicator}
-					/>
-					<HvText weight='semibold'>{formatDate(item.date)}</HvText>
-				</View>
-				<HvText size='xxl' weight='semibold'>
-					{item.systolic}/{item.diastolic}
-				</HvText>
-				<View style={Styles.right}>
-					{item.bodyPosition === 'Laying' ? (
-						<Image
-							source={require('@/assets/svgs/laying.svg')}
-							contentFit='contain'
-							style={Styles.icon}
-						/>
-					) : (
-						<Image
-							source={require('@/assets/svgs/sitting.svg')}
-							contentFit='contain'
-							style={Styles.icon}
-						/>
-					)}
-					{item.measureHand === 'Left' ? (
-						<Image
-							source={require('@/assets/svgs/handLeft.svg')}
-							contentFit='contain'
-							style={Styles.icon}
-						/>
-					) : (
-						<Image
-							source={require('@/assets/svgs/handRight.svg')}
-							contentFit='contain'
-							style={Styles.icon}
-						/>
-					)}
-				</View>
-			</HvCard>
-		);
-	};
-
 	const ScrollView = () => {
 		return (
 			<View style={Styles.container}>
 				{data
 					?.slice()
 					.reverse()
-					.map((item) => cardItem(item))}
+					.map((item) => <HvCardMeasurement key={item.id} item={item} />)}
 			</View>
 		);
 	};
 
 	const GraphView = () => {
+		const [item, setItem] = useState(undefined as IBloodPressure | undefined);
 		const dataTypes = {
 			systolic: { name: 'SYS', color: LIGHT_GREEN },
 			diastolic: { name: 'DIA', color: DARK_GREEN },
 			pulse: { name: 'Púls', color: LIGHT_BLUE },
 		};
 
-		const [item, setItem] = useState(undefined as IBloodPressure | undefined);
-
 		return (
 			<View style={Styles.container}>
 				<HvGraph data={data as IBloodPressure[]} dataTypes={dataTypes} setItem={setItem} />
-				{item !== undefined && cardItem(item as IBloodPressure)}
+				{item !== undefined && <HvCardMeasurement item={item} />}
 			</View>
 		);
 	};
