@@ -12,6 +12,14 @@ interface Props {
 	style?: object; // optional
 }
 
+/**
+ * Custom button component
+ * @param text - button text
+ * @param onPress - function to execute on button press
+ * @param width - button width
+ * @param style - additional button styles
+ * @returns custom button component
+ */
 const HvButton = ({ text, onPress, width, style = {} }: Props): JSX.Element => {
 	return (
 		<View style={[{ width: width ? width : {}, borderRadius: 10 }, style]}>

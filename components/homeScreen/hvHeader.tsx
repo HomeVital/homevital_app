@@ -7,6 +7,11 @@ interface Props {
 	name: string;
 }
 
+/**
+ * Custom header component for the home screen (ONLY)
+ * @param name - name of the user
+ * @returns header component for the home screen
+ */
 const HvHeader = ({ name }: Props): JSX.Element => {
 	return (
 		<View style={Styles.container}>

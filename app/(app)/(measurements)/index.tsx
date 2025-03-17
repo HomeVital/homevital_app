@@ -1,9 +1,9 @@
 import { ActivityIndicator, StyleSheet, TouchableOpacity, View } from 'react-native';
-import { RelativePathString, router } from 'expo-router';
+import { router } from 'expo-router';
 import { Image } from 'expo-image';
 import { useQueries } from '@tanstack/react-query';
 // components
-import { useSession } from '@/authentication/ctx';
+import { useSession } from '@/hooks/ctx';
 import {
 	fetchBloodPressure,
 	fetchBloodSugar,
@@ -19,11 +19,6 @@ import { PADDING } from '@/constants/sizes';
 
 const MainMeasurements = (): JSX.Element => {
 	const { session } = useSession();
-
-	// for updating routes right
-	const handleTabRoute = (route: string): void => {
-		router.push(route as RelativePathString);
-	};
 
 	const [bloodpressure, bloodsugar, bodytemperature, bodyweight, oxygensaturation] = useQueries({
 		queries: [
@@ -72,7 +67,7 @@ const MainMeasurements = (): JSX.Element => {
 					<View style={Styles.itemContainer}>
 						<TouchableOpacity
 							style={Styles.item}
-							onPress={() => handleTabRoute('/(app)/(measurements)/(bloodPressure)')}
+							onPress={() => router.push('/(app)/(measurements)/(bloodPressure)')}
 						>
 							<Image
 								source={require('@/assets/images/heartDark.png')}
@@ -88,7 +83,7 @@ const MainMeasurements = (): JSX.Element => {
 					<View style={Styles.itemContainer}>
 						<TouchableOpacity
 							style={Styles.item}
-							onPress={() => handleTabRoute('/(app)/(measurements)/(bloodSugar)')}
+							onPress={() => router.push('/(app)/(measurements)/(bloodSugar)')}
 						>
 							<Image
 								source={require('@/assets/images/waterDark.png')}
@@ -104,7 +99,7 @@ const MainMeasurements = (): JSX.Element => {
 					<View style={Styles.itemContainer}>
 						<TouchableOpacity
 							style={Styles.item}
-							onPress={() => handleTabRoute('/(app)/(measurements)/(weight)')}
+							onPress={() => router.push('/(app)/(measurements)/(weight)')}
 						>
 							<Image
 								source={require('@/assets/images/scaleDark.png')}
@@ -120,7 +115,7 @@ const MainMeasurements = (): JSX.Element => {
 					<View style={Styles.itemContainer}>
 						<TouchableOpacity
 							style={Styles.item}
-							onPress={() => handleTabRoute('/(app)/(measurements)/(temperature)')}
+							onPress={() => router.push('/(app)/(measurements)/(temperature)')}
 						>
 							<Image
 								source={require('@/assets/images/warmDark.png')}
@@ -136,9 +131,7 @@ const MainMeasurements = (): JSX.Element => {
 					<View style={Styles.itemContainer}>
 						<TouchableOpacity
 							style={Styles.item}
-							onPress={() =>
-								handleTabRoute('/(app)/(measurements)/(oxygenSaturation)')
-							}
+							onPress={() => router.push('/(app)/(measurements)/(oxygenSaturation)')}
 						>
 							<Image
 								source={require('@/assets/svgs/lungsDark.svg')}

@@ -14,7 +14,11 @@ const AuthContext = createContext<{
 	isLoading: false,
 });
 
-// This hook can be used to access the user info.
+/**
+ * Hook to get session state
+ * @returns session state
+ * @throws error if used outside of SessionProvider
+ */
 export const useSession = (): {
 	signIn: (SSN: string) => void;
 	signOut: () => void;
@@ -30,6 +34,11 @@ export const useSession = (): {
 	return value;
 };
 
+/**
+ * Provider to handle session state
+ * @param children - children components
+ * @returns session provider component
+ */
 export const SessionProvider = ({ children }: PropsWithChildren): JSX.Element => {
 	const [[isLoading, session], setSession] = useStorageState('session');
 

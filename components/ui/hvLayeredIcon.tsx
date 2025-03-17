@@ -8,6 +8,15 @@ interface Props {
 	shiftUp?: number;
 }
 
+/**
+ * Custom layered icon component with two images
+ *
+ * @param size - size of the icon
+ * @param outerIcon - outer icon image
+ * @param innerIcon - inner icon image
+ * @param shiftUp - shift inner icon up
+ * @returns layered icon component
+ */
 const HvLayeredIcon = ({ size, outerIcon, innerIcon, shiftUp = 0 }: Props): JSX.Element => {
 	const topShift = -0.8 * size - shiftUp;
 

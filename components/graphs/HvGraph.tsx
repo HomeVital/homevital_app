@@ -26,6 +26,13 @@ interface Props<
 	setItem: (item: T | undefined) => void;
 }
 
+/**
+ * Graph component
+ * @param data - data to display
+ * @param dataTypes - data types to display
+ * @param setItem - function to set the selected item
+ * @returns graph component
+ */
 const HvGraph = <T,>({ data, dataTypes, setItem }: Props<T>): JSX.Element => {
 	// selected data point indexing
 	const filteredData = Object.keys(dataTypes).map((key) =>
@@ -186,6 +193,11 @@ const HvGraph = <T,>({ data, dataTypes, setItem }: Props<T>): JSX.Element => {
 	);
 };
 
+/**
+ * Graph legend component
+ * @param legends - array of legend names and colors
+ * @returns graph legend component
+ */
 const HvGraphLegend = (legends: [string, ColorValue][]) => {
 	return (
 		<View

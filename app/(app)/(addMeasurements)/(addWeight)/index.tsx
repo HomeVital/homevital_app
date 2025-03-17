@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { View } from 'react-native';
 import { useQueryClient, useMutation } from '@tanstack/react-query';
-import { useSession } from '@/authentication/ctx';
+import { useSession } from '@/hooks/ctx';
 import axios from 'axios';
 import { router } from 'expo-router';
 // components
@@ -22,6 +22,7 @@ const postBodyWeight = async (sessionId: string, measurement: IAddBodyWeight) =>
 const Weight = (): JSX.Element => {
 	const queryClient = useQueryClient();
 	const { session } = useSession();
+	// states
 	const [weight, setWeight] = useState('');
 
 	const { mutateAsync: addMutation } = useMutation({

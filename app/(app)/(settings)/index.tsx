@@ -7,7 +7,7 @@ import HvText from '@/components/ui/hvText';
 // constants
 import { BRIGHT_GREEN } from '@/constants/colors';
 import { STYLES } from '@/constants/styles';
-import { useSession } from '@/authentication/ctx';
+import { useSession } from '@/hooks/ctx';
 import { useQuery } from '@tanstack/react-query';
 import { fetchPatient } from '@/queries/queries';
 import { IPatient } from '@/interfaces/patientInterfaces';

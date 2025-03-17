@@ -10,11 +10,20 @@ import { LIGHT_GRAY, WHITE } from '@/constants/colors';
 import HvTabItemAnimated from './hvTabItemAnimated';
 import HvTabButtonWheel from './hvTabButtonWheel';
 
+/**
+ * Custom tab bar component with possible large tab, and a rotating tab for a button wheel
+ * @returns custom tab bar component
+ */
 const HvTabBar = (): JSX.Element => {
 	const [stackName, setStackName] = useState('');
 	const [addOpen, setAddOpen] = useState(false);
 
-	// for updating routes right
+	/**
+	 * Handles tab route with proper depth
+	 * @param route - route to navigate to
+	 * @param prev - previous route
+	 * @returns route to navigate to
+	 */
 	const handleTabRoute = (route: string, prev: string): string => {
 		setAddOpen(false); // close add tab if open
 		if (router.canDismiss()) {
@@ -34,6 +43,7 @@ const HvTabBar = (): JSX.Element => {
 		opacity.value = withTiming(addOpen ? 1 : 0);
 	}, [addOpen, opacity]);
 
+	// style for which icon for the button wheel tab is visible
 	const animatedStyle = useAnimatedStyle(() => {
 		return {
 			opacity: opacity.value,

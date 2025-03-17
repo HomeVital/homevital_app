@@ -8,6 +8,12 @@ interface Props {
 	ignoreHeaderRoutes?: string[];
 }
 
+/**
+ * Custom back stack component
+ * @param title - title of the screen
+ * @param ignoreHeaderRoutes - routes for which to ignore the header
+ * @returns custom back stack component
+ */
 const HvBackStack = ({ title, ignoreHeaderRoutes = [] }: Props): JSX.Element => {
 	return (
 		<Stack

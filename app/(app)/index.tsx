@@ -5,7 +5,7 @@ import { useQuery } from '@tanstack/react-query';
 import HvHeader from '@/components/homeScreen/hvHeader';
 import HvText from '@/components/ui/hvText';
 import { STYLES } from '@/constants/styles';
-import { useSession } from '@/authentication/ctx';
+import { useSession } from '@/hooks/ctx';
 import HvScrollView from '@/components/ui/HvScrollView';
 import { fetchPatient } from '@/queries/queries';
 

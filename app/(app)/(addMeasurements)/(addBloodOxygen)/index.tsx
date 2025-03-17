@@ -9,7 +9,7 @@ import { STYLES } from '@/constants/styles';
 import HvInputField from '@/components/ui/hvInputForm/hvInputField';
 import HvInputFormContainer from '@/components/ui/hvInputForm/hvInputFormContainer';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
-import { useSession } from '@/authentication/ctx';
+import { useSession } from '@/hooks/ctx';
 import { IAddOxygenSaturation } from '@/interfaces/oxygenSaturationInterfaces';
 import { OXYGENSATURATION_URL } from '@/constants/api';
 import axios from 'axios';
@@ -22,7 +22,7 @@ const postOxygenSaturation = async (sessionId: string, measurement: IAddOxygenSa
 const BloodOxygen = (): JSX.Element => {
 	const queryClient = useQueryClient();
 	const { session } = useSession();
-	// num inputs
+	// states
 	const [bloodOxygen, setBloodOxygen] = useState('');
 
 	const { mutateAsync: addMutation } = useMutation({

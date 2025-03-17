@@ -7,6 +7,11 @@ import HvButton from '@/components/ui/hvButton';
 import { LIGHT_GREEN } from '@/constants/colors';
 import { WIN_WIDTH } from '@/constants/window';
 
+/**
+ * Initial screen for the app that goes to the sign-in screen
+ * when the user presses the button
+ * @returns initial screen
+ */
 const InitialScreen = (): JSX.Element => {
 	return (
 		<SafeAreaView style={Styles.container}>

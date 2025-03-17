@@ -12,6 +12,13 @@ interface Props extends ViewProps {
 		| 'space-evenly';
 }
 
+/**
+ * Custom card component
+ * @param row - if true, children will be displayed in a row
+ * @param spacing - justify content for the children
+ * @param props - additional view props
+ * @returns custom card component
+ */
 const HvCard = ({ row = false, spacing = 'space-between', ...props }: Props): JSX.Element => {
 	return (
 		<View

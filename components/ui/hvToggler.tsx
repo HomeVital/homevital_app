@@ -5,16 +5,29 @@ import HvText from '@/components/ui/hvText';
 import { DARK_GREEN, GREEN } from '@/constants/colors';
 
 interface Props {
-	toggled: boolean;
-	setToggled: (value: boolean) => void;
+	toggler: boolean;
+	setToggledTrue: () => void;
+	setToggledFalse: () => void;
 	textLeft: string;
 	textRight: string;
 	margin?: number;
 }
 
+/**
+ * Toggler component with two sides
+ *
+ * @param toggler - boolean value to determine which side is toggled
+ * @param setToggledTrue - function to set toggler to true
+ * @param setToggledFalse - function to set toggler to false
+ * @param textLeft - text to display on the left side
+ * @param textRight - text to display on the right side
+ * @param margin - margin to apply to the container
+ * @returns toggle component with two sides
+ */
 const HvToggler = ({
-	toggled,
-	setToggled,
+	toggler,
+	setToggledTrue,
+	setToggledFalse,
 	textLeft,
 	textRight,
 	margin = 0,
@@ -22,8 +35,8 @@ const HvToggler = ({
 	return (
 		<View style={[Styles.container, { marginHorizontal: margin }]}>
 			<TouchableOpacity
-				style={[toggled ? Styles.toggled : {}, Styles.toggler]}
-				onPress={() => setToggled(true)}
+				style={[toggler ? Styles.toggled : {}, Styles.toggler]}
+				onPress={setToggledTrue}
 			>
 				<HvText color='white' weight='bold'>
 					{textLeft}
@@ -31,8 +44,8 @@ const HvToggler = ({
 			</TouchableOpacity>
 
 			<TouchableOpacity
-				style={[toggled ? {} : Styles.toggled, Styles.toggler]}
-				onPress={() => setToggled(false)}
+				style={[toggler ? {} : Styles.toggled, Styles.toggler]}
+				onPress={setToggledFalse}
 			>
 				<HvText color='white' weight='bold'>
 					{textRight}

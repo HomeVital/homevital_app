@@ -13,6 +13,16 @@ interface Props {
 	keyboardMax?: number;
 }
 
+/**
+ * Custom input field component for an input form
+ * @param itemState - state of the input field
+ * @param setItemState - function to set the input field state
+ * @param description - description of the input field
+ * @param header - header text for the input field
+ * @param metric - metric text for the input field
+ * @param keyboardMax - maximum number of characters for the input field
+ * @returns custom input field component
+ */
 const HvInputField = ({
 	itemState,
 	setItemState,

@@ -4,7 +4,7 @@ import { Image } from 'expo-image';
 import HvToggler from '@/components/ui/hvToggler';
 import { STYLES } from '@/constants/styles';
 import HvText from '@/components/ui/hvText';
-import { useSession } from '@/authentication/ctx';
+import { useSession } from '@/hooks/ctx';
 import { useQuery } from '@tanstack/react-query';
 import { fetchOxygenSaturation } from '@/queries/queries';
 import HvScrollView from '@/components/ui/HvScrollView';
@@ -18,10 +18,11 @@ import { WIN_WIDTH } from '@/constants/window';
 import { DARK_GREEN, LIGHT_GRAY } from '@/constants/colors';
 import React from 'react';
 import { IOxygenSaturation } from '@/interfaces/oxygenSaturationInterfaces';
+import { useToggle } from '@/hooks/UseToggle';
 
 const BloodPressure = (): JSX.Element => {
 	const { session } = useSession();
-	const [toggle, setToggle] = useState(false);
+	const { toggled, setToggledTrue, setToggledFalse } = useToggle();
 
 	const { data, isError, isLoading } = useQuery({
 		queryKey: ['oxygensaturation'],
@@ -272,13 +273,14 @@ const BloodPressure = (): JSX.Element => {
 	return (
 		<View style={STYLES.defaultNoPadView}>
 			<HvToggler
-				toggled={toggle}
-				setToggled={setToggle}
+				toggler={toggled}
+				setToggledTrue={setToggledTrue}
+				setToggledFalse={setToggledFalse}
 				textLeft='Graf'
 				textRight='Mælingar'
 				margin={20}
 			/>
-			<HvScrollView>{toggle ? <GraphView /> : <ScrollView />}</HvScrollView>
+			<HvScrollView>{toggled ? <GraphView /> : <ScrollView />}</HvScrollView>
 		</View>
 	);
 };

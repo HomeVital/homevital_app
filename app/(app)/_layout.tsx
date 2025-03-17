@@ -2,7 +2,7 @@ import React, { useEffect } from 'react';
 import { AppState } from 'react-native';
 import { Redirect, Stack } from 'expo-router';
 // components
-import { useSession } from '@/authentication/ctx';
+import { useSession } from '@/hooks/ctx';
 import HvText from '@/components/ui/hvText';
 import HvTabBar from '@/components/ui/hvTabBar/hvTabBar';
 // constants

@@ -5,7 +5,7 @@ import { StatusBar } from 'expo-status-bar'; // battery life and such
 import { Redirect, Slot } from 'expo-router';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 // components
-import { SessionProvider } from '@/authentication/ctx';
+import { SessionProvider } from '@/hooks/ctx';
 // constants
 import { LIGHT_THEME } from '@/constants/colors';
 // import { PaperProvider } from 'react-native-paper';
@@ -42,12 +42,5 @@ const RootLayout = (): JSX.Element => {
 		</QueryClientProvider>
 	);
 };
-
-// const Styles = StyleSheet.create({
-//   container: {
-//     flex: 1,
-//     flexDirection: 'column',
-//   },
-// });
 
 export default RootLayout;

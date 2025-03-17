@@ -4,18 +4,18 @@ import { Image } from 'expo-image';
 import HvToggler from '@/components/ui/hvToggler';
 import { STYLES } from '@/constants/styles';
 import HvText from '@/components/ui/hvText';
-import { useSession } from '@/authentication/ctx';
+import { useSession } from '@/hooks/ctx';
 import { useQuery } from '@tanstack/react-query';
 import { fetchBloodSugar } from '@/queries/queries';
 import HvScrollView from '@/components/ui/HvScrollView';
-import { useState } from 'react';
 import HvCard from '@/components/ui/hvCard';
 import { formatDate } from '@/utility/utility';
 import { PADDING, TAB_ICON_SIZE } from '@/constants/sizes';
+import { useToggle } from '@/hooks/UseToggle';
 
 const BloodSugar = (): JSX.Element => {
 	const { session } = useSession();
-	const [toggle, setToggle] = useState(false);
+	const { toggled, setToggledTrue, setToggledFalse } = useToggle();
 
 	const { data, isError, isLoading } = useQuery({
 		queryKey: ['bloodsugar'],
@@ -41,8 +41,9 @@ const BloodSugar = (): JSX.Element => {
 	return (
 		<View style={STYLES.defaultNoPadView}>
 			<HvToggler
-				toggled={toggle}
-				setToggled={setToggle}
+				toggler={toggled}
+				setToggledTrue={setToggledTrue}
+				setToggledFalse={setToggledFalse}
 				textLeft='Graf'
 				textRight='Mælingar'
 				margin={20}

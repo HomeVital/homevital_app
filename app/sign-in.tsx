@@ -3,13 +3,16 @@ import { StyleSheet, TextInput, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { useEffect, useState } from 'react';
 // components
-import { useSession } from '@/authentication/ctx';
+import { useSession } from '@/hooks/ctx';
 import HvButton from '@/components/ui/hvButton';
 // constants
 import { GRAY, LIGHT_GREEN, WHITE } from '@/constants/colors';
 import { WIN_WIDTH } from '@/constants/window';
-// import { Svg, Circle, Polygon, Polyline, Path, Rect, G } from 'react-native-svg';
 
+/**
+ * Sign in screen which allows the user to sign in with their SSN
+ * @returns sign in screen
+ */
 const SignIn = (): JSX.Element => {
 	const { signIn, session } = useSession();
 	const [SSN, setSSN] = useState('');
@@ -23,16 +26,6 @@ const SignIn = (): JSX.Element => {
 
 	return (
 		<SafeAreaView style={Styles.container}>
-			{/* <Svg height={20} width={20}>
-				<G>
-					<Path
-						d='M 0 0 L 0 100 L 100 100 L 100 0 Z'
-						fill='red'
-						stroke='blue'
-						strokeWidth='3'
-					/>
-				</G>
-			</Svg> */}
 			<View style={Styles.form}>
 				<TextInput
 					style={Styles.input}
@@ -50,8 +43,7 @@ const SignIn = (): JSX.Element => {
 				width={WIN_WIDTH * 0.75}
 				onPress={() => {
 					signIn(SSN);
-					// Navigate after signing in. You may want to tweak this to ensure sign-in is
-					// successful before navigating.
+					// Navigate after signing in
 					if (router.canDismiss()) router.dismiss();
 					router.replace('/');
 				}}

@@ -11,7 +11,7 @@ import HvToggleSelect from '@/components/ui/hvInputForm/hvToggleSelect';
 import HvInputField from '@/components/ui/hvInputForm/hvInputField';
 import HvInputFormContainer from '@/components/ui/hvInputForm/hvInputFormContainer';
 import { BLOODPRESSURE_URL } from '@/constants/api';
-import { useSession } from '@/authentication/ctx';
+import { useSession } from '@/hooks/ctx';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { IAddBloodPressure } from '@/interfaces/bloodPressureInterfaces';
 
@@ -23,10 +23,9 @@ const postBloodPressure = async (sessionId: string, measurement: IAddBloodPressu
 const BloodPressure = (): JSX.Element => {
 	const queryClient = useQueryClient();
 	const { session } = useSession();
-	// radio buttons
+	// states
 	const [hand, setHand] = useState('Hægri');
 	const [position, setPosition] = useState('Sitjandi');
-	// num inputs
 	const [sys, setSys] = useState('');
 	const [dia, setDia] = useState('');
 	const [pulse, setPulse] = useState('');
