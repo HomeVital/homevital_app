@@ -63,6 +63,11 @@ const HvGraph = <T,>({ data, dataTypes, setItem }: Props<T>): JSX.Element => {
 		}
 	};
 
+	/**
+	 * Handle date range change
+	 * @param range - date range to display
+	 * @returns void
+	 */
 	const handleDateRange = (range: string) => {
 		if (dateRange === range) return;
 		setDateRange(range);
