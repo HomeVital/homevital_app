@@ -1,5 +1,4 @@
 import { ActivityIndicator, StyleSheet, View } from 'react-native';
-import { Image } from 'expo-image';
 // components
 import HvToggler from '@/components/ui/hvToggler';
 import { STYLES } from '@/constants/styles';
@@ -8,10 +7,13 @@ import { useSession } from '@/hooks/ctx';
 import { useQuery } from '@tanstack/react-query';
 import { fetchBloodSugar } from '@/queries/queries';
 import HvScrollView from '@/components/ui/HvScrollView';
-import HvCard from '@/components/cards/hvCard';
-import { formatDate } from '@/utility/utility';
 import { PADDING, TAB_ICON_SIZE } from '@/constants/sizes';
 import { useToggle } from '@/hooks/UseToggle';
+import HvCardMeasurement from '@/components/cards/hvCardMeasurement';
+import { useState } from 'react';
+import { IBloodSugar } from '@/interfaces/bloodSugarInterfaces';
+import { DARK_GREEN } from '@/constants/colors';
+import HvGraph from '@/components/graphs/HvGraph';
 
 const BloodSugar = (): JSX.Element => {
 	const { session } = useSession();
@@ -38,6 +40,40 @@ const BloodSugar = (): JSX.Element => {
 		);
 	}
 
+	const ScrollView = () => {
+		return (
+			<View style={Styles.container}>
+				{data
+					?.slice()
+					.reverse()
+					.map((item) => <HvCardMeasurement key={item.id} item={item} />)}
+			</View>
+		);
+	};
+
+	const GraphView = () => {
+		const [item, setItem] = useState(undefined as IBloodSugar | undefined);
+		const dataTypes = {
+			bloodsugarLevel: { name: 'mmol/L', color: DARK_GREEN },
+		};
+
+		return (
+			<View style={Styles.container}>
+				<HvGraph
+					data={
+						data?.map((item) => ({
+							...item,
+							value: Math.round(item.bloodsugarLevel * 10) / 10,
+						})) as IBloodSugar[]
+					}
+					dataTypes={dataTypes}
+					setItem={setItem}
+				/>
+				{item !== undefined && <HvCardMeasurement item={item} />}
+			</View>
+		);
+	};
+
 	return (
 		<View style={STYLES.defaultNoPadView}>
 			<HvToggler
@@ -48,28 +84,7 @@ const BloodSugar = (): JSX.Element => {
 				textRight='Mælingar'
 				margin={20}
 			/>
-			<HvScrollView>
-				<View style={Styles.container}>
-					{data
-						?.slice()
-						.reverse()
-						.map((item) => (
-							<HvCard key={item.id} style={{ paddingInline: 20, height: 90 }} row>
-								<View style={Styles.left}>
-									<Image
-										source={require('@/assets/svgs/measurementLabel/good.svg')}
-										contentFit='contain'
-										style={Styles.indicator}
-									/>
-									<HvText weight='semibold'>{formatDate(item.date)}</HvText>
-								</View>
-								<HvText size='xxl' weight='semibold'>
-									{item.bloodsugarLevel} mmol/L
-								</HvText>
-							</HvCard>
-						))}
-				</View>
-			</HvScrollView>
+			<HvScrollView>{toggled ? <GraphView /> : <ScrollView />}</HvScrollView>
 		</View>
 	);
 };

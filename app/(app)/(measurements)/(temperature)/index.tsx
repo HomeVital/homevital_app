@@ -1,13 +1,10 @@
 import { ActivityIndicator, StyleSheet, View } from 'react-native';
-import { Image } from 'expo-image';
 import { useQuery } from '@tanstack/react-query';
 // components
-import HvCard from '@/components/cards/hvCard';
 import HvToggler from '@/components/ui/hvToggler';
 import HvText from '@/components/ui/hvText';
 import { useSession } from '@/hooks/ctx';
 import HvScrollView from '@/components/ui/HvScrollView';
-import { formatDate } from '@/utility/utility';
 // constants
 import { STYLES } from '@/constants/styles';
 import { fetchBodyTemperature } from '@/queries/queries';
@@ -15,6 +12,11 @@ import { PADDING } from '@/constants/sizes';
 import { TAB_ICON_SIZE } from '@/constants/sizes';
 // hooks
 import { useToggle } from '@/hooks/UseToggle';
+import HvCardMeasurement from '@/components/cards/hvCardMeasurement';
+import { DARK_GREEN } from '@/constants/colors';
+import HvGraph from '@/components/graphs/HvGraph';
+import { IBodyTemperature } from '@/interfaces/bodyTemperatureInterfaces';
+import { useState } from 'react';
 
 const Temperature = (): JSX.Element => {
 	const { session } = useSession();
@@ -41,6 +43,40 @@ const Temperature = (): JSX.Element => {
 		);
 	}
 
+	const ScrollView = () => {
+		return (
+			<View style={Styles.container}>
+				{data
+					?.slice()
+					.reverse()
+					.map((item) => <HvCardMeasurement key={item.id} item={item} />)}
+			</View>
+		);
+	};
+
+	const GraphView = () => {
+		const [item, setItem] = useState(undefined as IBodyTemperature | undefined);
+		const dataTypes = {
+			temperature: { name: '°C', color: DARK_GREEN },
+		};
+
+		return (
+			<View style={Styles.container}>
+				<HvGraph
+					data={
+						data?.map((item) => ({
+							...item,
+							value: Math.round(item.temperature * 10) / 10,
+						})) as IBodyTemperature[]
+					}
+					dataTypes={dataTypes}
+					setItem={setItem}
+				/>
+				{item !== undefined && <HvCardMeasurement item={item} />}
+			</View>
+		);
+	};
+
 	return (
 		<View style={STYLES.defaultNoPadView}>
 			<HvToggler
@@ -51,28 +87,7 @@ const Temperature = (): JSX.Element => {
 				textRight='Mælingar'
 				margin={20}
 			/>
-			<HvScrollView>
-				<View style={Styles.container}>
-					{data
-						?.slice()
-						.reverse()
-						.map((item) => (
-							<HvCard key={item.id} style={{ paddingInline: 20, height: 90 }} row>
-								<View style={Styles.left}>
-									<Image
-										source={require('@/assets/svgs/measurementLabel/good.svg')}
-										contentFit='contain'
-										style={Styles.indicator}
-									/>
-									<HvText weight='semibold'>{formatDate(item.date)}</HvText>
-								</View>
-								<HvText size='xxl' weight='semibold'>
-									{item.temperature} °C
-								</HvText>
-							</HvCard>
-						))}
-				</View>
-			</HvScrollView>
+			<HvScrollView>{toggled ? <GraphView /> : <ScrollView />}</HvScrollView>
 		</View>
 	);
 };

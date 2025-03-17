@@ -75,6 +75,24 @@ const HvGraph = <T,>({ data, dataTypes, setItem }: Props<T>): JSX.Element => {
 		setItem(undefined);
 	};
 
+	const calculateYAxisBounds = () => {
+		const allValues = filteredData
+			.flatMap((dataset) => dataset.map((item) => item.value))
+			.filter((value) => !isNaN(value));
+
+		if (allValues.length === 0) return { min: 0, max: 10 };
+
+		const minValue = Math.min(...allValues);
+		const maxValue = Math.max(...allValues);
+
+		return {
+			min: Math.max(0, Math.floor(minValue / 10) * 10 - 10), // Round down to nearest 10
+			max: Math.ceil(maxValue / 10) * 10, // Round up to nearest 10
+		};
+	};
+
+	const { min, max } = calculateYAxisBounds();
+
 	return (
 		<HvCard spacing='flex-start'>
 			<View
@@ -164,6 +182,7 @@ const HvGraph = <T,>({ data, dataTypes, setItem }: Props<T>): JSX.Element => {
 				stripWidth={1}
 				//data points
 				hideDataPoints
+				maxValue={max - min}
 				// data lines
 				curved
 				curveType={CurveType.QUADRATIC}
@@ -174,12 +193,13 @@ const HvGraph = <T,>({ data, dataTypes, setItem }: Props<T>): JSX.Element => {
 				isAnimated
 				animateTogether
 				thickness={3.5}
+				height={200}
 				width={WIN_WIDTH - 95}
 				color1={Object.values(dataTypes)[0].color}
 				color2={Object.values(dataTypes)[1]?.color}
 				color3={Object.values(dataTypes)[2]?.color}
 				stripColor='black'
-				yAxisOffset={30}
+				yAxisOffset={min}
 				// rules (long x-axis lines)
 				noOfSections={4}
 				rulesType='solid'
