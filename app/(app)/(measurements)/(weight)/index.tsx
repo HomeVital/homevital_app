@@ -1,19 +1,19 @@
-import { ActivityIndicator, StyleSheet, View } from 'react-native';
+import { StyleSheet, View } from 'react-native';
 // components
 import HvToggler from '@/components/ui/hvToggler';
 import { STYLES } from '@/constants/styles';
-import HvText from '@/components/ui/hvText';
 import { useSession } from '@/hooks/ctx';
 import { useQuery } from '@tanstack/react-query';
 import { fetchBodyWeight } from '@/queries/queries';
 import HvScrollView from '@/components/ui/HvScrollView';
 import { PADDING, TAB_ICON_SIZE } from '@/constants/sizes';
 import { useToggle } from '@/hooks/UseToggle';
-import HvCardMeasurement from '@/components/cards/hvCardMeasurement';
+import { HvCardMeasurement, HvCardMeasurements } from '@/components/cards/hvCardMeasurement';
 import { IBodyWeight } from '@/interfaces/bodyWeightInterfaces';
 import { DARK_GREEN } from '@/constants/colors';
 import { useState } from 'react';
 import HvGraph from '@/components/graphs/HvGraph';
+import { ErrorView, LoadingView } from '@/components/queryStates';
 
 const Weight = (): JSX.Element => {
 	const { session } = useSession();
@@ -23,29 +23,9 @@ const Weight = (): JSX.Element => {
 		queryFn: async () => fetchBodyWeight(session?.toString() || ''),
 	});
 
-	if (isError) {
-		return (
-			<View style={STYLES.loadingView}>
-				<HvText>Error loading</HvText>
-			</View>
-		);
-	}
+	if (isError) return <ErrorView />;
 
-	if (isLoading) {
-		return (
-			<View style={STYLES.loadingView}>
-				<ActivityIndicator size='large' color='#3A7283' />
-			</View>
-		);
-	}
-
-	const ScrollView = () => {
-		return (
-			<View style={Styles.container}>
-				{data?.map((item) => <HvCardMeasurement key={item.id} item={item} />)}
-			</View>
-		);
-	};
+	if (isLoading) return <LoadingView />;
 
 	const GraphView = () => {
 		const [item, setItem] = useState(undefined as IBodyWeight | undefined);
@@ -79,7 +59,7 @@ const Weight = (): JSX.Element => {
 				<GraphView />
 			) : (
 				<HvScrollView onRefresh={() => refetch()} isRefreshing={isLoading}>
-					<ScrollView />
+					<HvCardMeasurements items={data as IBodyWeight[]} />
 				</HvScrollView>
 			)}
 		</View>
@@ -92,15 +72,6 @@ const Styles = StyleSheet.create({
 		paddingVertical: PADDING,
 		marginBottom: TAB_ICON_SIZE + PADDING,
 		gap: 12,
-	},
-	left: {
-		height: '100%',
-		justifyContent: 'space-evenly',
-		alignItems: 'center',
-	},
-	indicator: {
-		width: 26,
-		height: 26,
 	},
 });
 

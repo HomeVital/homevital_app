@@ -1,4 +1,4 @@
-import { View, ActivityIndicator } from 'react-native';
+import { View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { useQueries } from '@tanstack/react-query';
 // components
@@ -9,6 +9,7 @@ import { useSession } from '@/hooks/ctx';
 import HvScrollView from '@/components/ui/HvScrollView';
 import { fetchPatient, fetchRecentMeasurements } from '@/queries/queries';
 import HvCardRecentMeasurements from '@/components/cards/hvCardRecentMeasurement';
+import { ErrorView, LoadingView } from '@/components/queryStates';
 
 const MainScreen = (): JSX.Element => {
 	const { session } = useSession();
@@ -26,13 +27,7 @@ const MainScreen = (): JSX.Element => {
 		],
 	});
 
-	if (patient.isLoading && recentMeasurements.isLoading) {
-		return (
-			<SafeAreaView style={STYLES.loadingView}>
-				<ActivityIndicator size='large' color='#3A7283' />
-			</SafeAreaView>
-		);
-	}
+	if (patient.isLoading && recentMeasurements.isLoading) return <LoadingView />;
 
 	if (recentMeasurements.isLoading) {
 		return (
@@ -40,24 +35,14 @@ const MainScreen = (): JSX.Element => {
 				{patient.data && (
 					<>
 						<HvHeader name={patient.data.name} />
-						<HvScrollView>
-							<View style={STYLES.loadingView}>
-								<ActivityIndicator size='large' color='#3A7283' />
-							</View>
-						</HvScrollView>
+						<LoadingView />
 					</>
 				)}
 			</SafeAreaView>
 		);
 	}
 
-	if (patient.isError || recentMeasurements.isError) {
-		return (
-			<SafeAreaView>
-				<HvText>Error loading</HvText>
-			</SafeAreaView>
-		);
-	}
+	if (patient.isError || recentMeasurements.isError) return <ErrorView />;
 
 	// if (mError) {
 	// 	return (

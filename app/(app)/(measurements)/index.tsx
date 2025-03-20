@@ -1,4 +1,4 @@
-import { ActivityIndicator, StyleSheet, TouchableOpacity, View } from 'react-native';
+import { StyleSheet, TouchableOpacity, View } from 'react-native';
 import { router } from 'expo-router';
 import { Image } from 'expo-image';
 import { useQueries } from '@tanstack/react-query';
@@ -16,6 +16,7 @@ import { WHITE } from '@/constants/colors';
 import HvText from '@/components/ui/hvText';
 import { WIN_WIDTH } from '@/constants/window';
 import { PADDING } from '@/constants/sizes';
+import { LoadingView } from '@/components/queryStates';
 
 const MainMeasurements = (): JSX.Element => {
 	const { session } = useSession();
@@ -52,11 +53,7 @@ const MainMeasurements = (): JSX.Element => {
 		bodyweight.isLoading ||
 		oxygensaturation.isLoading
 	) {
-		return (
-			<View style={STYLES.loadingView}>
-				<ActivityIndicator size='large' color='#3A7283' />
-			</View>
-		);
+		return <LoadingView />;
 	}
 
 	return (

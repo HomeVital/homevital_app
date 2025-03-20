@@ -1,8 +1,7 @@
-import { ActivityIndicator, StyleSheet, View } from 'react-native';
+import { StyleSheet, View } from 'react-native';
 import { useQuery } from '@tanstack/react-query';
 // components
 import HvToggler from '@/components/ui/hvToggler';
-import HvText from '@/components/ui/hvText';
 import { useSession } from '@/hooks/ctx';
 import HvScrollView from '@/components/ui/HvScrollView';
 // constants
@@ -12,11 +11,12 @@ import { PADDING } from '@/constants/sizes';
 import { TAB_ICON_SIZE } from '@/constants/sizes';
 // hooks
 import { useToggle } from '@/hooks/UseToggle';
-import HvCardMeasurement from '@/components/cards/hvCardMeasurement';
+import { HvCardMeasurement, HvCardMeasurements } from '@/components/cards/hvCardMeasurement';
 import { DARK_GREEN } from '@/constants/colors';
 import HvGraph from '@/components/graphs/HvGraph';
 import { IBodyTemperature } from '@/interfaces/bodyTemperatureInterfaces';
 import { useState } from 'react';
+import { ErrorView, LoadingView } from '@/components/queryStates';
 
 const Temperature = (): JSX.Element => {
 	const { session } = useSession();
@@ -27,29 +27,9 @@ const Temperature = (): JSX.Element => {
 		queryFn: async () => fetchBodyTemperature(session?.toString() || ''),
 	});
 
-	if (isError) {
-		return (
-			<View style={STYLES.loadingView}>
-				<HvText>Error loading</HvText>
-			</View>
-		);
-	}
+	if (isError) return <ErrorView />;
 
-	if (isLoading) {
-		return (
-			<View style={STYLES.loadingView}>
-				<ActivityIndicator size='large' color='#3A7283' />
-			</View>
-		);
-	}
-
-	const ScrollView = () => {
-		return (
-			<View style={Styles.container}>
-				{data?.map((item) => <HvCardMeasurement key={item.id} item={item} />)}
-			</View>
-		);
-	};
+	if (isLoading) return <LoadingView />;
 
 	const GraphView = () => {
 		const [item, setItem] = useState(undefined as IBodyTemperature | undefined);
@@ -88,7 +68,7 @@ const Temperature = (): JSX.Element => {
 				<GraphView />
 			) : (
 				<HvScrollView onRefresh={() => refetch()} isRefreshing={isLoading}>
-					<ScrollView />
+					<HvCardMeasurements items={data as IBodyTemperature[]} />
 				</HvScrollView>
 			)}
 		</View>
@@ -101,15 +81,6 @@ const Styles = StyleSheet.create({
 		paddingVertical: PADDING,
 		marginBottom: TAB_ICON_SIZE + PADDING,
 		gap: 12,
-	},
-	left: {
-		height: '100%',
-		justifyContent: 'space-evenly',
-		alignItems: 'center',
-	},
-	indicator: {
-		width: 26,
-		height: 26,
 	},
 });
 

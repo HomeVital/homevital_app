@@ -17,6 +17,7 @@ import {
 	isOxygenSaturation,
 } from '@/constants/typeGuards';
 import HvImage from '../ui/hvImage';
+import { PADDING, TAB_ICON_SIZE } from '@/constants/sizes';
 
 interface Props<
 	T = IBloodPressure | IOxygenSaturation | IBodyTemperature | IBodyWeight | IBloodSugar,
@@ -24,12 +25,18 @@ interface Props<
 	item: T extends IMeasurementBase ? T : never;
 }
 
+interface PropsItems<
+	T = IBloodPressure | IOxygenSaturation | IBodyTemperature | IBodyWeight | IBloodSugar,
+> {
+	items: T[] extends IMeasurementBase[] ? T[] : never[];
+}
+
 /**
  * Card component for displaying a measurement
  * @param item - measurement to display
  * @returns card component for displaying a measurement
  */
-const HvCardMeasurement = <T,>({ item }: Props<T>): JSX.Element => {
+export const HvCardMeasurement = <T,>({ item }: Props<T>): JSX.Element => {
 	const renderMeasurementValue = () => {
 		if (isBloodPressure(item)) {
 			return `${item.systolic} / ${item.diastolic}`;
@@ -68,7 +75,26 @@ const HvCardMeasurement = <T,>({ item }: Props<T>): JSX.Element => {
 	);
 };
 
+export const HvCardMeasurements = <T,>({ items }: PropsItems<T>): JSX.Element => {
+	return (
+		<View style={Styles.pageContainer}>
+			{items.map((item) => {
+				if (isBloodPressure(item)) {
+					return <HvCardMeasurement key={item.id} item={item as never} />;
+				}
+				return <HvCardMeasurement key={item.id} item={item as never} />;
+			})}
+		</View>
+	);
+};
+
 const Styles = StyleSheet.create({
+	pageContainer: {
+		paddingHorizontal: 20,
+		paddingVertical: PADDING,
+		marginBottom: TAB_ICON_SIZE + PADDING,
+		gap: 12,
+	},
 	container: {
 		paddingInline: 20,
 		height: 90,
@@ -87,4 +113,4 @@ const Styles = StyleSheet.create({
 	},
 });
 
-export default HvCardMeasurement;
+// export default HvCardMeasurement;
