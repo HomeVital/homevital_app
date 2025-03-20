@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { View, StyleSheet, ActivityIndicator } from 'react-native';
+import { View, StyleSheet } from 'react-native';
 import { Switch } from 'react-native-paper';
 // components
 import HvDivider from '@/components/ui/hvDivider';
@@ -11,6 +11,7 @@ import { useSession } from '@/hooks/ctx';
 import { useQuery } from '@tanstack/react-query';
 import { fetchPatient } from '@/queries/queries';
 import { IPatient } from '@/interfaces/patientInterfaces';
+import { ErrorView, LoadingView } from '@/components/queryStates';
 
 const MainSettings = (): JSX.Element => {
 	const { session } = useSession();
@@ -27,25 +28,11 @@ const MainSettings = (): JSX.Element => {
 		queryFn: async () => fetchPatient(session?.toString() || ''),
 	});
 
-	if (isLoading) {
-		return (
-			<View style={STYLES.defaultView}>
-				<ActivityIndicator size='large' color='#0000ff' />
-			</View>
-		);
-	}
+	if (isError) return <ErrorView />;
 
-	if (isError) {
-		return (
-			<View style={STYLES.defaultView}>
-				<HvText>Error loading measurements</HvText>
-			</View>
-		);
-	}
+	if (isLoading) return <LoadingView />;
 
-	if (!patient) {
-		return <></>;
-	}
+	if (!patient) return <></>;
 
 	return (
 		<View style={STYLES.defaultView}>

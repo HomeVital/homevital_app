@@ -54,7 +54,7 @@ const BloodOxygen = (): JSX.Element => {
 							itemState={bloodOxygen}
 							setItemState={setBloodOxygen}
 							description='%'
-							keyboardMax={2}
+							keyboardMax={3}
 						/>
 					</HvInputFormContainer>
 				</HvInputForm>

@@ -1,4 +1,3 @@
-// filepath: /c:/Users/jakub/OneDrive/Desktop/HomeVitalGit/homevital_app/app/initial-screen.tsx
 import { router } from 'expo-router';
 import { Image } from 'expo-image';
 import { StyleSheet } from 'react-native';
@@ -23,11 +22,7 @@ const InitialScreen = (): JSX.Element => {
 			<HvButton
 				text='Innskráning'
 				width={WIN_WIDTH * 0.75}
-				onPress={() => {
-					// Navigate after signing in. You may want to tweak this to ensure sign-in is
-					// successful before navigating.
-					router.push('/sign-in');
-				}}
+				onPress={() => router.push('/sign-in')}
 			/>
 		</SafeAreaView>
 	);
