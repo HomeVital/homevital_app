@@ -1,5 +1,6 @@
 import { View, StyleSheet } from 'react-native';
 import { Image } from 'expo-image';
+import HvImage from './hvImage';
 
 interface Props {
 	size: number;
@@ -23,7 +24,11 @@ const HvLayeredIcon = ({ size, outerIcon, innerIcon, shiftUp = 0 }: Props): JSX.
 	return (
 		<View style={{ width: size, height: size }}>
 			<Image source={outerIcon} style={Styles.outer} />
-			<Image source={innerIcon} style={[Styles.inner, { top: topShift }]} />
+			<HvImage
+				source={innerIcon}
+				size={size * 0.6}
+				style={[Styles.inner, { top: topShift }]}
+			/>
 		</View>
 	);
 };
@@ -34,8 +39,6 @@ const Styles = StyleSheet.create({
 		height: '100%',
 	},
 	inner: {
-		width: '60%',
-		height: '60%',
 		left: '20%',
 		position: 'relative',
 	},

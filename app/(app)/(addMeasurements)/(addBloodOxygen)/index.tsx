@@ -29,7 +29,7 @@ const BloodOxygen = (): JSX.Element => {
 		mutationFn: async (measurement: IAddOxygenSaturation) =>
 			postOxygenSaturation(session?.toString() || '', measurement),
 		onSuccess: () => {
-			queryClient.invalidateQueries({ queryKey: ['oxygensaturation'] });
+			queryClient.invalidateQueries({ queryKey: ['recentmeasurements'] });
 			if (router.canGoBack()) router.back();
 		},
 	});

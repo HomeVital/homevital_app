@@ -54,27 +54,27 @@ const HvTabBar = (): JSX.Element => {
 	// TODO: change later
 	const tempButtons = [
 		{
-			icon: require('@/assets/images/warm.png') as string,
+			name: 'BodyTemperatureLight',
 			onPress: () => setStackName(handleTabRoute('/(app)/(addTemperature)', stackName)),
 			isVisible: true,
 		},
 		{
-			icon: require('@/assets/svgs/heart.svg') as string,
+			name: 'BloodPressureLight',
 			onPress: () => setStackName(handleTabRoute('/(app)/(addBloodPressure)', stackName)),
 			isVisible: true,
 		},
 		{
-			icon: require('@/assets/svgs/scale.svg') as string,
+			name: 'BodyWeightLight',
 			onPress: () => setStackName(handleTabRoute('/(app)/(addWeight)', stackName)),
 			isVisible: true,
 		},
 		{
-			icon: require('@/assets/svgs/lungs.svg') as string,
+			name: 'OxygenSaturationLight',
 			onPress: () => setStackName(handleTabRoute('/(app)/(addBloodOxygen)', stackName)),
 			isVisible: true,
 		},
 		{
-			icon: require('@/assets/images/water.png') as string,
+			name: 'BloodSugarLight',
 			onPress: () => setStackName(handleTabRoute('/(app)/(addBloodSugar)', stackName)),
 			isVisible: true,
 		},

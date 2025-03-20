@@ -48,7 +48,7 @@ const BloodPressure = (): JSX.Element => {
 		mutationFn: async (measurement: IAddBloodPressure) =>
 			postBloodPressure(session?.toString() || '', measurement),
 		onSuccess: () => {
-			queryClient.invalidateQueries({ queryKey: ['bloodpressure'] });
+			queryClient.invalidateQueries({ queryKey: ['recentmeasurements'] });
 			if (router.canGoBack()) router.back();
 		},
 	});
@@ -113,6 +113,7 @@ const BloodPressure = (): JSX.Element => {
 							control={control}
 							rules={{
 								required: true,
+								min: 0,
 							}}
 							render={({ field: { onChange, value } }) => (
 								<HvInputField
@@ -130,6 +131,7 @@ const BloodPressure = (): JSX.Element => {
 							control={control}
 							rules={{
 								required: true,
+								min: 0,
 							}}
 							render={({ field: { onChange, value } }) => (
 								<HvInputField
@@ -146,6 +148,7 @@ const BloodPressure = (): JSX.Element => {
 							control={control}
 							rules={{
 								required: true,
+								min: 0,
 							}}
 							render={({ field: { onChange, value } }) => (
 								<HvInputField

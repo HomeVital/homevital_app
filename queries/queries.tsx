@@ -4,6 +4,7 @@ import {
 	BODYTEMPERATURE_URL,
 	BODYWEIGHT_URL,
 	LOGIN_URL,
+	MEASUREMENTS_URL,
 	MOCK_LOGIN_URL,
 	OXYGENSATURATION_URL,
 	PATIENT_URL,
@@ -15,6 +16,7 @@ import { IBloodSugar } from '@/interfaces/bloodSugarInterfaces';
 import { IBodyTemperature } from '@/interfaces/bodyTemperatureInterfaces';
 import { IBodyWeight } from '@/interfaces/bodyWeightInterfaces';
 import { IOxygenSaturation } from '@/interfaces/oxygenSaturationInterfaces';
+import { IMeasurement } from '@/interfaces/measurementInterfaces';
 
 /**
  * Sends a POST request to the MOCK_LOGIN_URL with the provided social security number (ssn).
@@ -24,18 +26,6 @@ import { IOxygenSaturation } from '@/interfaces/oxygenSaturationInterfaces';
  * @throws {Error} - Throws an error if the response is not ok.
  */
 export const GetRafraenSkilriki = async (ssn: string): Promise<string> => {
-	// const response = await fetch(MOCK_LOGIN_URL, {
-	// 	method: 'POST',
-	// 	headers: {
-	// 		'Content-Type': 'application/json',
-	// 	},
-	// 	body: JSON.stringify({ kennitala: ssn }),
-	// });
-
-	// if (response.status !== 200) {
-	// 	throw new Error('Failed to sign in');
-	// }
-	// return response.json();
 	const response = await axios.post(MOCK_LOGIN_URL, { kennitala: ssn });
 	return response.data;
 };
@@ -82,5 +72,10 @@ export const fetchOxygenSaturation = async (sessionId: string): Promise<IOxygenS
 // get measurements by patient id
 export const fetchPatient = async (sessionId: string): Promise<IPatient> => {
 	const response = await axios.get(`${PATIENT_URL}/${sessionId}`);
+	return response.data;
+};
+
+export const fetchRecentMeasurements = async (sessionId: string): Promise<IMeasurement[]> => {
+	const response = await axios.get(`${MEASUREMENTS_URL}/${sessionId}/latest/3`);
 	return response.data;
 };

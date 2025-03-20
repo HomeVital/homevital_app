@@ -7,6 +7,7 @@ import { DARK_GREEN } from '@/constants/colors';
 
 interface Props extends ScrollViewProps {
 	onRefresh?: () => void;
+	isRefreshing?: boolean;
 }
 
 /**
@@ -14,16 +15,11 @@ interface Props extends ScrollViewProps {
  * @param props - additional ScrollView properties
  * @returns custom ScrollView component
  */
-const HvScrollView = ({ onRefresh = undefined, ...props }: Props): JSX.Element => {
-	const [refreshing] = React.useState(false);
-
-	// const onRefresh = React.useCallback(() => {
-	// 	setRefreshing(true);
-	//
-	// 	// Add your refresh logic here
-	// 	setTimeout(() => setRefreshing(false), 2000);
-	// }, []);
-
+const HvScrollView = ({
+	onRefresh = undefined,
+	isRefreshing = false,
+	...props
+}: Props): JSX.Element => {
 	return (
 		<ScrollView
 			fadingEdgeLength={TAB_HEIGHT + 42}
@@ -31,7 +27,7 @@ const HvScrollView = ({ onRefresh = undefined, ...props }: Props): JSX.Element =
 			refreshControl={
 				onRefresh ? (
 					<RefreshControl
-						refreshing={refreshing}
+						refreshing={isRefreshing}
 						onRefresh={onRefresh}
 						progressViewOffset={0}
 						colors={[DARK_GREEN]}

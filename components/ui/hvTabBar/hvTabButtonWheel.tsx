@@ -9,7 +9,7 @@ interface Props {
 	roundness: number;
 	radius: number;
 	buttons: {
-		icon: string;
+		name: string;
 		onPress: () => void;
 		isVisible: boolean;
 	}[];
@@ -67,7 +67,7 @@ const HvTabButtonWheel = ({ radius, roundness, buttons }: Props): JSX.Element =>
 							<HvLayeredIcon
 								size={TAB_ICON_SIZE * 2}
 								outerIcon={require('@/assets/svgs/filledCircle.svg')}
-								innerIcon={button.icon}
+								innerIcon={button.name}
 							/>
 						</TouchableOpacity>
 					);

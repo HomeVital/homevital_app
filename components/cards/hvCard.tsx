@@ -10,6 +10,7 @@ interface Props extends ViewProps {
 		| 'space-between'
 		| 'space-around'
 		| 'space-evenly';
+	align?: 'flex-start' | 'flex-end' | 'center' | 'stretch' | 'baseline';
 }
 
 /**
@@ -19,13 +20,22 @@ interface Props extends ViewProps {
  * @param props - additional view props
  * @returns custom card component
  */
-const HvCard = ({ row = false, spacing = 'space-between', ...props }: Props): JSX.Element => {
+const HvCard = ({
+	row = false,
+	spacing = 'space-between',
+	align = 'center',
+	...props
+}: Props): JSX.Element => {
 	return (
 		<View
 			style={[
 				props.style,
 				Styles.item,
-				{ flexDirection: row ? 'row' : 'column', justifyContent: spacing },
+				{
+					flexDirection: row ? 'row' : 'column',
+					justifyContent: spacing,
+					alignItems: align,
+				},
 			]}
 		>
 			{props.children}
@@ -35,8 +45,6 @@ const HvCard = ({ row = false, spacing = 'space-between', ...props }: Props): JS
 
 const Styles = StyleSheet.create({
 	item: {
-		justifyContent: 'space-between',
-		alignItems: 'center',
 		borderRadius: 10,
 		backgroundColor: WHITE,
 		boxShadow: '0px 2px 4px rgba(0, 0, 0, 0.25)',

@@ -1,18 +1,7 @@
-import { useContext, createContext, type PropsWithChildren } from 'react';
+import { useContext, type PropsWithChildren } from 'react';
 import { useStorageState } from './useStorageState';
 import { GetRafraenSkilriki, GetUserId } from '@/queries/queries';
-
-const AuthContext = createContext<{
-	signIn: (SSN: string) => Promise<string>;
-	signOut: () => void;
-	session?: string | null;
-	isLoading: boolean;
-}>({
-	signIn: async () => '',
-	signOut: () => null,
-	session: null,
-	isLoading: false,
-});
+import { AuthenticationContext } from '@/contexts/authenticationContext';
 
 /**
  * Hook to get session state
@@ -25,7 +14,7 @@ export const useSession = (): {
 	session?: string | null;
 	isLoading: boolean;
 } => {
-	const value = useContext(AuthContext);
+	const value = useContext(AuthenticationContext);
 	if (process.env.NODE_ENV !== 'production') {
 		if (!value) {
 			throw new Error('useSession must be wrapped in a <SessionProvider />');
@@ -51,7 +40,7 @@ export const SessionProvider = ({ children }: PropsWithChildren): JSX.Element =>
 	};
 
 	return (
-		<AuthContext.Provider
+		<AuthenticationContext.Provider
 			value={{
 				signIn: HandleSignIn,
 				signOut: () => {
@@ -62,6 +51,6 @@ export const SessionProvider = ({ children }: PropsWithChildren): JSX.Element =>
 			}}
 		>
 			{children}
-		</AuthContext.Provider>
+		</AuthenticationContext.Provider>
 	);
 };

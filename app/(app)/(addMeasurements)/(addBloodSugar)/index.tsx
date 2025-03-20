@@ -29,7 +29,7 @@ const BloodSugar = (): JSX.Element => {
 		mutationFn: async (measurement: IAddBloodSugar) =>
 			postBloodSugar(session?.toString() || '', measurement),
 		onSuccess: () => {
-			queryClient.invalidateQueries({ queryKey: ['bloodsugar'] });
+			queryClient.invalidateQueries({ queryKey: ['recentmeasurements'] });
 			if (router.canGoBack()) router.back();
 		},
 	});

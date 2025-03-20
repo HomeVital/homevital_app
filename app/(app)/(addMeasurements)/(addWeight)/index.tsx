@@ -29,7 +29,7 @@ const Weight = (): JSX.Element => {
 		mutationFn: async (measurement: IAddBodyWeight) =>
 			postBodyWeight(session?.toString() || '', measurement),
 		onSuccess: () => {
-			queryClient.invalidateQueries({ queryKey: ['bloodsugar'] });
+			queryClient.invalidateQueries({ queryKey: ['recentmeasurements'] });
 			if (router.canGoBack()) router.back();
 		},
 	});

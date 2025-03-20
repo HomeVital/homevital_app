@@ -19,7 +19,7 @@ const BloodSugar = (): JSX.Element => {
 	const { session } = useSession();
 	const { toggled, setToggledTrue, setToggledFalse } = useToggle();
 
-	const { data, isError, isLoading } = useQuery({
+	const { data, isError, isLoading, refetch } = useQuery({
 		queryKey: ['bloodsugar'],
 		queryFn: async () => fetchBloodSugar(session?.toString() || ''),
 	});
@@ -58,7 +58,7 @@ const BloodSugar = (): JSX.Element => {
 			<View style={Styles.container}>
 				<HvGraph
 					data={
-						data?.map((item) => ({
+						data?.toReversed().map((item) => ({
 							...item,
 							value: Math.round(item.bloodsugarLevel * 10) / 10,
 						})) as IBloodSugar[]
@@ -81,7 +81,13 @@ const BloodSugar = (): JSX.Element => {
 				textRight='Mælingar'
 				margin={20}
 			/>
-			<HvScrollView>{toggled ? <GraphView /> : <ScrollView />}</HvScrollView>
+			{toggled ? (
+				<GraphView />
+			) : (
+				<HvScrollView onRefresh={() => refetch()} isRefreshing={isLoading}>
+					<ScrollView />
+				</HvScrollView>
+			)}
 		</View>
 	);
 };

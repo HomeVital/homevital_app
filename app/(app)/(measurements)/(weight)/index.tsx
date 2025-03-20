@@ -18,7 +18,7 @@ import HvGraph from '@/components/graphs/HvGraph';
 const Weight = (): JSX.Element => {
 	const { session } = useSession();
 	const { toggled, setToggledTrue, setToggledFalse } = useToggle();
-	const { data, isError, isLoading } = useQuery({
+	const { data, isError, isLoading, refetch } = useQuery({
 		queryKey: ['bodyweight'],
 		queryFn: async () => fetchBodyWeight(session?.toString() || ''),
 	});
@@ -55,7 +55,11 @@ const Weight = (): JSX.Element => {
 
 		return (
 			<View style={Styles.container}>
-				<HvGraph data={data as IBodyWeight[]} dataTypes={dataTypes} setItem={setItem} />
+				<HvGraph
+					data={data?.toReversed() as IBodyWeight[]}
+					dataTypes={dataTypes}
+					setItem={setItem}
+				/>
 				{item !== undefined && <HvCardMeasurement item={item} />}
 			</View>
 		);
@@ -71,31 +75,13 @@ const Weight = (): JSX.Element => {
 				textRight='Mælingar'
 				margin={20}
 			/>
-			<HvScrollView>{toggled ? <GraphView /> : <ScrollView />}</HvScrollView>
-			{/* <HvScrollView>
-				<View style={Styles.container}>
-					{data
-						?.slice()
-						.reverse()
-						.map((item) => (
-							<TouchableOpacity key={item.id}>
-								<HvCard style={{ paddingInline: 20, height: 90 }} row>
-									<View style={Styles.left}>
-										<Image
-											source={require('@/assets/svgs/measurementLabel/good.svg')}
-											contentFit='contain'
-											style={Styles.indicator}
-										/>
-										<HvText weight='semibold'>{formatDate(item.date)}</HvText>
-									</View>
-									<HvText size='xxl' weight='semibold'>
-										{item.weight} Kg
-									</HvText>
-								</HvCard>
-							</TouchableOpacity>
-						))}
-				</View>
-			</HvScrollView> */}
+			{toggled ? (
+				<GraphView />
+			) : (
+				<HvScrollView onRefresh={() => refetch()} isRefreshing={isLoading}>
+					<ScrollView />
+				</HvScrollView>
+			)}
 		</View>
 	);
 };

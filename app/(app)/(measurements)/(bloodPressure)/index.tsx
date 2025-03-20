@@ -21,7 +21,7 @@ const BloodPressure = (): JSX.Element => {
 	const { session } = useSession();
 	const { toggled, setToggledTrue, setToggledFalse } = useToggle();
 
-	const { data, isError, isLoading } = useQuery({
+	const { data, isError, isLoading, refetch } = useQuery({
 		queryKey: ['bloodpressure'],
 		queryFn: async () => fetchBloodPressure(session?.toString() || ''),
 	});
@@ -60,7 +60,11 @@ const BloodPressure = (): JSX.Element => {
 
 		return (
 			<View style={Styles.container}>
-				<HvGraph data={data as IBloodPressure[]} dataTypes={dataTypes} setItem={setItem} />
+				<HvGraph
+					data={data?.toReversed() as IBloodPressure[]}
+					dataTypes={dataTypes}
+					setItem={setItem}
+				/>
 				{item !== undefined && <HvCardMeasurement item={item} />}
 			</View>
 		);
@@ -76,7 +80,13 @@ const BloodPressure = (): JSX.Element => {
 				textRight='Mælingar'
 				margin={20}
 			/>
-			<HvScrollView>{toggled ? <GraphView /> : <ScrollView />}</HvScrollView>
+			{toggled ? (
+				<GraphView />
+			) : (
+				<HvScrollView onRefresh={() => refetch()} isRefreshing={isLoading}>
+					<ScrollView />
+				</HvScrollView>
+			)}
 		</View>
 	);
 };

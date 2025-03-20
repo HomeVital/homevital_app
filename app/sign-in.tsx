@@ -101,10 +101,12 @@ import { GetErrorMessage } from '@/errorHandler';
 const SignIn = (): JSX.Element => {
 	const { signIn, session } = useSession();
 
+	// Navigate to the app screen if there is a session
 	useEffect(() => {
-		// Navigate to the app screen if there is a session
 		if (session) {
-			if (router.canDismiss()) router.dismiss();
+			if (router.canDismiss()) {
+				router.dismissAll();
+			}
 			router.replace('/');
 		}
 	}, [session]);
@@ -140,17 +142,17 @@ const SignIn = (): JSX.Element => {
 				rules={{
 					required: {
 						value: true,
-						message: 'SSN is required.',
+						message: 'SSN is required',
 					},
 					minLength: {
 						value: 10,
-						message: 'SSN must be 10 digits.',
+						message: 'SSN must be 10 digits',
 					},
 				}}
 				render={({ field: { onChange, onBlur, value } }) => (
-					<View style={[Styles.form, errors.ssn && Styles.error]}>
+					<View style={Styles.form}>
 						<TextInput
-							style={Styles.input}
+							style={[Styles.input, errors.ssn && Styles.error]}
 							placeholder='0123456789'
 							onBlur={onBlur}
 							onChangeText={onChange}
@@ -194,7 +196,6 @@ const Styles = StyleSheet.create({
 	error: {
 		borderColor: 'red',
 		borderWidth: 2,
-		borderRadius: 10,
 	},
 });
 

@@ -22,7 +22,7 @@ const Temperature = (): JSX.Element => {
 	const { session } = useSession();
 	const { toggled, setToggledTrue, setToggledFalse } = useToggle();
 
-	const { data, isError, isLoading } = useQuery({
+	const { data, isError, isLoading, refetch } = useQuery({
 		queryKey: ['bodytemperature'],
 		queryFn: async () => fetchBodyTemperature(session?.toString() || ''),
 	});
@@ -61,7 +61,7 @@ const Temperature = (): JSX.Element => {
 			<View style={Styles.container}>
 				<HvGraph
 					data={
-						data?.map((item) => ({
+						data?.toReversed().map((item) => ({
 							...item,
 							value: Math.round(item.temperature * 10) / 10,
 						})) as IBodyTemperature[]
@@ -84,7 +84,13 @@ const Temperature = (): JSX.Element => {
 				textRight='Mælingar'
 				margin={20}
 			/>
-			<HvScrollView>{toggled ? <GraphView /> : <ScrollView />}</HvScrollView>
+			{toggled ? (
+				<GraphView />
+			) : (
+				<HvScrollView onRefresh={() => refetch()} isRefreshing={isLoading}>
+					<ScrollView />
+				</HvScrollView>
+			)}
 		</View>
 	);
 };
