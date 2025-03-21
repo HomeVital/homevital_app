@@ -1,4 +1,4 @@
-import { StyleSheet, View } from 'react-native';
+import { View } from 'react-native';
 import { useQuery } from '@tanstack/react-query';
 // components
 import HvToggler from '@/components/ui/hvToggler';
@@ -7,15 +7,12 @@ import HvScrollView from '@/components/ui/HvScrollView';
 // constants
 import { STYLES } from '@/constants/styles';
 import { fetchBodyTemperature } from '@/queries/queries';
-import { PADDING } from '@/constants/sizes';
-import { TAB_ICON_SIZE } from '@/constants/sizes';
 // hooks
 import { useToggle } from '@/hooks/UseToggle';
-import { HvCardMeasurement, HvCardMeasurements } from '@/components/cards/hvCardMeasurement';
+import { HvCardMeasurements } from '@/components/cards/hvCardMeasurements';
 import { DARK_GREEN } from '@/constants/colors';
 import HvGraph from '@/components/graphs/HvGraph';
-import { IBodyTemperature } from '@/interfaces/bodyTemperatureInterfaces';
-import { useState } from 'react';
+import { IBodyTemperature } from '@/interfaces/measurements';
 import { ErrorView, LoadingView } from '@/components/queryStates';
 
 const Temperature = (): JSX.Element => {
@@ -31,29 +28,6 @@ const Temperature = (): JSX.Element => {
 
 	if (isLoading) return <LoadingView />;
 
-	const GraphView = () => {
-		const [item, setItem] = useState(undefined as IBodyTemperature | undefined);
-		const dataTypes = {
-			temperature: { name: '°C', color: DARK_GREEN },
-		};
-
-		return (
-			<View style={Styles.container}>
-				<HvGraph
-					data={
-						data?.toReversed().map((item) => ({
-							...item,
-							value: Math.round(item.temperature * 10) / 10,
-						})) as IBodyTemperature[]
-					}
-					dataTypes={dataTypes}
-					setItem={setItem}
-				/>
-				{item !== undefined && <HvCardMeasurement item={item} />}
-			</View>
-		);
-	};
-
 	return (
 		<View style={STYLES.defaultNoPadView}>
 			<HvToggler
@@ -65,7 +39,12 @@ const Temperature = (): JSX.Element => {
 				margin={20}
 			/>
 			{toggled ? (
-				<GraphView />
+				<HvGraph
+					data={data as IBodyTemperature[]}
+					dataTypes={{
+						temperature: { name: '°C', color: DARK_GREEN },
+					}}
+				/>
 			) : (
 				<HvScrollView onRefresh={() => refetch()} isRefreshing={isLoading}>
 					<HvCardMeasurements items={data as IBodyTemperature[]} />
@@ -74,14 +53,5 @@ const Temperature = (): JSX.Element => {
 		</View>
 	);
 };
-
-const Styles = StyleSheet.create({
-	container: {
-		paddingHorizontal: 20,
-		paddingVertical: PADDING,
-		marginBottom: TAB_ICON_SIZE + PADDING,
-		gap: 12,
-	},
-});
 
 export default Temperature;

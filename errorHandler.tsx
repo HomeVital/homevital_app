@@ -1,6 +1,5 @@
-import { AxError } from './interfaces/axErrorInterfaces';
-import { IBloodPressure } from './interfaces/bloodPressureInterfaces';
-import { ISignIn } from './interfaces/signInInterfaces';
+import { AxError, ISignIn } from './interfaces/api';
+import { IBloodPressure } from './interfaces/measurements';
 
 // error statuses
 

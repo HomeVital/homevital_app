@@ -6,3 +6,7 @@ export interface AxError extends Error {
 		};
 	};
 }
+
+export interface ISignIn {
+	ssn: string;
+}

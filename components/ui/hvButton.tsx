@@ -1,7 +1,6 @@
 import { View, StyleSheet, TouchableOpacity } from 'react-native';
 // components
 import HvText from './hvText';
-// import { TouchableRipple } from 'react-native-paper';
 // constants
 import { DARK_GREEN } from '@/constants/colors';
 

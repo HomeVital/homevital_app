@@ -1,8 +1,8 @@
-import { IBloodPressure } from '@/interfaces/bloodPressureInterfaces';
-import { IBloodSugar } from '@/interfaces/bloodSugarInterfaces';
-import { IBodyTemperature } from '@/interfaces/bodyTemperatureInterfaces';
-import { IBodyWeight } from '@/interfaces/bodyWeightInterfaces';
-import { IOxygenSaturation } from '@/interfaces/oxygenSaturationInterfaces';
+import { IBloodPressure } from '@/interfaces/measurements';
+import { IBloodSugar } from '@/interfaces/measurements';
+import { IBodyTemperature } from '@/interfaces/measurements';
+import { IBodyWeight } from '@/interfaces/measurements';
+import { IOxygenSaturation } from '@/interfaces/measurements';
 
 // Type guards
 export const isBloodPressure = (item: unknown): item is IBloodPressure =>

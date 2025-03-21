@@ -11,7 +11,7 @@ import HvInputForm from '@/components/ui/hvInputForm/hvInputForm';
 import { STYLES } from '@/constants/styles';
 import HvInputField from '@/components/ui/hvInputForm/hvInputField';
 import HvInputFormContainer from '@/components/ui/hvInputForm/hvInputFormContainer';
-import { IAddBodyTemperature } from '@/interfaces/bodyTemperatureInterfaces';
+import { IAddBodyTemperature } from '@/interfaces/measurements';
 import { BODYTEMPERATURE_URL } from '@/constants/api';
 
 const postBodyTemperature = async (sessionId: string, measurement: IAddBodyTemperature) => {

@@ -10,13 +10,15 @@ import {
 	PATIENT_URL,
 } from '@/constants/api';
 import axios from 'axios';
-import { IPatient } from '@/interfaces/patientInterfaces';
-import { IBloodPressure } from '@/interfaces/bloodPressureInterfaces';
-import { IBloodSugar } from '@/interfaces/bloodSugarInterfaces';
-import { IBodyTemperature } from '@/interfaces/bodyTemperatureInterfaces';
-import { IBodyWeight } from '@/interfaces/bodyWeightInterfaces';
-import { IOxygenSaturation } from '@/interfaces/oxygenSaturationInterfaces';
-import { IMeasurement } from '@/interfaces/measurementInterfaces';
+import { IPatient } from '@/interfaces/patient';
+import {
+	IBloodPressure,
+	IBloodSugar,
+	IBodyTemperature,
+	IBodyWeight,
+	IMeasurement,
+	IOxygenSaturation,
+} from '@/interfaces/measurements';
 
 /**
  * Sends a POST request to the MOCK_LOGIN_URL with the provided social security number (ssn).

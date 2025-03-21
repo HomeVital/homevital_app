@@ -1,14 +1,16 @@
-import { IBloodPressure } from '@/interfaces/bloodPressureInterfaces';
-import { IBloodSugar } from '@/interfaces/bloodSugarInterfaces';
-import { IBodyTemperature } from '@/interfaces/bodyTemperatureInterfaces';
-import { IBodyWeight } from '@/interfaces/bodyWeightInterfaces';
-import { IOxygenSaturation } from '@/interfaces/oxygenSaturationInterfaces';
+import {
+	IBloodPressure,
+	IBloodSugar,
+	IBodyTemperature,
+	IBodyWeight,
+	IMeasurementBase,
+	IOxygenSaturation,
+} from '@/interfaces/measurements';
 import HvCard from './hvCard';
 import { View, StyleSheet } from 'react-native';
 import { Image } from 'expo-image';
 import { formatDate } from '@/utility/utility';
 import HvText from '../ui/hvText';
-import { IMeasurementBase } from '@/interfaces/measurementBaseInterfaces';
 import {
 	isBloodPressure,
 	isBloodSugar,
@@ -112,5 +114,3 @@ const Styles = StyleSheet.create({
 		flexDirection: 'row',
 	},
 });
-
-// export default HvCardMeasurement;

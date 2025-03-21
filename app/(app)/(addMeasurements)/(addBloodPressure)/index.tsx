@@ -12,7 +12,7 @@ import HvInputFormContainer from '@/components/ui/hvInputForm/hvInputFormContain
 import { BLOODPRESSURE_URL } from '@/constants/api';
 import { useSession } from '@/hooks/ctx';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
-import { IAddBloodPressure } from '@/interfaces/bloodPressureInterfaces';
+import { IAddBloodPressure } from '@/interfaces/measurements';
 import { Controller, useForm } from 'react-hook-form';
 
 const postBloodPressure = async (sessionId: string, measurement: IAddBloodPressure) => {

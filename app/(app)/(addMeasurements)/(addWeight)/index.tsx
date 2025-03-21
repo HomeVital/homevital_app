@@ -11,7 +11,7 @@ import HvInputForm from '@/components/ui/hvInputForm/hvInputForm';
 import { STYLES } from '@/constants/styles';
 import HvInputField from '@/components/ui/hvInputForm/hvInputField';
 import HvInputFormContainer from '@/components/ui/hvInputForm/hvInputFormContainer';
-import { IAddBodyWeight } from '@/interfaces/bodyWeightInterfaces';
+import { IAddBodyWeight } from '@/interfaces/measurements';
 import { BODYWEIGHT_URL } from '@/constants/api';
 
 const postBodyWeight = async (sessionId: string, measurement: IAddBodyWeight) => {

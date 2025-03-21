@@ -2,7 +2,7 @@ import HvCard from './hvCard';
 import { View, StyleSheet } from 'react-native';
 import { formatDate } from '@/utility/utility';
 import HvText from '../ui/hvText';
-import { IMeasurement } from '@/interfaces/measurementInterfaces';
+import { IMeasurement } from '@/interfaces/measurements';
 import HvImage from '../ui/hvImage';
 
 interface Props {

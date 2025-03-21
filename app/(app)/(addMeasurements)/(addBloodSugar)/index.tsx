@@ -12,7 +12,7 @@ import { STYLES } from '@/constants/styles';
 import HvInputField from '@/components/ui/hvInputForm/hvInputField';
 import HvInputFormContainer from '@/components/ui/hvInputForm/hvInputFormContainer';
 import { BLOODSUGAR_URL } from '@/constants/api';
-import { IAddBloodSugar } from '@/interfaces/bloodSugarInterfaces';
+import { IAddBloodSugar } from '@/interfaces/measurements';
 
 const postBloodSugar = async (sessionId: string, measurement: IAddBloodSugar) => {
 	const response = await axios.post(`${BLOODSUGAR_URL}/${sessionId}`, measurement);

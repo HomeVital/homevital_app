@@ -1,17 +1,15 @@
-import { StyleSheet, View } from 'react-native';
+import { View } from 'react-native';
+import { useQuery } from '@tanstack/react-query';
 // components
 import HvToggler from '@/components/ui/hvToggler';
-import { STYLES } from '@/constants/styles';
 import { useSession } from '@/hooks/ctx';
-import { useQuery } from '@tanstack/react-query';
 import { fetchBodyWeight } from '@/queries/queries';
 import HvScrollView from '@/components/ui/HvScrollView';
-import { PADDING, TAB_ICON_SIZE } from '@/constants/sizes';
 import { useToggle } from '@/hooks/UseToggle';
-import { HvCardMeasurement, HvCardMeasurements } from '@/components/cards/hvCardMeasurement';
-import { IBodyWeight } from '@/interfaces/bodyWeightInterfaces';
+import { HvCardMeasurements } from '@/components/cards/hvCardMeasurements';
+import { IBodyWeight } from '@/interfaces/measurements';
+import { STYLES } from '@/constants/styles';
 import { DARK_GREEN } from '@/constants/colors';
-import { useState } from 'react';
 import HvGraph from '@/components/graphs/HvGraph';
 import { ErrorView, LoadingView } from '@/components/queryStates';
 
@@ -27,24 +25,6 @@ const Weight = (): JSX.Element => {
 
 	if (isLoading) return <LoadingView />;
 
-	const GraphView = () => {
-		const [item, setItem] = useState(undefined as IBodyWeight | undefined);
-		const dataTypes = {
-			weight: { name: 'Kg', color: DARK_GREEN },
-		};
-
-		return (
-			<View style={Styles.container}>
-				<HvGraph
-					data={data?.toReversed() as IBodyWeight[]}
-					dataTypes={dataTypes}
-					setItem={setItem}
-				/>
-				{item !== undefined && <HvCardMeasurement item={item} />}
-			</View>
-		);
-	};
-
 	return (
 		<View style={STYLES.defaultNoPadView}>
 			<HvToggler
@@ -56,7 +36,12 @@ const Weight = (): JSX.Element => {
 				margin={20}
 			/>
 			{toggled ? (
-				<GraphView />
+				<HvGraph
+					data={data as IBodyWeight[]}
+					dataTypes={{
+						weight: { name: 'Kg', color: DARK_GREEN },
+					}}
+				/>
 			) : (
 				<HvScrollView onRefresh={() => refetch()} isRefreshing={isLoading}>
 					<HvCardMeasurements items={data as IBodyWeight[]} />
@@ -65,14 +50,5 @@ const Weight = (): JSX.Element => {
 		</View>
 	);
 };
-
-const Styles = StyleSheet.create({
-	container: {
-		paddingHorizontal: 20,
-		paddingVertical: PADDING,
-		marginBottom: TAB_ICON_SIZE + PADDING,
-		gap: 12,
-	},
-});
 
 export default Weight;

@@ -10,7 +10,7 @@ import HvInputField from '@/components/ui/hvInputForm/hvInputField';
 import HvInputFormContainer from '@/components/ui/hvInputForm/hvInputFormContainer';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { useSession } from '@/hooks/ctx';
-import { IAddOxygenSaturation } from '@/interfaces/oxygenSaturationInterfaces';
+import { IAddOxygenSaturation } from '@/interfaces/measurements';
 import { OXYGENSATURATION_URL } from '@/constants/api';
 import axios from 'axios';
 

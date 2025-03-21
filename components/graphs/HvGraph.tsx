@@ -1,15 +1,26 @@
-import { ColorValue, TouchableOpacity, View } from 'react-native';
+import { ColorValue, TouchableOpacity, View, StyleSheet } from 'react-native';
 import HvText from '../ui/hvText';
 import HvCard from '../cards/hvCard';
 import { CurveType, LineChart } from 'react-native-gifted-charts';
 import { useState } from 'react';
 import { DARK_GREEN, LIGHT_GRAY } from '@/constants/colors';
 import { WIN_WIDTH } from '@/constants/window';
-import { IBloodPressure } from '@/interfaces/bloodPressureInterfaces';
-import { IOxygenSaturation } from '@/interfaces/oxygenSaturationInterfaces';
-import { IBodyTemperature } from '@/interfaces/bodyTemperatureInterfaces';
-import { IBodyWeight } from '@/interfaces/bodyWeightInterfaces';
-import { IBloodSugar } from '@/interfaces/bloodSugarInterfaces';
+import {
+	IBloodPressure,
+	IBloodSugar,
+	IBodyTemperature,
+	IBodyWeight,
+	IOxygenSaturation,
+} from '@/interfaces/measurements';
+import { PADDING, TAB_ICON_SIZE } from '@/constants/sizes';
+import { HvCardMeasurement } from '../cards/hvCardMeasurements';
+import {
+	isBloodPressure,
+	isBloodSugar,
+	isBodyTemperature,
+	isBodyWeight,
+	isOxygenSaturation,
+} from '@/constants/typeGuards';
 
 interface IDataType {
 	name: string;
@@ -23,8 +34,34 @@ interface Props<
 	dataTypes: {
 		[key: string]: IDataType;
 	};
+}
+
+interface PropsObject<T> extends Props<T> {
 	setItem: (item: T | undefined) => void;
 }
+
+const HvGraph = <T,>({ data, dataTypes }: Props<T>): JSX.Element => {
+	const [item, setItem] = useState<T | undefined>(undefined);
+
+	return (
+		<View style={Styles.container}>
+			<HvGraphObject
+				data={data.toReversed() as T[]}
+				dataTypes={dataTypes}
+				setItem={setItem}
+			/>
+
+			{item &&
+				(isBloodPressure(item) ||
+				isOxygenSaturation(item) ||
+				isBodyTemperature(item) ||
+				isBodyWeight(item) ||
+				isBloodSugar(item) ? (
+					<HvCardMeasurement item={item} />
+				) : null)}
+		</View>
+	);
+};
 
 /**
  * Graph component
@@ -33,7 +70,7 @@ interface Props<
  * @param setItem - function to set the selected item
  * @returns graph component
  */
-const HvGraph = <T,>({ data, dataTypes, setItem }: Props<T>): JSX.Element => {
+const HvGraphObject = <T,>({ data, dataTypes, setItem }: PropsObject<T>): JSX.Element => {
 	// selected data point indexing
 	const filteredData = Object.keys(dataTypes).map((key) =>
 		data?.map((item) => ({ value: Number(item[key as keyof T]) })),
@@ -249,5 +286,14 @@ const HvGraphLegend = (legends: [string, ColorValue][]) => {
 		</View>
 	);
 };
+
+const Styles = StyleSheet.create({
+	container: {
+		paddingHorizontal: 20,
+		paddingVertical: PADDING,
+		marginBottom: TAB_ICON_SIZE + PADDING,
+		gap: 12,
+	},
+});
 
 export default HvGraph;

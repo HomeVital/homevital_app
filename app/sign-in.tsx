@@ -90,8 +90,7 @@ import HvButton from '@/components/ui/hvButton';
 import { GRAY, LIGHT_GREEN, WHITE } from '@/constants/colors';
 import { WIN_WIDTH } from '@/constants/window';
 import HvText from '@/components/ui/hvText';
-import { ISignIn } from '@/interfaces/signInInterfaces';
-import { AxError } from '@/interfaces/axErrorInterfaces';
+import { ISignIn, AxError } from '@/interfaces/api';
 import { GetErrorMessage } from '@/errorHandler';
 
 /**
