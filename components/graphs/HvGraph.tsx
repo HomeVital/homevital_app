@@ -12,7 +12,7 @@ import {
 	IBodyWeight,
 	IOxygenSaturation,
 } from '@/interfaces/measurements';
-import { PADDING, TAB_ICON_SIZE } from '@/constants/sizes';
+import { PADDING, TAB_ICON_SIZE } from '@/constants/constants';
 import { HvCardMeasurement } from '../cards/hvCardMeasurements';
 import {
 	isBloodPressure,

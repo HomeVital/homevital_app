@@ -3,7 +3,7 @@ import { TouchableOpacity, View, StyleSheet } from 'react-native';
 // components
 import HvLayeredIcon from '../hvLayeredIcon';
 // constants
-import { TAB_ICON_SIZE } from '@/constants/sizes';
+import { TAB_ICON_SIZE } from '@/constants/constants';
 
 interface Props {
 	roundness: number;

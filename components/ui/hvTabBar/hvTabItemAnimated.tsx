@@ -6,7 +6,7 @@ import Animated, { useAnimatedStyle, useSharedValue, withTiming } from 'react-na
 import HvText from '../hvText';
 // constants
 import { ACTIVE_OPACITY, FONT_SIZE } from './constants';
-import { TAB_BAR_PADDING, TAB_HEIGHT, TAB_ICON_SIZE, TAB_TEXT_HEIGHT } from '@/constants/sizes';
+import { TAB_BAR_PADDING, TAB_HEIGHT, TAB_ICON_SIZE, TAB_TEXT_HEIGHT } from '@/constants/constants';
 
 interface Props extends TouchableOpacityProps {
 	onPress: () => void;

@@ -1,6 +1,6 @@
 import { StyleSheet } from 'react-native';
 // constants
-import { TAB_ICON_SIZE } from './sizes';
+import { TAB_ICON_SIZE } from './constants';
 
 export const STYLES = StyleSheet.create({
 	defaultView: {

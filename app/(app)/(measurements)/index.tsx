@@ -15,7 +15,7 @@ import { STYLES } from '@/constants/styles';
 import { WHITE } from '@/constants/colors';
 import HvText from '@/components/ui/hvText';
 import { WIN_WIDTH } from '@/constants/window';
-import { PADDING } from '@/constants/sizes';
+import { PADDING } from '@/constants/constants';
 import { LoadingView } from '@/components/queryStates';
 
 const MainMeasurements = (): JSX.Element => {

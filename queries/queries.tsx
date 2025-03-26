@@ -28,8 +28,13 @@ import {
  * @throws {Error} - Throws an error if the response is not ok.
  */
 export const GetRafraenSkilriki = async (ssn: string): Promise<string> => {
-	const response = await axios.post(MOCK_LOGIN_URL, { kennitala: ssn });
-	return response.data;
+	try {
+		const response = await axios.post(MOCK_LOGIN_URL, { kennitala: ssn });
+		return response.data;
+	} catch (error) {
+		console.error('Error fetching Rafraen Skilriki:', error);
+		throw error;
+	}
 };
 
 /**
@@ -40,8 +45,13 @@ export const GetRafraenSkilriki = async (ssn: string): Promise<string> => {
  * @throws {Error} - Throws an error if the response is not ok.
  */
 export const GetUserId = async (ssn: string): Promise<string> => {
-	const response = await axios.post(LOGIN_URL, { kennitala: ssn });
-	return response.data;
+	try {
+		const response = await axios.post(LOGIN_URL, { kennitala: ssn });
+		return response.data;
+	} catch (error) {
+		console.error('Error fetching User ID:', error);
+		throw error;
+	}
 };
 
 // get measurements by patient id

@@ -19,7 +19,7 @@ import {
 	isOxygenSaturation,
 } from '@/constants/typeGuards';
 import HvImage from '../ui/hvImage';
-import { PADDING, TAB_ICON_SIZE } from '@/constants/sizes';
+import { PADDING, TAB_ICON_SIZE } from '@/constants/constants';
 
 interface Props<
 	T = IBloodPressure | IOxygenSaturation | IBodyTemperature | IBodyWeight | IBloodSugar,
