@@ -8,7 +8,6 @@ import {
 } from '@/interfaces/measurements';
 import HvCard from './hvCard';
 import { View, StyleSheet } from 'react-native';
-import { Image } from 'expo-image';
 import { formatDate } from '@/utility/utility';
 import HvText from '../ui/hvText';
 import {
@@ -50,6 +49,7 @@ export const HvCardMeasurement = <T,>({ item }: Props<T>): JSX.Element => {
 			return `${item.weight} Kg`;
 		} else if (isBloodSugar(item)) {
 			return `${item.bloodsugarLevel} mmol/L`;
+			// return `${item.bloodsugarLevel} Mg/DL`;
 		}
 		return '';
 	};
@@ -57,11 +57,8 @@ export const HvCardMeasurement = <T,>({ item }: Props<T>): JSX.Element => {
 	return (
 		<HvCard key={item.id} style={Styles.container} row>
 			<View style={Styles.left}>
-				<Image
-					source={require('@/assets/svgs/measurementLabel/good.svg')}
-					contentFit='contain'
-					style={Styles.indicator}
-				/>
+				{/* {MeasurementStatus(item.status)} */}
+				<HvImage source={item.status} size={26} />
 				<HvText weight='semibold'>{formatDate(item.date)}</HvText>
 			</View>
 			<HvText size='xxl' weight='semibold'>
@@ -105,10 +102,6 @@ const Styles = StyleSheet.create({
 		height: '100%',
 		justifyContent: 'space-evenly',
 		alignItems: 'center',
-	},
-	indicator: {
-		width: 26,
-		height: 26,
 	},
 	right: {
 		flexDirection: 'row',

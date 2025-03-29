@@ -1,6 +1,7 @@
 export interface IMeasurementBase {
 	id: number;
 	date: string;
+	status: string;
 }
 
 export interface IMeasurement {
@@ -18,6 +19,7 @@ export interface IMeasurement {
 		weight: number;
 		temperature: number;
 		oxygenSaturation: number;
+		status: string;
 	};
 }
 

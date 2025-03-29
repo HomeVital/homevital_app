@@ -1,10 +1,10 @@
 // const API_URL = 'https://homevital-api-dev.azurewebsites.net/api/';
-const API_URL = 'https://kf40c404-5118.eun1.devtunnels.ms/api/';
-// const API_URL = 'https://homevitaldev-app.azurewebsites.net/api/';
-// const API_URL = 'http://localhost:5118/api/';
+// const API_URL = 'https://kf40c404-5118.eun1.devtunnels.ms/api/';
+const API_URL = 'https://homevitaldev-app.azurewebsites.net/api/';
+// const API_URL = '192.168.243.212:8080/api';
 
 export const MOCK_LOGIN_URL = API_URL + 'user/MockLogin';
-export const LOGIN_URL = API_URL + 'user/generate-token';
+export const LOGIN_URL = API_URL + 'user/Login';
 export const MEASUREMENTS_URL = API_URL + '/measurements/';
 export const PATIENT_URL = API_URL + '/patients/';
 

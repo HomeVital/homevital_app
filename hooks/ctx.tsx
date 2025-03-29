@@ -34,6 +34,7 @@ export const SessionProvider = ({ children }: PropsWithChildren): JSX.Element =>
 	// const queryClient = useQueryClient();
 	const HandleSignIn = async (SSN: string): Promise<string> => {
 		const userSSN = await GetRafraenSkilriki(SSN);
+
 		const userId = await GetUserId(String(userSSN));
 
 		setSession(userId);

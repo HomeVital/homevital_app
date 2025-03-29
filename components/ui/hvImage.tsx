@@ -25,6 +25,14 @@ const sources = {
 	Left: require('@/assets/svgs/handLeft.svg'),
 	Sitting: require('@/assets/svgs/sitting.svg'),
 	Laying: require('@/assets/svgs/laying.svg'),
+
+	// measurement label icons
+	Normal: require('@/assets/svgs/measurementLabel/good.svg'),
+	Raised: require('@/assets/svgs/measurementLabel/tight.svg'),
+	High: require('@/assets/svgs/measurementLabel/bad.svg'),
+	Critical: require('@/assets/svgs/measurementLabel/bad.svg'),
+	CriticalHigh: require('@/assets/svgs/measurementLabel/bad.svg'),
+	Invalid: require('@/assets/svgs/measurementLabel/bad.svg'),
 };
 
 const HvImage = ({ source, size = 100, ...props }: Props): JSX.Element => {

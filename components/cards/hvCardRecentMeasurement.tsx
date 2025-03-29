@@ -36,7 +36,14 @@ const HvCardRecentMeasurements = ({ items }: Props): JSX.Element => {
 			{items.map((item) => (
 				<HvCard key={item.uid} style={Styles.container} row>
 					<View style={Styles.left}>
-						<HvImage source={item.measurementType} size={80} />
+						<View style={{ height: 80 }}>
+							<HvImage source={item.measurementType} size={80} />
+							<HvImage
+								source={item.measurementValues.status}
+								size={20}
+								style={{ position: 'absolute', bottom: 0, right: 0 }}
+							/>
+						</View>
 						<HvText weight='semibold' size='s'>
 							{formatDate(item.measurementDate)}
 						</HvText>
