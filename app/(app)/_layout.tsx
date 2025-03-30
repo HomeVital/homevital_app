@@ -17,7 +17,7 @@ const AppLayout = (): JSX.Element => {
 			if (nextAppState === 'background') {
 				//  || nextAppState === 'inactive'
 				router.replace('/initial-screen');
-				signOut();
+				// signOut();
 			}
 		};
 		// Listen for app state change, and deletes after state change to avoid duplicates

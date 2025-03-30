@@ -26,13 +26,18 @@ const HvTabBar = (): JSX.Element => {
 	 */
 	const handleTabRoute = (route: string, prev: string): string => {
 		setAddOpen(false); // close add tab if open
-		if (router.canDismiss()) {
-			router.dismiss();
-			if (prev === route) {
+
+		if (prev === route) {
+			if (router.canDismiss()) {
+				router.dismiss();
+				return '';
+			} else {
+				router.push(route as RelativePathString);
 				return route;
 			}
 		}
 		router.push(route as RelativePathString);
+
 		return route;
 	};
 

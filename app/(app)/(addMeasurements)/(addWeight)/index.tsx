@@ -13,6 +13,7 @@ import HvInputField from '@/components/ui/hvInputForm/hvInputField';
 import HvInputFormContainer from '@/components/ui/hvInputForm/hvInputFormContainer';
 import { IAddBodyWeight } from '@/interfaces/measurements';
 import { BODYWEIGHT_URL } from '@/constants/api';
+import HvModalValidation from '@/components/modals/hvModalValidation';
 
 const postBodyWeight = async (sessionId: string, measurement: IAddBodyWeight) => {
 	const response = await axios.post(`${BODYWEIGHT_URL}/${sessionId}`, measurement);
@@ -24,13 +25,18 @@ const Weight = (): JSX.Element => {
 	const { session } = useSession();
 	// states
 	const [weight, setWeight] = useState('');
+	// post modal
+	const [modalVisible, setModalVisible] = useState(false);
+	const [modalStatus, setModalStatus] = useState('');
 
 	const { mutateAsync: addMutation } = useMutation({
 		mutationFn: async (measurement: IAddBodyWeight) =>
 			postBodyWeight(session?.toString() || '', measurement),
-		onSuccess: () => {
+		onSuccess: (data) => {
 			queryClient.invalidateQueries({ queryKey: ['recentmeasurements'] });
-			if (router.canGoBack()) router.back();
+			// status popup
+			setModalStatus(data.status);
+			setModalVisible(true);
 		},
 	});
 
@@ -59,6 +65,14 @@ const Weight = (): JSX.Element => {
 					</HvInputFormContainer>
 				</HvInputForm>
 			</View>
+			<HvModalValidation
+				visible={modalVisible}
+				onClose={() => {
+					setModalVisible(false);
+					router.dismissAll();
+				}}
+				validationStatus={modalStatus}
+			/>
 		</HvScrollView>
 	);
 };

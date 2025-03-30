@@ -20,7 +20,7 @@ const ValidationString = (status: string): string => {
 		case 'CriticalHigh':
 			return 'HighImage';
 		case 'Invalid':
-			return '';
+			return 'HighImage';
 		default:
 			return '';
 	}

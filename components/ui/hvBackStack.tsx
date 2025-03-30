@@ -8,6 +8,15 @@ interface Props {
 	ignoreHeaderRoutes?: string[];
 }
 
+const GoBack = () => {
+	// router.back();
+	if (router.canDismiss()) {
+		router.dismiss();
+	} else {
+		router.back();
+	}
+};
+
 /**
  * Custom back stack component
  * @param title - title of the screen
@@ -36,7 +45,7 @@ const HvBackStack = ({ title, ignoreHeaderRoutes = [] }: Props): JSX.Element => 
 					headerBlurEffect: 'light',
 					headerShadowVisible: false,
 					headerLeft: () => (
-						<TouchableOpacity style={Styles.headerBack} onPressIn={() => router.back()}>
+						<TouchableOpacity style={Styles.headerBack} onPressIn={() => GoBack()}>
 							<Image
 								source={require('@/assets/svgs/back.svg')}
 								contentFit='contain'

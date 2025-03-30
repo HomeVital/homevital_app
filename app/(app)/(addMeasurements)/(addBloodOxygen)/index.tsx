@@ -13,6 +13,7 @@ import { IAddOxygenSaturation } from '@/interfaces/measurements';
 import { OXYGENSATURATION_URL } from '@/constants/api';
 import axios from 'axios';
 import HvModalValidation from '@/components/modals/hvModalValidation';
+import { router } from 'expo-router';
 
 const postOxygenSaturation = async (sessionId: string, measurement: IAddOxygenSaturation) => {
 	try {
@@ -49,7 +50,6 @@ const BloodOxygen = (): JSX.Element => {
 	const { session } = useSession();
 	// states
 	const [bloodOxygen, setBloodOxygen] = useState('');
-
 	// post modal
 	const [modalVisible, setModalVisible] = useState(false);
 	const [modalStatus, setModalStatus] = useState('');
@@ -68,10 +68,9 @@ const BloodOxygen = (): JSX.Element => {
 			postOxygenSaturation(session?.toString() || '', measurement),
 		onSuccess: (data) => {
 			queryClient.invalidateQueries({ queryKey: ['recentmeasurements'] });
-
+			// status popup
 			setModalStatus(data.status);
 			setModalVisible(true);
-			// if (router.canGoBack()) router.back();
 		},
 	});
 
@@ -103,7 +102,10 @@ const BloodOxygen = (): JSX.Element => {
 
 			<HvModalValidation
 				visible={modalVisible}
-				onClose={() => setModalVisible(false)}
+				onClose={() => {
+					setModalVisible(false);
+					router.dismissAll();
+				}}
 				validationStatus={modalStatus}
 			/>
 		</HvScrollView>

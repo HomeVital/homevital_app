@@ -13,10 +13,15 @@ import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { IAddBloodPressure } from '@/interfaces/measurements';
 import { Controller, useForm } from 'react-hook-form';
 import { postBloodPressure } from '@/queries/post';
+import { useState } from 'react';
+import HvModalValidation from '@/components/modals/hvModalValidation';
 
 const BloodPressure = (): JSX.Element => {
 	const queryClient = useQueryClient();
 	const { session } = useSession();
+	// post modal
+	const [modalVisible, setModalVisible] = useState(false);
+	const [modalStatus, setModalStatus] = useState('');
 	// states
 	// const [hand, setHand] = useState('Hægri');
 	// const [position, setPosition] = useState('Sitjandi');
@@ -41,9 +46,11 @@ const BloodPressure = (): JSX.Element => {
 	const { mutateAsync: addMutation } = useMutation({
 		mutationFn: async (measurement: IAddBloodPressure) =>
 			postBloodPressure(session?.toString() || '', measurement),
-		onSuccess: () => {
+		onSuccess: (data) => {
 			queryClient.invalidateQueries({ queryKey: ['recentmeasurements'] });
-			if (router.canGoBack()) router.back();
+			// status popup
+			setModalStatus(data.status);
+			setModalVisible(true);
 		},
 	});
 
@@ -157,6 +164,14 @@ const BloodPressure = (): JSX.Element => {
 					</HvInputFormContainer>
 				</HvInputForm>
 			</View>
+			<HvModalValidation
+				visible={modalVisible}
+				onClose={() => {
+					setModalVisible(false);
+					router.dismissAll();
+				}}
+				validationStatus={modalStatus}
+			/>
 		</HvScrollView>
 	);
 };

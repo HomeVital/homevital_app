@@ -13,6 +13,7 @@ import HvInputField from '@/components/ui/hvInputForm/hvInputField';
 import HvInputFormContainer from '@/components/ui/hvInputForm/hvInputFormContainer';
 import { IAddBodyTemperature } from '@/interfaces/measurements';
 import { BODYTEMPERATURE_URL } from '@/constants/api';
+import HvModalValidation from '@/components/modals/hvModalValidation';
 
 const postBodyTemperature = async (sessionId: string, measurement: IAddBodyTemperature) => {
 	const response = await axios.post(`${BODYTEMPERATURE_URL}/${sessionId}`, measurement);
@@ -24,13 +25,18 @@ const Temperature = (): JSX.Element => {
 	const { session } = useSession();
 	// states
 	const [temperature, setTemperature] = useState('');
+	// post modal
+	const [modalVisible, setModalVisible] = useState(false);
+	const [modalStatus, setModalStatus] = useState('');
 
 	const { mutateAsync: addMutation } = useMutation({
 		mutationFn: async (measurement: IAddBodyTemperature) =>
 			postBodyTemperature(session?.toString() || '', measurement),
-		onSuccess: () => {
+		onSuccess: (data) => {
 			queryClient.invalidateQueries({ queryKey: ['recentmeasurements'] });
-			if (router.canGoBack()) router.back();
+			// status popup
+			setModalStatus(data.status);
+			setModalVisible(true);
 		},
 	});
 
@@ -60,6 +66,14 @@ const Temperature = (): JSX.Element => {
 					</HvInputFormContainer>
 				</HvInputForm>
 			</View>
+			<HvModalValidation
+				visible={modalVisible}
+				onClose={() => {
+					setModalVisible(false);
+					router.dismissAll();
+				}}
+				validationStatus={modalStatus}
+			/>
 		</HvScrollView>
 	);
 };
