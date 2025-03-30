@@ -1,5 +1,4 @@
 import { View } from 'react-native';
-import axios from 'axios';
 import { router } from 'expo-router';
 // components
 import HvScrollView from '@/components/ui/HvScrollView';
@@ -9,16 +8,11 @@ import { STYLES } from '@/constants/styles';
 import HvToggleSelect from '@/components/ui/hvInputForm/hvToggleSelect';
 import HvInputField from '@/components/ui/hvInputForm/hvInputField';
 import HvInputFormContainer from '@/components/ui/hvInputForm/hvInputFormContainer';
-import { BLOODPRESSURE_URL } from '@/constants/api';
 import { useSession } from '@/hooks/ctx';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { IAddBloodPressure } from '@/interfaces/measurements';
 import { Controller, useForm } from 'react-hook-form';
-
-const postBloodPressure = async (sessionId: string, measurement: IAddBloodPressure) => {
-	const response = await axios.post(`${BLOODPRESSURE_URL}/${sessionId}`, measurement);
-	return response.data;
-};
+import { postBloodPressure } from '@/queries/post';
 
 const BloodPressure = (): JSX.Element => {
 	const queryClient = useQueryClient();

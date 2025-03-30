@@ -9,7 +9,7 @@ import {
 	fetchBloodSugar,
 	fetchBodyTemperature,
 	fetchBodyWeight,
-} from '@/queries/queries';
+} from '@/queries/get';
 // constants
 import { STYLES } from '@/constants/styles';
 import { WHITE } from '@/constants/colors';

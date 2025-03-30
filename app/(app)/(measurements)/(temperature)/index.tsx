@@ -6,7 +6,7 @@ import { useSession } from '@/hooks/ctx';
 import HvScrollView from '@/components/ui/HvScrollView';
 // constants
 import { STYLES } from '@/constants/styles';
-import { fetchBodyTemperature } from '@/queries/queries';
+import { fetchBodyTemperature } from '@/queries/get';
 // hooks
 import { useToggle } from '@/hooks/UseToggle';
 import { HvCardMeasurements } from '@/components/cards/hvCardMeasurements';
@@ -14,10 +14,18 @@ import { DARK_GREEN } from '@/constants/colors';
 import HvGraph from '@/components/graphs/HvGraph';
 import { IBodyTemperature } from '@/interfaces/measurements';
 import { ErrorView, LoadingView } from '@/components/queryStates';
+import { useState } from 'react';
+import HvModalEdit from '@/components/modals/hvModalEdit';
+import EditTemperature from '@/components/modals/EditTemperature';
 
 const Temperature = (): JSX.Element => {
 	const { session } = useSession();
 	const { toggled, setToggledTrue, setToggledFalse } = useToggle();
+	// details modal
+	const [modalVisible, setModalVisible] = useState(false);
+	const [modalData, setModalData] = useState<IBodyTemperature | null>(null);
+	// edit modal
+	const [editModalVisible, setEditModalVisible] = useState(false);
 
 	const { data, isError, isLoading, refetch } = useQuery({
 		queryKey: ['bodytemperature'],
@@ -47,7 +55,45 @@ const Temperature = (): JSX.Element => {
 				/>
 			) : (
 				<HvScrollView onRefresh={() => refetch()} isRefreshing={isLoading}>
-					<HvCardMeasurements items={data as IBodyTemperature[]} />
+					<HvCardMeasurements
+						items={data as IBodyTemperature[]}
+						onPress={(itemData: IBodyTemperature) => {
+							setModalData(itemData);
+							setModalVisible(true);
+						}}
+					/>
+					{/* Modal for details */}
+					{modalData && (
+						<HvModalEdit
+							title='Líkamshiti'
+							visible={modalVisible}
+							visibleDetails={!editModalVisible}
+							onEdit={() => {
+								setEditModalVisible(true);
+							}}
+							onClose={() => {
+								setModalVisible(false);
+								setModalData(null);
+							}}
+							item={modalData as IBodyTemperature}
+						/>
+					)}
+					{/* Modal for editing */}
+					{modalData && (
+						<EditTemperature
+							visible={editModalVisible}
+							onClose={() => {
+								setEditModalVisible(false);
+							}}
+							onSubmit={() => {
+								setEditModalVisible(false);
+								setModalVisible(false);
+								setModalData(null);
+							}}
+							itemId={modalData.id.toString()}
+							item={modalData}
+						/>
+					)}
 				</HvScrollView>
 			)}
 		</View>

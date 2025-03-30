@@ -12,6 +12,21 @@ export const STYLES = StyleSheet.create({
 		gap: 12,
 		marginBottom: TAB_ICON_SIZE + 10,
 	},
+	defaultModalView: {
+		flex: 1,
+		justifyContent: 'center',
+		width: '100%',
+		height: '100%',
+		padding: 20,
+		backgroundColor: 'rgba(0, 0, 0, 0.5)',
+	},
+	defaultModalViewDeep: {
+		flex: 1,
+		justifyContent: 'center',
+		width: '100%',
+		height: '100%',
+		padding: 20,
+	},
 	loadingView: {
 		flex: 1,
 		justifyContent: 'center',

@@ -7,7 +7,7 @@ import HvText from '@/components/ui/hvText';
 import { STYLES } from '@/constants/styles';
 import { useSession } from '@/hooks/ctx';
 import HvScrollView from '@/components/ui/HvScrollView';
-import { fetchPatient, fetchRecentMeasurements } from '@/queries/queries';
+import { fetchPatient, fetchRecentMeasurements } from '@/queries/get';
 import HvCardRecentMeasurements from '@/components/cards/hvCardRecentMeasurement';
 import { ErrorView, LoadingView } from '@/components/queryStates';
 

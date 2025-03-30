@@ -34,7 +34,7 @@ const HvCardRecentMeasurements = ({ items }: Props): JSX.Element => {
 	return (
 		<>
 			{items.map((item) => (
-				<HvCard key={item.uid} style={Styles.container} row>
+				<HvCard key={item.uid} style={Styles.container} row padding={10} gap={10}>
 					<View style={Styles.left}>
 						<View style={{ height: 80 }}>
 							<HvImage source={item.measurementType} size={80} />
@@ -75,9 +75,7 @@ const HvCardRecentMeasurements = ({ items }: Props): JSX.Element => {
 
 const Styles = StyleSheet.create({
 	container: {
-		padding: 10,
 		height: 150,
-		gap: 10,
 	},
 	left: {
 		height: '100%',

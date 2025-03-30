@@ -9,7 +9,7 @@ import { BRIGHT_GREEN } from '@/constants/colors';
 import { STYLES } from '@/constants/styles';
 import { useSession } from '@/hooks/ctx';
 import { useQuery } from '@tanstack/react-query';
-import { fetchPatient } from '@/queries/queries';
+import { fetchPatient } from '@/queries/get';
 import { IPatient } from '@/interfaces/patient';
 import { ErrorView, LoadingView } from '@/components/queryStates';
 

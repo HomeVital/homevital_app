@@ -9,6 +9,8 @@ interface Props {
 	onPress: () => void;
 	width?: number;
 	style?: object; // optional
+	bgColor?: string; // optional
+	disabled?: boolean; // optional
 }
 
 /**
@@ -19,28 +21,43 @@ interface Props {
  * @param style - additional button styles
  * @returns custom button component
  */
-const HvButton = ({ text, onPress, width, style = {} }: Props): JSX.Element => {
+const HvButton = ({
+	text,
+	onPress,
+	width,
+	style = {},
+	bgColor = DARK_GREEN,
+	disabled = false,
+}: Props): JSX.Element => {
 	return (
-		<View style={[{ width: width ? width : {}, borderRadius: 10 }, style]}>
-			<TouchableOpacity
-				style={Styles.button}
-				onPress={onPress}
-				activeOpacity={0.7}
-				// rippleColor="rgba(0, 0, 0, .32)"
-				// borderless={true}
-			>
+		<TouchableOpacity
+			onPress={onPress}
+			activeOpacity={0.5}
+			disabled={disabled}
+			// rippleColor="rgba(0, 0, 0, .32)"
+			// borderless={true}
+			style={[
+				{
+					width: width ? width : {},
+					borderRadius: 10,
+					backgroundColor: bgColor,
+					opacity: disabled ? 0.5 : 1,
+				},
+				style,
+			]}
+		>
+			<View style={Styles.button}>
 				<HvText size='l' color='white' weight='semibold'>
 					{text}
 				</HvText>
-			</TouchableOpacity>
-		</View>
+			</View>
+		</TouchableOpacity>
 	);
 };
 
 const Styles = StyleSheet.create({
 	button: {
 		// height: 56, // expected 48
-		backgroundColor: DARK_GREEN,
 		padding: 15,
 		borderRadius: 10,
 		alignItems: 'center',

@@ -11,6 +11,9 @@ interface Props extends ViewProps {
 		| 'space-around'
 		| 'space-evenly';
 	align?: 'flex-start' | 'flex-end' | 'center' | 'stretch' | 'baseline';
+	gap?: number | null;
+	padding?: number | null;
+	bgColor?: string;
 }
 
 /**
@@ -24,6 +27,9 @@ const HvCard = ({
 	row = false,
 	spacing = 'space-between',
 	align = 'center',
+	gap = null,
+	padding = null,
+	bgColor = WHITE,
 	...props
 }: Props): JSX.Element => {
 	return (
@@ -35,6 +41,9 @@ const HvCard = ({
 					flexDirection: row ? 'row' : 'column',
 					justifyContent: spacing,
 					alignItems: align,
+					gap: gap ? gap : undefined,
+					padding: padding ? padding : undefined,
+					backgroundColor: bgColor,
 				},
 			]}
 		>
@@ -46,7 +55,6 @@ const HvCard = ({
 const Styles = StyleSheet.create({
 	item: {
 		borderRadius: 10,
-		backgroundColor: WHITE,
 		boxShadow: '0px 2px 4px rgba(0, 0, 0, 0.25)',
 	},
 });

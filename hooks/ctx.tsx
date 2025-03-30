@@ -1,6 +1,6 @@
 import { useContext, type PropsWithChildren } from 'react';
 import { useStorageState } from './useStorageState';
-import { GetRafraenSkilriki, GetUserId } from '@/queries/queries';
+import { GetRafraenSkilriki, GetUserId } from '@/queries/get';
 import { AuthenticationContext } from '@/contexts/authenticationContext';
 
 /**

@@ -1,6 +1,5 @@
 import { useState } from 'react';
 import { View } from 'react-native';
-import { router } from 'expo-router';
 // components
 import HvScrollView from '@/components/ui/HvScrollView';
 import HvInputForm from '@/components/ui/hvInputForm/hvInputForm';
@@ -13,12 +12,37 @@ import { useSession } from '@/hooks/ctx';
 import { IAddOxygenSaturation } from '@/interfaces/measurements';
 import { OXYGENSATURATION_URL } from '@/constants/api';
 import axios from 'axios';
+import HvModalValidation from '@/components/modals/hvModalValidation';
 
 const postOxygenSaturation = async (sessionId: string, measurement: IAddOxygenSaturation) => {
-	const response = await axios.post(`${OXYGENSATURATION_URL}/${sessionId}`, measurement);
-	//
-	return response.data;
+	try {
+		const response = await axios.post(`${OXYGENSATURATION_URL}/${sessionId}`, measurement);
+		return response.data;
+	} catch (error) {
+		console.error('Error posting oxygen saturation:', error);
+		throw error;
+	}
 };
+
+// const showModal = ({ status, onClose }: { status: string; onClose: () => void }) => {
+//
+
+// 	switch (status) {
+// 		case 'Normal':
+// 			// show modal with normal status
+//
+// 			break;
+// 		case 'Raised':
+// 			// show modal with raised status
+//
+// 			break;
+// 		default:
+// 			// show modal with high status
+//
+// 			break;
+// 	}
+// 	onClose();
+// };
 
 const BloodOxygen = (): JSX.Element => {
 	const queryClient = useQueryClient();
@@ -26,12 +50,28 @@ const BloodOxygen = (): JSX.Element => {
 	// states
 	const [bloodOxygen, setBloodOxygen] = useState('');
 
+	// post modal
+	const [modalVisible, setModalVisible] = useState(false);
+	const [modalStatus, setModalStatus] = useState('');
+
+	// const closeModal = () => {
+	// 	// close modal9
+	// 	setModalVisible(false);
+
+	// 	while (router.canGoBack()) {
+	// 		router.back();
+	// 	}
+	// };
+
 	const { mutateAsync: addMutation } = useMutation({
 		mutationFn: async (measurement: IAddOxygenSaturation) =>
 			postOxygenSaturation(session?.toString() || '', measurement),
-		onSuccess: () => {
+		onSuccess: (data) => {
 			queryClient.invalidateQueries({ queryKey: ['recentmeasurements'] });
-			if (router.canGoBack()) router.back();
+
+			setModalStatus(data.status);
+			setModalVisible(true);
+			// if (router.canGoBack()) router.back();
 		},
 	});
 
@@ -60,6 +100,12 @@ const BloodOxygen = (): JSX.Element => {
 					</HvInputFormContainer>
 				</HvInputForm>
 			</View>
+
+			<HvModalValidation
+				visible={modalVisible}
+				onClose={() => setModalVisible(false)}
+				validationStatus={modalStatus}
+			/>
 		</HvScrollView>
 	);
 };

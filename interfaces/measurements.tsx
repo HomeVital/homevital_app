@@ -53,6 +53,35 @@ export interface IAddOxygenSaturation {
 	oxygenSaturationValue: number;
 }
 
+export interface IPatchBloodPressure {
+	measureHand: string;
+	bodyPosition: string;
+	systolic: number;
+	diastolic: number;
+	pulse: number;
+	status: string;
+}
+
+export interface IPatchBloodSugar {
+	bloodsugarLevel: number;
+	status: string;
+}
+
+export interface IPatchBodyTemperature {
+	temperature: number;
+	status: string;
+}
+
+export interface IPatchBodyWeight {
+	weight: number;
+	status: string;
+}
+
+export interface IPatchOxygenSaturation {
+	oxygenSaturationValue: number;
+	status: string;
+}
+
 export interface IBloodPressure extends IAddBloodPressure, IMeasurementBase {}
 export interface IBloodSugar extends IAddBloodSugar, IMeasurementBase {}
 export interface IBodyTemperature extends IAddBodyTemperature, IMeasurementBase {}

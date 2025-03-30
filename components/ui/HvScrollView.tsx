@@ -8,6 +8,7 @@ import { DARK_GREEN } from '@/constants/colors';
 interface Props extends ScrollViewProps {
 	onRefresh?: () => void;
 	isRefreshing?: boolean;
+	isModal?: boolean;
 }
 
 /**
@@ -18,12 +19,13 @@ interface Props extends ScrollViewProps {
 const HvScrollView = ({
 	onRefresh = undefined,
 	isRefreshing = false,
+	isModal = false,
 	...props
 }: Props): JSX.Element => {
 	return (
 		<ScrollView
-			fadingEdgeLength={TAB_HEIGHT + 42}
-			style={[{ marginBottom: TAB_HEIGHT }, props.style]}
+			fadingEdgeLength={!isModal ? TAB_HEIGHT + 42 : 0}
+			style={[{ marginBottom: !isModal ? TAB_HEIGHT : undefined }, props.style]}
 			refreshControl={
 				onRefresh ? (
 					<RefreshControl

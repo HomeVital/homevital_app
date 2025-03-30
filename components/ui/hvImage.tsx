@@ -33,6 +33,11 @@ const sources = {
 	Critical: require('@/assets/svgs/measurementLabel/bad.svg'),
 	CriticalHigh: require('@/assets/svgs/measurementLabel/bad.svg'),
 	Invalid: require('@/assets/svgs/measurementLabel/bad.svg'),
+
+	// add measurement popup message images
+	NormalImage: require('@/assets/images/popupMessages/Success.svg'),
+	RaisedImage: require('@/assets/images/popupMessages/Warning.svg'),
+	HighImage: require('@/assets/images/popupMessages/Danger.svg'),
 };
 
 const HvImage = ({ source, size = 100, ...props }: Props): JSX.Element => {

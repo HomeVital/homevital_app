@@ -7,7 +7,7 @@ import {
 	IOxygenSaturation,
 } from '@/interfaces/measurements';
 import HvCard from './hvCard';
-import { View, StyleSheet } from 'react-native';
+import { View, StyleSheet, TouchableOpacity } from 'react-native';
 import { formatDate } from '@/utility/utility';
 import HvText from '../ui/hvText';
 import {
@@ -30,6 +30,7 @@ interface PropsItems<
 	T = IBloodPressure | IOxygenSaturation | IBodyTemperature | IBodyWeight | IBloodSugar,
 > {
 	items: T[] extends IMeasurementBase[] ? T[] : never[];
+	onPress?: (itemId: T extends IMeasurementBase ? T : never) => void;
 }
 
 /**
@@ -74,14 +75,22 @@ export const HvCardMeasurement = <T,>({ item }: Props<T>): JSX.Element => {
 	);
 };
 
-export const HvCardMeasurements = <T,>({ items }: PropsItems<T>): JSX.Element => {
+export const HvCardMeasurements = <T,>({ items, onPress }: PropsItems<T>): JSX.Element => {
 	return (
 		<View style={Styles.pageContainer}>
 			{items.map((item) => {
 				if (isBloodPressure(item)) {
-					return <HvCardMeasurement key={item.id} item={item as never} />;
+					return (
+						<TouchableOpacity onPress={() => onPress?.(item as never)} key={item.id}>
+							<HvCardMeasurement key={item.id} item={item as never} />
+						</TouchableOpacity>
+					);
 				}
-				return <HvCardMeasurement key={item.id} item={item as never} />;
+				return (
+					<TouchableOpacity onPress={() => onPress?.(item as never)} key={item.id}>
+						<HvCardMeasurement key={item.id} item={item as never} />
+					</TouchableOpacity>
+				);
 			})}
 		</View>
 	);
