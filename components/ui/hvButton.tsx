@@ -11,6 +11,8 @@ interface Props {
 	style?: object; // optional
 	bgColor?: string; // optional
 	disabled?: boolean; // optional
+	small?: boolean; // optional
+	bright?: boolean; // optional
 }
 
 /**
@@ -28,26 +30,33 @@ const HvButton = ({
 	style = {},
 	bgColor = DARK_GREEN,
 	disabled = false,
+	small = false,
+	bright = false,
 }: Props): JSX.Element => {
 	return (
 		<TouchableOpacity
 			onPress={onPress}
 			activeOpacity={0.5}
 			disabled={disabled}
-			// rippleColor="rgba(0, 0, 0, .32)"
-			// borderless={true}
 			style={[
 				{
 					width: width ? width : {},
 					borderRadius: 10,
-					backgroundColor: bgColor,
+					backgroundColor: !bright ? bgColor : 'white',
+					borderColor: !bright ? undefined : bgColor,
+					borderWidth: !bright ? 0 : 1,
 					opacity: disabled ? 0.5 : 1,
+					padding: !small ? 15 : 10,
 				},
 				style,
 			]}
 		>
 			<View style={Styles.button}>
-				<HvText size='l' color='white' weight='semibold'>
+				<HvText
+					size={!small ? 'l' : 'sm'}
+					color={!bright ? 'white' : bgColor}
+					weight='semibold'
+				>
 					{text}
 				</HvText>
 			</View>
@@ -58,7 +67,6 @@ const HvButton = ({
 const Styles = StyleSheet.create({
 	button: {
 		// height: 56, // expected 48
-		padding: 15,
 		borderRadius: 10,
 		alignItems: 'center',
 		justifyContent: 'center',

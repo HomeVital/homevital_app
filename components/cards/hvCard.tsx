@@ -10,7 +10,7 @@ interface Props extends ViewProps {
 		| 'space-between'
 		| 'space-around'
 		| 'space-evenly';
-	align?: 'flex-start' | 'flex-end' | 'center' | 'stretch' | 'baseline';
+	align?: 'flex-start' | 'flex-end' | 'center' | 'stretch' | 'baseline' | undefined;
 	gap?: number | null;
 	padding?: number | null;
 	bgColor?: string;
@@ -26,7 +26,7 @@ interface Props extends ViewProps {
 const HvCard = ({
 	row = false,
 	spacing = 'space-between',
-	align = 'center',
+	align = undefined,
 	gap = null,
 	padding = null,
 	bgColor = WHITE,

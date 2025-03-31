@@ -1,17 +1,18 @@
 import React, { useState } from 'react';
-import { View, StyleSheet } from 'react-native';
-import { Switch } from 'react-native-paper';
+import { View, StyleSheet, Switch } from 'react-native';
 // components
-import HvDivider from '@/components/ui/hvDivider';
+// import HvDivider from '@/components/ui/hvDivider';
 import HvText from '@/components/ui/hvText';
 // constants
-import { BRIGHT_GREEN } from '@/constants/colors';
+import { DARK_GREEN, GREEN, LIGHT_THEME } from '@/constants/colors';
 import { STYLES } from '@/constants/styles';
 import { useSession } from '@/hooks/ctx';
 import { useQuery } from '@tanstack/react-query';
 import { fetchPatient } from '@/queries/get';
 import { IPatient } from '@/interfaces/patient';
 import { ErrorView, LoadingView } from '@/components/queryStates';
+import HvCard from '@/components/cards/hvCard';
+import HvButton from '@/components/ui/hvButton';
 
 const MainSettings = (): JSX.Element => {
 	const { session } = useSession();
@@ -36,35 +37,75 @@ const MainSettings = (): JSX.Element => {
 
 	return (
 		<View style={STYLES.defaultView}>
-			<HvDivider />
-			<HvText>{patient.name}</HvText>
-			<HvText>Heimili: {patient.address}</HvText>
-			<HvText>Sími: {patient.phone}</HvText>
-			<HvDivider />
+			{/* <HvDivider /> */}
+			<HvCard padding={20} gap={12}>
+				<View style={Styles.partContainer}>
+					<HvText size='xl' weight='semibold' center>
+						{patient.name}
+					</HvText>
+					<View style={Styles.aboutLine}>
+						<HvText style={{ width: '33%' }}>Heimili</HvText>
+						<HvText size='l' weight='semibold'>
+							{patient.address}
+						</HvText>
+					</View>
+					<View style={Styles.aboutLine}>
+						<HvText style={{ width: '33%' }}>Sími</HvText>
+						<HvText size='l' weight='semibold'>
+							{patient.phone}
+						</HvText>
+					</View>
+				</View>
+				<View style={Styles.partContainer}>
+					<HvButton text='Tengiliðir' onPress={() => {}} small bright />
+					<HvButton text='Tæki' onPress={() => {}} small bright />
+					<View style={Styles.leftRightContainer}>
+						<HvText>Tungumál</HvText>
+						{/* tungumál takki með mynd */}
+					</View>
+					<View style={Styles.leftRightContainer}>
+						<HvText>Áminningar</HvText>
+						{/* <Switch value={isSwitchOn} onValueChange={onToggleSwitch} color={BRIGHT_GREEN} /> */}
+						<Switch
+							value={isSwitchOn}
+							onValueChange={onToggleSwitch}
+							trackColor={{ false: '#767577', true: GREEN }}
+							thumbColor={isSwitchOn ? DARK_GREEN : '#f4f3f4'}
+							ios_backgroundColor='#3e3e3e'
+						/>
+					</View>
+				</View>
+				{/* <View style={Styles.partContainer}>
+				</View> */}
+			</HvCard>
+			{/* <HvDivider /> */}
 			{/* <Link href="/(app)/(measurements)/eitthvað"> */}
-			<HvText>Tengiliðir</HvText>
+			{/* <HvText>Tengiliðir</HvText> */}
 			{/* </Link> */}
-			<HvDivider />
+			{/* <HvDivider /> */}
 			{/* <Link href="/(app)/(measurements)/eitthvað"> */}
-			<HvText>Tæki</HvText>
+			{/* <HvText>Tæki</HvText> */}
 			{/* </Link> */}
-			<HvDivider />
-			<View style={Styles.leftRightContainer}>
-				<HvText>Tungumál</HvText>
-				{/* tungumál takki með mynd */}
-			</View>
-			<View style={Styles.leftRightContainer}>
-				<HvText>Áminningar</HvText>
-				<Switch value={isSwitchOn} onValueChange={onToggleSwitch} color={BRIGHT_GREEN} />
-			</View>
+			{/* <HvDivider /> */}
 		</View>
 	);
 };
 
 const Styles = StyleSheet.create({
+	partContainer: {
+		marginTop: 10,
+		padding: 20,
+		gap: 20,
+		borderRadius: 10,
+		backgroundColor: LIGHT_THEME,
+		maxWidth: 800,
+	},
 	leftRightContainer: {
 		flexDirection: 'row',
 		justifyContent: 'space-between',
+	},
+	aboutLine: {
+		flexDirection: 'row',
 	},
 });
 

@@ -8,7 +8,6 @@ import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { SessionProvider } from '@/hooks/ctx';
 // constants
 import { LIGHT_THEME } from '@/constants/colors';
-// import { PaperProvider } from 'react-native-paper';
 
 const queryClient = new QueryClient();
 

@@ -56,7 +56,7 @@ export const HvCardMeasurement = <T,>({ item }: Props<T>): JSX.Element => {
 	};
 
 	return (
-		<HvCard key={item.id} style={Styles.container} row>
+		<HvCard key={item.id} style={Styles.container} row align='center'>
 			<View style={Styles.left}>
 				{/* {MeasurementStatus(item.status)} */}
 				<HvImage source={item.status} size={26} />

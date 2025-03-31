@@ -52,7 +52,7 @@ const HvModalEdit = ({
 									<HvCardMeasurement item={item} />
 								</View>
 								<View style={Styles.buttonsContainer}>
-									<HvButton text='Breyta' onPress={onEdit} />
+									<HvButton text='Breyta' onPress={onEdit} bright />
 									<HvButton
 										text='Eyða'
 										bgColor={DARK_RED}
