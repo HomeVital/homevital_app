@@ -13,6 +13,17 @@ interface Props {
 	rightText: string;
 }
 
+/**
+ * Custom toggle select component for an input form
+ * @param itemState - state of the selected item
+ * @param setItemState - function to set the selected item state
+ * @param leftIcon - icon for the left side
+ * @param rightIcon - icon for the right side
+ * @param description - description of the toggle
+ * @param leftText - text for the left side
+ * @param rightText - text for the right side
+ * @returns custom toggle select component
+ */
 const HvToggleSelect = ({
 	itemState,
 	setItemState,
@@ -22,10 +33,16 @@ const HvToggleSelect = ({
 	leftText,
 	rightText,
 }: Props): JSX.Element => {
+	/**
+	 * Set the item state to the left text
+	 */
 	const selectLeft = (): void => {
 		setItemState(leftText);
 	};
 
+	/**
+	 * Set the item state to the right text
+	 */
 	const selectRight = (): void => {
 		setItemState(rightText);
 	};

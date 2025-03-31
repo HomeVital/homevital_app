@@ -5,7 +5,7 @@ import { Image } from 'expo-image';
 import HvText from '../hvText';
 // constants
 import { ACTIVE_OPACITY, FONT_SIZE } from './constants';
-import { TAB_BAR_PADDING, TAB_HEIGHT, TAB_ICON_SIZE, TAB_TEXT_HEIGHT } from '@/constants/sizes';
+import { TAB_BAR_PADDING, TAB_HEIGHT, TAB_ICON_SIZE, TAB_TEXT_HEIGHT } from '@/constants/constants';
 
 interface Props extends TouchableOpacityProps {
 	onPress: () => void;
@@ -14,6 +14,14 @@ interface Props extends TouchableOpacityProps {
 	large?: boolean;
 }
 
+/**
+ * Custom tab item component
+ * @param onPress - function to execute on tab press
+ * @param source - image source for the icon
+ * @param text - text to display under the icon
+ * @param large - boolean value to determine if the tab is large
+ * @returns custom tab item component
+ */
 const HvTabItem = ({ onPress, source, text, large = false, ...props }: Props): JSX.Element => {
 	return (
 		<TouchableOpacity

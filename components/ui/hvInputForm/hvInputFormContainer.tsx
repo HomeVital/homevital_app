@@ -6,6 +6,12 @@ interface Props extends ViewProps {
 	textInput?: boolean;
 }
 
+/**
+ * Custom input form container component with padding and background color
+ * @param children - children components
+ * @param textInput - boolean value to determine if the container has a text input
+ * @returns custom input form container component
+ */
 const HvInputFormContainer = ({ textInput = false, ...props }: Props): JSX.Element => {
 	return (
 		<View

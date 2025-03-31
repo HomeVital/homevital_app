@@ -4,7 +4,13 @@ const Layout = (): JSX.Element => {
 	return (
 		<HvBackStack
 			title='Mælingar'
-			ignoreHeaderRoutes={['(bloodPressure)', '(bloodSugar)', '(temperature)', '(weight)']}
+			ignoreHeaderRoutes={[
+				'(bloodPressure)',
+				'(bloodSugar)',
+				'(temperature)',
+				'(weight)',
+				'(oxygenSaturation)',
+			]}
 		/>
 	);
 };

@@ -8,6 +8,16 @@ interface Props extends TextProps {
 	center?: boolean;
 }
 
+/**
+ * Custom home vital text component with base default styles
+ *
+ * @param weight - font weight
+ * @param size - font size
+ * @param color - font color
+ * @param center - text alignment
+ * @param props - additional text properties
+ * @returns custom text component
+ */
 const HvText = ({ ...props }: Props): JSX.Element => {
 	let fontWeight;
 	let fontSize;

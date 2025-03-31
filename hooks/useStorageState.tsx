@@ -4,6 +4,11 @@ import { Platform } from 'react-native';
 
 type UseStateHook<T> = [[boolean, T | null], (value: T | null) => void];
 
+/**
+ * Hook to get and set async state
+ * @param initialValue - initial value of the state
+ * @returns state and function to set the state
+ */
 const useAsyncState = <T,>(initialValue: [boolean, T | null] = [true, null]): UseStateHook<T> => {
 	return useReducer(
 		(state: [boolean, T | null], action: T | null = null): [boolean, T | null] => [
@@ -14,6 +19,11 @@ const useAsyncState = <T,>(initialValue: [boolean, T | null] = [true, null]): Us
 	) as UseStateHook<T>;
 };
 
+/**
+ * Set item in storage
+ * @param key - key to store the item under
+ * @param value - value to store
+ */
 export const setStorageItemAsync = async (key: string, value: string | null): Promise<void> => {
 	if (Platform.OS === 'web') {
 		try {
@@ -34,6 +44,11 @@ export const setStorageItemAsync = async (key: string, value: string | null): Pr
 	}
 };
 
+/**
+ * Hook to get and set state in storage
+ * @param key - key to store the state under
+ * @returns state and function to set the state
+ */
 export const useStorageState = (key: string): UseStateHook<string> => {
 	// Public
 	const [state, setState] = useAsyncState<string>();

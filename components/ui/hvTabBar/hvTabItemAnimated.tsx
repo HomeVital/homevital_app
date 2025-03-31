@@ -6,7 +6,7 @@ import Animated, { useAnimatedStyle, useSharedValue, withTiming } from 'react-na
 import HvText from '../hvText';
 // constants
 import { ACTIVE_OPACITY, FONT_SIZE } from './constants';
-import { TAB_BAR_PADDING, TAB_HEIGHT, TAB_ICON_SIZE, TAB_TEXT_HEIGHT } from '@/constants/sizes';
+import { TAB_BAR_PADDING, TAB_HEIGHT, TAB_ICON_SIZE, TAB_TEXT_HEIGHT } from '@/constants/constants';
 
 interface Props extends TouchableOpacityProps {
 	onPress: () => void;
@@ -17,6 +17,16 @@ interface Props extends TouchableOpacityProps {
 	large?: boolean;
 }
 
+/**
+ * Custom animated tab item component with a rotating icon
+ * @param onPress - function to execute on tab press
+ * @param source - image source for the first icon
+ * @param source2 - image source for the second icon
+ * @param text - text to display under the icon
+ * @param addOpen - boolean value to determine if the tab is open
+ * @param large - boolean value to determine if the tab is large
+ * @returns custom animated tab item component with a rotating icon
+ */
 const HvTabItemAnimated = ({
 	onPress,
 	source,
@@ -37,13 +47,14 @@ const HvTabItemAnimated = ({
 		opacity2.value = withTiming(addOpen ? 1 : 0);
 	}, [addOpen, opacity, opacity2, rotation]);
 
+	// style for foreground icon
 	const animatedStyle = useAnimatedStyle(() => {
 		return {
 			transform: [{ rotate: `${rotation.value}deg` }],
 			opacity: opacity.value,
 		};
 	});
-
+	// style for background icon
 	const animatedStyle2 = useAnimatedStyle(() => {
 		return {
 			transform: [{ rotate: `${rotation.value}deg` }],

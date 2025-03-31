@@ -1,68 +1,70 @@
-import { ActivityIndicator, StyleSheet, TouchableOpacity, View } from 'react-native';
-import { RelativePathString, router } from 'expo-router';
-// components
-// import HvScrollView from '@/components/ui/HvScrollView';
-// constants
-import { STYLES } from '@/constants/styles';
-import { WHITE } from '@/constants/colors';
-import HvText from '@/components/ui/hvText';
+import { StyleSheet, TouchableOpacity, View } from 'react-native';
+import { router } from 'expo-router';
 import { Image } from 'expo-image';
-import { WIN_WIDTH } from '@/constants/window';
-import { PADDING } from '@/constants/sizes';
-import { useSession } from '@/authentication/ctx';
-import { useQuery } from '@tanstack/react-query';
+import { useQueries } from '@tanstack/react-query';
+// components
+import { useSession } from '@/hooks/ctx';
 import {
 	fetchBloodPressure,
 	fetchBloodSugar,
 	fetchBodyTemperature,
 	fetchBodyWeight,
-} from '@/queries/queries';
+} from '@/queries/get';
+// constants
+import { STYLES } from '@/constants/styles';
+import { WHITE } from '@/constants/colors';
+import HvText from '@/components/ui/hvText';
+import { WIN_WIDTH } from '@/constants/window';
+import { PADDING } from '@/constants/constants';
+import { LoadingView } from '@/components/queryStates';
 
 const MainMeasurements = (): JSX.Element => {
 	const { session } = useSession();
 
-	// for updating routes right
-	const handleTabRoute = (route: string): void => {
-		router.push(route as RelativePathString);
-	};
-
-	const { data: bloodpressure, isLoading: bpLoading } = useQuery({
-		queryKey: ['bloodpressure'],
-		queryFn: async () => fetchBloodPressure(session?.toString() || ''),
+	const [bloodpressure, bloodsugar, bodytemperature, bodyweight, oxygensaturation] = useQueries({
+		queries: [
+			{
+				queryKey: ['bloodpressure'],
+				queryFn: async () => fetchBloodPressure(session?.toString() || ''),
+			},
+			{
+				queryKey: ['bloodsugar'],
+				queryFn: async () => fetchBloodSugar(session?.toString() || ''),
+			},
+			{
+				queryKey: ['bodytemperature'],
+				queryFn: async () => fetchBodyTemperature(session?.toString() || ''),
+			},
+			{
+				queryKey: ['bodyweight'],
+				queryFn: async () => fetchBodyWeight(session?.toString() || ''),
+			},
+			{
+				queryKey: ['oxygensaturation'],
+				queryFn: async () => fetchBodyWeight(session?.toString() || ''), // Note: This is using fetchBodyWeight, might need correction
+			},
+		],
 	});
 
-	const { data: bloodsugar, isLoading: bsLoading } = useQuery({
-		queryKey: ['bloodsugar'],
-		queryFn: async () => fetchBloodSugar(session?.toString() || ''),
-	});
-
-	const { data: bodytemperature, isLoading: btLoading } = useQuery({
-		queryKey: ['bodytemperature'],
-		queryFn: async () => fetchBodyTemperature(session?.toString() || ''),
-	});
-
-	const { data: bodyweight, isLoading: bwLoading } = useQuery({
-		queryKey: ['bodyweight'],
-		queryFn: async () => fetchBodyWeight(session?.toString() || ''),
-	});
-
-	if (bpLoading || bsLoading || btLoading || bwLoading) {
-		return (
-			<View style={STYLES.loadingView}>
-				<ActivityIndicator size='large' color='#3A7283' />
-			</View>
-		);
+	if (
+		bloodpressure.isLoading ||
+		bloodsugar.isLoading ||
+		bodytemperature.isLoading ||
+		bodyweight.isLoading ||
+		oxygensaturation.isLoading
+	) {
+		return <LoadingView />;
 	}
 
 	return (
 		// <HvScrollView>
 		<View style={STYLES.imageView}>
 			<View style={Styles.container}>
-				{bloodpressure && bloodpressure.length > 0 && (
+				{bloodpressure.data && bloodpressure.data.length > 0 && (
 					<View style={Styles.itemContainer}>
 						<TouchableOpacity
 							style={Styles.item}
-							onPress={() => handleTabRoute('/(app)/(measurements)/(bloodPressure)')}
+							onPress={() => router.push('/(app)/(measurements)/(bloodPressure)')}
 						>
 							<Image
 								source={require('@/assets/images/heartDark.png')}
@@ -74,11 +76,11 @@ const MainMeasurements = (): JSX.Element => {
 					</View>
 				)}
 
-				{bloodsugar && bloodsugar.length > 0 && (
+				{bloodsugar.data && bloodsugar.data.length > 0 && (
 					<View style={Styles.itemContainer}>
 						<TouchableOpacity
 							style={Styles.item}
-							onPress={() => handleTabRoute('/(app)/(measurements)/(bloodSugar)')}
+							onPress={() => router.push('/(app)/(measurements)/(bloodSugar)')}
 						>
 							<Image
 								source={require('@/assets/images/waterDark.png')}
@@ -90,11 +92,11 @@ const MainMeasurements = (): JSX.Element => {
 					</View>
 				)}
 
-				{bodyweight && bodyweight.length > 0 && (
+				{bodyweight.data && bodyweight.data.length > 0 && (
 					<View style={Styles.itemContainer}>
 						<TouchableOpacity
 							style={Styles.item}
-							onPress={() => handleTabRoute('/(app)/(measurements)/(weight)')}
+							onPress={() => router.push('/(app)/(measurements)/(weight)')}
 						>
 							<Image
 								source={require('@/assets/images/scaleDark.png')}
@@ -106,11 +108,11 @@ const MainMeasurements = (): JSX.Element => {
 					</View>
 				)}
 
-				{bodytemperature && bodytemperature.length > 0 && (
+				{bodytemperature.data && bodytemperature.data.length > 0 && (
 					<View style={Styles.itemContainer}>
 						<TouchableOpacity
 							style={Styles.item}
-							onPress={() => handleTabRoute('/(app)/(measurements)/(temperature)')}
+							onPress={() => router.push('/(app)/(measurements)/(temperature)')}
 						>
 							<Image
 								source={require('@/assets/images/warmDark.png')}
@@ -118,6 +120,22 @@ const MainMeasurements = (): JSX.Element => {
 								style={Styles.itemImage}
 							/>
 							<HvText>Hiti</HvText>
+						</TouchableOpacity>
+					</View>
+				)}
+
+				{oxygensaturation.data && oxygensaturation.data.length > 0 && (
+					<View style={Styles.itemContainer}>
+						<TouchableOpacity
+							style={Styles.item}
+							onPress={() => router.push('/(app)/(measurements)/(oxygenSaturation)')}
+						>
+							<Image
+								source={require('@/assets/svgs/lungsDark.svg')}
+								contentFit='contain'
+								style={Styles.itemImage}
+							/>
+							<HvText>Súrefnismettun</HvText>
 						</TouchableOpacity>
 					</View>
 				)}

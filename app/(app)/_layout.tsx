@@ -1,8 +1,8 @@
 import React, { useEffect } from 'react';
 import { AppState } from 'react-native';
-import { Redirect, Stack } from 'expo-router';
+import { Redirect, Stack, router } from 'expo-router';
 // components
-import { useSession } from '@/authentication/ctx';
+import { useSession } from '@/hooks/ctx';
 import HvText from '@/components/ui/hvText';
 import HvTabBar from '@/components/ui/hvTabBar/hvTabBar';
 // constants
@@ -16,9 +16,8 @@ const AppLayout = (): JSX.Element => {
 		const handleAppStateChange = (nextAppState: string) => {
 			if (nextAppState === 'background') {
 				//  || nextAppState === 'inactive'
-
-				// router.replace("/initial-screen");
-				signOut();
+				router.replace('/initial-screen');
+				// signOut();
 			}
 		};
 		// Listen for app state change, and deletes after state change to avoid duplicates

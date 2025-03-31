@@ -3,21 +3,33 @@ import { TouchableOpacity, View, StyleSheet } from 'react-native';
 // components
 import HvLayeredIcon from '../hvLayeredIcon';
 // constants
-import { TAB_ICON_SIZE } from '@/constants/sizes';
+import { TAB_ICON_SIZE } from '@/constants/constants';
 
 interface Props {
 	roundness: number;
 	radius: number;
 	buttons: {
-		icon: string;
+		name: string;
 		onPress: () => void;
 		isVisible: boolean;
 	}[];
 }
 
+/**
+ * Circular button wheel component
+ * @param radius - radius of the button wheel
+ * @param roundness - roundness of the button wheel
+ * @param buttons - array of buttons with icons and onPress functions
+ * @returns circular button wheel component
+ */
 const HvTabButtonWheel = ({ radius, roundness, buttons }: Props): JSX.Element => {
 	const bottomPaddings = [35, 15, -5, -5, -5];
 
+	/**
+	 * Converts index to radian for the button wheel
+	 * @param index - index of the button
+	 * @returns radian value for the button
+	 */
 	const radianConverter = (index: number): number => {
 		return (
 			((index + 0.5) / buttons.length) * (Math.PI * (roundness * 2)) +
@@ -25,12 +37,18 @@ const HvTabButtonWheel = ({ radius, roundness, buttons }: Props): JSX.Element =>
 		);
 	};
 
-	const margins = (indexc: number): { bottom: number; left: number } => {
+	/**
+	 * Calculates margins for the button wheel
+	 * @param index - index of the button
+	 * @returns margin values for the position in the circular button wheel
+	 * the button wheel
+	 */
+	const margins = (index: number): { bottom: number; left: number } => {
 		return {
 			bottom:
-				Math.sin(radianConverter(indexc)) * Math.sqrt(buttons.length) * radius +
+				Math.sin(radianConverter(index)) * Math.sqrt(buttons.length) * radius +
 				bottomPaddings[buttons.length - 1],
-			left: Math.cos(radianConverter(indexc)) * Math.sqrt(buttons.length) * radius,
+			left: Math.cos(radianConverter(index)) * Math.sqrt(buttons.length) * radius,
 		};
 	};
 
@@ -49,7 +67,7 @@ const HvTabButtonWheel = ({ radius, roundness, buttons }: Props): JSX.Element =>
 							<HvLayeredIcon
 								size={TAB_ICON_SIZE * 2}
 								outerIcon={require('@/assets/svgs/filledCircle.svg')}
-								innerIcon={button.icon}
+								innerIcon={button.name}
 							/>
 						</TouchableOpacity>
 					);

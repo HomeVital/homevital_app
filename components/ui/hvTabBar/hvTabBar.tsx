@@ -10,20 +10,34 @@ import { LIGHT_GRAY, WHITE } from '@/constants/colors';
 import HvTabItemAnimated from './hvTabItemAnimated';
 import HvTabButtonWheel from './hvTabButtonWheel';
 
+/**
+ * Custom tab bar component with possible large tab, and a rotating tab for a button wheel
+ * @returns custom tab bar component
+ */
 const HvTabBar = (): JSX.Element => {
 	const [stackName, setStackName] = useState('');
 	const [addOpen, setAddOpen] = useState(false);
 
-	// for updating routes right
+	/**
+	 * Handles tab route with proper depth
+	 * @param route - route to navigate to
+	 * @param prev - previous route
+	 * @returns route to navigate to
+	 */
 	const handleTabRoute = (route: string, prev: string): string => {
 		setAddOpen(false); // close add tab if open
-		if (router.canDismiss()) {
-			router.dismiss();
-			if (prev === route) {
+
+		if (prev === route) {
+			if (router.canDismiss()) {
+				router.dismiss();
+				return '';
+			} else {
+				router.push(route as RelativePathString);
 				return route;
 			}
 		}
 		router.push(route as RelativePathString);
+
 		return route;
 	};
 
@@ -34,6 +48,7 @@ const HvTabBar = (): JSX.Element => {
 		opacity.value = withTiming(addOpen ? 1 : 0);
 	}, [addOpen, opacity]);
 
+	// style for which icon for the button wheel tab is visible
 	const animatedStyle = useAnimatedStyle(() => {
 		return {
 			opacity: opacity.value,
@@ -44,27 +59,27 @@ const HvTabBar = (): JSX.Element => {
 	// TODO: change later
 	const tempButtons = [
 		{
-			icon: require('@/assets/images/warm.png') as string,
+			name: 'BodyTemperatureLight',
 			onPress: () => setStackName(handleTabRoute('/(app)/(addTemperature)', stackName)),
 			isVisible: true,
 		},
 		{
-			icon: require('@/assets/svgs/heart.svg') as string,
+			name: 'BloodPressureLight',
 			onPress: () => setStackName(handleTabRoute('/(app)/(addBloodPressure)', stackName)),
 			isVisible: true,
 		},
 		{
-			icon: require('@/assets/svgs/scale.svg') as string,
+			name: 'BodyWeightLight',
 			onPress: () => setStackName(handleTabRoute('/(app)/(addWeight)', stackName)),
 			isVisible: true,
 		},
 		{
-			icon: require('@/assets/svgs/lungs.svg') as string,
+			name: 'OxygenSaturationLight',
 			onPress: () => setStackName(handleTabRoute('/(app)/(addBloodOxygen)', stackName)),
 			isVisible: true,
 		},
 		{
-			icon: require('@/assets/images/water.png') as string,
+			name: 'BloodSugarLight',
 			onPress: () => setStackName(handleTabRoute('/(app)/(addBloodSugar)', stackName)),
 			isVisible: true,
 		},

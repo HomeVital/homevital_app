@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { View } from 'react-native';
 import { useQueryClient, useMutation } from '@tanstack/react-query';
-import { useSession } from '@/authentication/ctx';
+import { useSession } from '@/hooks/ctx';
 import axios from 'axios';
 import { router } from 'expo-router';
 // components
@@ -11,8 +11,9 @@ import HvInputForm from '@/components/ui/hvInputForm/hvInputForm';
 import { STYLES } from '@/constants/styles';
 import HvInputField from '@/components/ui/hvInputForm/hvInputField';
 import HvInputFormContainer from '@/components/ui/hvInputForm/hvInputFormContainer';
-import { IAddBodyTemperature } from '@/interfaces/bodyTemperatureInterfaces';
+import { IAddBodyTemperature } from '@/interfaces/measurements';
 import { BODYTEMPERATURE_URL } from '@/constants/api';
+import HvModalValidation from '@/components/modals/hvModalValidation';
 
 const postBodyTemperature = async (sessionId: string, measurement: IAddBodyTemperature) => {
 	const response = await axios.post(`${BODYTEMPERATURE_URL}/${sessionId}`, measurement);
@@ -22,14 +23,20 @@ const postBodyTemperature = async (sessionId: string, measurement: IAddBodyTempe
 const Temperature = (): JSX.Element => {
 	const queryClient = useQueryClient();
 	const { session } = useSession();
+	// states
 	const [temperature, setTemperature] = useState('');
+	// post modal
+	const [modalVisible, setModalVisible] = useState(false);
+	const [modalStatus, setModalStatus] = useState('');
 
 	const { mutateAsync: addMutation } = useMutation({
 		mutationFn: async (measurement: IAddBodyTemperature) =>
 			postBodyTemperature(session?.toString() || '', measurement),
-		onSuccess: () => {
-			queryClient.invalidateQueries({ queryKey: ['bloodsugar'] });
-			if (router.canGoBack()) router.back();
+		onSuccess: (data) => {
+			queryClient.invalidateQueries({ queryKey: ['recentmeasurements'] });
+			// status popup
+			setModalStatus(data.status);
+			setModalVisible(true);
 		},
 	});
 
@@ -59,6 +66,14 @@ const Temperature = (): JSX.Element => {
 					</HvInputFormContainer>
 				</HvInputForm>
 			</View>
+			<HvModalValidation
+				visible={modalVisible}
+				onClose={() => {
+					setModalVisible(false);
+					router.dismissAll();
+				}}
+				validationStatus={modalStatus}
+			/>
 		</HvScrollView>
 	);
 };
