@@ -10,7 +10,7 @@ import {
 } from '@/interfaces/measurements';
 import { HvCardMeasurement } from '../cards/hvCardMeasurements';
 import HvCard from '../cards/hvCard';
-import { DARK_RED, LIGHT_THEME } from '@/constants/colors';
+import { LIGHT_THEME } from '@/constants/colors';
 import HvText from '../ui/hvText';
 import { STYLES } from '@/constants/styles';
 
@@ -46,14 +46,14 @@ const HvModalEdit = ({
 								style={{ opacity: visibleDetails ? 1 : 0 }}
 							>
 								<View style={Styles.titleContainer}>
-									<HvText size='xxl' color='darkGreen' weight='semibold' center>
+									<HvText size='xl' color='darkGreen' weight='semibold' center>
 										{title}
 									</HvText>
 									<HvCardMeasurement item={item} />
 								</View>
 								<View style={Styles.buttonsContainer}>
 									<HvButton text='Breyta' onPress={onEdit} bright />
-									<HvButton
+									{/* <HvButton
 										text='Eyða'
 										bgColor={DARK_RED}
 										onPress={() => {
@@ -61,7 +61,7 @@ const HvModalEdit = ({
 
 											onClose(); // Close the modal after deleting
 										}}
-									/>
+									/> */}
 								</View>
 							</HvCard>
 						</View>

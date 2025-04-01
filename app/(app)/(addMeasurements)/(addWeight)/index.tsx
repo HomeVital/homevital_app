@@ -51,10 +51,17 @@ const Weight = (): JSX.Element => {
 		}
 	};
 
+	const isDisabled = () => {
+		if (weight === '') return true;
+		if (parseFloat(weight) < 0) return true;
+		if (parseFloat(weight) > 500) return true;
+		return false;
+	};
+
 	return (
 		<HvScrollView>
 			<View style={STYLES.defaultView}>
-				<HvInputForm onPress={HandleMutation}>
+				<HvInputForm onPress={HandleMutation} disabled={isDisabled()}>
 					<HvInputFormContainer textInput>
 						<HvInputField
 							itemState={weight}

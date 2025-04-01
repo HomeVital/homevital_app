@@ -1,13 +1,31 @@
 import HvCard from './hvCard';
-import { View, StyleSheet } from 'react-native';
+import { View, StyleSheet, TouchableOpacity } from 'react-native';
 import { formatDate } from '@/utility/utility';
 import HvText from '../ui/hvText';
 import { IMeasurement } from '@/interfaces/measurements';
 import HvImage from '../ui/hvImage';
+import { RelativePathString, router } from 'expo-router';
 
 interface Props {
 	items: IMeasurement[];
 }
+
+const measurementLink = (item: IMeasurement): RelativePathString => {
+	switch (item.measurementType) {
+		case 'BodyWeight':
+			return '/(app)/(measurements)/(weight)' as RelativePathString;
+		case 'OxygenSaturation':
+			return '/(app)/(measurements)/(oxygenSaturation)' as RelativePathString;
+		case 'BloodSugar':
+			return '/(app)/(measurements)/(bloodSugar)' as RelativePathString;
+		case 'BodyTemperature':
+			return '/(app)/(measurements)/(temperature)' as RelativePathString;
+		case 'BloodPressure':
+			return '/(app)/(measurements)/(bloodPressure)' as RelativePathString;
+		default:
+			return '' as RelativePathString;
+	}
+};
 
 const measurementString = (item: IMeasurement): string => {
 	switch (item.measurementType) {
@@ -25,6 +43,24 @@ const measurementString = (item: IMeasurement): string => {
 			return '';
 	}
 };
+
+const measurementTypeString = (item: IMeasurement): string => {
+	switch (item.measurementType) {
+		case 'BodyWeight':
+			return 'Þyngd';
+		case 'OxygenSaturation':
+			return 'Súrefnismettun';
+		case 'BloodSugar':
+			return 'Blóðsykur';
+		case 'BodyTemperature':
+			return 'Hitastig';
+		case 'BloodPressure':
+			return 'Blóðþrýstingur';
+		default:
+			return '';
+	}
+};
+
 /**
  * Card component for displaying a measurement
  * @param item - measurement to display
@@ -34,40 +70,48 @@ const HvCardRecentMeasurements = ({ items }: Props): JSX.Element => {
 	return (
 		<>
 			{items.map((item) => (
-				<HvCard key={item.uid} style={Styles.container} row padding={10} gap={10}>
-					<View style={Styles.left}>
-						<View style={{ height: 80 }}>
-							<HvImage source={item.measurementType} size={80} />
-							<HvImage
-								source={item.measurementValues.status}
-								size={20}
-								style={{ position: 'absolute', bottom: 0, right: 0 }}
-							/>
+				<TouchableOpacity onPress={() => router.push(measurementLink(item))} key={item.uid}>
+					<HvCard key={item.uid} style={Styles.container} row padding={10} gap={10}>
+						<View style={Styles.left}>
+							<View style={{ height: 80 }}>
+								<HvImage source={item.measurementType} size={80} />
+								<HvImage
+									source={item.measurementValues.status}
+									size={20}
+									style={{ position: 'absolute', bottom: 0, right: 0 }}
+								/>
+							</View>
+							<HvText weight='semibold' size='s'>
+								{formatDate(item.measurementDate)}
+							</HvText>
 						</View>
-						<HvText weight='semibold' size='s'>
-							{formatDate(item.measurementDate)}
-						</HvText>
-					</View>
-					<View style={Styles.right}>
-						<HvText weight='semibold'>{item.measurementType}</HvText>
-						<View style={Styles.measurement}>
-							<View style={Styles.measurementLeft}>
-								<HvText weight='semibold' size='xxl'>
-									{measurementString(item)}
-								</HvText>
-								{item.measurementType === 'BloodPressure' && (
-									<HvText weight='semibold' size='l'>
-										{item.measurementValues.bpm + ' púls'}
+						<View style={Styles.right}>
+							<HvText weight='semibold'>{measurementTypeString(item)}</HvText>
+							<View style={Styles.measurement}>
+								<View style={Styles.measurementLeft}>
+									<HvText weight='semibold' size='xxl'>
+										{measurementString(item)}
 									</HvText>
-								)}
-							</View>
-							<View style={Styles.measurementRight}>
-								<HvImage source={item.measurementValues.bodyPosition} size={34} />
-								<HvImage source={item.measurementValues.measureHand} size={34} />
+									{item.measurementType === 'BloodPressure' && (
+										<HvText weight='semibold' size='l'>
+											{item.measurementValues.bpm + ' púls'}
+										</HvText>
+									)}
+								</View>
+								<View style={Styles.measurementRight}>
+									<HvImage
+										source={item.measurementValues.bodyPosition}
+										size={34}
+									/>
+									<HvImage
+										source={item.measurementValues.measureHand}
+										size={34}
+									/>
+								</View>
 							</View>
 						</View>
-					</View>
-				</HvCard>
+					</HvCard>
+				</TouchableOpacity>
 			))}
 		</>
 	);
