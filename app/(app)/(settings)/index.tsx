@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { View, StyleSheet, Switch } from 'react-native';
+import CountryFlag from 'react-native-country-flag';
 // components
 // import HvDivider from '@/components/ui/hvDivider';
 import HvText from '@/components/ui/hvText';
@@ -16,6 +17,7 @@ import HvButton from '@/components/ui/hvButton';
 
 const MainSettings = (): JSX.Element => {
 	const { session } = useSession();
+	const [countryCode] = useState('is'); // TODO: change so that I don't have to use states
 	const [isSwitchOn, setIsSwitchOn] = useState(false); // TODO: change so that I don't have to use states
 
 	const onToggleSwitch = () => setIsSwitchOn(!isSwitchOn);
@@ -38,19 +40,19 @@ const MainSettings = (): JSX.Element => {
 	return (
 		<View style={STYLES.defaultView}>
 			{/* <HvDivider /> */}
-			<HvCard padding={20} gap={12}>
-				<View style={Styles.partContainer}>
-					<HvText size='xl' weight='semibold' center>
+			<HvCard padding={20} gap={20}>
+				<View style={Styles.userContainer}>
+					<HvText size='xl' weight='semibold'>
 						{patient.name}
 					</HvText>
 					<View style={Styles.aboutLine}>
-						<HvText style={{ width: '33%' }}>Heimili</HvText>
+						<HvText style={{ width: '25%' }}>Heimili</HvText>
 						<HvText size='l' weight='semibold'>
 							{patient.address}
 						</HvText>
 					</View>
 					<View style={Styles.aboutLine}>
-						<HvText style={{ width: '33%' }}>Sími</HvText>
+						<HvText style={{ width: '25%' }}>Sími</HvText>
 						<HvText size='l' weight='semibold'>
 							{patient.phone}
 						</HvText>
@@ -62,6 +64,7 @@ const MainSettings = (): JSX.Element => {
 					<View style={Styles.leftRightContainer}>
 						<HvText>Tungumál</HvText>
 						{/* tungumál takki með mynd */}
+						<CountryFlag isoCode={countryCode} size={25} style={{ borderRadius: 4 }} />
 					</View>
 					<View style={Styles.leftRightContainer}>
 						<HvText>Áminningar</HvText>
@@ -92,13 +95,16 @@ const MainSettings = (): JSX.Element => {
 };
 
 const Styles = StyleSheet.create({
+	userContainer: {
+		paddingInline: 10,
+		gap: 10,
+		borderRadius: 10,
+	},
 	partContainer: {
-		marginTop: 10,
 		padding: 20,
 		gap: 20,
 		borderRadius: 10,
 		backgroundColor: LIGHT_THEME,
-		maxWidth: 800,
 	},
 	leftRightContainer: {
 		flexDirection: 'row',
@@ -106,6 +112,7 @@ const Styles = StyleSheet.create({
 	},
 	aboutLine: {
 		flexDirection: 'row',
+		alignItems: 'center',
 	},
 });
 

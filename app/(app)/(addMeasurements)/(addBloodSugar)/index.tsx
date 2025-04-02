@@ -51,10 +51,17 @@ const BloodSugar = (): JSX.Element => {
 		}
 	};
 
+	const isDisabled = () => {
+		if (bloodSugar === '') return true;
+		// if (parseFloat(bloodSugar) < 0) return true;
+		// if (parseFloat(bloodSugar) > 100) return true;
+		return false;
+	};
+
 	return (
 		<HvScrollView>
 			<View style={STYLES.defaultView}>
-				<HvInputForm onPress={HandleMutation}>
+				<HvInputForm onPress={HandleMutation} disabled={isDisabled()}>
 					<HvInputFormContainer textInput>
 						<HvInputField
 							itemState={bloodSugar}

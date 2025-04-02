@@ -33,6 +33,7 @@ const BloodPressure = (): JSX.Element => {
 		control,
 		handleSubmit,
 		formState: { errors },
+		watch,
 	} = useForm<IAddBloodPressure>({
 		defaultValues: {
 			measureHand: 'Hægri',
@@ -70,10 +71,17 @@ const BloodPressure = (): JSX.Element => {
 		}
 	};
 
+	const isDisabled = () => {
+		if (watch('systolic') <= 0) return true;
+		if (watch('diastolic') <= 0) return true;
+		if (watch('pulse') <= 0) return true;
+		return false;
+	};
+
 	return (
 		<HvScrollView>
 			<View style={STYLES.defaultView}>
-				<HvInputForm onPress={handleSubmit(onSubmit)}>
+				<HvInputForm onPress={handleSubmit(onSubmit)} disabled={isDisabled()}>
 					<Controller
 						control={control}
 						render={({ field: { onChange, value } }) => (
