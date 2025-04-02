@@ -1,8 +1,8 @@
-import { View, StyleSheet, TouchableOpacity } from 'react-native';
+import { View, StyleSheet, TouchableOpacity, ActivityIndicator } from 'react-native';
 // components
 import HvText from './hvText';
 // constants
-import { DARK_GREEN } from '@/constants/colors';
+import { DARK_GREEN, WHITE } from '@/constants/colors';
 
 interface Props {
 	text: string;
@@ -10,6 +10,7 @@ interface Props {
 	width?: number;
 	style?: object; // optional
 	bgColor?: string; // optional
+	loading?: boolean; // optional
 	disabled?: boolean; // optional
 	small?: boolean; // optional
 	bright?: boolean; // optional
@@ -29,6 +30,7 @@ const HvButton = ({
 	width,
 	style = {},
 	bgColor = DARK_GREEN,
+	loading = false,
 	disabled = false,
 	small = false,
 	bright = false,
@@ -37,7 +39,7 @@ const HvButton = ({
 		<TouchableOpacity
 			onPress={onPress}
 			activeOpacity={0.5}
-			disabled={disabled}
+			disabled={disabled || loading}
 			style={[
 				{
 					width: width ? width : {},
@@ -45,7 +47,7 @@ const HvButton = ({
 					backgroundColor: !bright ? bgColor : 'white',
 					borderColor: !bright ? undefined : bgColor,
 					borderWidth: !bright ? 0 : 1,
-					opacity: disabled ? 0.5 : 1,
+					opacity: disabled || loading ? 0.5 : 1,
 					padding: !small ? 15 : 10,
 				},
 				style,
@@ -57,7 +59,7 @@ const HvButton = ({
 					color={!bright ? 'white' : bgColor}
 					weight='semibold'
 				>
-					{text}
+					{loading ? <ActivityIndicator color={WHITE} size={30} /> : text}
 				</HvText>
 			</View>
 		</TouchableOpacity>
