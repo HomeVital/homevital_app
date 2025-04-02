@@ -1,7 +1,7 @@
 import { router } from 'expo-router';
 import { StyleSheet, TextInput, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import React from 'react';
 import { useForm, Controller } from 'react-hook-form';
 // components
@@ -20,7 +20,7 @@ import { GetErrorMessage } from '@/errorHandler';
  */
 const SignIn = (): JSX.Element => {
 	const { signIn, session } = useSession();
-
+	const [loading, setLoading] = useState(false);
 	// Navigate to the app screen if there is a session
 	useEffect(() => {
 		if (session) {
@@ -45,9 +45,12 @@ const SignIn = (): JSX.Element => {
 
 	const onSubmit = async (data: ISignIn) => {
 		try {
+			// set loading spinner
+			setLoading(true);
 			await signIn(data.ssn);
 		} catch (e: unknown) {
 			setError('ssn', { type: 'manual', message: GetErrorMessage(e as AxError, data) });
+			setLoading(false);
 		}
 	};
 
@@ -87,7 +90,12 @@ const SignIn = (): JSX.Element => {
 			/>
 			{errors.ssn && <HvText>{errors.ssn.message}</HvText>}
 
-			<HvButton text='Submit' width={WIN_WIDTH * 0.75} onPress={handleSubmit(onSubmit)} />
+			<HvButton
+				text='Submit'
+				width={WIN_WIDTH * 0.75}
+				loading={loading}
+				onPress={handleSubmit(onSubmit)}
+			/>
 		</SafeAreaView>
 	);
 };
