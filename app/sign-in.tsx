@@ -58,7 +58,7 @@ const SignIn = (): JSX.Element => {
 		<SafeAreaView style={Styles.container}>
 			<TextInput keyboardType='numeric' autoCapitalize='none' maxLength={10} />
 			<HvText weight='semibold' size='l'>
-				Social Security Number
+				Kennitala
 			</HvText>
 			<Controller
 				control={control}
