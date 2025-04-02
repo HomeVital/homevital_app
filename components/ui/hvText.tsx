@@ -1,4 +1,4 @@
-import { DARK_GREEN, WHITE } from '@/constants/colors';
+import { DARK_GREEN, DARK_RED, WHITE } from '@/constants/colors';
 import { Text, TextProps, StyleSheet } from 'react-native';
 
 interface Props extends TextProps {
@@ -70,6 +70,9 @@ const HvText = ({ ...props }: Props): JSX.Element => {
 		case 'darkGreen':
 			fontColor = Styles.darkGreen;
 			break;
+		case DARK_RED:
+			fontColor = Styles.darkRed;
+			break;
 		default:
 			fontColor = Styles.darkGreen;
 			break;
@@ -115,6 +118,9 @@ const Styles = StyleSheet.create({
 	},
 	darkGreen: {
 		color: DARK_GREEN,
+	},
+	darkRed: {
+		color: DARK_RED,
 	},
 	white: {
 		color: WHITE,

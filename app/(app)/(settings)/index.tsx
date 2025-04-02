@@ -5,7 +5,7 @@ import CountryFlag from 'react-native-country-flag';
 // import HvDivider from '@/components/ui/hvDivider';
 import HvText from '@/components/ui/hvText';
 // constants
-import { DARK_GREEN, GREEN, LIGHT_THEME } from '@/constants/colors';
+import { DARK_GREEN, DARK_RED, GREEN, LIGHT_THEME } from '@/constants/colors';
 import { STYLES } from '@/constants/styles';
 import { useSession } from '@/hooks/ctx';
 import { useQuery } from '@tanstack/react-query';
@@ -16,7 +16,7 @@ import HvCard from '@/components/cards/hvCard';
 import HvButton from '@/components/ui/hvButton';
 
 const MainSettings = (): JSX.Element => {
-	const { session } = useSession();
+	const { session, signOut } = useSession();
 	const [countryCode] = useState('is'); // TODO: change so that I don't have to use states
 	const [isSwitchOn, setIsSwitchOn] = useState(false); // TODO: change so that I don't have to use states
 
@@ -78,6 +78,15 @@ const MainSettings = (): JSX.Element => {
 						/>
 					</View>
 				</View>
+				<View style={Styles.bottomContainer}>
+					<HvButton
+						text='Skrá út'
+						onPress={() => signOut()}
+						small
+						bgColor={DARK_RED}
+						bright
+					/>
+				</View>
 				{/* <View style={Styles.partContainer}>
 				</View> */}
 			</HvCard>
@@ -105,6 +114,10 @@ const Styles = StyleSheet.create({
 		gap: 20,
 		borderRadius: 10,
 		backgroundColor: LIGHT_THEME,
+	},
+	bottomContainer: {
+		paddingTop: 10,
+		paddingInline: 20,
 	},
 	leftRightContainer: {
 		flexDirection: 'row',
