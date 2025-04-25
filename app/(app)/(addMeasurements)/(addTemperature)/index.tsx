@@ -14,6 +14,7 @@ import HvInputFormContainer from '@/components/ui/hvInputForm/hvInputFormContain
 import { IAddBodyTemperature } from '@/interfaces/measurements';
 import { BODYTEMPERATURE_URL } from '@/constants/api';
 import HvModalValidation from '@/components/modals/hvModalValidation';
+import { getClaimBySubstring } from '@/utility/utility';
 
 const postBodyTemperature = async (sessionId: string, measurement: IAddBodyTemperature) => {
 	const response = await axios.post(`${BODYTEMPERATURE_URL}/${sessionId}`, measurement);
@@ -31,7 +32,7 @@ const Temperature = (): JSX.Element => {
 
 	const { mutateAsync: addMutation } = useMutation({
 		mutationFn: async (measurement: IAddBodyTemperature) =>
-			postBodyTemperature(session?.toString() || '', measurement),
+			postBodyTemperature(getClaimBySubstring(session?.toString() || '', 'sub'), measurement),
 		onSuccess: (data) => {
 			queryClient.invalidateQueries({ queryKey: ['recentmeasurements'] });
 			// status popup

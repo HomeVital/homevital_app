@@ -15,6 +15,7 @@ import { Controller, useForm } from 'react-hook-form';
 import { postBloodPressure } from '@/queries/post';
 import { useState } from 'react';
 import HvModalValidation from '@/components/modals/hvModalValidation';
+import { getClaimBySubstring } from '@/utility/utility';
 
 const BloodPressure = (): JSX.Element => {
 	const queryClient = useQueryClient();
@@ -46,7 +47,7 @@ const BloodPressure = (): JSX.Element => {
 
 	const { mutateAsync: addMutation } = useMutation({
 		mutationFn: async (measurement: IAddBloodPressure) =>
-			postBloodPressure(session?.toString() || '', measurement),
+			postBloodPressure(getClaimBySubstring(session?.toString() || '', 'sub'), measurement),
 		onSuccess: (data) => {
 			queryClient.invalidateQueries({ queryKey: ['recentmeasurements'] });
 			// status popup

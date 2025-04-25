@@ -14,6 +14,7 @@ import HvInputFormContainer from '@/components/ui/hvInputForm/hvInputFormContain
 import { IAddBodyWeight } from '@/interfaces/measurements';
 import { BODYWEIGHT_URL } from '@/constants/api';
 import HvModalValidation from '@/components/modals/hvModalValidation';
+import { getClaimBySubstring } from '@/utility/utility';
 
 const postBodyWeight = async (sessionId: string, measurement: IAddBodyWeight) => {
 	const response = await axios.post(`${BODYWEIGHT_URL}/${sessionId}`, measurement);
@@ -31,7 +32,7 @@ const Weight = (): JSX.Element => {
 
 	const { mutateAsync: addMutation } = useMutation({
 		mutationFn: async (measurement: IAddBodyWeight) =>
-			postBodyWeight(session?.toString() || '', measurement),
+			postBodyWeight(getClaimBySubstring(session?.toString() || '', 'sub'), measurement),
 		onSuccess: (data) => {
 			queryClient.invalidateQueries({ queryKey: ['recentmeasurements'] });
 			// status popup

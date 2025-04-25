@@ -14,6 +14,7 @@ import HvInputFormContainer from '@/components/ui/hvInputForm/hvInputFormContain
 import { BLOODSUGAR_URL } from '@/constants/api';
 import { IAddBloodSugar } from '@/interfaces/measurements';
 import HvModalValidation from '@/components/modals/hvModalValidation';
+import { getClaimBySubstring } from '@/utility/utility';
 
 const postBloodSugar = async (sessionId: string, measurement: IAddBloodSugar) => {
 	const response = await axios.post(`${BLOODSUGAR_URL}/${sessionId}`, measurement);
@@ -31,7 +32,7 @@ const BloodSugar = (): JSX.Element => {
 
 	const { mutateAsync: addMutation } = useMutation({
 		mutationFn: async (measurement: IAddBloodSugar) =>
-			postBloodSugar(session?.toString() || '', measurement),
+			postBloodSugar(getClaimBySubstring(session?.toString() || '', 'sub'), measurement),
 		onSuccess: (data) => {
 			queryClient.invalidateQueries({ queryKey: ['recentmeasurements'] });
 			// status popup

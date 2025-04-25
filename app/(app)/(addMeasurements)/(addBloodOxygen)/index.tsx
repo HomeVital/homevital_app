@@ -14,6 +14,7 @@ import { OXYGENSATURATION_URL } from '@/constants/api';
 import axios from 'axios';
 import HvModalValidation from '@/components/modals/hvModalValidation';
 import { router } from 'expo-router';
+import { getClaimBySubstring } from '@/utility/utility';
 
 const postOxygenSaturation = async (sessionId: string, measurement: IAddOxygenSaturation) => {
 	try {
@@ -65,7 +66,10 @@ const BloodOxygen = (): JSX.Element => {
 
 	const { mutateAsync: addMutation } = useMutation({
 		mutationFn: async (measurement: IAddOxygenSaturation) =>
-			postOxygenSaturation(session?.toString() || '', measurement),
+			postOxygenSaturation(
+				getClaimBySubstring(session?.toString() || '', 'sub'),
+				measurement,
+			),
 		onSuccess: (data) => {
 			queryClient.invalidateQueries({ queryKey: ['recentmeasurements'] });
 			// status popup
