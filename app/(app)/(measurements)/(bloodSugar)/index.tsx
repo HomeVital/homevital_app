@@ -15,6 +15,7 @@ import { ErrorView, LoadingView } from '@/components/queryStates';
 import { useState } from 'react';
 import HvModalEdit from '@/components/modals/hvModalEdit';
 import EditBloodSugar from '@/components/modals/EditBloodSugar';
+import { getClaimBySubstring } from '@/utility/utility';
 
 const BloodSugar = (): JSX.Element => {
 	const { session } = useSession();
@@ -28,7 +29,7 @@ const BloodSugar = (): JSX.Element => {
 	// query
 	const { data, isError, isLoading, refetch } = useQuery({
 		queryKey: ['bloodsugar'],
-		queryFn: async () => fetchBloodSugar(session?.toString() || ''),
+		queryFn: async () => fetchBloodSugar(getClaimBySubstring(session?.toString() || '', 'sub')),
 	});
 
 	if (isError) return <ErrorView />;

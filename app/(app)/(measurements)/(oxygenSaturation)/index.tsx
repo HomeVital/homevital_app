@@ -15,6 +15,7 @@ import { ErrorView, LoadingView } from '@/components/queryStates';
 import HvModalEdit from '@/components/modals/hvModalEdit';
 import { useState } from 'react';
 import EditBloodOxygen from '@/components/modals/EditBloodOxygen';
+import { getClaimBySubstring } from '@/utility/utility';
 
 const OxygenSaturation = (): JSX.Element => {
 	const { session } = useSession();
@@ -28,7 +29,8 @@ const OxygenSaturation = (): JSX.Element => {
 	// query
 	const { data, isError, isLoading, refetch } = useQuery({
 		queryKey: ['oxygensaturation'],
-		queryFn: async () => fetchOxygenSaturation(session?.toString() || ''),
+		queryFn: async () =>
+			fetchOxygenSaturation(getClaimBySubstring(session?.toString() || '', 'sub')),
 	});
 
 	if (isError) return <ErrorView />;

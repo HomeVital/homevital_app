@@ -15,6 +15,7 @@ import { ErrorView, LoadingView } from '@/components/queryStates';
 import { useState } from 'react';
 import HvModalEdit from '@/components/modals/hvModalEdit';
 import EditBloodPressure from '@/components/modals/EditBloodPressure';
+import { getClaimBySubstring } from '@/utility/utility';
 
 const BloodPressure = (): JSX.Element => {
 	const { session } = useSession();
@@ -28,7 +29,8 @@ const BloodPressure = (): JSX.Element => {
 	// query
 	const { data, isError, isLoading, refetch } = useQuery({
 		queryKey: ['bloodpressure'],
-		queryFn: async () => fetchBloodPressure(session?.toString() || ''),
+		queryFn: async () =>
+			fetchBloodPressure(getClaimBySubstring(session?.toString() || '', 'sub')),
 	});
 
 	if (isError) return <ErrorView />;

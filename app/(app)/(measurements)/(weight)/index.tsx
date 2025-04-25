@@ -15,6 +15,7 @@ import { ErrorView, LoadingView } from '@/components/queryStates';
 import { useState } from 'react';
 import EditBodyWeight from '@/components/modals/EditBodyWeight';
 import HvModalEdit from '@/components/modals/hvModalEdit';
+import { getClaimBySubstring } from '@/utility/utility';
 
 const Weight = (): JSX.Element => {
 	const { session } = useSession();
@@ -28,7 +29,7 @@ const Weight = (): JSX.Element => {
 	// query
 	const { data, isError, isLoading, refetch } = useQuery({
 		queryKey: ['bodyweight'],
-		queryFn: async () => fetchBodyWeight(session?.toString() || ''),
+		queryFn: async () => fetchBodyWeight(getClaimBySubstring(session?.toString() || '', 'sub')),
 	});
 
 	if (isError) return <ErrorView />;

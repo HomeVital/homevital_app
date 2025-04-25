@@ -17,6 +17,7 @@ import { ErrorView, LoadingView } from '@/components/queryStates';
 import { useState } from 'react';
 import HvModalEdit from '@/components/modals/hvModalEdit';
 import EditTemperature from '@/components/modals/EditTemperature';
+import { getClaimBySubstring } from '@/utility/utility';
 
 const Temperature = (): JSX.Element => {
 	const { session } = useSession();
@@ -29,7 +30,8 @@ const Temperature = (): JSX.Element => {
 
 	const { data, isError, isLoading, refetch } = useQuery({
 		queryKey: ['bodytemperature'],
-		queryFn: async () => fetchBodyTemperature(session?.toString() || ''),
+		queryFn: async () =>
+			fetchBodyTemperature(getClaimBySubstring(session?.toString() || '', 'sub')),
 	});
 
 	if (isError) return <ErrorView />;

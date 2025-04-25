@@ -10,6 +10,7 @@ import HvScrollView from '@/components/ui/HvScrollView';
 import { fetchPatient, fetchRecentMeasurements } from '@/queries/get';
 import HvCardRecentMeasurements from '@/components/cards/hvCardRecentMeasurement';
 import { ErrorView, LoadingView } from '@/components/queryStates';
+import { getClaimBySubstring } from '@/utility/utility';
 
 const MainScreen = (): JSX.Element => {
 	const { session } = useSession();
@@ -18,11 +19,13 @@ const MainScreen = (): JSX.Element => {
 		queries: [
 			{
 				queryKey: ['patient'],
-				queryFn: async () => fetchPatient(session?.toString() || ''),
+				queryFn: async () =>
+					fetchPatient(getClaimBySubstring(session?.toString() || '', 'sub')),
 			},
 			{
 				queryKey: ['recentmeasurements'],
-				queryFn: async () => fetchRecentMeasurements(session?.toString() || ''),
+				queryFn: async () =>
+					fetchRecentMeasurements(getClaimBySubstring(session?.toString() || '', 'sub')),
 			},
 		],
 	});

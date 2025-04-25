@@ -5,6 +5,7 @@ const API_URL = 'https://homevitaldev-app.azurewebsites.net/api/';
 
 export const MOCK_LOGIN_URL = API_URL + 'user/MockLogin';
 export const LOGIN_URL = API_URL + 'user/Login';
+export const TOKEN_URL = API_URL + 'user/generate-token';
 export const MEASUREMENTS_URL = API_URL + '/measurements/';
 export const PATIENT_URL = API_URL + '/patients/';
 
