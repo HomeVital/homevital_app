@@ -41,7 +41,8 @@ const sources = {
 
 	// checkmark icons
 	Cancel: require('@/assets/svgs/cancel.svg'),
-	Edit: require('@/assets/svgs/edit.svg'),
+	// Edit: require('@/assets/svgs/edit.svg'),
+	Edit: require('@/assets/images/pencil.png'),
 	View: require('@/assets/svgs/viewArrow.svg'),
 };
 

@@ -134,12 +134,12 @@ const HvCardRecentMeasurements = ({ items }: Props): JSX.Element => {
 
 const Styles = StyleSheet.create({
 	container: {
-		height: 150,
+		height: 130,
 	},
 	left: {
 		height: '100%',
 		alignItems: 'center',
-		gap: 14,
+		justifyContent: 'space-evenly',
 	},
 	right: {
 		height: '100%',
@@ -154,18 +154,30 @@ const Styles = StyleSheet.create({
 	},
 	measurement: {
 		flexDirection: 'row',
-		justifyContent: 'space-between',
+		justifyContent: 'flex-end',
 		height: '100%',
+		// borderColor: '#E0E0E0',
+		// borderWidth: 1,
 		flex: 1,
+		// paddingInline: 20,
 		paddingLeft: 30,
+		// paddingBottom: 10,
 	},
 	measurementLeft: {
-		justifyContent: 'center',
-		gap: 14,
+		flex: 1,
+
+		// alignItems: 'center',
+		justifyContent: 'space-between',
+		// borderColor: '#E0E0E0',
+		// borderWidth: 1,
 	},
 	measurementRight: {
-		flexDirection: 'row',
+		// borderColor: '#E0E0E0',
+		// borderWidth: 1,
 		alignItems: 'flex-end',
+		flexDirection: 'row',
+		// justifyContent: 'space-between',
+		// alignItems: 'flex-end',
 	},
 });
 

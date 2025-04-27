@@ -75,7 +75,7 @@ const MainScreen = (): JSX.Element => {
 					<HvHeader name={patient.data.name.split(' ')[0]} />
 					<View style={STYLES.defaultNoPadView}>
 						<HvText weight='semibold' size='l' style={{ paddingInline: 20 }}>
-							Seinustu Mælingar
+							Seinustu 10 Mælingar
 						</HvText>
 						<HvScrollView style={{ marginBottom: 166 + TAB_ICON_SIZE + 10 }}>
 							<View style={STYLES.defaultView}>

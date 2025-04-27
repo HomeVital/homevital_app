@@ -9,6 +9,7 @@ import {
 	fetchBloodSugar,
 	fetchBodyTemperature,
 	fetchBodyWeight,
+	fetchOxygenSaturation,
 } from '@/queries/get';
 // constants
 import { STYLES } from '@/constants/styles';
@@ -47,7 +48,7 @@ const MainMeasurements = (): JSX.Element => {
 			{
 				queryKey: ['oxygensaturation'],
 				queryFn: async () =>
-					fetchBodyWeight(getClaimBySubstring(session?.toString() || '', 'sub')), // Note: This is using fetchBodyWeight, might need correction
+					fetchOxygenSaturation(getClaimBySubstring(session?.toString() || '', 'sub')), // Note: This is using fetchBodyWeight, might need correction
 			},
 		],
 	});

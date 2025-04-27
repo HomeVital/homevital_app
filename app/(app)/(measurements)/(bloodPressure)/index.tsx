@@ -3,7 +3,7 @@ import { View } from 'react-native';
 import HvToggler from '@/components/ui/hvToggler';
 import { STYLES } from '@/constants/styles';
 import { useSession } from '@/hooks/ctx';
-import { useQuery } from '@tanstack/react-query';
+import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { fetchBloodPressure } from '@/queries/get';
 import HvScrollView from '@/components/ui/HvScrollView';
 import { DARK_GREEN, LIGHT_BLUE, LIGHT_GREEN } from '@/constants/colors';
@@ -16,9 +16,11 @@ import { useState } from 'react';
 import HvModalEdit from '@/components/modals/hvModalEdit';
 import EditBloodPressure from '@/components/modals/EditBloodPressure';
 import { getClaimBySubstring } from '@/utility/utility';
+import { deleteBloodPressure } from '@/queries/delete';
 
 const BloodPressure = (): JSX.Element => {
 	const { session } = useSession();
+	const queryClient = useQueryClient();
 	const { toggled, setToggledTrue, setToggledFalse } = useToggle();
 	// details modal
 	const [modalVisible, setModalVisible] = useState(false);
@@ -32,6 +34,25 @@ const BloodPressure = (): JSX.Element => {
 		queryFn: async () =>
 			fetchBloodPressure(getClaimBySubstring(session?.toString() || '', 'sub')),
 	});
+
+	const { mutateAsync: deleteMutation } = useMutation({
+		mutationFn: async (itemId: string) => deleteBloodPressure(itemId),
+		onSuccess: () => {
+			queryClient.invalidateQueries({ queryKey: ['bloodpressure'] });
+			queryClient.invalidateQueries({ queryKey: ['recentmeasurements'] });
+			// status popup
+			setModalVisible(false);
+			setModalData(null);
+		},
+	});
+
+	const handleMutation = async (itemId: string): Promise<void> => {
+		try {
+			await deleteMutation(itemId);
+		} catch (error) {
+			console.error('Error deleting blood pressure:', error);
+		}
+	};
 
 	if (isError) return <ErrorView />;
 
@@ -64,6 +85,7 @@ const BloodPressure = (): JSX.Element => {
 							setModalData(itemData);
 							setModalVisible(true);
 						}}
+						editable
 					/>
 					{/* Modal for details */}
 					{modalData && (
@@ -77,6 +99,9 @@ const BloodPressure = (): JSX.Element => {
 							onClose={() => {
 								setModalVisible(false);
 								setModalData(null);
+							}}
+							onDelete={() => {
+								handleMutation(modalData.id.toString());
 							}}
 							item={modalData as IBloodPressure}
 						/>

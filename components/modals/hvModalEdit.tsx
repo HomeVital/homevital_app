@@ -23,6 +23,7 @@ interface Props<
 	visibleDetails: boolean;
 	onClose: () => void;
 	onEdit: () => void;
+	onDelete: () => void;
 	item: T extends IMeasurementBase ? T : never;
 }
 
@@ -32,6 +33,7 @@ const HvModalEdit = ({
 	visibleDetails,
 	onClose,
 	onEdit,
+	onDelete,
 	item,
 }: Props): JSX.Element => {
 	return (
@@ -57,15 +59,12 @@ const HvModalEdit = ({
 								</View>
 								<View style={Styles.buttonsContainer}>
 									<HvButton text='Breyta' onPress={onEdit} bright />
-									{/* <HvButton
+									<HvButton
 										text='Eyða'
 										bgColor={DARK_RED}
-										onPress={() => {
-											// Handle delete action here
-
-											onClose(); // Close the modal after deleting
-										}}
-									/> */}
+										onPress={onDelete}
+										bright
+									/>
 								</View>
 							</HvCard>
 						</View>
