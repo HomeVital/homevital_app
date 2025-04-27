@@ -56,21 +56,37 @@ export const HvCardMeasurement = <T,>({ item }: Props<T>): JSX.Element => {
 	};
 
 	return (
-		<HvCard key={item.id} style={Styles.container} row align='center'>
+		<HvCard
+			key={item.id}
+			style={Styles.container}
+			row
+			align='center'
+			border
+			borderColor={item.status}
+		>
 			<View style={Styles.left}>
 				{/* {MeasurementStatus(item.status)} */}
-				<HvImage source={item.status} size={26} />
+				{/* <HvImage source={item.status} size={26} /> */}
+				{isBloodPressure(item) && (
+					<View style={Styles.icons}>
+						<HvImage source={item.bodyPosition} size={34} />
+						<HvImage source={item.measureHand} size={36} />
+					</View>
+				)}
 				<HvText weight='semibold'>{formatDate(item.date)}</HvText>
 			</View>
 			<HvText size='xxl' weight='semibold'>
 				{renderMeasurementValue()}
 			</HvText>
-			{isBloodPressure(item) && (
-				<View style={Styles.right}>
-					<HvImage source={item.bodyPosition} size={34} />
-					<HvImage source={item.measureHand} size={36} />
-				</View>
-			)}
+			{/* <View style={Styles.right}> */}
+			<View>
+				<HvImage
+					source={'Edit'}
+					size={22}
+					style={{ marginLeft: 'auto', marginRight: 10 }}
+				/>
+				{/* <HvImage source={item.status} size={26} /> */}
+			</View>
 		</HvCard>
 	);
 };
@@ -112,7 +128,12 @@ const Styles = StyleSheet.create({
 		justifyContent: 'space-evenly',
 		alignItems: 'center',
 	},
-	right: {
+	icons: {
 		flexDirection: 'row',
+	},
+	right: {
+		height: '100%',
+		paddingTop: 10,
+		marginRight: -20,
 	},
 });

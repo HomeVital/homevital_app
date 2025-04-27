@@ -41,6 +41,8 @@ const sources = {
 
 	// checkmark icons
 	Cancel: require('@/assets/svgs/cancel.svg'),
+	Edit: require('@/assets/svgs/edit.svg'),
+	View: require('@/assets/svgs/viewArrow.svg'),
 };
 
 const HvImage = ({ source, size = 100, ...props }: Props): JSX.Element => {

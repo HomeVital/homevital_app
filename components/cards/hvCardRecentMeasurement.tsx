@@ -71,22 +71,37 @@ const HvCardRecentMeasurements = ({ items }: Props): JSX.Element => {
 		<>
 			{items.map((item) => (
 				<TouchableOpacity onPress={() => router.push(measurementLink(item))} key={item.uid}>
-					<HvCard key={item.uid} style={Styles.container} row padding={10} gap={10}>
+					<HvCard
+						key={item.uid}
+						style={Styles.container}
+						row
+						padding={10}
+						gap={10}
+						border
+						borderColor={item.measurementValues.status}
+					>
 						<View style={Styles.left}>
 							<View style={{ height: 80 }}>
 								<HvImage source={item.measurementType} size={80} />
-								<HvImage
+								{/* <HvImage
 									source={item.measurementValues.status}
 									size={20}
 									style={{ position: 'absolute', bottom: 0, right: 0 }}
-								/>
+								/> */}
 							</View>
 							<HvText weight='semibold' size='s'>
 								{formatDate(item.measurementDate)}
 							</HvText>
 						</View>
 						<View style={Styles.right}>
-							<HvText weight='semibold'>{measurementTypeString(item)}</HvText>
+							<View style={Styles.text}>
+								<HvText weight='semibold'>{measurementTypeString(item)}</HvText>
+								<HvImage
+									source={'View'}
+									size={36}
+									style={{ marginLeft: 'auto', marginRight: 10 }}
+								/>
+							</View>
 							<View style={Styles.measurement}>
 								<View style={Styles.measurementLeft}>
 									<HvText weight='semibold' size='xxl'>
@@ -129,6 +144,13 @@ const Styles = StyleSheet.create({
 	right: {
 		height: '100%',
 		flex: 1,
+	},
+	text: {
+		flexDirection: 'row',
+		justifyContent: 'space-between',
+		alignItems: 'center',
+		height: 40,
+		marginRight: -10,
 	},
 	measurement: {
 		flexDirection: 'row',

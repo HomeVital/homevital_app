@@ -1,5 +1,8 @@
 import { Modal, TouchableWithoutFeedback, StyleSheet, View } from 'react-native';
 import HvImage from '../ui/hvImage';
+import HvButtonCheck from '../ui/hvButtonCheck';
+import { STYLES } from '@/constants/styles';
+import { DARK_RED } from '@/constants/colors';
 
 interface Props {
 	visible: boolean;
@@ -29,9 +32,16 @@ const ValidationString = (status: string): string => {
 const HvModalValidation = ({ visible, onClose, validationStatus }: Props): JSX.Element => {
 	return (
 		<Modal visible={visible} animationType='fade' onRequestClose={onClose} transparent={true}>
-			<TouchableWithoutFeedback onPressOut={onClose}>
+			<TouchableWithoutFeedback onPressIn={onClose}>
 				<View style={Styles.container}>
-					<HvImage source={ValidationString(validationStatus)} size={300} />
+					<TouchableWithoutFeedback onPress={(e) => e.stopPropagation()}>
+						<View>
+							<View style={STYLES.checkmarkPosCenter}>
+								<HvButtonCheck cancel onPress={onClose} bgColor={DARK_RED} />
+							</View>
+							<HvImage source={ValidationString(validationStatus)} size={300} />
+						</View>
+					</TouchableWithoutFeedback>
 				</View>
 			</TouchableWithoutFeedback>
 		</Modal>

@@ -41,4 +41,10 @@ export const STYLES = StyleSheet.create({
 		top: 10,
 		zIndex: 1,
 	},
+	checkmarkPosCenter: {
+		position: 'absolute',
+		top: 10,
+		left: 40,
+		zIndex: 1,
+	},
 });
