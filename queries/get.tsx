@@ -130,7 +130,7 @@ export const fetchPatient = async (sessionId: string): Promise<IPatient> => {
 
 export const fetchRecentMeasurements = async (sessionId: string): Promise<IMeasurement[]> => {
 	try {
-		const response = await axios.get(`${MEASUREMENTS_URL}/${sessionId}/latest/3`);
+		const response = await axios.get(`${MEASUREMENTS_URL}/${sessionId}/latest/10`);
 		return response.data;
 	} catch (error) {
 		console.error('Error fetching Recent Measurements:', error);
