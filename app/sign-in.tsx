@@ -56,7 +56,7 @@ const SignIn = (): JSX.Element => {
 
 	return (
 		<SafeAreaView style={Styles.container}>
-			<TextInput keyboardType='numeric' autoCapitalize='none' maxLength={10} />
+			{/* <TextInput keyboardType='numeric' autoCapitalize='none' maxLength={10} /> */}
 			<HvText weight='semibold' size='l'>
 				Kennitala
 			</HvText>

@@ -3,11 +3,13 @@ import { IAddBloodPressure, IBloodPressure } from '@/interfaces/measurements';
 import axios from 'axios';
 
 export const postBloodPressure = async (
-	sessionId: string,
 	measurement: IAddBloodPressure,
 ): Promise<IBloodPressure> => {
 	try {
-		const response = await axios.post(`${BLOODPRESSURE_URL}/${sessionId}`, measurement);
+		const response = await axios.post(
+			`${BLOODPRESSURE_URL}/${measurement.patientID}`,
+			measurement,
+		);
 		return response.data;
 	} catch (error) {
 		console.error('Error posting blood pressure:', error);

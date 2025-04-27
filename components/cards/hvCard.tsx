@@ -1,4 +1,4 @@
-import { WHITE } from '@/constants/colors';
+import { DARK_GREEN, WHITE } from '@/constants/colors';
 import { StyleSheet, ViewProps, View } from 'react-native';
 
 interface Props extends ViewProps {
@@ -14,6 +14,8 @@ interface Props extends ViewProps {
 	gap?: number | null;
 	padding?: number | null;
 	bgColor?: string;
+	border?: boolean;
+	borderColor?: string;
 }
 
 /**
@@ -30,8 +32,26 @@ const HvCard = ({
 	gap = null,
 	padding = null,
 	bgColor = WHITE,
+	border = false,
+	borderColor = DARK_GREEN,
 	...props
 }: Props): JSX.Element => {
+	// get color from borderColor status prop
+	const getColor = () => {
+		switch (borderColor) {
+			case 'Normal':
+				return '#77DD77'; // green
+			case 'Raised':
+				return '#FFD555'; // yellow
+			case 'High':
+				return '#FF3333'; // red
+			case 'Critical':
+				return '#FF3333'; // red
+			default:
+				return '#FF3333'; // default color
+		}
+	};
+
 	return (
 		<View
 			style={[
@@ -44,6 +64,10 @@ const HvCard = ({
 					gap: gap ? gap : undefined,
 					padding: padding ? padding : undefined,
 					backgroundColor: bgColor,
+					// borderRightWidth: border ? 4 : 0,
+					// borderLeftWidth: border ? 4 : 0,
+					borderBottomWidth: border ? 4 : 0,
+					borderColor: border ? getColor() : undefined,
 				},
 			]}
 		>

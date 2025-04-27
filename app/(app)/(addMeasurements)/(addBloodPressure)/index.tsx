@@ -15,6 +15,7 @@ import { Controller, useForm } from 'react-hook-form';
 import { postBloodPressure } from '@/queries/post';
 import { useState } from 'react';
 import HvModalValidation from '@/components/modals/hvModalValidation';
+import { getClaimBySubstring } from '@/utility/utility';
 
 const BloodPressure = (): JSX.Element => {
 	const queryClient = useQueryClient();
@@ -45,8 +46,7 @@ const BloodPressure = (): JSX.Element => {
 	});
 
 	const { mutateAsync: addMutation } = useMutation({
-		mutationFn: async (measurement: IAddBloodPressure) =>
-			postBloodPressure(session?.toString() || '', measurement),
+		mutationFn: async (measurement: IAddBloodPressure) => postBloodPressure(measurement),
 		onSuccess: (data) => {
 			queryClient.invalidateQueries({ queryKey: ['recentmeasurements'] });
 			// status popup
@@ -58,7 +58,10 @@ const BloodPressure = (): JSX.Element => {
 	const onSubmit = (data: IAddBloodPressure) => {
 		try {
 			addMutation({
-				patientID: parseInt(session?.toString() || '0', 10),
+				patientID: parseInt(
+					getClaimBySubstring(session?.toString() || '', 'sub').toString() || '0',
+					10,
+				),
 				measureHand: data.measureHand === 'Vinstri' ? 'Left' : 'Right',
 				bodyPosition: data.bodyPosition === 'Sitjandi' ? 'Sitting' : 'Laying',
 				systolic: data.systolic,
@@ -89,8 +92,8 @@ const BloodPressure = (): JSX.Element => {
 								<HvToggleSelect
 									itemState={value}
 									setItemState={onChange}
-									leftIcon={require('@/assets/svgs/handLeft.svg')}
-									rightIcon={require('@/assets/svgs/handRight.svg')}
+									leftIcon={require('@/assets/svgs/handLeftArrow.svg')}
+									rightIcon={require('@/assets/svgs/handRightArrow.svg')}
 									description='Mæli hönd'
 									leftText='Vinstri'
 									rightText='Hægri'

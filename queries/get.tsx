@@ -8,6 +8,7 @@ import {
 	MOCK_LOGIN_URL,
 	OXYGENSATURATION_URL,
 	PATIENT_URL,
+	TOKEN_URL,
 } from '@/constants/api';
 import axios from 'axios';
 import { IPatient } from '@/interfaces/patient';
@@ -19,6 +20,16 @@ import {
 	IMeasurement,
 	IOxygenSaturation,
 } from '@/interfaces/measurements';
+
+export const GetToken = async (ssn: string): Promise<string> => {
+	try {
+		const response = await axios.post(TOKEN_URL, { kennitala: ssn });
+		return response.data.token;
+	} catch (error) {
+		console.error('Error fetching Token:', error);
+		throw error;
+	}
+};
 
 /**
  * Sends a POST request to the MOCK_LOGIN_URL with the provided social security number (ssn).
@@ -119,7 +130,7 @@ export const fetchPatient = async (sessionId: string): Promise<IPatient> => {
 
 export const fetchRecentMeasurements = async (sessionId: string): Promise<IMeasurement[]> => {
 	try {
-		const response = await axios.get(`${MEASUREMENTS_URL}/${sessionId}/latest/3`);
+		const response = await axios.get(`${MEASUREMENTS_URL}/${sessionId}/latest/10`);
 		return response.data;
 	} catch (error) {
 		console.error('Error fetching Recent Measurements:', error);

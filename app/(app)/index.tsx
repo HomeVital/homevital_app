@@ -10,6 +10,8 @@ import HvScrollView from '@/components/ui/HvScrollView';
 import { fetchPatient, fetchRecentMeasurements } from '@/queries/get';
 import HvCardRecentMeasurements from '@/components/cards/hvCardRecentMeasurement';
 import { ErrorView, LoadingView } from '@/components/queryStates';
+import { getClaimBySubstring } from '@/utility/utility';
+import { TAB_ICON_SIZE } from '@/constants/constants';
 
 const MainScreen = (): JSX.Element => {
 	const { session } = useSession();
@@ -18,11 +20,13 @@ const MainScreen = (): JSX.Element => {
 		queries: [
 			{
 				queryKey: ['patient'],
-				queryFn: async () => fetchPatient(session?.toString() || ''),
+				queryFn: async () =>
+					fetchPatient(getClaimBySubstring(session?.toString() || '', 'sub')),
 			},
 			{
 				queryKey: ['recentmeasurements'],
-				queryFn: async () => fetchRecentMeasurements(session?.toString() || ''),
+				queryFn: async () =>
+					fetchRecentMeasurements(getClaimBySubstring(session?.toString() || '', 'sub')),
 			},
 		],
 	});
@@ -69,18 +73,20 @@ const MainScreen = (): JSX.Element => {
 			{patient.data && (
 				<>
 					<HvHeader name={patient.data.name.split(' ')[0]} />
-					<HvScrollView>
-						<View style={STYLES.defaultView}>
-							<HvText weight='semibold' size='l'>
-								Seinustu Mælingar
-							</HvText>
-							{recentMeasurements.data && recentMeasurements.data.length > 0 ? (
-								<HvCardRecentMeasurements items={recentMeasurements.data} />
-							) : (
-								<HvText>Engar mælingar</HvText>
-							)}
-						</View>
-					</HvScrollView>
+					<View style={STYLES.defaultNoPadView}>
+						<HvText weight='semibold' size='l' style={{ paddingInline: 20 }}>
+							Seinustu 10 Mælingar
+						</HvText>
+						<HvScrollView style={{ marginBottom: 166 + TAB_ICON_SIZE + 10 }}>
+							<View style={STYLES.defaultView}>
+								{recentMeasurements.data && recentMeasurements.data.length > 0 ? (
+									<HvCardRecentMeasurements items={recentMeasurements.data} />
+								) : (
+									<HvText>Engar mælingar</HvText>
+								)}
+							</View>
+						</HvScrollView>
+					</View>
 				</>
 			)}
 		</SafeAreaView>

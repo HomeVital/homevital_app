@@ -14,6 +14,7 @@ import { IPatient } from '@/interfaces/patient';
 import { ErrorView, LoadingView } from '@/components/queryStates';
 import HvCard from '@/components/cards/hvCard';
 import HvButton from '@/components/ui/hvButton';
+import { getClaimBySubstring } from '@/utility/utility';
 
 const MainSettings = (): JSX.Element => {
 	const { session, signOut } = useSession();
@@ -28,7 +29,7 @@ const MainSettings = (): JSX.Element => {
 		isLoading,
 	} = useQuery<IPatient>({
 		queryKey: ['patient'],
-		queryFn: async () => fetchPatient(session?.toString() || ''),
+		queryFn: async () => fetchPatient(getClaimBySubstring(session?.toString() || '', 'sub')),
 	});
 
 	if (isError) return <ErrorView />;

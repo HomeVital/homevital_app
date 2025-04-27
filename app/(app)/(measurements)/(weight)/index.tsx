@@ -1,5 +1,5 @@
 import { View } from 'react-native';
-import { useQuery } from '@tanstack/react-query';
+import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 // components
 import HvToggler from '@/components/ui/hvToggler';
 import { useSession } from '@/hooks/ctx';
@@ -15,9 +15,12 @@ import { ErrorView, LoadingView } from '@/components/queryStates';
 import { useState } from 'react';
 import EditBodyWeight from '@/components/modals/EditBodyWeight';
 import HvModalEdit from '@/components/modals/hvModalEdit';
+import { getClaimBySubstring } from '@/utility/utility';
+import { deleteBodyWeight } from '@/queries/delete';
 
 const Weight = (): JSX.Element => {
 	const { session } = useSession();
+	const queryClient = useQueryClient();
 	const { toggled, setToggledTrue, setToggledFalse } = useToggle();
 	// details modal
 	const [modalVisible, setModalVisible] = useState(false);
@@ -28,8 +31,27 @@ const Weight = (): JSX.Element => {
 	// query
 	const { data, isError, isLoading, refetch } = useQuery({
 		queryKey: ['bodyweight'],
-		queryFn: async () => fetchBodyWeight(session?.toString() || ''),
+		queryFn: async () => fetchBodyWeight(getClaimBySubstring(session?.toString() || '', 'sub')),
 	});
+
+	const { mutateAsync: deleteMutation } = useMutation({
+		mutationFn: async (itemId: string) => deleteBodyWeight(itemId),
+		onSuccess: () => {
+			queryClient.invalidateQueries({ queryKey: ['bodyweight'] });
+			queryClient.invalidateQueries({ queryKey: ['recentmeasurements'] });
+			// status popup
+			setModalVisible(false);
+			setModalData(null);
+		},
+	});
+
+	const handleMutation = async (itemId: string): Promise<void> => {
+		try {
+			await deleteMutation(itemId);
+		} catch (error) {
+			console.error('Error deleting body weight:', error);
+		}
+	};
 
 	if (isError) return <ErrorView />;
 
@@ -60,6 +82,7 @@ const Weight = (): JSX.Element => {
 							setModalData(itemData);
 							setModalVisible(true);
 						}}
+						editable
 					/>
 					{/* Modal for details */}
 					{modalData && (
@@ -73,6 +96,9 @@ const Weight = (): JSX.Element => {
 							onClose={() => {
 								setModalVisible(false);
 								setModalData(null);
+							}}
+							onDelete={() => {
+								handleMutation(modalData.id.toString());
 							}}
 							item={modalData as IBodyWeight}
 						/>

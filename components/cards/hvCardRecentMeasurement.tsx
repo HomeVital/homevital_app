@@ -71,22 +71,37 @@ const HvCardRecentMeasurements = ({ items }: Props): JSX.Element => {
 		<>
 			{items.map((item) => (
 				<TouchableOpacity onPress={() => router.push(measurementLink(item))} key={item.uid}>
-					<HvCard key={item.uid} style={Styles.container} row padding={10} gap={10}>
+					<HvCard
+						key={item.uid}
+						style={Styles.container}
+						row
+						padding={10}
+						gap={10}
+						border
+						borderColor={item.measurementValues.status}
+					>
 						<View style={Styles.left}>
 							<View style={{ height: 80 }}>
 								<HvImage source={item.measurementType} size={80} />
-								<HvImage
+								{/* <HvImage
 									source={item.measurementValues.status}
 									size={20}
 									style={{ position: 'absolute', bottom: 0, right: 0 }}
-								/>
+								/> */}
 							</View>
 							<HvText weight='semibold' size='s'>
 								{formatDate(item.measurementDate)}
 							</HvText>
 						</View>
 						<View style={Styles.right}>
-							<HvText weight='semibold'>{measurementTypeString(item)}</HvText>
+							<View style={Styles.text}>
+								<HvText weight='semibold'>{measurementTypeString(item)}</HvText>
+								<HvImage
+									source={'View'}
+									size={36}
+									style={{ marginLeft: 'auto', marginRight: 10 }}
+								/>
+							</View>
 							<View style={Styles.measurement}>
 								<View style={Styles.measurementLeft}>
 									<HvText weight='semibold' size='xxl'>
@@ -105,7 +120,7 @@ const HvCardRecentMeasurements = ({ items }: Props): JSX.Element => {
 									/>
 									<HvImage
 										source={item.measurementValues.measureHand}
-										size={34}
+										size={36}
 									/>
 								</View>
 							</View>
@@ -119,31 +134,50 @@ const HvCardRecentMeasurements = ({ items }: Props): JSX.Element => {
 
 const Styles = StyleSheet.create({
 	container: {
-		height: 150,
+		height: 130,
 	},
 	left: {
 		height: '100%',
 		alignItems: 'center',
-		gap: 14,
+		justifyContent: 'space-evenly',
 	},
 	right: {
 		height: '100%',
 		flex: 1,
 	},
-	measurement: {
+	text: {
 		flexDirection: 'row',
 		justifyContent: 'space-between',
+		alignItems: 'center',
+		height: 40,
+		marginRight: -10,
+	},
+	measurement: {
+		flexDirection: 'row',
+		justifyContent: 'flex-end',
 		height: '100%',
+		// borderColor: '#E0E0E0',
+		// borderWidth: 1,
 		flex: 1,
+		// paddingInline: 20,
 		paddingLeft: 30,
+		// paddingBottom: 10,
 	},
 	measurementLeft: {
-		justifyContent: 'center',
-		gap: 14,
+		flex: 1,
+
+		// alignItems: 'center',
+		justifyContent: 'space-between',
+		// borderColor: '#E0E0E0',
+		// borderWidth: 1,
 	},
 	measurementRight: {
-		flexDirection: 'row',
+		// borderColor: '#E0E0E0',
+		// borderWidth: 1,
 		alignItems: 'flex-end',
+		flexDirection: 'row',
+		// justifyContent: 'space-between',
+		// alignItems: 'flex-end',
 	},
 });
 

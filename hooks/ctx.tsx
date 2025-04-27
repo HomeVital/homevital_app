@@ -1,7 +1,10 @@
 import { useContext, type PropsWithChildren } from 'react';
 import { useStorageState } from './useStorageState';
-import { GetRafraenSkilriki, GetUserId } from '@/queries/get';
+import { GetToken } from '@/queries/get';
 import { AuthenticationContext } from '@/contexts/authenticationContext';
+
+// import JWT from 'expo-jwt';
+import { getClaimBySubstring } from '@/utility/utility';
 
 /**
  * Hook to get session state
@@ -33,12 +36,20 @@ export const SessionProvider = ({ children }: PropsWithChildren): JSX.Element =>
 
 	// const queryClient = useQueryClient();
 	const HandleSignIn = async (SSN: string): Promise<string> => {
-		const userSSN = await GetRafraenSkilriki(SSN);
+		const token = await GetToken(SSN);
 
-		const userId = await GetUserId(String(userSSN));
+		// const role = getClaimsBySubstring(token, ['role']);
+		const role = getClaimBySubstring(token, 'role');
 
-		setSession(userId);
-		return userId; // Return the user ID
+		// for (const claim in role) {
+		//
+		if (role === 'Patient') {
+			setSession(token);
+		} else {
+			setSession(null);
+		}
+		// }
+		return token;
 	};
 
 	return (

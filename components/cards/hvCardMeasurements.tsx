@@ -24,6 +24,7 @@ interface Props<
 	T = IBloodPressure | IOxygenSaturation | IBodyTemperature | IBodyWeight | IBloodSugar,
 > {
 	item: T extends IMeasurementBase ? T : never;
+	editable?: boolean;
 }
 
 interface PropsItems<
@@ -31,6 +32,7 @@ interface PropsItems<
 > {
 	items: T[] extends IMeasurementBase[] ? T[] : never[];
 	onPress?: (itemId: T extends IMeasurementBase ? T : never) => void;
+	editable?: boolean;
 }
 
 /**
@@ -38,7 +40,7 @@ interface PropsItems<
  * @param item - measurement to display
  * @returns card component for displaying a measurement
  */
-export const HvCardMeasurement = <T,>({ item }: Props<T>): JSX.Element => {
+export const HvCardMeasurement = <T,>({ item, editable }: Props<T>): JSX.Element => {
 	const renderMeasurementValue = () => {
 		if (isBloodPressure(item)) {
 			return `${item.systolic} / ${item.diastolic}`;
@@ -56,39 +58,64 @@ export const HvCardMeasurement = <T,>({ item }: Props<T>): JSX.Element => {
 	};
 
 	return (
-		<HvCard key={item.id} style={Styles.container} row align='center'>
+		<HvCard
+			key={item.id}
+			style={Styles.container}
+			row
+			align='center'
+			border
+			borderColor={item.status}
+		>
 			<View style={Styles.left}>
 				{/* {MeasurementStatus(item.status)} */}
-				<HvImage source={item.status} size={26} />
+				{/* <HvImage source={item.status} size={26} /> */}
+				{isBloodPressure(item) && (
+					<View style={Styles.icons}>
+						<HvImage source={item.bodyPosition} size={34} />
+						<HvImage source={item.measureHand} size={36} />
+					</View>
+				)}
 				<HvText weight='semibold'>{formatDate(item.date)}</HvText>
 			</View>
 			<HvText size='xxl' weight='semibold'>
 				{renderMeasurementValue()}
 			</HvText>
-			{isBloodPressure(item) && (
-				<View style={Styles.right}>
-					<HvImage source={item.bodyPosition} size={34} />
-					<HvImage source={item.measureHand} size={34} />
-				</View>
-			)}
+			{/* <View style={Styles.right}> */}
+			<View>
+				{editable && (
+					<HvImage
+						source={'Edit'}
+						size={26}
+						style={{ marginLeft: 'auto', marginRight: 10 }}
+					/>
+				)}
+			</View>
 		</HvCard>
 	);
 };
 
-export const HvCardMeasurements = <T,>({ items, onPress }: PropsItems<T>): JSX.Element => {
+export const HvCardMeasurements = <T,>({
+	items,
+	onPress,
+	editable,
+}: PropsItems<T>): JSX.Element => {
 	return (
 		<View style={Styles.pageContainer}>
 			{items.map((item) => {
 				if (isBloodPressure(item)) {
 					return (
 						<TouchableOpacity onPress={() => onPress?.(item as never)} key={item.id}>
-							<HvCardMeasurement key={item.id} item={item as never} />
+							<HvCardMeasurement
+								key={item.id}
+								item={item as never}
+								editable={editable}
+							/>
 						</TouchableOpacity>
 					);
 				}
 				return (
 					<TouchableOpacity onPress={() => onPress?.(item as never)} key={item.id}>
-						<HvCardMeasurement key={item.id} item={item as never} />
+						<HvCardMeasurement key={item.id} item={item as never} editable={editable} />
 					</TouchableOpacity>
 				);
 			})}
@@ -112,7 +139,12 @@ const Styles = StyleSheet.create({
 		justifyContent: 'space-evenly',
 		alignItems: 'center',
 	},
-	right: {
+	icons: {
 		flexDirection: 'row',
+	},
+	right: {
+		height: '100%',
+		paddingTop: 10,
+		marginRight: -20,
 	},
 });

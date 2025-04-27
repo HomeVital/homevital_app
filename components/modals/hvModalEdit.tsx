@@ -10,9 +10,10 @@ import {
 } from '@/interfaces/measurements';
 import { HvCardMeasurement } from '../cards/hvCardMeasurements';
 import HvCard from '../cards/hvCard';
-import { LIGHT_THEME } from '@/constants/colors';
+import { DARK_RED, LIGHT_THEME } from '@/constants/colors';
 import HvText from '../ui/hvText';
 import { STYLES } from '@/constants/styles';
+import HvButtonCheck from '../ui/hvButtonCheck';
 
 interface Props<
 	T = IBloodPressure | IOxygenSaturation | IBodyTemperature | IBodyWeight | IBloodSugar,
@@ -22,6 +23,7 @@ interface Props<
 	visibleDetails: boolean;
 	onClose: () => void;
 	onEdit: () => void;
+	onDelete: () => void;
 	item: T extends IMeasurementBase ? T : never;
 }
 
@@ -31,6 +33,7 @@ const HvModalEdit = ({
 	visibleDetails,
 	onClose,
 	onEdit,
+	onDelete,
 	item,
 }: Props): JSX.Element => {
 	return (
@@ -45,6 +48,9 @@ const HvModalEdit = ({
 								bgColor={LIGHT_THEME}
 								style={{ opacity: visibleDetails ? 1 : 0 }}
 							>
+								<View style={STYLES.checkmarkPos}>
+									<HvButtonCheck cancel onPress={onClose} bgColor={DARK_RED} />
+								</View>
 								<View style={Styles.titleContainer}>
 									<HvText size='xl' color='darkGreen' weight='semibold' center>
 										{title}
@@ -53,15 +59,12 @@ const HvModalEdit = ({
 								</View>
 								<View style={Styles.buttonsContainer}>
 									<HvButton text='Breyta' onPress={onEdit} bright />
-									{/* <HvButton
+									<HvButton
 										text='Eyða'
 										bgColor={DARK_RED}
-										onPress={() => {
-											// Handle delete action here
-
-											onClose(); // Close the modal after deleting
-										}}
-									/> */}
+										onPress={onDelete}
+										bright
+									/>
 								</View>
 							</HvCard>
 						</View>

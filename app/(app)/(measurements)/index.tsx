@@ -9,6 +9,7 @@ import {
 	fetchBloodSugar,
 	fetchBodyTemperature,
 	fetchBodyWeight,
+	fetchOxygenSaturation,
 } from '@/queries/get';
 // constants
 import { STYLES } from '@/constants/styles';
@@ -17,6 +18,7 @@ import HvText from '@/components/ui/hvText';
 import { WIN_WIDTH } from '@/constants/window';
 import { PADDING } from '@/constants/constants';
 import { LoadingView } from '@/components/queryStates';
+import { getClaimBySubstring } from '@/utility/utility';
 
 const MainMeasurements = (): JSX.Element => {
 	const { session } = useSession();
@@ -25,23 +27,28 @@ const MainMeasurements = (): JSX.Element => {
 		queries: [
 			{
 				queryKey: ['bloodpressure'],
-				queryFn: async () => fetchBloodPressure(session?.toString() || ''),
+				queryFn: async () =>
+					fetchBloodPressure(getClaimBySubstring(session?.toString() || '', 'sub')),
 			},
 			{
 				queryKey: ['bloodsugar'],
-				queryFn: async () => fetchBloodSugar(session?.toString() || ''),
+				queryFn: async () =>
+					fetchBloodSugar(getClaimBySubstring(session?.toString() || '', 'sub')),
 			},
 			{
 				queryKey: ['bodytemperature'],
-				queryFn: async () => fetchBodyTemperature(session?.toString() || ''),
+				queryFn: async () =>
+					fetchBodyTemperature(getClaimBySubstring(session?.toString() || '', 'sub')),
 			},
 			{
 				queryKey: ['bodyweight'],
-				queryFn: async () => fetchBodyWeight(session?.toString() || ''),
+				queryFn: async () =>
+					fetchBodyWeight(getClaimBySubstring(session?.toString() || '', 'sub')),
 			},
 			{
 				queryKey: ['oxygensaturation'],
-				queryFn: async () => fetchBodyWeight(session?.toString() || ''), // Note: This is using fetchBodyWeight, might need correction
+				queryFn: async () =>
+					fetchOxygenSaturation(getClaimBySubstring(session?.toString() || '', 'sub')), // Note: This is using fetchBodyWeight, might need correction
 			},
 		],
 	});

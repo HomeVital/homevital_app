@@ -14,9 +14,10 @@ import HvInputFormContainer from '@/components/ui/hvInputForm/hvInputFormContain
 import { BLOODSUGAR_URL } from '@/constants/api';
 import { IAddBloodSugar } from '@/interfaces/measurements';
 import HvModalValidation from '@/components/modals/hvModalValidation';
+import { getClaimBySubstring } from '@/utility/utility';
 
-const postBloodSugar = async (sessionId: string, measurement: IAddBloodSugar) => {
-	const response = await axios.post(`${BLOODSUGAR_URL}/${sessionId}`, measurement);
+const postBloodSugar = async (measurement: IAddBloodSugar) => {
+	const response = await axios.post(`${BLOODSUGAR_URL}/${measurement.patientID}`, measurement);
 	return response.data;
 };
 
@@ -30,8 +31,7 @@ const BloodSugar = (): JSX.Element => {
 	const [modalStatus, setModalStatus] = useState('');
 
 	const { mutateAsync: addMutation } = useMutation({
-		mutationFn: async (measurement: IAddBloodSugar) =>
-			postBloodSugar(session?.toString() || '', measurement),
+		mutationFn: async (measurement: IAddBloodSugar) => postBloodSugar(measurement),
 		onSuccess: (data) => {
 			queryClient.invalidateQueries({ queryKey: ['recentmeasurements'] });
 			// status popup
@@ -43,7 +43,10 @@ const BloodSugar = (): JSX.Element => {
 	const HandleMutation = async (): Promise<void> => {
 		try {
 			await addMutation({
-				patientID: parseInt(session?.toString() || '0', 10),
+				patientID: parseInt(
+					getClaimBySubstring(session?.toString() || '', 'sub').toString() || '0',
+					10,
+				),
 				bloodsugarLevel: Number(parseFloat(bloodSugar).toFixed(1)),
 			});
 		} catch (error) {

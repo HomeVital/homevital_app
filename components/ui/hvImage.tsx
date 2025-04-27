@@ -21,8 +21,8 @@ const sources = {
 	BloodSugarLight: require('@/assets/images/water.png'),
 
 	// toggle icons
-	Right: require('@/assets/svgs/handRight.svg'),
-	Left: require('@/assets/svgs/handLeft.svg'),
+	Right: require('@/assets/svgs/handRightArrow.svg'),
+	Left: require('@/assets/svgs/handLeftArrow.svg'),
 	Sitting: require('@/assets/svgs/sitting.svg'),
 	Laying: require('@/assets/svgs/laying.svg'),
 
@@ -38,6 +38,12 @@ const sources = {
 	NormalImage: require('@/assets/images/popupMessages/Success.svg'),
 	RaisedImage: require('@/assets/images/popupMessages/Warning.svg'),
 	HighImage: require('@/assets/images/popupMessages/Danger.svg'),
+
+	// checkmark icons
+	Cancel: require('@/assets/svgs/cancel.svg'),
+	// Edit: require('@/assets/svgs/edit.svg'),
+	Edit: require('@/assets/images/pencil.png'),
+	View: require('@/assets/svgs/viewArrow.svg'),
 };
 
 const HvImage = ({ source, size = 100, ...props }: Props): JSX.Element => {

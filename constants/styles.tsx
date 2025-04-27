@@ -35,4 +35,16 @@ export const STYLES = StyleSheet.create({
 	imageView: {
 		marginBottom: TAB_ICON_SIZE + 10,
 	},
+	checkmarkPos: {
+		position: 'absolute',
+		left: 10,
+		top: 10,
+		zIndex: 1,
+	},
+	checkmarkPosCenter: {
+		position: 'absolute',
+		top: 10,
+		left: 40,
+		zIndex: 1,
+	},
 });

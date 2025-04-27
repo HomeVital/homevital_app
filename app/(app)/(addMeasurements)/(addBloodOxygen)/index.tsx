@@ -14,10 +14,14 @@ import { OXYGENSATURATION_URL } from '@/constants/api';
 import axios from 'axios';
 import HvModalValidation from '@/components/modals/hvModalValidation';
 import { router } from 'expo-router';
+import { getClaimBySubstring } from '@/utility/utility';
 
-const postOxygenSaturation = async (sessionId: string, measurement: IAddOxygenSaturation) => {
+const postOxygenSaturation = async (measurement: IAddOxygenSaturation) => {
 	try {
-		const response = await axios.post(`${OXYGENSATURATION_URL}/${sessionId}`, measurement);
+		const response = await axios.post(
+			`${OXYGENSATURATION_URL}/${measurement.patientID}`,
+			measurement,
+		);
 		return response.data;
 	} catch (error) {
 		console.error('Error posting oxygen saturation:', error);
@@ -64,8 +68,7 @@ const BloodOxygen = (): JSX.Element => {
 	// };
 
 	const { mutateAsync: addMutation } = useMutation({
-		mutationFn: async (measurement: IAddOxygenSaturation) =>
-			postOxygenSaturation(session?.toString() || '', measurement),
+		mutationFn: async (measurement: IAddOxygenSaturation) => postOxygenSaturation(measurement),
 		onSuccess: (data) => {
 			queryClient.invalidateQueries({ queryKey: ['recentmeasurements'] });
 			// status popup
@@ -77,7 +80,10 @@ const BloodOxygen = (): JSX.Element => {
 	const HandleMutation = async (): Promise<void> => {
 		try {
 			await addMutation({
-				patientID: parseInt(session?.toString() || '0', 10),
+				patientID: parseInt(
+					getClaimBySubstring(session?.toString() || '', 'sub').toString() || '0',
+					10,
+				),
 				oxygenSaturationValue: parseInt(bloodOxygen, 10),
 			});
 		} catch (error) {

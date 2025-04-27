@@ -1,5 +1,5 @@
 import { View } from 'react-native';
-import { useQuery } from '@tanstack/react-query';
+import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 // components
 import HvToggler from '@/components/ui/hvToggler';
 import { useSession } from '@/hooks/ctx';
@@ -17,9 +17,12 @@ import { ErrorView, LoadingView } from '@/components/queryStates';
 import { useState } from 'react';
 import HvModalEdit from '@/components/modals/hvModalEdit';
 import EditTemperature from '@/components/modals/EditTemperature';
+import { getClaimBySubstring } from '@/utility/utility';
+import { deleteBodyTemperature } from '@/queries/delete';
 
 const Temperature = (): JSX.Element => {
 	const { session } = useSession();
+	const queryClient = useQueryClient();
 	const { toggled, setToggledTrue, setToggledFalse } = useToggle();
 	// details modal
 	const [modalVisible, setModalVisible] = useState(false);
@@ -29,8 +32,28 @@ const Temperature = (): JSX.Element => {
 
 	const { data, isError, isLoading, refetch } = useQuery({
 		queryKey: ['bodytemperature'],
-		queryFn: async () => fetchBodyTemperature(session?.toString() || ''),
+		queryFn: async () =>
+			fetchBodyTemperature(getClaimBySubstring(session?.toString() || '', 'sub')),
 	});
+
+	const { mutateAsync: deleteMutation } = useMutation({
+		mutationFn: async (itemId: string) => deleteBodyTemperature(itemId),
+		onSuccess: () => {
+			queryClient.invalidateQueries({ queryKey: ['bodytemperature'] });
+			queryClient.invalidateQueries({ queryKey: ['recentmeasurements'] });
+			// status popup
+			setModalVisible(false);
+			setModalData(null);
+		},
+	});
+
+	const handleMutation = async (itemId: string): Promise<void> => {
+		try {
+			await deleteMutation(itemId);
+		} catch (error) {
+			console.error('Error deleting body temperature:', error);
+		}
+	};
 
 	if (isError) return <ErrorView />;
 
@@ -61,6 +84,7 @@ const Temperature = (): JSX.Element => {
 							setModalData(itemData);
 							setModalVisible(true);
 						}}
+						editable
 					/>
 					{/* Modal for details */}
 					{modalData && (
@@ -74,6 +98,9 @@ const Temperature = (): JSX.Element => {
 							onClose={() => {
 								setModalVisible(false);
 								setModalData(null);
+							}}
+							onDelete={() => {
+								handleMutation(modalData.id.toString());
 							}}
 							item={modalData as IBodyTemperature}
 						/>
