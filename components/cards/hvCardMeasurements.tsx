@@ -68,7 +68,7 @@ export const HvCardMeasurement = <T,>({ item }: Props<T>): JSX.Element => {
 			{isBloodPressure(item) && (
 				<View style={Styles.right}>
 					<HvImage source={item.bodyPosition} size={34} />
-					<HvImage source={item.measureHand} size={34} />
+					<HvImage source={item.measureHand} size={36} />
 				</View>
 			)}
 		</HvCard>

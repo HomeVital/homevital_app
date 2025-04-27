@@ -8,6 +8,8 @@ import { useEffect, useState } from 'react';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import HvText from '../ui/hvText';
 import { patchTemperature } from '@/queries/patch';
+import HvButtonCheck from '../ui/hvButtonCheck';
+import { DARK_RED } from '@/constants/colors';
 
 interface Props {
 	visible: boolean;
@@ -60,6 +62,9 @@ const EditTemperature = ({ visible, onClose, onSubmit, itemId, item }: Props): J
 					<TouchableWithoutFeedback onPress={(e) => e.stopPropagation()}>
 						<View>
 							<HvInputForm onPress={HandleMutation} disabled={DisableButton()}>
+								<View style={STYLES.checkmarkPos}>
+									<HvButtonCheck cancel onPress={onClose} bgColor={DARK_RED} />
+								</View>
 								<HvText size='xl' color='darkGreen' weight='semibold' center>
 									Breyta líkamshita
 								</HvText>

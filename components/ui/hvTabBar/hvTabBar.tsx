@@ -2,7 +2,6 @@ import React, { useEffect, useState } from 'react';
 import { View, StyleSheet, TouchableWithoutFeedback } from 'react-native';
 import { RelativePathString, router } from 'expo-router';
 import Animated, { withTiming, useAnimatedStyle, useSharedValue } from 'react-native-reanimated';
-import HideWithKeyboard from 'react-native-hide-with-keyboard';
 // components
 import HvTabItem from './hvTabItem';
 // constants
@@ -97,32 +96,32 @@ const HvTabBar = (): JSX.Element => {
 				</Animated.View>
 			</TouchableWithoutFeedback>
 
-			<HideWithKeyboard>
-				<View style={Styles.container}>
-					<HvTabItem
-						onPress={() => {
-							setStackName(handleTabRoute('/(app)/(measurements)', stackName));
-						}}
-						source={require('@/assets/svgs/barChart.svg')}
-						text='Mælingar'
-					/>
-					<HvTabItemAnimated
-						onPress={() => setAddOpen(!addOpen)}
-						source={require('@/assets/svgs/add.svg')}
-						source2={require('@/assets/svgs/addRed.svg')}
-						text='Skrá mælingu'
-						addOpen={addOpen}
-						large
-					/>
-					<HvTabItem
-						onPress={() => {
-							setStackName(handleTabRoute('/(app)/(settings)', stackName));
-						}}
-						source={require('@/assets/svgs/manUser.svg')}
-						text='Stillingar'
-					/>
-				</View>
-			</HideWithKeyboard>
+			{/* <HideWithKeyboard> */}
+			<View style={Styles.container}>
+				<HvTabItem
+					onPress={() => {
+						setStackName(handleTabRoute('/(app)/(measurements)', stackName));
+					}}
+					source={require('@/assets/svgs/barChart.svg')}
+					text='Mælingar'
+				/>
+				<HvTabItemAnimated
+					onPress={() => setAddOpen(!addOpen)}
+					source={require('@/assets/svgs/add.svg')}
+					source2={require('@/assets/svgs/addRed.svg')}
+					text='Skrá mælingu'
+					addOpen={addOpen}
+					large
+				/>
+				<HvTabItem
+					onPress={() => {
+						setStackName(handleTabRoute('/(app)/(settings)', stackName));
+					}}
+					source={require('@/assets/svgs/manUser.svg')}
+					text='Stillingar'
+				/>
+			</View>
+			{/* </HideWithKeyboard> */}
 		</>
 	);
 };

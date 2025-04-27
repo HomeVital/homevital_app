@@ -99,7 +99,7 @@ const Styles = StyleSheet.create({
 	},
 	iconInCircle: {
 		position: 'absolute',
-		top: 4,
+		top: 3,
 		left: 4,
 		width: 32,
 		height: 32,

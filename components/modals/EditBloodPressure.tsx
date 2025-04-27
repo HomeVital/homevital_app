@@ -10,6 +10,8 @@ import HvText from '../ui/hvText';
 import { patchBloodPressure } from '@/queries/patch';
 import HvToggleSelect from '../ui/hvInputForm/hvToggleSelect';
 import HvScrollView from '../ui/HvScrollView';
+import HvButtonCheck from '../ui/hvButtonCheck';
+import { DARK_RED } from '@/constants/colors';
 
 interface Props {
 	visible: boolean;
@@ -99,6 +101,13 @@ const EditBloodPressure = ({ visible, onClose, onSubmit, itemId, item }: Props):
 						<TouchableWithoutFeedback onPress={(e) => e.stopPropagation()}>
 							<View>
 								<HvInputForm onPress={HandleMutation} disabled={DisableButton()}>
+									<View style={STYLES.checkmarkPos}>
+										<HvButtonCheck
+											cancel
+											onPress={onClose}
+											bgColor={DARK_RED}
+										/>
+									</View>
 									<HvText size='xl' color='darkGreen' weight='semibold' center>
 										Breyta Blóðþrýsting
 									</HvText>
@@ -106,8 +115,8 @@ const EditBloodPressure = ({ visible, onClose, onSubmit, itemId, item }: Props):
 										<HvToggleSelect
 											itemState={hand}
 											setItemState={setHand}
-											leftIcon={require('@/assets/svgs/handLeft.svg')}
-											rightIcon={require('@/assets/svgs/handRight.svg')}
+											leftIcon={require('@/assets/svgs/handLeftArrow.svg')}
+											rightIcon={require('@/assets/svgs/handRightArrow.svg')}
 											description='Mæli hönd'
 											leftText='Vinstri'
 											rightText='Hægri'

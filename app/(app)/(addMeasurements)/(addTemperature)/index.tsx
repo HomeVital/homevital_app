@@ -16,8 +16,11 @@ import { BODYTEMPERATURE_URL } from '@/constants/api';
 import HvModalValidation from '@/components/modals/hvModalValidation';
 import { getClaimBySubstring } from '@/utility/utility';
 
-const postBodyTemperature = async (sessionId: string, measurement: IAddBodyTemperature) => {
-	const response = await axios.post(`${BODYTEMPERATURE_URL}/${sessionId}`, measurement);
+const postBodyTemperature = async (measurement: IAddBodyTemperature) => {
+	const response = await axios.post(
+		`${BODYTEMPERATURE_URL}/${measurement.patientID}`,
+		measurement,
+	);
 	return response.data;
 };
 
@@ -31,8 +34,7 @@ const Temperature = (): JSX.Element => {
 	const [modalStatus, setModalStatus] = useState('');
 
 	const { mutateAsync: addMutation } = useMutation({
-		mutationFn: async (measurement: IAddBodyTemperature) =>
-			postBodyTemperature(getClaimBySubstring(session?.toString() || '', 'sub'), measurement),
+		mutationFn: async (measurement: IAddBodyTemperature) => postBodyTemperature(measurement),
 		onSuccess: (data) => {
 			queryClient.invalidateQueries({ queryKey: ['recentmeasurements'] });
 			// status popup
@@ -44,7 +46,10 @@ const Temperature = (): JSX.Element => {
 	const HandleMutation = async (): Promise<void> => {
 		try {
 			await addMutation({
-				patientID: parseInt(session?.toString() || '0', 10),
+				patientID: parseInt(
+					getClaimBySubstring(session?.toString() || '', 'sub').toString() || '0',
+					10,
+				),
 				temperature: Number(parseFloat(temperature).toFixed(1)),
 			});
 		} catch (error) {

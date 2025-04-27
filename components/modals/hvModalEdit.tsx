@@ -10,9 +10,10 @@ import {
 } from '@/interfaces/measurements';
 import { HvCardMeasurement } from '../cards/hvCardMeasurements';
 import HvCard from '../cards/hvCard';
-import { LIGHT_THEME } from '@/constants/colors';
+import { DARK_RED, LIGHT_THEME } from '@/constants/colors';
 import HvText from '../ui/hvText';
 import { STYLES } from '@/constants/styles';
+import HvButtonCheck from '../ui/hvButtonCheck';
 
 interface Props<
 	T = IBloodPressure | IOxygenSaturation | IBodyTemperature | IBodyWeight | IBloodSugar,
@@ -45,6 +46,9 @@ const HvModalEdit = ({
 								bgColor={LIGHT_THEME}
 								style={{ opacity: visibleDetails ? 1 : 0 }}
 							>
+								<View style={STYLES.checkmarkPos}>
+									<HvButtonCheck cancel onPress={onClose} bgColor={DARK_RED} />
+								</View>
 								<View style={Styles.titleContainer}>
 									<HvText size='xl' color='darkGreen' weight='semibold' center>
 										{title}

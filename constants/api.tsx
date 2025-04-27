@@ -12,7 +12,7 @@ export const PATIENT_URL = API_URL + '/patients/';
 export const BLOODPRESSURE_URL = API_URL + '/bloodpressure/';
 export const BLOODSUGAR_URL = API_URL + '/bloodsugar/';
 export const BODYTEMPERATURE_URL = API_URL + '/bodytemperature/';
-export const BODYWEIGHT_URL = API_URL + '/bodyweight/';
+export const BODYWEIGHT_URL = API_URL + 'bodyweight';
 export const OXYGENSATURATION_URL = API_URL + '/oxygensaturation/';
 
 // {patientId}/latest/{count}';

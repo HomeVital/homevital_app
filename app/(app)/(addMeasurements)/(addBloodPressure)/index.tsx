@@ -46,8 +46,7 @@ const BloodPressure = (): JSX.Element => {
 	});
 
 	const { mutateAsync: addMutation } = useMutation({
-		mutationFn: async (measurement: IAddBloodPressure) =>
-			postBloodPressure(getClaimBySubstring(session?.toString() || '', 'sub'), measurement),
+		mutationFn: async (measurement: IAddBloodPressure) => postBloodPressure(measurement),
 		onSuccess: (data) => {
 			queryClient.invalidateQueries({ queryKey: ['recentmeasurements'] });
 			// status popup
@@ -59,7 +58,10 @@ const BloodPressure = (): JSX.Element => {
 	const onSubmit = (data: IAddBloodPressure) => {
 		try {
 			addMutation({
-				patientID: parseInt(session?.toString() || '0', 10),
+				patientID: parseInt(
+					getClaimBySubstring(session?.toString() || '', 'sub').toString() || '0',
+					10,
+				),
 				measureHand: data.measureHand === 'Vinstri' ? 'Left' : 'Right',
 				bodyPosition: data.bodyPosition === 'Sitjandi' ? 'Sitting' : 'Laying',
 				systolic: data.systolic,
@@ -90,8 +92,8 @@ const BloodPressure = (): JSX.Element => {
 								<HvToggleSelect
 									itemState={value}
 									setItemState={onChange}
-									leftIcon={require('@/assets/svgs/handLeft.svg')}
-									rightIcon={require('@/assets/svgs/handRight.svg')}
+									leftIcon={require('@/assets/svgs/handLeftArrow.svg')}
+									rightIcon={require('@/assets/svgs/handRightArrow.svg')}
 									description='Mæli hönd'
 									leftText='Vinstri'
 									rightText='Hægri'

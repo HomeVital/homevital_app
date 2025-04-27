@@ -37,5 +37,5 @@ export const getClaimBySubstring = (token: string, includes: string): string => 
 		}
 	}
 
-	return '';
+	return '-1';
 };

@@ -16,8 +16,8 @@ import { BODYWEIGHT_URL } from '@/constants/api';
 import HvModalValidation from '@/components/modals/hvModalValidation';
 import { getClaimBySubstring } from '@/utility/utility';
 
-const postBodyWeight = async (sessionId: string, measurement: IAddBodyWeight) => {
-	const response = await axios.post(`${BODYWEIGHT_URL}/${sessionId}`, measurement);
+const postBodyWeight = async (measurement: IAddBodyWeight) => {
+	const response = await axios.post(`${BODYWEIGHT_URL}/${measurement.patientID}`, measurement);
 	return response.data;
 };
 
@@ -31,8 +31,7 @@ const Weight = (): JSX.Element => {
 	const [modalStatus, setModalStatus] = useState('');
 
 	const { mutateAsync: addMutation } = useMutation({
-		mutationFn: async (measurement: IAddBodyWeight) =>
-			postBodyWeight(getClaimBySubstring(session?.toString() || '', 'sub'), measurement),
+		mutationFn: async (measurement: IAddBodyWeight) => postBodyWeight(measurement),
 		onSuccess: (data) => {
 			queryClient.invalidateQueries({ queryKey: ['recentmeasurements'] });
 			// status popup
@@ -44,11 +43,14 @@ const Weight = (): JSX.Element => {
 	const HandleMutation = async (): Promise<void> => {
 		try {
 			await addMutation({
-				patientID: parseInt(session?.toString() || '0', 10),
-				weight: Number(weight),
+				patientID: parseInt(
+					getClaimBySubstring(session?.toString() || '', 'sub').toString() || '-1',
+					10,
+				),
+				weight: Number(parseFloat(weight).toFixed(1)),
 			});
 		} catch (error) {
-			console.error('Error adding blood pressure:', error);
+			console.error('Error adding body weight:', error);
 		}
 	};
 
