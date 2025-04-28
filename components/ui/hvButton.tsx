@@ -14,7 +14,18 @@ interface Props {
 	disabled?: boolean; // optional
 	small?: boolean; // optional
 	bright?: boolean; // optional
+	seeThrough?: boolean; // optional
 }
+
+const GetBGColor = (bgColor: string, bright: boolean, seeThrough: boolean): string => {
+	if (seeThrough) {
+		return 'rgba(255, 255, 255, 0.5)';
+	}
+	if (bright) {
+		return 'white';
+	}
+	return bgColor;
+};
 
 /**
  * Custom button component
@@ -34,6 +45,7 @@ const HvButton = ({
 	disabled = false,
 	small = false,
 	bright = false,
+	seeThrough = false,
 }: Props): JSX.Element => {
 	return (
 		<TouchableOpacity
@@ -44,7 +56,7 @@ const HvButton = ({
 				{
 					width: width ? width : {},
 					borderRadius: 10,
-					backgroundColor: !bright ? bgColor : 'white',
+					backgroundColor: GetBGColor(bgColor, bright, seeThrough),
 					borderColor: !bright ? undefined : bgColor,
 					borderWidth: !bright ? 0 : 1,
 					opacity: disabled || loading ? 0.5 : 1,

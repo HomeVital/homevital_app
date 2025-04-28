@@ -1,8 +1,8 @@
 import { Modal, TouchableWithoutFeedback, StyleSheet, View } from 'react-native';
-import HvButtonCheck from '../ui/hvButtonCheck';
-import { STYLES } from '@/constants/styles';
-import { DARK_RED, TRANSLUCENT_TEXT } from '@/constants/colors';
+import { TEXT_DEFAULT, TRANSLUCENT_TEXT } from '@/constants/colors';
 import HvText from '../ui/hvText';
+import HvImage from '../ui/hvImage';
+import HvButton from '../ui/hvButton';
 
 interface Props {
 	visible: boolean;
@@ -80,6 +80,23 @@ const ValidationBackground = (status: string): string => {
 	}
 };
 
+const ValidationImg = (status: string): string => {
+	switch (status) {
+		case 'Normal':
+			return 'Healthy';
+		case 'Raised':
+			return 'HealthyWarning';
+		case 'High':
+			return 'Unhealthy';
+		case 'Critical':
+			return 'Unhealthy';
+		case 'CriticalHigh':
+			return 'Unhealthy';
+		default:
+			return 'Unhealthy';
+	}
+};
+
 const HvModalValidation = ({ visible, onClose, validationStatus }: Props): JSX.Element => {
 	return (
 		<Modal visible={visible} animationType='fade' onRequestClose={onClose} transparent={true}>
@@ -94,11 +111,17 @@ const HvModalValidation = ({ visible, onClose, validationStatus }: Props): JSX.E
 										{ backgroundColor: ValidationBackground(validationStatus) },
 									]}
 								>
-									<View style={STYLES.checkmarkPos}>
+									{/* <View style={STYLES.checkmarkPos}>
 										<HvButtonCheck
 											cancel
 											onPress={onClose}
 											bgColor={DARK_RED}
+										/>
+									</View> */}
+									<View style={Styles.imageCenter}>
+										<HvImage
+											source={ValidationImg(validationStatus)}
+											size={100}
 										/>
 									</View>
 									<HvText
@@ -119,6 +142,17 @@ const HvModalValidation = ({ visible, onClose, validationStatus }: Props): JSX.E
 									>
 										{ValidationText(validationStatus)}
 									</HvText>
+
+									<View style={Styles.imageCenter}>
+										<HvButton
+											text={'Loka'}
+											onPress={onClose}
+											bright
+											seeThrough
+											width={100}
+											bgColor={TEXT_DEFAULT}
+										/>
+									</View>
 								</View>
 							</View>
 							{/* <HvImage source={ValidationString(validationStatus)} size={300} /> */}
@@ -140,14 +174,17 @@ const Styles = StyleSheet.create({
 	},
 	popupContainer: {
 		width: '100%',
-		height: 320,
+		// height: 320,
 		alignItems: 'center',
 	},
 	popupBackground: {
 		width: 290,
-		height: '100%',
+		// height: '100%',
 		borderRadius: 10,
-		padding: 12,
+		padding: 16,
+	},
+	imageCenter: {
+		alignItems: 'center',
 	},
 });
 
