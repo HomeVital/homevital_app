@@ -33,6 +33,12 @@ const GetBGColor = (bgColor: string, bright: boolean, seeThrough: boolean): stri
  * @param onPress - function to execute on button press
  * @param width - button width
  * @param style - additional button styles
+ * @param bgColor - background color of the button
+ * @param loading - loading state of the button
+ * @param disabled - disabled state of the button
+ * @param small - small button variant
+ * @param bright - bright button variant
+ * @param seeThrough - see-through button variant
  * @returns custom button component
  */
 const HvButton = ({
