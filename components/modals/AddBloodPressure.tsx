@@ -1,4 +1,4 @@
-import { IAddBloodPressure, IBloodPressure } from '@/interfaces/measurements';
+import { IAddBloodPressure } from '@/interfaces/measurements';
 import { Modal, TouchableWithoutFeedback, View } from 'react-native';
 import HvInputForm from '../ui/hvInputForm/hvInputForm';
 import HvInputFormContainer from '../ui/hvInputForm/hvInputFormContainer';
@@ -9,27 +9,11 @@ import { useMutation, useQueryClient } from '@tanstack/react-query';
 import HvText from '../ui/hvText';
 import HvButtonCheck from '../ui/hvButtonCheck';
 import { DARK_RED } from '@/constants/colors';
-import { BLOODPRESSURE_URL } from '@/constants/api';
-import axios from 'axios';
 import { getClaimBySubstring } from '@/utility/utility';
 import { useSession } from '@/hooks/ctx';
 import ModalContext from '@/contexts/modalContext';
 import HvToggleSelect from '../ui/hvInputForm/hvToggleSelect';
-
-export const postBloodPressure = async (
-	measurement: IAddBloodPressure,
-): Promise<IBloodPressure> => {
-	try {
-		const response = await axios.post(
-			`${BLOODPRESSURE_URL}/${measurement.patientID}`,
-			measurement,
-		);
-		return response.data;
-	} catch (error) {
-		console.error('Error posting blood pressure:', error);
-		throw error;
-	}
-};
+import { postBloodPressure } from '@/queries/post';
 
 const AddBloodPressure = (): JSX.Element => {
 	const { session } = useSession();
@@ -57,7 +41,7 @@ const AddBloodPressure = (): JSX.Element => {
 			setSystolic('');
 			setDiastolic('');
 			setPulse('');
-			// setModalVisible(true);
+			modals.setIsOpen(false);
 		},
 	});
 
@@ -96,6 +80,7 @@ const AddBloodPressure = (): JSX.Element => {
 				setSystolic('');
 				setDiastolic('');
 				setPulse('');
+				modals.setIsOpen(false);
 			}}
 			transparent={true}
 		>
@@ -107,9 +92,10 @@ const AddBloodPressure = (): JSX.Element => {
 					setSystolic('');
 					setDiastolic('');
 					setPulse('');
+					modals.setIsOpen(false);
 				}}
 			>
-				<View style={STYLES.defaultModalView}>
+				<View style={STYLES.defaultModalViewDeep}>
 					<TouchableWithoutFeedback onPress={(e) => e.stopPropagation()}>
 						<View>
 							<HvInputForm onPress={HandleMutation} disabled={DisableButton()}>
@@ -123,6 +109,7 @@ const AddBloodPressure = (): JSX.Element => {
 											setSystolic('');
 											setDiastolic('');
 											setPulse('');
+											modals.setIsOpen(false);
 										}}
 										bgColor={DARK_RED}
 									/>

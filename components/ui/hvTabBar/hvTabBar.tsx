@@ -1,7 +1,6 @@
 import React, { useContext, useEffect, useState } from 'react';
-import { View, StyleSheet, TouchableWithoutFeedback } from 'react-native';
+import { View, StyleSheet, TouchableWithoutFeedback, Modal } from 'react-native';
 import { RelativePathString, router } from 'expo-router';
-import Animated, { withTiming, useAnimatedStyle, useSharedValue } from 'react-native-reanimated';
 // components
 import HvTabItem from './hvTabItem';
 // constants
@@ -9,6 +8,8 @@ import { LIGHT_GRAY, WHITE } from '@/constants/colors';
 import HvTabItemAnimated from './hvTabItemAnimated';
 import HvTabButtonWheel from './hvTabButtonWheel';
 import ModalContext from '@/contexts/modalContext';
+import Animated, { useAnimatedStyle, useSharedValue, withTiming } from 'react-native-reanimated';
+// import HideWithKeyboard from 'react-native-hide-with-keyboard';
 
 /**
  * Custom tab bar component with possible large tab, and a rotating tab for a button wheel
@@ -16,9 +17,11 @@ import ModalContext from '@/contexts/modalContext';
  */
 const HvTabBar = (): JSX.Element => {
 	const [stackName, setStackName] = useState('');
-	const [addOpen, setAddOpen] = useState(false);
+	// const [addOpen, setAddOpen] = useState(false);
 
 	const modals = useContext(ModalContext);
+
+	const [wheelOpen, setWheelOpen] = useState(false);
 
 	/**
 	 * Handles tab route with proper depth
@@ -27,7 +30,8 @@ const HvTabBar = (): JSX.Element => {
 	 * @returns route to navigate to
 	 */
 	const handleTabRoute = (route: string, prev: string): string => {
-		setAddOpen(false); // close add tab if open
+		modals.setIsOpen(false);
+		setWheelOpen(false);
 
 		// if (prev === route) {
 		// 	if (router.canDismiss()) {
@@ -43,18 +47,25 @@ const HvTabBar = (): JSX.Element => {
 		return route;
 	};
 
-	// animation value
+	const isAnyModalVisible =
+		modals.addBTVisible ||
+		modals.addBPVisible ||
+		modals.addBWVisible ||
+		modals.addBOVisible ||
+		modals.addBSVisible;
+
+	// animated dark grey overlay
 	const opacity = useSharedValue<number>(0);
 
 	useEffect(() => {
-		opacity.value = withTiming(addOpen ? 1 : 0);
-	}, [addOpen, opacity]);
+		opacity.value = withTiming(isAnyModalVisible ? 1 : 0, {
+			duration: 250, // Animation duration in milliseconds
+		});
+	}, [isAnyModalVisible, opacity]);
 
-	// style for which icon for the button wheel tab is visible
 	const animatedStyle = useAnimatedStyle(() => {
 		return {
 			opacity: opacity.value,
-			display: opacity.value === 0 ? 'none' : 'flex',
 		};
 	});
 
@@ -62,46 +73,41 @@ const HvTabBar = (): JSX.Element => {
 	const tempButtons = [
 		{
 			name: 'BodyTemperatureLight',
-			// onPress: () => setStackName(handleTabRoute('/(app)/(addTemperature)', stackName)),
 			onPress: () => {
 				modals.setAddBTVisible(true);
-				setAddOpen(false);
+				setWheelOpen(false);
 			},
 			isVisible: true,
 		},
 		{
 			name: 'BloodPressureLight',
-			// onPress: () => setStackName(handleTabRoute('/(app)/(addBloodPressure)', stackName)),
 			onPress: () => {
 				modals.setAddBPVisible(true);
-				setAddOpen(false);
+				setWheelOpen(false);
 			},
 			isVisible: true,
 		},
 		{
 			name: 'BodyWeightLight',
-			// onPress: () => setStackName(handleTabRoute('/(app)/(addWeight)', stackName)),°
 			onPress: () => {
 				modals.setAddBWVisible(true);
-				setAddOpen(false);
+				setWheelOpen(false);
 			},
 			isVisible: true,
 		},
 		{
 			name: 'OxygenSaturationLight',
-			// onPress: () => setStackName(handleTabRoute('/(app)/(addBloodOxygen)', stackName)),
 			onPress: () => {
 				modals.setAddBOVisible(true);
-				setAddOpen(false);
+				setWheelOpen(false);
 			},
 			isVisible: true,
 		},
 		{
 			name: 'BloodSugarLight',
-			// onPress: () => setStackName(handleTabRoute('/(app)/(addBloodSugar)', stackName)),
 			onPress: () => {
 				modals.setAddBSVisible(true);
-				setAddOpen(false);
+				setWheelOpen(false);
 			},
 			isVisible: true,
 		},
@@ -109,18 +115,40 @@ const HvTabBar = (): JSX.Element => {
 
 	return (
 		<>
-			<TouchableWithoutFeedback onPressOut={() => setAddOpen(false)}>
-				<Animated.View style={[Styles.animatedContainer, animatedStyle]}>
-					<HvTabButtonWheel
-						radius={65}
-						roundness={0.5}
-						buttons={tempButtons.filter((button) => button.isVisible)}
-					/>
-				</Animated.View>
-			</TouchableWithoutFeedback>
-
+			<View>
+				<Modal
+					visible={wheelOpen}
+					animationType='fade'
+					onRequestClose={() => {
+						modals.setIsOpen(false);
+						setWheelOpen(false);
+					}}
+					transparent={true}
+				>
+					<TouchableWithoutFeedback
+						onPressIn={() => {
+							modals.setIsOpen(false);
+							setWheelOpen(false);
+						}}
+					>
+						<View style={Styles.scrollView}>
+							<HvTabButtonWheel
+								radius={65}
+								roundness={0.5}
+								buttons={tempButtons.filter((button) => button.isVisible)}
+							/>
+						</View>
+					</TouchableWithoutFeedback>
+				</Modal>
+			</View>
 			{/* <HideWithKeyboard> */}
 			<View style={Styles.container}>
+				<Animated.View
+					style={[
+						Styles.overlay,
+						animatedStyle, // This already contains the opacity animation
+					]}
+				/>
 				<HvTabItem
 					onPress={() => {
 						setStackName(handleTabRoute('/(app)/(measurements)', stackName));
@@ -129,11 +157,14 @@ const HvTabBar = (): JSX.Element => {
 					text='Mælingar'
 				/>
 				<HvTabItemAnimated
-					onPress={() => setAddOpen(!addOpen)}
+					onPress={() => {
+						modals.setIsOpen(!wheelOpen);
+						setWheelOpen(!wheelOpen);
+					}}
 					source={require('@/assets/svgs/add.svg')}
 					source2={require('@/assets/svgs/addRed.svg')}
 					text='Skrá mælingu'
-					addOpen={addOpen}
+					addOpen={wheelOpen}
 					large
 				/>
 				<HvTabItem
@@ -162,14 +193,22 @@ const Styles = StyleSheet.create({
 		borderTopColor: LIGHT_GRAY,
 	},
 
-	animatedContainer: {
+	scrollView: {
 		position: 'absolute',
 		flexDirection: 'row',
 		width: '100%',
 		height: '100%',
 		alignItems: 'flex-end',
 		justifyContent: 'center',
-		backgroundColor: 'rgba(0, 0, 0, 0.3)',
+	},
+
+	overlay: {
+		position: 'absolute',
+		top: -1,
+		bottom: 0,
+		left: 0,
+		right: 0,
+		backgroundColor: 'rgba(0, 0, 0, 0.4)',
 	},
 });
 

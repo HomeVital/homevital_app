@@ -12,16 +12,7 @@ import { DARK_RED } from '@/constants/colors';
 import { getClaimBySubstring } from '@/utility/utility';
 import { useSession } from '@/hooks/ctx';
 import ModalContext from '@/contexts/modalContext';
-import { BODYTEMPERATURE_URL } from '@/constants/api';
-import axios from 'axios';
-
-const postBodyTemperature = async (measurement: IAddBodyTemperature) => {
-	const response = await axios.post(
-		`${BODYTEMPERATURE_URL}/${measurement.patientID}`,
-		measurement,
-	);
-	return response.data;
-};
+import { postBodyTemperature } from '@/queries/post';
 
 const AddBodyTemperature = (): JSX.Element => {
 	const { session } = useSession();
@@ -41,7 +32,7 @@ const AddBodyTemperature = (): JSX.Element => {
 			modals.setAddBTVisible(false);
 			modals.setValidationVisible(true);
 			setTemperature('');
-			// setModalVisible(true);
+			modals.setIsOpen(false);
 		},
 	});
 
@@ -70,6 +61,7 @@ const AddBodyTemperature = (): JSX.Element => {
 			onRequestClose={() => {
 				modals.setAddBTVisible(false);
 				setTemperature('');
+				modals.setIsOpen(false);
 			}}
 			transparent={true}
 		>
@@ -77,9 +69,10 @@ const AddBodyTemperature = (): JSX.Element => {
 				onPressIn={() => {
 					modals.setAddBTVisible(false);
 					setTemperature('');
+					modals.setIsOpen(false);
 				}}
 			>
-				<View style={STYLES.defaultModalView}>
+				<View style={STYLES.defaultModalViewDeep}>
 					<TouchableWithoutFeedback onPress={(e) => e.stopPropagation()}>
 						<View>
 							<HvInputForm onPress={HandleMutation} disabled={DisableButton()}>
@@ -89,6 +82,7 @@ const AddBodyTemperature = (): JSX.Element => {
 										onPress={() => {
 											modals.setAddBTVisible(false);
 											setTemperature('');
+											modals.setIsOpen(false);
 										}}
 										bgColor={DARK_RED}
 									/>

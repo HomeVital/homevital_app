@@ -14,6 +14,7 @@ import AddBloodOxygen from '@/components/modals/AddBloodOxygen';
 import AddBloodPressure from '@/components/modals/AddBloodPressure';
 import AddBodyWeight from '@/components/modals/AddBodyWeight';
 import AddBodyTemperature from '@/components/modals/AddBodyTemperature';
+import Animated, { useAnimatedStyle, useSharedValue, withTiming } from 'react-native-reanimated';
 
 const AppLayout = (): JSX.Element => {
 	const { session, isLoading, signOut } = useSession();
@@ -27,6 +28,8 @@ const AppLayout = (): JSX.Element => {
 	const [addBOVisible, setAddBOVisible] = useState(false);
 	const [addBWVisible, setAddBWVisible] = useState(false);
 	const [addBTVisible, setAddBTVisible] = useState(false);
+	// grayed overlay
+	const [isOpen, setIsOpen] = useState(false);
 
 	// temporary sign out on app leave. TODO: CHANGE LATER
 	useEffect(() => {
@@ -44,16 +47,27 @@ const AppLayout = (): JSX.Element => {
 		};
 	}, [signOut]);
 
-	// You can keep the splash screen open, or render a loading screen like we do here.
+	// animated dark grey overlay
+	const opacity = useSharedValue<number>(0);
+
+	useEffect(() => {
+		opacity.value = withTiming(isOpen ? 1 : 0, {
+			duration: 250, // Animation duration in milliseconds
+		});
+	}, [isOpen, opacity]);
+
+	const animatedStyle = useAnimatedStyle(() => {
+		return {
+			opacity: opacity.value,
+			display: opacity.value !== 0 ? 'flex' : 'none',
+		};
+	});
+
 	if (isLoading) {
-		return <HvText center>Loading...</HvText>;
+		return <HvText center>Loading...</HvText>; // TODO
 	}
 
-	// Only require authentication within the (app) group's layout as users
-	// need to be able to access the (auth) group and sign in again.
 	if (!session) {
-		// On web, static rendering will stop here as the user is not authenticated
-		// in the headless Node process that the pages are rendered in.
 		return <Redirect href='/sign-in' />;
 	}
 
@@ -75,6 +89,8 @@ const AppLayout = (): JSX.Element => {
 				setValidationVisible,
 				validationStatus,
 				setValidationStatus,
+				isOpen,
+				setIsOpen,
 			}}
 		>
 			<View style={styles.container}>
@@ -102,6 +118,14 @@ const AppLayout = (): JSX.Element => {
 					validationStatus={validationStatus}
 				/>
 			</View>
+			{/* default gray seethrough overlaying background */}
+			<Animated.View
+				style={[
+					styles.defaultSeethrough,
+					animatedStyle, // This already contains the opacity animation
+				]}
+			/>
+			{/* {isOpen && <View style={styles.defaultSeethrough} />} */}
 			<HvTabBar />
 		</ModalContext.Provider>
 	);
@@ -110,6 +134,14 @@ const AppLayout = (): JSX.Element => {
 const styles = StyleSheet.create({
 	container: {
 		flex: 1,
+	},
+	defaultSeethrough: {
+		position: 'absolute',
+		top: 0,
+		bottom: 0,
+		left: 0,
+		right: 0,
+		backgroundColor: 'rgba(0, 0, 0, 0.4)',
 	},
 });
 

@@ -36,6 +36,7 @@ export interface IAddBloodPressure {
 export interface IAddBloodSugar {
 	patientID: number;
 	bloodsugarLevel: number;
+	status: string;
 }
 
 export interface IAddBodyTemperature {

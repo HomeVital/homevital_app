@@ -10,25 +10,6 @@ interface Props {
 	validationStatus: string;
 }
 
-// const ValidationString = (status: string): string => {
-// 	switch (status) {
-// 		case 'Normal':
-// 			return 'NormalImage';
-// 		case 'Raised':
-// 			return 'RaisedImage';
-// 		case 'High':
-// 			return 'HighImage';
-// 		case 'Critical':
-// 			return 'HighImage';
-// 		case 'CriticalHigh':
-// 			return 'HighImage';
-// 		case 'Invalid':
-// 			return 'HighImage';
-// 		default:
-// 			return '';
-// 	}
-// };
-
 const ValidationHeader = (status: string): string => {
 	switch (status) {
 		case 'Normal':
@@ -99,7 +80,7 @@ const ValidationImg = (status: string): string => {
 
 const HvModalValidation = ({ visible, onClose, validationStatus }: Props): JSX.Element => {
 	return (
-		<Modal visible={visible} animationType='fade' onRequestClose={onClose} transparent={true}>
+		<Modal visible={visible} animationType='slide' onRequestClose={onClose} transparent={true}>
 			<TouchableWithoutFeedback onPressIn={onClose}>
 				<View style={Styles.container}>
 					<TouchableWithoutFeedback onPress={(e) => e.stopPropagation()}>
@@ -111,13 +92,6 @@ const HvModalValidation = ({ visible, onClose, validationStatus }: Props): JSX.E
 										{ backgroundColor: ValidationBackground(validationStatus) },
 									]}
 								>
-									{/* <View style={STYLES.checkmarkPos}>
-										<HvButtonCheck
-											cancel
-											onPress={onClose}
-											bgColor={DARK_RED}
-										/>
-									</View> */}
 									<View style={Styles.imageCenter}>
 										<HvImage
 											source={ValidationImg(validationStatus)}
@@ -170,7 +144,7 @@ const Styles = StyleSheet.create({
 		justifyContent: 'center',
 		width: '100%',
 		// alignItems: 'center',
-		backgroundColor: 'rgba(0, 0, 0, 0.5)',
+		// backgroundColor: 'rgba(0, 0, 0, 0.5)',
 	},
 	popupContainer: {
 		width: '100%',

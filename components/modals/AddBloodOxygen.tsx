@@ -9,24 +9,10 @@ import { useMutation, useQueryClient } from '@tanstack/react-query';
 import HvText from '../ui/hvText';
 import HvButtonCheck from '../ui/hvButtonCheck';
 import { DARK_RED } from '@/constants/colors';
-import { OXYGENSATURATION_URL } from '@/constants/api';
-import axios from 'axios';
 import { getClaimBySubstring } from '@/utility/utility';
 import { useSession } from '@/hooks/ctx';
 import ModalContext from '@/contexts/modalContext';
-
-const postOxygenSaturation = async (measurement: IAddOxygenSaturation) => {
-	try {
-		const response = await axios.post(
-			`${OXYGENSATURATION_URL}/${measurement.patientID}`,
-			measurement,
-		);
-		return response.data;
-	} catch (error) {
-		console.error('Error posting oxygen saturation:', error);
-		throw error;
-	}
-};
+import { postOxygenSaturation } from '@/queries/post';
 
 const AddBloodOxygen = (): JSX.Element => {
 	const { session } = useSession();
@@ -45,7 +31,7 @@ const AddBloodOxygen = (): JSX.Element => {
 			modals.setAddBOVisible(false);
 			modals.setValidationVisible(true);
 			setBloodOxygen('');
-			// setModalVisible(true);
+			modals.setIsOpen(false);
 		},
 	});
 
@@ -74,6 +60,7 @@ const AddBloodOxygen = (): JSX.Element => {
 			onRequestClose={() => {
 				modals.setAddBOVisible(false);
 				setBloodOxygen('');
+				modals.setIsOpen(false);
 			}}
 			transparent={true}
 		>
@@ -81,9 +68,10 @@ const AddBloodOxygen = (): JSX.Element => {
 				onPressIn={() => {
 					modals.setAddBOVisible(false);
 					setBloodOxygen('');
+					modals.setIsOpen(false);
 				}}
 			>
-				<View style={STYLES.defaultModalView}>
+				<View style={STYLES.defaultModalViewDeep}>
 					<TouchableWithoutFeedback onPress={(e) => e.stopPropagation()}>
 						<View>
 							<HvInputForm onPress={HandleMutation} disabled={DisableButton()}>
@@ -93,6 +81,7 @@ const AddBloodOxygen = (): JSX.Element => {
 										onPress={() => {
 											modals.setAddBOVisible(false);
 											setBloodOxygen('');
+											modals.setIsOpen(false);
 										}}
 										bgColor={DARK_RED}
 									/>

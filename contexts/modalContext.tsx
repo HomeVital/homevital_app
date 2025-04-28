@@ -15,6 +15,8 @@ const ModalContext = createContext<{
 	setValidationVisible: (visible: boolean) => void;
 	validationStatus: string;
 	setValidationStatus: (status: string) => void;
+	isOpen: boolean;
+	setIsOpen: (open: boolean) => void;
 }>({
 	addBPVisible: false,
 	setAddBPVisible: () => null,
@@ -30,6 +32,8 @@ const ModalContext = createContext<{
 	setValidationVisible: () => null,
 	validationStatus: '',
 	setValidationStatus: () => null,
+	isOpen: false,
+	setIsOpen: () => null,
 });
 
 export default ModalContext;

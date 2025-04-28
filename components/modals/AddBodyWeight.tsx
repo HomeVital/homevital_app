@@ -12,13 +12,7 @@ import { DARK_RED } from '@/constants/colors';
 import { getClaimBySubstring } from '@/utility/utility';
 import { useSession } from '@/hooks/ctx';
 import ModalContext from '@/contexts/modalContext';
-import { BODYWEIGHT_URL } from '@/constants/api';
-import axios from 'axios';
-
-const postBodyWeight = async (measurement: IAddBodyWeight) => {
-	const response = await axios.post(`${BODYWEIGHT_URL}/${measurement.patientID}`, measurement);
-	return response.data;
-};
+import { postBodyWeight } from '@/queries/post';
 
 const AddBodyWeight = (): JSX.Element => {
 	const { session } = useSession();
@@ -37,7 +31,7 @@ const AddBodyWeight = (): JSX.Element => {
 			modals.setAddBWVisible(false);
 			modals.setValidationVisible(true);
 			setWeight('');
-			// setModalVisible(true);
+			modals.setIsOpen(false);
 		},
 	});
 
@@ -66,6 +60,7 @@ const AddBodyWeight = (): JSX.Element => {
 			onRequestClose={() => {
 				modals.setAddBWVisible(false);
 				setWeight('');
+				modals.setIsOpen(false);
 			}}
 			transparent={true}
 		>
@@ -73,9 +68,10 @@ const AddBodyWeight = (): JSX.Element => {
 				onPressIn={() => {
 					modals.setAddBWVisible(false);
 					setWeight('');
+					modals.setIsOpen(false);
 				}}
 			>
-				<View style={STYLES.defaultModalView}>
+				<View style={STYLES.defaultModalViewDeep}>
 					<TouchableWithoutFeedback onPress={(e) => e.stopPropagation()}>
 						<View>
 							<HvInputForm onPress={HandleMutation} disabled={DisableButton()}>
@@ -85,6 +81,7 @@ const AddBodyWeight = (): JSX.Element => {
 										onPress={() => {
 											modals.setAddBWVisible(false);
 											setWeight('');
+											modals.setIsOpen(false);
 										}}
 										bgColor={DARK_RED}
 									/>

@@ -9,16 +9,10 @@ import { useMutation, useQueryClient } from '@tanstack/react-query';
 import HvText from '../ui/hvText';
 import HvButtonCheck from '../ui/hvButtonCheck';
 import { DARK_RED } from '@/constants/colors';
-import { BLOODSUGAR_URL } from '@/constants/api';
-import axios from 'axios';
 import { getClaimBySubstring } from '@/utility/utility';
 import { useSession } from '@/hooks/ctx';
 import ModalContext from '@/contexts/modalContext';
-
-const postBloodSugar = async (measurement: IAddBloodSugar) => {
-	const response = await axios.post(`${BLOODSUGAR_URL}/${measurement.patientID}`, measurement);
-	return response.data;
-};
+import { postBloodSugar } from '@/queries/post';
 
 const AddBloodSugar = (): JSX.Element => {
 	const { session } = useSession();
@@ -37,7 +31,7 @@ const AddBloodSugar = (): JSX.Element => {
 			modals.setAddBSVisible(false);
 			modals.setValidationVisible(true);
 			setBloodSugar('');
-			// setModalVisible(true);
+			modals.setIsOpen(false);
 		},
 	});
 
@@ -49,9 +43,10 @@ const AddBloodSugar = (): JSX.Element => {
 					10,
 				),
 				bloodsugarLevel: Number(parseFloat(bloodSugar).toFixed(1)),
+				status: 'pending',
 			});
 		} catch (error) {
-			console.error('Error adding blood pressure:', error);
+			console.error('Error adding blood sugar:', error);
 		}
 	};
 
@@ -66,6 +61,7 @@ const AddBloodSugar = (): JSX.Element => {
 			onRequestClose={() => {
 				modals.setAddBSVisible(false);
 				setBloodSugar('');
+				modals.setIsOpen(false);
 			}}
 			transparent={true}
 		>
@@ -73,9 +69,10 @@ const AddBloodSugar = (): JSX.Element => {
 				onPressIn={() => {
 					modals.setAddBSVisible(false);
 					setBloodSugar('');
+					modals.setIsOpen(false);
 				}}
 			>
-				<View style={STYLES.defaultModalView}>
+				<View style={STYLES.defaultModalViewDeep}>
 					<TouchableWithoutFeedback onPress={(e) => e.stopPropagation()}>
 						<View>
 							<HvInputForm onPress={HandleMutation} disabled={DisableButton()}>
@@ -85,6 +82,7 @@ const AddBloodSugar = (): JSX.Element => {
 										onPress={() => {
 											modals.setAddBSVisible(false);
 											setBloodSugar('');
+											modals.setIsOpen(false);
 										}}
 										bgColor={DARK_RED}
 									/>
