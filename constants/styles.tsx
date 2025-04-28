@@ -20,6 +20,10 @@ export const STYLES = StyleSheet.create({
 		padding: 20,
 		backgroundColor: 'rgba(0, 0, 0, 0.5)',
 	},
+	baseModalView: {
+		height: '100%',
+		backgroundColor: 'rgba(0, 0, 0, 0.5)',
+	},
 	defaultModalViewDeep: {
 		flex: 1,
 		justifyContent: 'center',

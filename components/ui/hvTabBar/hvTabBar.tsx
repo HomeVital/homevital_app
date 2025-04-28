@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { View, StyleSheet, TouchableWithoutFeedback } from 'react-native';
 import { RelativePathString, router } from 'expo-router';
 import Animated, { withTiming, useAnimatedStyle, useSharedValue } from 'react-native-reanimated';
@@ -8,6 +8,7 @@ import HvTabItem from './hvTabItem';
 import { LIGHT_GRAY, WHITE } from '@/constants/colors';
 import HvTabItemAnimated from './hvTabItemAnimated';
 import HvTabButtonWheel from './hvTabButtonWheel';
+import ModalContext from '@/contexts/modalContext';
 
 /**
  * Custom tab bar component with possible large tab, and a rotating tab for a button wheel
@@ -16,6 +17,8 @@ import HvTabButtonWheel from './hvTabButtonWheel';
 const HvTabBar = (): JSX.Element => {
 	const [stackName, setStackName] = useState('');
 	const [addOpen, setAddOpen] = useState(false);
+
+	const modals = useContext(ModalContext);
 
 	/**
 	 * Handles tab route with proper depth
@@ -59,27 +62,47 @@ const HvTabBar = (): JSX.Element => {
 	const tempButtons = [
 		{
 			name: 'BodyTemperatureLight',
-			onPress: () => setStackName(handleTabRoute('/(app)/(addTemperature)', stackName)),
+			// onPress: () => setStackName(handleTabRoute('/(app)/(addTemperature)', stackName)),
+			onPress: () => {
+				modals.setAddBTVisible(true);
+				setAddOpen(false);
+			},
 			isVisible: true,
 		},
 		{
 			name: 'BloodPressureLight',
-			onPress: () => setStackName(handleTabRoute('/(app)/(addBloodPressure)', stackName)),
+			// onPress: () => setStackName(handleTabRoute('/(app)/(addBloodPressure)', stackName)),
+			onPress: () => {
+				modals.setAddBPVisible(true);
+				setAddOpen(false);
+			},
 			isVisible: true,
 		},
 		{
 			name: 'BodyWeightLight',
-			onPress: () => setStackName(handleTabRoute('/(app)/(addWeight)', stackName)),
+			// onPress: () => setStackName(handleTabRoute('/(app)/(addWeight)', stackName)),°
+			onPress: () => {
+				modals.setAddBWVisible(true);
+				setAddOpen(false);
+			},
 			isVisible: true,
 		},
 		{
 			name: 'OxygenSaturationLight',
-			onPress: () => setStackName(handleTabRoute('/(app)/(addBloodOxygen)', stackName)),
+			// onPress: () => setStackName(handleTabRoute('/(app)/(addBloodOxygen)', stackName)),
+			onPress: () => {
+				modals.setAddBOVisible(true);
+				setAddOpen(false);
+			},
 			isVisible: true,
 		},
 		{
 			name: 'BloodSugarLight',
-			onPress: () => setStackName(handleTabRoute('/(app)/(addBloodSugar)', stackName)),
+			// onPress: () => setStackName(handleTabRoute('/(app)/(addBloodSugar)', stackName)),
+			onPress: () => {
+				modals.setAddBSVisible(true);
+				setAddOpen(false);
+			},
 			isVisible: true,
 		},
 	];
