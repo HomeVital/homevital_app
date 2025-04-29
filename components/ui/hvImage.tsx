@@ -35,9 +35,9 @@ const sources = {
 	Invalid: require('@/assets/svgs/measurementLabel/bad.svg'),
 
 	// add measurement popup message images
-	NormalImage: require('@/assets/images/popupMessages/Success.svg'),
-	RaisedImage: require('@/assets/images/popupMessages/Warning.svg'),
-	HighImage: require('@/assets/images/popupMessages/Danger.svg'),
+	Healthy: require('@/assets/svgs/popup/healthy.svg'),
+	HealthyWarning: require('@/assets/svgs/popup/healthyWarning.svg'),
+	Unhealthy: require('@/assets/svgs/popup/unhealthy.svg'),
 
 	// checkmark icons
 	Cancel: require('@/assets/svgs/cancel.svg'),

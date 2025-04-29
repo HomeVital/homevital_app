@@ -1,5 +1,5 @@
-import { IOxygenSaturation, IPatchOxygenSaturation } from '@/interfaces/measurements';
-import { Modal, View, TouchableWithoutFeedback } from 'react-native';
+import { IAddOxygenSaturation } from '@/interfaces/measurements';
+import { Modal, TouchableWithoutFeedback, View } from 'react-native';
 import HvInputForm from '../ui/hvInputForm/hvInputForm';
 import HvInputFormContainer from '../ui/hvInputForm/hvInputFormContainer';
 import HvInputField from '../ui/hvInputForm/hvInputField';
@@ -7,26 +7,32 @@ import { STYLES } from '@/constants/styles';
 import { useContext, useState } from 'react';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import HvText from '../ui/hvText';
-import { patchOxygenSaturation } from '@/queries/patch';
 import HvButtonCheck from '../ui/hvButtonCheck';
 import { DARK_RED } from '@/constants/colors';
+import { getClaimBySubstring } from '@/utility/utility';
+import { useSession } from '@/hooks/ctx';
 import ModalContext from '@/contexts/modalContext';
+import { postOxygenSaturation } from '@/queries/post';
 
-const EditBloodOxygen = (): JSX.Element => {
+const AddBloodOxygen = (): JSX.Element => {
+	const { session } = useSession();
 	const queryClient = useQueryClient();
 	const modals = useContext(ModalContext);
-	const item = modals.editModalData.item as IOxygenSaturation;
-	const itemId = item.id.toString();
-	// measurements
-	const [bloodOxygen, setBloodOxygen] = useState(item.oxygenSaturationValue.toString());
 
+	// measurements
+	const [bloodOxygen, setBloodOxygen] = useState('');
+
+	// mutations
 	const { mutateAsync: addMutation } = useMutation({
-		mutationFn: async (measurement: IPatchOxygenSaturation) =>
-			patchOxygenSaturation(itemId, measurement),
-		onSuccess: () => {
+		mutationFn: async (measurement: IAddOxygenSaturation) => postOxygenSaturation(measurement),
+		onSuccess: (data) => {
 			queryClient.invalidateQueries({ queryKey: ['oxygensaturation'] });
 			queryClient.invalidateQueries({ queryKey: ['recentmeasurements'] });
-			modals.setEditBOVisible(false);
+			// status popup
+			modals.setValidationStatus(data.status);
+			modals.setAddBOVisible(false);
+			modals.setValidationVisible(true);
+			setBloodOxygen('');
 			modals.setIsOpen(false);
 		},
 	});
@@ -34,45 +40,58 @@ const EditBloodOxygen = (): JSX.Element => {
 	const HandleMutation = async (): Promise<void> => {
 		try {
 			await addMutation({
-				oxygenSaturationValue: parseInt(bloodOxygen, 10),
-				status: item.status,
+				patientID: parseInt(
+					getClaimBySubstring(session?.toString() || '', 'sub').toString() || '0',
+					10,
+				),
+				oxygenSaturationValue: Number(parseFloat(bloodOxygen).toFixed(1)),
+				status: 'pending',
 			});
 		} catch (error) {
-			console.error('Error patching oxygen saturation:', error);
+			console.error('Error adding oxygen saturation:', error);
 		}
 	};
 
-	const handleClose = (): void => {
-		modals.setEditBOVisible(false);
-		modals.setIsEditOpen(true);
-		modals.setIsOpen(true);
-	};
-
+	// validation
 	const DisableButton = (): boolean => {
-		return bloodOxygen === item.oxygenSaturationValue.toString();
+		return bloodOxygen === '' || parseFloat(bloodOxygen) <= 0 || parseFloat(bloodOxygen) > 100;
 	};
 
 	return (
 		<Modal
-			visible={modals.editBOVisible}
-			animationType={modals.editReady ? 'fade' : 'none'}
-			onRequestClose={handleClose}
+			visible={modals.addBOVisible}
+			animationType={modals.contentReady ? 'fade' : 'none'}
+			onRequestClose={() => {
+				modals.setAddBOVisible(false);
+				setBloodOxygen('');
+				modals.setIsOpen(false);
+			}}
 			transparent={true}
 		>
-			<TouchableWithoutFeedback onPressIn={handleClose}>
-				<View style={[STYLES.defaultModalViewDeep, { opacity: modals.editModalVisible }]}>
+			<TouchableWithoutFeedback
+				onPressIn={() => {
+					modals.setAddBOVisible(false);
+					setBloodOxygen('');
+					modals.setIsOpen(false);
+				}}
+			>
+				<View style={[STYLES.defaultModalViewDeep, { opacity: modals.modalVisible }]}>
 					<TouchableWithoutFeedback onPress={(e) => e.stopPropagation()}>
 						<View>
 							<HvInputForm onPress={HandleMutation} disabled={DisableButton()}>
 								<View style={STYLES.checkmarkPos}>
 									<HvButtonCheck
 										cancel
-										onPress={handleClose}
+										onPress={() => {
+											modals.setAddBOVisible(false);
+											setBloodOxygen('');
+											modals.setIsOpen(false);
+										}}
 										bgColor={DARK_RED}
 									/>
 								</View>
 								<HvText size='xl' color='darkGreen' weight='semibold' center>
-									Breyta súrefnismettun
+									Skrá súrefnismettun
 								</HvText>
 								<HvInputFormContainer textInput>
 									<HvInputField
@@ -91,4 +110,4 @@ const EditBloodOxygen = (): JSX.Element => {
 	);
 };
 
-export default EditBloodOxygen;
+export default AddBloodOxygen;

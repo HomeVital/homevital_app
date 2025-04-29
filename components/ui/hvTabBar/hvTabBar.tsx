@@ -1,21 +1,37 @@
-import React, { useEffect, useState } from 'react';
-import { View, StyleSheet, TouchableWithoutFeedback } from 'react-native';
+import React, { useContext, useEffect, useState } from 'react';
+import { View, StyleSheet, TouchableWithoutFeedback, Modal } from 'react-native';
 import { RelativePathString, router } from 'expo-router';
-import Animated, { withTiming, useAnimatedStyle, useSharedValue } from 'react-native-reanimated';
 // components
 import HvTabItem from './hvTabItem';
 // constants
 import { LIGHT_GRAY, WHITE } from '@/constants/colors';
 import HvTabItemAnimated from './hvTabItemAnimated';
 import HvTabButtonWheel from './hvTabButtonWheel';
+import ModalContext from '@/contexts/modalContext';
+// import HideWithKeyboard from 'react-native-hide-with-keyboard';
 
 /**
  * Custom tab bar component with possible large tab, and a rotating tab for a button wheel
  * @returns custom tab bar component
  */
 const HvTabBar = (): JSX.Element => {
+	const modals = useContext(ModalContext);
 	const [stackName, setStackName] = useState('');
-	const [addOpen, setAddOpen] = useState(false);
+	const [wheelOpen, setWheelOpen] = useState(false);
+
+	// visibility
+	const [contentReady, setContentReady] = useState(false);
+	const [modalVisible, setModalVisible] = useState(0);
+
+	useEffect(() => {
+		if (wheelOpen) {
+			setModalVisible(1);
+			setContentReady(true);
+		} else {
+			setContentReady(false);
+			setModalVisible(0);
+		}
+	}, [wheelOpen]);
 
 	/**
 	 * Handles tab route with proper depth
@@ -24,78 +40,84 @@ const HvTabBar = (): JSX.Element => {
 	 * @returns route to navigate to
 	 */
 	const handleTabRoute = (route: string, prev: string): string => {
-		setAddOpen(false); // close add tab if open
-
-		// if (prev === route) {
-		// 	if (router.canDismiss()) {
-		// 		router.dismiss();
-		// 		return '';
-		// 	} else {
-		// 		router.push(route as RelativePathString);
-		// 		return route;
-		// 	}
-		// }
+		modals.setIsOpen(false);
+		setWheelOpen(false);
 		router.push(route as RelativePathString);
-
 		return route;
 	};
-
-	// animation value
-	const opacity = useSharedValue<number>(0);
-
-	useEffect(() => {
-		opacity.value = withTiming(addOpen ? 1 : 0);
-	}, [addOpen, opacity]);
-
-	// style for which icon for the button wheel tab is visible
-	const animatedStyle = useAnimatedStyle(() => {
-		return {
-			opacity: opacity.value,
-			display: opacity.value === 0 ? 'none' : 'flex',
-		};
-	});
 
 	// TODO: change later
 	const tempButtons = [
 		{
 			name: 'BodyTemperatureLight',
-			onPress: () => setStackName(handleTabRoute('/(app)/(addTemperature)', stackName)),
-			isVisible: true,
+			onPress: () => {
+				modals.setAddBTVisible(true);
+				setWheelOpen(false);
+			},
+			isVisible: true, // TODO: change later so that we use this with whatever program the person is on
 		},
 		{
 			name: 'BloodPressureLight',
-			onPress: () => setStackName(handleTabRoute('/(app)/(addBloodPressure)', stackName)),
+			onPress: () => {
+				modals.setAddBPVisible(true);
+				setWheelOpen(false);
+			},
 			isVisible: true,
 		},
 		{
 			name: 'BodyWeightLight',
-			onPress: () => setStackName(handleTabRoute('/(app)/(addWeight)', stackName)),
+			onPress: () => {
+				modals.setAddBWVisible(true);
+				setWheelOpen(false);
+			},
 			isVisible: true,
 		},
 		{
 			name: 'OxygenSaturationLight',
-			onPress: () => setStackName(handleTabRoute('/(app)/(addBloodOxygen)', stackName)),
+			onPress: () => {
+				modals.setAddBOVisible(true);
+				setWheelOpen(false);
+			},
 			isVisible: true,
 		},
 		{
 			name: 'BloodSugarLight',
-			onPress: () => setStackName(handleTabRoute('/(app)/(addBloodSugar)', stackName)),
+			onPress: () => {
+				modals.setAddBSVisible(true);
+				setWheelOpen(false);
+			},
 			isVisible: true,
 		},
 	];
 
 	return (
 		<>
-			<TouchableWithoutFeedback onPressOut={() => setAddOpen(false)}>
-				<Animated.View style={[Styles.animatedContainer, animatedStyle]}>
-					<HvTabButtonWheel
-						radius={65}
-						roundness={0.5}
-						buttons={tempButtons.filter((button) => button.isVisible)}
-					/>
-				</Animated.View>
-			</TouchableWithoutFeedback>
-
+			<View>
+				<Modal
+					visible={wheelOpen}
+					animationType={contentReady ? 'fade' : 'none'}
+					onRequestClose={() => {
+						modals.setIsOpen(false);
+						setWheelOpen(false);
+					}}
+					transparent={true}
+				>
+					<TouchableWithoutFeedback
+						onPressIn={() => {
+							modals.setIsOpen(false);
+							setWheelOpen(false);
+						}}
+					>
+						<View style={[Styles.scrollView, { opacity: modalVisible }]}>
+							<HvTabButtonWheel
+								radius={65}
+								roundness={0.5}
+								buttons={tempButtons.filter((button) => button.isVisible)}
+							/>
+						</View>
+					</TouchableWithoutFeedback>
+				</Modal>
+			</View>
 			{/* <HideWithKeyboard> */}
 			<View style={Styles.container}>
 				<HvTabItem
@@ -106,11 +128,14 @@ const HvTabBar = (): JSX.Element => {
 					text='Mælingar'
 				/>
 				<HvTabItemAnimated
-					onPress={() => setAddOpen(!addOpen)}
+					onPress={() => {
+						modals.setIsOpen(!wheelOpen);
+						setWheelOpen(!wheelOpen);
+					}}
 					source={require('@/assets/svgs/add.svg')}
 					source2={require('@/assets/svgs/addRed.svg')}
 					text='Skrá mælingu'
-					addOpen={addOpen}
+					addOpen={wheelOpen}
 					large
 				/>
 				<HvTabItem
@@ -139,14 +164,22 @@ const Styles = StyleSheet.create({
 		borderTopColor: LIGHT_GRAY,
 	},
 
-	animatedContainer: {
+	scrollView: {
 		position: 'absolute',
 		flexDirection: 'row',
 		width: '100%',
 		height: '100%',
 		alignItems: 'flex-end',
 		justifyContent: 'center',
-		backgroundColor: 'rgba(0, 0, 0, 0.3)',
+	},
+
+	overlay: {
+		position: 'absolute',
+		top: -1,
+		bottom: 0,
+		left: 0,
+		right: 0,
+		backgroundColor: 'rgba(0, 0, 0, 0.4)',
 	},
 });
 

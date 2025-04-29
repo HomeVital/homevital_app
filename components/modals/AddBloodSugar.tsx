@@ -1,4 +1,4 @@
-import { IBloodSugar, IPatchBloodSugar } from '@/interfaces/measurements';
+import { IAddBloodSugar } from '@/interfaces/measurements';
 import { Modal, TouchableWithoutFeedback, View } from 'react-native';
 import HvInputForm from '../ui/hvInputForm/hvInputForm';
 import HvInputFormContainer from '../ui/hvInputForm/hvInputFormContainer';
@@ -7,27 +7,32 @@ import { STYLES } from '@/constants/styles';
 import { useContext, useState } from 'react';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import HvText from '../ui/hvText';
-import { patchBloodSugar } from '@/queries/patch';
 import HvButtonCheck from '../ui/hvButtonCheck';
 import { DARK_RED } from '@/constants/colors';
+import { getClaimBySubstring } from '@/utility/utility';
+import { useSession } from '@/hooks/ctx';
 import ModalContext from '@/contexts/modalContext';
+import { postBloodSugar } from '@/queries/post';
 
-const EditBloodSugar = (): JSX.Element => {
+const AddBloodSugar = (): JSX.Element => {
+	const { session } = useSession();
 	const queryClient = useQueryClient();
 	const modals = useContext(ModalContext);
-	const item = modals.editModalData.item as IBloodSugar;
-	const itemId = item.id.toString();
 
 	// measurements
-	const [bloodSugar, setBloodSugar] = useState(item.bloodsugarLevel.toString());
+	const [bloodSugar, setBloodSugar] = useState('');
 
 	// mutations
 	const { mutateAsync: addMutation } = useMutation({
-		mutationFn: async (measurement: IPatchBloodSugar) => patchBloodSugar(itemId, measurement),
-		onSuccess: () => {
+		mutationFn: async (measurement: IAddBloodSugar) => postBloodSugar(measurement),
+		onSuccess: (data) => {
 			queryClient.invalidateQueries({ queryKey: ['bloodsugar'] });
 			queryClient.invalidateQueries({ queryKey: ['recentmeasurements'] });
-			modals.setEditBSVisible(false);
+			// status popup
+			modals.setValidationStatus(data.status);
+			modals.setAddBSVisible(false);
+			modals.setValidationVisible(true);
+			setBloodSugar('');
 			modals.setIsOpen(false);
 		},
 	});
@@ -35,46 +40,58 @@ const EditBloodSugar = (): JSX.Element => {
 	const HandleMutation = async (): Promise<void> => {
 		try {
 			await addMutation({
-				bloodsugarLevel: parseFloat(bloodSugar),
-				status: item.status,
+				patientID: parseInt(
+					getClaimBySubstring(session?.toString() || '', 'sub').toString() || '0',
+					10,
+				),
+				bloodsugarLevel: Number(parseFloat(bloodSugar).toFixed(1)),
+				status: 'pending',
 			});
 		} catch (error) {
-			console.error('Error patching blood sugar:', error);
+			console.error('Error adding blood sugar:', error);
 		}
-	};
-
-	const handleClose = (): void => {
-		modals.setEditBSVisible(false);
-		modals.setIsEditOpen(true);
-		modals.setIsOpen(true);
 	};
 
 	// validation
 	const DisableButton = (): boolean => {
-		return bloodSugar === item.bloodsugarLevel.toString();
+		return bloodSugar === '';
 	};
 
 	return (
 		<Modal
-			visible={modals.editBSVisible}
-			animationType={modals.editReady ? 'fade' : 'none'}
-			onRequestClose={handleClose}
+			visible={modals.addBSVisible}
+			animationType={modals.contentReady ? 'fade' : 'none'}
+			onRequestClose={() => {
+				modals.setAddBSVisible(false);
+				setBloodSugar('');
+				modals.setIsOpen(false);
+			}}
 			transparent={true}
 		>
-			<TouchableWithoutFeedback onPressIn={handleClose}>
-				<View style={[STYLES.defaultModalViewDeep, { opacity: modals.editModalVisible }]}>
+			<TouchableWithoutFeedback
+				onPressIn={() => {
+					modals.setAddBSVisible(false);
+					setBloodSugar('');
+					modals.setIsOpen(false);
+				}}
+			>
+				<View style={[STYLES.defaultModalViewDeep, { opacity: modals.modalVisible }]}>
 					<TouchableWithoutFeedback onPress={(e) => e.stopPropagation()}>
 						<View>
 							<HvInputForm onPress={HandleMutation} disabled={DisableButton()}>
 								<View style={STYLES.checkmarkPos}>
 									<HvButtonCheck
 										cancel
-										onPress={handleClose}
+										onPress={() => {
+											modals.setAddBSVisible(false);
+											setBloodSugar('');
+											modals.setIsOpen(false);
+										}}
 										bgColor={DARK_RED}
 									/>
 								</View>
 								<HvText size='xl' color='darkGreen' weight='semibold' center>
-									Breyta blóðsykur
+									Skrá blóðsykur
 								</HvText>
 								<HvInputFormContainer textInput>
 									<HvInputField
@@ -93,4 +110,4 @@ const EditBloodSugar = (): JSX.Element => {
 	);
 };
 
-export default EditBloodSugar;
+export default AddBloodSugar;

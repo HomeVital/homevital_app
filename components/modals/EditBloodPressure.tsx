@@ -4,7 +4,7 @@ import HvInputForm from '../ui/hvInputForm/hvInputForm';
 import HvInputFormContainer from '../ui/hvInputForm/hvInputFormContainer';
 import HvInputField from '../ui/hvInputForm/hvInputField';
 import { STYLES } from '@/constants/styles';
-import { useEffect, useState } from 'react';
+import { useContext, useState } from 'react';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import HvText from '../ui/hvText';
 import { patchBloodPressure } from '@/queries/patch';
@@ -12,51 +12,19 @@ import HvToggleSelect from '../ui/hvInputForm/hvToggleSelect';
 import HvScrollView from '../ui/HvScrollView';
 import HvButtonCheck from '../ui/hvButtonCheck';
 import { DARK_RED } from '@/constants/colors';
+import ModalContext from '@/contexts/modalContext';
 
-interface Props {
-	visible: boolean;
-	onClose: () => void;
-	onSubmit: () => void;
-	itemId: string;
-	item: IBloodPressure;
-}
-
-const EditBloodPressure = ({ visible, onClose, onSubmit, itemId, item }: Props): JSX.Element => {
+const EditBloodPressure = (): JSX.Element => {
 	const queryClient = useQueryClient();
+	const modals = useContext(ModalContext);
+	const item = modals.editModalData.item as IBloodPressure;
+	const itemId = item.id.toString();
 
-	const [defaultHand, setDefaultHand] = useState(item.measureHand.toString());
 	const [hand, setHand] = useState(item.measureHand.toString());
 	const [position, setPosition] = useState(item.bodyPosition.toString());
-	const [defaultPosition, setDefaultPosition] = useState(item.bodyPosition.toString());
 	const [sys, setSys] = useState(item.systolic.toString());
-	const [defaultSys, setDefaultSys] = useState(item.systolic.toString());
 	const [dia, setDia] = useState(item.diastolic.toString());
-	const [defaultDia, setDefaultDia] = useState(item.diastolic.toString());
 	const [pulse, setPulse] = useState(item.pulse.toString());
-	const [defaultPulse, setDefaultPulse] = useState(item.pulse.toString());
-
-	useEffect(() => {
-		if (item.measureHand === 'Left') {
-			setHand('Vinstri');
-			setDefaultHand('Vinstri');
-		} else if (item.measureHand === 'Right') {
-			setHand('Hægri');
-			setDefaultHand('Hægri');
-		}
-		if (item.bodyPosition === 'Sitting') {
-			setPosition('Sitjandi');
-			setDefaultPosition('Sitjandi');
-		} else if (item.bodyPosition === 'Laying') {
-			setPosition('Liggjandi');
-			setDefaultPosition('Liggjandi');
-		}
-		setSys(item.systolic.toString());
-		setDefaultSys(item.systolic.toString());
-		setDia(item.diastolic.toString());
-		setDefaultDia(item.diastolic.toString());
-		setPulse(item.pulse.toString());
-		setDefaultPulse(item.pulse.toString());
-	}, [item]);
 
 	const { mutateAsync: addMutation } = useMutation({
 		mutationFn: async (measurement: IPatchBloodPressure) =>
@@ -64,7 +32,8 @@ const EditBloodPressure = ({ visible, onClose, onSubmit, itemId, item }: Props):
 		onSuccess: () => {
 			queryClient.invalidateQueries({ queryKey: ['bloodpressure'] });
 			queryClient.invalidateQueries({ queryKey: ['recentmeasurements'] });
-			onSubmit();
+			modals.setEditBPVisible(false);
+			modals.setIsOpen(false);
 		},
 	});
 
@@ -79,32 +48,45 @@ const EditBloodPressure = ({ visible, onClose, onSubmit, itemId, item }: Props):
 				status: item.status,
 			});
 		} catch (error) {
-			console.error('Error patching oxygen saturation:', error);
+			console.error('Error patching blood pressure:', error);
 		}
+	};
+
+	const handleClose = (): void => {
+		modals.setEditBPVisible(false);
+		modals.setIsEditOpen(true);
+		modals.setIsOpen(true);
 	};
 
 	const DisableButton = (): boolean => {
 		return (
-			hand === defaultHand &&
-			position === defaultPosition &&
-			sys === defaultSys &&
-			dia === defaultDia &&
-			pulse === defaultPulse
+			hand === item.measureHand &&
+			position === item.bodyPosition &&
+			sys === item.systolic.toString() &&
+			dia === item.diastolic.toString() &&
+			pulse === item.pulse.toString()
 		);
 	};
 
 	return (
-		<Modal visible={visible} animationType='fade' onRequestClose={onClose} transparent={true}>
+		<Modal
+			visible={modals.editBPVisible}
+			animationType={modals.editReady ? 'fade' : 'none'}
+			onRequestClose={handleClose}
+			transparent={true}
+		>
 			<HvScrollView isModal>
-				<TouchableWithoutFeedback onPressIn={onClose}>
-					<View style={STYLES.defaultModalViewDeep}>
+				<TouchableWithoutFeedback onPressIn={handleClose}>
+					<View
+						style={[STYLES.defaultModalViewDeep, { opacity: modals.editModalVisible }]}
+					>
 						<TouchableWithoutFeedback onPress={(e) => e.stopPropagation()}>
 							<View>
 								<HvInputForm onPress={HandleMutation} disabled={DisableButton()}>
 									<View style={STYLES.checkmarkPos}>
 										<HvButtonCheck
 											cancel
-											onPress={onClose}
+											onPress={handleClose}
 											bgColor={DARK_RED}
 										/>
 									</View>
