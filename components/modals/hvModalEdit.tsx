@@ -30,8 +30,10 @@ import {
 	isBodyWeight,
 	isOxygenSaturation,
 } from '@/constants/typeGuards';
+import { useTranslation } from 'react-i18next';
 
 const HvModalEdit = (): JSX.Element => {
+	const { t } = useTranslation();
 	const modals = useContext(ModalContext);
 	const queryClient = useQueryClient();
 
@@ -178,9 +180,13 @@ const HvModalEdit = (): JSX.Element => {
 									<HvCardMeasurement item={modals.editModalData.item} />
 								</View>
 								<View style={Styles.buttonsContainer}>
-									<HvButton text='Breyta' onPress={handleOnEdit} bright />
 									<HvButton
-										text='Eyða'
+										text={t('modals.buttons.edit')}
+										onPress={handleOnEdit}
+										bright
+									/>
+									<HvButton
+										text={t('modals.buttons.delete')}
 										bgColor={DARK_RED}
 										onPress={() => handleMutation(modals.editModalData.item)}
 										bright

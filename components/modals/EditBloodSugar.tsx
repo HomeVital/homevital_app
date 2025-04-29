@@ -11,8 +11,10 @@ import { patchBloodSugar } from '@/queries/patch';
 import HvButtonCheck from '../ui/hvButtonCheck';
 import { DARK_RED } from '@/constants/colors';
 import ModalContext from '@/contexts/modalContext';
+import { useTranslation } from 'react-i18next';
 
 const EditBloodSugar = (): JSX.Element => {
+	const { t } = useTranslation();
 	const queryClient = useQueryClient();
 	const modals = useContext(ModalContext);
 	const item = modals.editModalData.item as IBloodSugar;
@@ -74,14 +76,14 @@ const EditBloodSugar = (): JSX.Element => {
 									/>
 								</View>
 								<HvText size='xl' color='darkGreen' weight='semibold' center>
-									Breyta blóðsykur
+									{t('modals.bloodSugar.editTitle')}
 								</HvText>
 								<HvInputFormContainer textInput>
 									<HvInputField
 										itemState={bloodSugar}
 										setItemState={setBloodSugar}
-										description='Blóðsykur'
-										metric='mmol/L'
+										header={t('modals.bloodSugar.bloodSugar')}
+										description='mmol/L'
 									/>
 								</HvInputFormContainer>
 							</HvInputForm>

@@ -1,7 +1,9 @@
 import HvBackStack from '@/components/ui/hvBackStack';
+import { useTranslation } from 'react-i18next';
 
 const Layout = (): JSX.Element => {
-	return <HvBackStack title='Stillingar' />;
+	const { t } = useTranslation();
+	return <HvBackStack title={t('tabbar.settings')} />;
 };
 
 export default Layout;

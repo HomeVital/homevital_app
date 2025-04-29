@@ -15,8 +15,10 @@ import { ErrorView, LoadingView } from '@/components/queryStates';
 import HvCard from '@/components/cards/hvCard';
 import HvButton from '@/components/ui/hvButton';
 import { getClaimBySubstring } from '@/utility/utility';
+import { useTranslation } from 'react-i18next';
 
 const MainSettings = (): JSX.Element => {
+	const { t } = useTranslation();
 	const { session, signOut } = useSession();
 	const [countryCode] = useState('is'); // TODO: change so that I don't have to use states
 	const [isSwitchOn, setIsSwitchOn] = useState(false); // TODO: change so that I don't have to use states
@@ -47,29 +49,53 @@ const MainSettings = (): JSX.Element => {
 						{patient.name}
 					</HvText>
 					<View style={Styles.aboutLine}>
-						<HvText style={{ width: '25%' }}>Heimili</HvText>
+						<HvText style={{ width: '25%' }}>
+							{/* Heimili */}
+							{t('settings.home')}
+						</HvText>
 						<HvText size='l' weight='semibold'>
 							{patient.address}
 						</HvText>
 					</View>
 					<View style={Styles.aboutLine}>
-						<HvText style={{ width: '25%' }}>Sími</HvText>
+						<HvText style={{ width: '25%' }}>
+							{/* Sími */}
+							{t('settings.phone')}
+						</HvText>
 						<HvText size='l' weight='semibold'>
 							{patient.phone}
 						</HvText>
 					</View>
 				</View>
 				<View style={Styles.partContainer}>
-					<HvButton text='Tengiliðir' onPress={() => {}} small bright />
-					<HvButton text='Tæki' onPress={() => {}} small bright />
+					<HvButton
+						// text='Tengiliðir'
+						text={t('settings.contacts')}
+						onPress={() => {}}
+						small
+						bright
+						disabled
+					/>
+					<HvButton
+						// text='Tæki'
+						text={t('settings.devices')}
+						onPress={() => {}}
+						small
+						bright
+						disabled
+					/>
 					<View style={Styles.leftRightContainer}>
-						<HvText>Tungumál</HvText>
-						{/* tungumál takki með mynd */}
+						<HvText>
+							{/* Tungumál */}
+							{t('settings.language')}
+						</HvText>
 						<CountryFlag isoCode={countryCode} size={25} style={{ borderRadius: 4 }} />
 					</View>
 					<View style={Styles.leftRightContainer}>
-						<HvText>Áminningar</HvText>
-						{/* <Switch value={isSwitchOn} onValueChange={onToggleSwitch} color={BRIGHT_GREEN} /> */}
+						<HvText>
+							{/* Áminningar */}
+							{t('settings.notifications')}
+						</HvText>
 						<Switch
 							value={isSwitchOn}
 							onValueChange={onToggleSwitch}
@@ -81,25 +107,15 @@ const MainSettings = (): JSX.Element => {
 				</View>
 				<View style={Styles.bottomContainer}>
 					<HvButton
-						text='Skrá út'
+						// text='Skrá út'
+						text={t('settings.signOut')}
 						onPress={() => signOut()}
 						small
 						bgColor={DARK_RED}
 						bright
 					/>
 				</View>
-				{/* <View style={Styles.partContainer}>
-				</View> */}
 			</HvCard>
-			{/* <HvDivider /> */}
-			{/* <Link href="/(app)/(measurements)/eitthvað"> */}
-			{/* <HvText>Tengiliðir</HvText> */}
-			{/* </Link> */}
-			{/* <HvDivider /> */}
-			{/* <Link href="/(app)/(measurements)/eitthvað"> */}
-			{/* <HvText>Tæki</HvText> */}
-			{/* </Link> */}
-			{/* <HvDivider /> */}
 		</View>
 	);
 };

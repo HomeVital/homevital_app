@@ -13,8 +13,10 @@ import { getClaimBySubstring } from '@/utility/utility';
 import { useSession } from '@/hooks/ctx';
 import ModalContext from '@/contexts/modalContext';
 import { postOxygenSaturation } from '@/queries/post';
+import { useTranslation } from 'react-i18next';
 
 const AddBloodOxygen = (): JSX.Element => {
+	const { t } = useTranslation();
 	const { session } = useSession();
 	const queryClient = useQueryClient();
 	const modals = useContext(ModalContext);
@@ -91,12 +93,13 @@ const AddBloodOxygen = (): JSX.Element => {
 									/>
 								</View>
 								<HvText size='xl' color='darkGreen' weight='semibold' center>
-									Skrá súrefnismettun
+									{t('modals.oxygenSaturation.addTitle')}
 								</HvText>
 								<HvInputFormContainer textInput>
 									<HvInputField
 										itemState={bloodOxygen}
 										setItemState={setBloodOxygen}
+										header={t('modals.oxygenSaturation.oxygenSaturation')}
 										description='%'
 										keyboardMax={3}
 									/>

@@ -8,6 +8,7 @@ import { LIGHT_GRAY, WHITE } from '@/constants/colors';
 import HvTabItemAnimated from './hvTabItemAnimated';
 import HvTabButtonWheel from './hvTabButtonWheel';
 import ModalContext from '@/contexts/modalContext';
+import { useTranslation } from 'react-i18next';
 // import HideWithKeyboard from 'react-native-hide-with-keyboard';
 
 /**
@@ -15,6 +16,7 @@ import ModalContext from '@/contexts/modalContext';
  * @returns custom tab bar component
  */
 const HvTabBar = (): JSX.Element => {
+	const { t } = useTranslation();
 	const modals = useContext(ModalContext);
 	const [stackName, setStackName] = useState('');
 	const [wheelOpen, setWheelOpen] = useState(false);
@@ -125,7 +127,7 @@ const HvTabBar = (): JSX.Element => {
 						setStackName(handleTabRoute('/(app)/(measurements)', stackName));
 					}}
 					source={require('@/assets/svgs/barChart.svg')}
-					text='Mælingar'
+					text={t('tabbar.measurements')}
 				/>
 				<HvTabItemAnimated
 					onPress={() => {
@@ -134,7 +136,7 @@ const HvTabBar = (): JSX.Element => {
 					}}
 					source={require('@/assets/svgs/add.svg')}
 					source2={require('@/assets/svgs/addRed.svg')}
-					text='Skrá mælingu'
+					text={t('tabbar.addMeasurement')}
 					addOpen={wheelOpen}
 					large
 				/>
@@ -143,7 +145,7 @@ const HvTabBar = (): JSX.Element => {
 						setStackName(handleTabRoute('/(app)/(settings)', stackName));
 					}}
 					source={require('@/assets/svgs/manUser.svg')}
-					text='Stillingar'
+					text={t('tabbar.settings')}
 				/>
 			</View>
 			{/* </HideWithKeyboard> */}

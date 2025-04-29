@@ -21,7 +21,7 @@ const HvHeader = ({ name }: Props): JSX.Element => {
 				style={Styles.headerLogo}
 			/>
 			<HvText size='l' weight='semibold' style={Styles.headerText}>
-				Velkominn {name}
+				{name}
 			</HvText>
 			<TouchableOpacity>
 				<Image

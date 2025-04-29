@@ -13,8 +13,10 @@ import HvScrollView from '../ui/HvScrollView';
 import HvButtonCheck from '../ui/hvButtonCheck';
 import { DARK_RED } from '@/constants/colors';
 import ModalContext from '@/contexts/modalContext';
+import { useTranslation } from 'react-i18next';
 
 const EditBloodPressure = (): JSX.Element => {
+	const { t } = useTranslation();
 	const queryClient = useQueryClient();
 	const modals = useContext(ModalContext);
 	const item = modals.editModalData.item as IBloodPressure;
@@ -91,7 +93,7 @@ const EditBloodPressure = (): JSX.Element => {
 										/>
 									</View>
 									<HvText size='xl' color='darkGreen' weight='semibold' center>
-										Breyta Blóðþrýsting
+										{t('modals.bloodPressure.editTitle')}
 									</HvText>
 									<HvInputFormContainer>
 										<HvToggleSelect
@@ -99,7 +101,7 @@ const EditBloodPressure = (): JSX.Element => {
 											setItemState={setHand}
 											leftIcon={require('@/assets/svgs/handLeftArrow.svg')}
 											rightIcon={require('@/assets/svgs/handRightArrow.svg')}
-											description='Mæli hönd'
+											description={t('modals.bloodPressure.hand')}
 											leftText='Vinstri'
 											rightText='Hægri'
 										/>
@@ -111,7 +113,7 @@ const EditBloodPressure = (): JSX.Element => {
 											setItemState={setPosition}
 											leftIcon={require('@/assets/svgs/sitting.svg')}
 											rightIcon={require('@/assets/svgs/laying.svg')}
-											description='Líkamsstaða'
+											description={t('modals.bloodPressure.position')}
 											leftText='Sitjandi'
 											rightText='Liggjandi'
 										/>
@@ -121,22 +123,22 @@ const EditBloodPressure = (): JSX.Element => {
 										<HvInputField
 											itemState={sys}
 											setItemState={setSys}
-											header='Efri mörk'
+											header={t('modals.bloodPressure.upper')}
 											description='SYS'
 											metric='mmHg'
 										/>
 										<HvInputField
 											itemState={dia}
 											setItemState={setDia}
-											header='Neðri mörk'
+											header={t('modals.bloodPressure.lower')}
 											description='DIA'
 											metric='mmHg'
 										/>
 										<HvInputField
 											itemState={pulse}
 											setItemState={setPulse}
-											description='Púls'
-											// metric="bpm"
+											header={t('modals.bloodPressure.pulse')}
+											description={t('modals.bloodPressure.bpm')}
 										/>
 									</HvInputFormContainer>
 								</HvInputForm>

@@ -13,12 +13,14 @@ import { WIN_WIDTH } from '@/constants/window';
 import HvText from '@/components/ui/hvText';
 import { ISignIn, AxError } from '@/interfaces/api';
 import { GetErrorMessage } from '@/errorHandler';
+import { useTranslation } from 'react-i18next';
 
 /**
  * Sign in screen which allows the user to sign in with their SSN
  * @returns sign in screen
  */
 const SignIn = (): JSX.Element => {
+	const { t } = useTranslation();
 	const { signIn, session } = useSession();
 	const [loading, setLoading] = useState(false);
 	// Navigate to the app screen if there is a session
@@ -58,18 +60,18 @@ const SignIn = (): JSX.Element => {
 		<SafeAreaView style={Styles.container}>
 			{/* <TextInput keyboardType='numeric' autoCapitalize='none' maxLength={10} /> */}
 			<HvText weight='semibold' size='l'>
-				Kennitala
+				{t('signIn.ssn')}
 			</HvText>
 			<Controller
 				control={control}
 				rules={{
 					required: {
 						value: true,
-						message: 'SSN is required',
+						message: t('signIn.ssnRequired'),
 					},
 					minLength: {
 						value: 10,
-						message: 'SSN must be 10 digits',
+						message: t('signIn.ssnLength'),
 					},
 				}}
 				render={({ field: { onChange, onBlur, value } }) => (
@@ -91,7 +93,7 @@ const SignIn = (): JSX.Element => {
 			{errors.ssn && <HvText>{errors.ssn.message}</HvText>}
 
 			<HvButton
-				text='Submit'
+				text={t('signIn.submit')}
 				width={WIN_WIDTH * 0.75}
 				loading={loading}
 				onPress={handleSubmit(onSubmit)}

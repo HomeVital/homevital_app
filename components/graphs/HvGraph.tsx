@@ -21,6 +21,7 @@ import {
 	isBodyWeight,
 	isOxygenSaturation,
 } from '@/constants/typeGuards';
+import { useTranslation } from 'react-i18next';
 
 interface IDataType {
 	name: string;
@@ -71,6 +72,7 @@ const HvGraph = <T,>({ data, dataTypes }: Props<T>): JSX.Element => {
  * @returns graph component
  */
 const HvGraphObject = <T,>({ data, dataTypes, setItem }: PropsObject<T>): JSX.Element => {
+	const { t } = useTranslation();
 	// selected data point indexing
 	const filteredData = Object.keys(dataTypes).map((key) =>
 		data?.map((item) => ({ value: Number(item[key as keyof T]) })),
@@ -151,7 +153,7 @@ const HvGraphObject = <T,>({ data, dataTypes, setItem }: PropsObject<T>): JSX.El
 					}}
 				>
 					<HvText weight='bold' size='l' center>
-						7 daga
+						7 {t('measurements.page.days')}
 					</HvText>
 				</TouchableOpacity>
 				<TouchableOpacity
@@ -166,7 +168,7 @@ const HvGraphObject = <T,>({ data, dataTypes, setItem }: PropsObject<T>): JSX.El
 					}}
 				>
 					<HvText weight='bold' size='l' center>
-						30 daga
+						30 {t('measurements.page.days')}
 					</HvText>
 				</TouchableOpacity>
 				<TouchableOpacity
@@ -181,7 +183,7 @@ const HvGraphObject = <T,>({ data, dataTypes, setItem }: PropsObject<T>): JSX.El
 					}}
 				>
 					<HvText weight='bold' size='l' center>
-						90 daga
+						90 {t('measurements.page.days')}
 					</HvText>
 				</TouchableOpacity>
 			</View>

@@ -1,0 +1,97 @@
+{
+	"signIn": {
+		"title": "Innskráning",
+		"ssn": "Kennitala",
+		"ssnRequired": "Vantar kennitölu",
+		"ssnLength": "Kennitala verður að vera 10 tölustafir",
+		"submit": "Skrá inn"
+	},
+	"home": {
+		"welcome": "Hæ ",
+		"recentMeasurements": "Síðustu 10 mælingar",
+		"noMeasurements": "Engar mælingar skráðar"
+	},
+	"measurements": {
+		"bloodPressure": "Blóðþrýstingur",
+		"bloodSugar": "Blóðsykur",
+		"bodyWeight": "Þyngd",
+		"bodyTemperature": "Hitastig",
+		"oxygenSaturation": "Súrefnismettun",
+		"bpm": " púls",
+		"page": {
+			"graph": "Graf",
+			"measurements": "Mælingar",
+			"days": "Daga"
+		}
+	},
+	"tabbar": {
+		"measurements": "Mælingar",
+		"addMeasurement": "Skrá mælingu",
+		"settings": "Stillingar"
+	},
+	"modals": {
+		"buttons": {
+			"save": "Vista",
+			"edit": "Breyta",
+			"delete": "Eyða"
+		},
+		"bloodPressure": {
+			"addTitle": "Skrá Blóðþrýsting",
+			"editTitle": "Breyta Blóðþrýsting",
+			"hand": "Mæld hönd",
+			"position": "Líkamsstaða",
+			"upper": "Efri mörk",
+			"lower": "Neðri mörk",
+			"pulse": "Púls",
+			"bpm": "BPM"
+		},
+		"bloodSugar": {
+			"addTitle": "Skrá Blóðsykur",
+			"editTitle": "Breyta Blóðsykur",
+			"bloodSugar": "Blóðsykur"
+		},
+		"bodyWeight": {
+			"addTitle": "Skrá Þyngd",
+			"editTitle": "Breyta Þyngd",
+			"bodyWeight": "Þyngd"
+		},
+		"bodyTemperature": {
+			"addTitle": "Skrá Hitastig",
+			"editTitle": "Breyta Hitastigi",
+			"temperature": "Hitastig"
+		},
+		"oxygenSaturation": {
+			"addTitle": "Skrá Súrefnismettun",
+			"editTitle": "Breyta Súrefnismettun",
+			"oxygenSaturation": "Súrefnismettun"
+		},
+		"validation": {
+			"normal": {
+				"header": "Vel gert!",
+				"text": "Þú ert innan eðlilega marka. Eigðu góðan dag."
+			},
+			"raised": {
+				"header": "Rétt utan marka!",
+				"text": "Þetta getur verið eðlilegt en heimahjúkrun fer yfir mælinguna. Eigðu góðan dag."
+			},
+			"high": {
+				"header": "Utan marka!",
+				"text": "Heimahjúkrun mun hafa samband við þig innan stundar og leiðbeina þér með framhaldið."
+			},
+			"unknown": {
+				"header": "Óþekkt?",
+				"text": "Þetta er villa hjá okkur, vinsamlegast hafðu samband við okkur og láttu okkur vita."
+			},
+			"close": "Loka"
+		}
+	},
+	"settings": {
+		"home": "Heimili",
+		"phone": "Sími",
+		"contacts": "Tengiliðir",
+		"devices": "Tæki",
+		"language": "Tungumál",
+		"notifications": "Tilkynningar",
+		"signOut": "Skrá út"
+	}
+}
