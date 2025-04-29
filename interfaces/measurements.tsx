@@ -42,16 +42,19 @@ export interface IAddBloodSugar {
 export interface IAddBodyTemperature {
 	patientID: number;
 	temperature: number;
+	status: string;
 }
 
 export interface IAddBodyWeight {
 	patientID: number;
 	weight: number;
+	status: string;
 }
 
 export interface IAddOxygenSaturation {
 	patientID: number;
 	oxygenSaturationValue: number;
+	status: string;
 }
 
 export interface IPatchBloodPressure {

@@ -43,6 +43,7 @@ const AddBodyWeight = (): JSX.Element => {
 					10,
 				),
 				weight: Number(parseFloat(weight).toFixed(1)),
+				status: 'pending',
 			});
 		} catch (error) {
 			console.error('Error adding body weight:', error);

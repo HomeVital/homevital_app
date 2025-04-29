@@ -43,6 +43,7 @@ const AddBloodOxygen = (): JSX.Element => {
 					10,
 				),
 				oxygenSaturationValue: Number(parseFloat(bloodOxygen).toFixed(1)),
+				status: 'pending',
 			});
 		} catch (error) {
 			console.error('Error adding oxygen saturation:', error);

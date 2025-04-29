@@ -4,24 +4,21 @@ import HvInputForm from '../ui/hvInputForm/hvInputForm';
 import HvInputFormContainer from '../ui/hvInputForm/hvInputFormContainer';
 import HvInputField from '../ui/hvInputForm/hvInputField';
 import { STYLES } from '@/constants/styles';
-import { useEffect, useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import HvText from '../ui/hvText';
 import { patchTemperature } from '@/queries/patch';
 import HvButtonCheck from '../ui/hvButtonCheck';
 import { DARK_RED } from '@/constants/colors';
+import ModalContext from '@/contexts/modalContext';
 
-interface Props {
-	visible: boolean;
-	onClose: () => void;
-	onSubmit: () => void;
-	itemId: string;
-	item: IBodyTemperature;
-}
-
-const EditTemperature = ({ visible, onClose, onSubmit, itemId, item }: Props): JSX.Element => {
+const EditTemperature = (): JSX.Element => {
 	const queryClient = useQueryClient();
+	const modals = useContext(ModalContext);
+	const item = modals.editModalData.item as IBodyTemperature;
+	const itemId = item.id.toString();
 
+	// measurements
 	const [defaultTemperature, setDefaultTemperature] = useState(item.temperature.toString());
 	const [temperature, setTemperature] = useState(item.temperature.toString());
 
@@ -30,13 +27,15 @@ const EditTemperature = ({ visible, onClose, onSubmit, itemId, item }: Props): J
 		setDefaultTemperature(item.temperature.toString());
 	}, [item]);
 
+	// mutations (posting new data)
 	const { mutateAsync: addMutation } = useMutation({
 		mutationFn: async (measurement: IPatchBodyTemperature) =>
 			patchTemperature(itemId, measurement),
 		onSuccess: () => {
 			queryClient.invalidateQueries({ queryKey: ['bodytemperature'] });
 			queryClient.invalidateQueries({ queryKey: ['recentmeasurements'] });
-			onSubmit();
+			modals.setEditBTVisible(false);
+			modals.setIsEditOpen(false);
 		},
 	});
 
@@ -51,19 +50,29 @@ const EditTemperature = ({ visible, onClose, onSubmit, itemId, item }: Props): J
 		}
 	};
 
+	// validation
 	const DisableButton = (): boolean => {
 		return temperature === defaultTemperature;
 	};
 
 	return (
-		<Modal visible={visible} animationType='fade' onRequestClose={onClose} transparent={true}>
-			<TouchableWithoutFeedback onPressIn={onClose}>
+		<Modal
+			visible={modals.editBTVisible}
+			animationType='fade'
+			onRequestClose={() => modals.setEditBTVisible(false)}
+			transparent={true}
+		>
+			<TouchableWithoutFeedback onPressIn={() => modals.setEditBTVisible(false)}>
 				<View style={STYLES.defaultModalViewDeep}>
 					<TouchableWithoutFeedback onPress={(e) => e.stopPropagation()}>
 						<View>
 							<HvInputForm onPress={HandleMutation} disabled={DisableButton()}>
 								<View style={STYLES.checkmarkPos}>
-									<HvButtonCheck cancel onPress={onClose} bgColor={DARK_RED} />
+									<HvButtonCheck
+										cancel
+										onPress={() => modals.setEditBTVisible(false)}
+										bgColor={DARK_RED}
+									/>
 								</View>
 								<HvText size='xl' color='darkGreen' weight='semibold' center>
 									Breyta líkamshita

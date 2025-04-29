@@ -1,5 +1,5 @@
 import { View } from 'react-native';
-import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
+import { useQuery } from '@tanstack/react-query';
 // components
 import HvToggler from '@/components/ui/hvToggler';
 import { useSession } from '@/hooks/ctx';
@@ -14,46 +14,20 @@ import { DARK_GREEN } from '@/constants/colors';
 import HvGraph from '@/components/graphs/HvGraph';
 import { IBodyTemperature } from '@/interfaces/measurements';
 import { ErrorView, LoadingView } from '@/components/queryStates';
-import { useState } from 'react';
-import HvModalEdit from '@/components/modals/hvModalEdit';
-import EditTemperature from '@/components/modals/EditTemperature';
+import { useContext } from 'react';
 import { getClaimBySubstring } from '@/utility/utility';
-import { deleteBodyTemperature } from '@/queries/delete';
+import ModalContext from '@/contexts/modalContext';
 
 const Temperature = (): JSX.Element => {
 	const { session } = useSession();
-	const queryClient = useQueryClient();
+	const modals = useContext(ModalContext);
 	const { toggled, setToggledTrue, setToggledFalse } = useToggle();
-	// details modal
-	const [modalVisible, setModalVisible] = useState(false);
-	const [modalData, setModalData] = useState<IBodyTemperature | null>(null);
-	// edit modal
-	const [editModalVisible, setEditModalVisible] = useState(false);
-
+	// query
 	const { data, isError, isLoading, refetch } = useQuery({
 		queryKey: ['bodytemperature'],
 		queryFn: async () =>
 			fetchBodyTemperature(getClaimBySubstring(session?.toString() || '', 'sub')),
 	});
-
-	const { mutateAsync: deleteMutation } = useMutation({
-		mutationFn: async (itemId: string) => deleteBodyTemperature(itemId),
-		onSuccess: () => {
-			queryClient.invalidateQueries({ queryKey: ['bodytemperature'] });
-			queryClient.invalidateQueries({ queryKey: ['recentmeasurements'] });
-			// status popup
-			setModalVisible(false);
-			setModalData(null);
-		},
-	});
-
-	const handleMutation = async (itemId: string): Promise<void> => {
-		try {
-			await deleteMutation(itemId);
-		} catch (error) {
-			console.error('Error deleting body temperature:', error);
-		}
-	};
 
 	if (isError) return <ErrorView />;
 
@@ -81,46 +55,14 @@ const Temperature = (): JSX.Element => {
 					<HvCardMeasurements
 						items={data as IBodyTemperature[]}
 						onPress={(itemData: IBodyTemperature) => {
-							setModalData(itemData);
-							setModalVisible(true);
+							modals.setIsEditOpen(true);
+							modals.setEditModalData({
+								title: 'Líkamshiti',
+								item: itemData,
+							});
 						}}
 						editable
 					/>
-					{/* Modal for details */}
-					{modalData && (
-						<HvModalEdit
-							title='Líkamshiti'
-							visible={modalVisible}
-							visibleDetails={!editModalVisible}
-							onEdit={() => {
-								setEditModalVisible(true);
-							}}
-							onClose={() => {
-								setModalVisible(false);
-								setModalData(null);
-							}}
-							onDelete={() => {
-								handleMutation(modalData.id.toString());
-							}}
-							item={modalData as IBodyTemperature}
-						/>
-					)}
-					{/* Modal for editing */}
-					{modalData && (
-						<EditTemperature
-							visible={editModalVisible}
-							onClose={() => {
-								setEditModalVisible(false);
-							}}
-							onSubmit={() => {
-								setEditModalVisible(false);
-								setModalVisible(false);
-								setModalData(null);
-							}}
-							itemId={modalData.id.toString()}
-							item={modalData}
-						/>
-					)}
 				</HvScrollView>
 			)}
 		</View>

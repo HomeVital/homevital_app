@@ -15,6 +15,19 @@ import AddBloodPressure from '@/components/modals/AddBloodPressure';
 import AddBodyWeight from '@/components/modals/AddBodyWeight';
 import AddBodyTemperature from '@/components/modals/AddBodyTemperature';
 import Animated, { useAnimatedStyle, useSharedValue, withTiming } from 'react-native-reanimated';
+import EditBloodOxygen from '@/components/modals/EditBloodOxygen';
+import {
+	IBloodPressure,
+	IBloodSugar,
+	IBodyTemperature,
+	IBodyWeight,
+	IOxygenSaturation,
+} from '@/interfaces/measurements';
+import HvModalEdit from '@/components/modals/hvModalEdit';
+import EditBloodPressure from '@/components/modals/EditBloodPressure';
+import EditBodyWeight from '@/components/modals/EditBodyWeight';
+import EditTemperature from '@/components/modals/EditTemperature';
+import EditBloodSugar from '@/components/modals/EditBloodSugar';
 
 const AppLayout = (): JSX.Element => {
 	const { session, isLoading, signOut } = useSession();
@@ -28,8 +41,27 @@ const AppLayout = (): JSX.Element => {
 	const [addBOVisible, setAddBOVisible] = useState(false);
 	const [addBWVisible, setAddBWVisible] = useState(false);
 	const [addBTVisible, setAddBTVisible] = useState(false);
+	// edit modals
+	const [editBPVisible, setEditBPVisible] = useState(false);
+	const [editBSVisible, setEditBSVisible] = useState(false);
+	const [editBOVisible, setEditBOVisible] = useState(false);
+	const [editBWVisible, setEditBWVisible] = useState(false);
+	const [editBTVisible, setEditBTVisible] = useState(false);
 	// grayed overlay
 	const [isOpen, setIsOpen] = useState(false);
+	const [isEditOpen, setIsEditOpen] = useState(false);
+	const [editModalData, setEditModalData] = useState<{
+		title: string;
+		item: IBloodPressure | IBloodSugar | IBodyWeight | IBodyTemperature | IOxygenSaturation;
+	}>({
+		title: '',
+		item: {} as
+			| IBloodPressure
+			| IBloodSugar
+			| IBodyWeight
+			| IBodyTemperature
+			| IOxygenSaturation,
+	});
 
 	// temporary sign out on app leave. TODO: CHANGE LATER
 	useEffect(() => {
@@ -71,10 +103,23 @@ const AppLayout = (): JSX.Element => {
 		return <Redirect href='/sign-in' />;
 	}
 
+	const isAnyModalVisible =
+		addBTVisible ||
+		addBPVisible ||
+		addBWVisible ||
+		addBOVisible ||
+		addBSVisible ||
+		editBTVisible ||
+		editBPVisible ||
+		editBWVisible ||
+		editBOVisible ||
+		editBSVisible;
+
 	// This layout can be deferred because it's not the root layout.
 	return (
 		<ModalContext.Provider
 			value={{
+				// add
 				addBPVisible,
 				setAddBPVisible,
 				addBSVisible,
@@ -85,12 +130,29 @@ const AppLayout = (): JSX.Element => {
 				setAddBWVisible,
 				addBTVisible,
 				setAddBTVisible,
+				// edit
+				editBPVisible,
+				setEditBPVisible,
+				editBSVisible,
+				setEditBSVisible,
+				editBOVisible,
+				setEditBOVisible,
+				editBWVisible,
+				setEditBWVisible,
+				editBTVisible,
+				setEditBTVisible,
+				// other
 				validationVisible,
 				setValidationVisible,
 				validationStatus,
 				setValidationStatus,
+				// between modals
 				isOpen,
 				setIsOpen,
+				isEditOpen,
+				setIsEditOpen,
+				editModalData,
+				setEditModalData,
 			}}
 		>
 			<View style={styles.container}>
@@ -103,11 +165,19 @@ const AppLayout = (): JSX.Element => {
 					<Stack.Screen name='index' />
 				</Stack>
 
-				<AddBloodSugar />
-				<AddBloodOxygen />
-				<AddBloodPressure />
-				<AddBodyWeight />
-				<AddBodyTemperature />
+				{addBSVisible && <AddBloodSugar />}
+				{addBOVisible && <AddBloodOxygen />}
+				{addBPVisible && <AddBloodPressure />}
+				{addBWVisible && <AddBodyWeight />}
+				{addBTVisible && <AddBodyTemperature />}
+
+				{isEditOpen && <HvModalEdit />}
+
+				{editBOVisible && <EditBloodOxygen />}
+				{editBPVisible && <EditBloodPressure />}
+				{editBWVisible && <EditBodyWeight />}
+				{editBTVisible && <EditTemperature />}
+				{editBSVisible && <EditBloodSugar />}
 
 				<HvModalValidation
 					visible={validationVisible}
@@ -123,9 +193,9 @@ const AppLayout = (): JSX.Element => {
 				style={[
 					styles.defaultSeethrough,
 					animatedStyle, // This already contains the opacity animation
+					{ zIndex: isAnyModalVisible ? 10 : undefined },
 				]}
 			/>
-			{/* {isOpen && <View style={styles.defaultSeethrough} />} */}
 			<HvTabBar />
 		</ModalContext.Provider>
 	);

@@ -5,7 +5,6 @@ import {
 	IBloodSugar,
 	IBodyTemperature,
 	IBodyWeight,
-	IMeasurementBase,
 	IOxygenSaturation,
 } from '@/interfaces/measurements';
 import { HvCardMeasurement } from '../cards/hvCardMeasurements';
@@ -14,31 +13,142 @@ import { DARK_RED, LIGHT_THEME } from '@/constants/colors';
 import HvText from '../ui/hvText';
 import { STYLES } from '@/constants/styles';
 import HvButtonCheck from '../ui/hvButtonCheck';
+import { useContext, useEffect } from 'react';
+import ModalContext from '@/contexts/modalContext';
+import { useMutation, useQueryClient } from '@tanstack/react-query';
+import {
+	deleteBloodPressure,
+	deleteBloodSugar,
+	deleteBodyTemperature,
+	deleteBodyWeight,
+	deleteOxygenSaturation,
+} from '@/queries/delete';
+import {
+	isBloodPressure,
+	isBloodSugar,
+	isBodyTemperature,
+	isBodyWeight,
+	isOxygenSaturation,
+} from '@/constants/typeGuards';
 
-interface Props<
-	T = IBloodPressure | IOxygenSaturation | IBodyTemperature | IBodyWeight | IBloodSugar,
-> {
-	title: string;
-	visible: boolean;
-	visibleDetails: boolean;
-	onClose: () => void;
-	onEdit: () => void;
-	onDelete: () => void;
-	item: T extends IMeasurementBase ? T : never;
-}
+const HvModalEdit = (): JSX.Element => {
+	const modals = useContext(ModalContext);
+	const queryClient = useQueryClient();
 
-const HvModalEdit = ({
-	title,
-	visible,
-	visibleDetails,
-	onClose,
-	onEdit,
-	onDelete,
-	item,
-}: Props): JSX.Element => {
+	const visibleDetails =
+		modals.editBOVisible ||
+		modals.editBPVisible ||
+		modals.editBSVisible ||
+		modals.editBWVisible ||
+		modals.editBTVisible;
+
+	const { mutateAsync: deleteBT } = useMutation({
+		mutationFn: async (item: IBodyTemperature) => deleteBodyTemperature(item.id.toString()),
+		onSuccess: () => {
+			queryClient.invalidateQueries({ queryKey: ['bodytemperature'] });
+			queryClient.invalidateQueries({ queryKey: ['recentmeasurements'] });
+			// status popup
+			modals.setIsEditOpen(false);
+		},
+	});
+
+	const { mutateAsync: deleteBW } = useMutation({
+		mutationFn: async (item: IBodyWeight) => deleteBodyWeight(item.id.toString()),
+		onSuccess: () => {
+			queryClient.invalidateQueries({ queryKey: ['bodyweight'] });
+			queryClient.invalidateQueries({ queryKey: ['recentmeasurements'] });
+			// status popup
+			modals.setIsEditOpen(false);
+		},
+	});
+
+	const { mutateAsync: deleteBS } = useMutation({
+		mutationFn: async (item: IBloodSugar) => deleteBloodSugar(item.id.toString()),
+		onSuccess: () => {
+			queryClient.invalidateQueries({ queryKey: ['bloodsugar'] });
+			queryClient.invalidateQueries({ queryKey: ['recentmeasurements'] });
+			// status popup
+			modals.setIsEditOpen(false);
+		},
+	});
+
+	const { mutateAsync: deleteBP } = useMutation({
+		mutationFn: async (item: IBloodPressure) => deleteBloodPressure(item.id.toString()),
+		onSuccess: () => {
+			queryClient.invalidateQueries({ queryKey: ['bloodpressure'] });
+			queryClient.invalidateQueries({ queryKey: ['recentmeasurements'] });
+			// status popup
+			modals.setIsEditOpen(false);
+		},
+	});
+
+	const { mutateAsync: deleteBO } = useMutation({
+		mutationFn: async (item: IOxygenSaturation) => deleteOxygenSaturation(item.id.toString()),
+		onSuccess: () => {
+			queryClient.invalidateQueries({ queryKey: ['oxygensaturation'] });
+			queryClient.invalidateQueries({ queryKey: ['recentmeasurements'] });
+			// status popup
+			modals.setIsEditOpen(false);
+		},
+	});
+
+	const deleteMutation = async (
+		item: IBloodPressure | IOxygenSaturation | IBodyTemperature | IBodyWeight | IBloodSugar,
+	) => {
+		if (isOxygenSaturation(item)) {
+			await deleteBO(item);
+		} else if (isBloodPressure(item)) {
+			await deleteBP(item);
+		} else if (isBodyTemperature(item)) {
+			await deleteBT(item);
+		} else if (isBloodSugar(item)) {
+			await deleteBS(item);
+		} else if (isBodyWeight(item)) {
+			await deleteBW(item);
+		} else {
+			throw new Error('Unknown measurement type');
+		}
+	};
+
+	const handleMutation = async (
+		item: IBloodPressure | IOxygenSaturation | IBodyTemperature | IBodyWeight | IBloodSugar,
+	): Promise<void> => {
+		try {
+			await deleteMutation(item);
+		} catch (error) {
+			console.error('Error deleting measurement:', error);
+		}
+	};
+
+	const handleOnClose = () => {
+		modals.setIsEditOpen(false);
+	};
+
+	const handleOnEdit = () => {
+		modals.setIsEditOpen(false);
+		if (isOxygenSaturation(modals.editModalData.item)) {
+			modals.setEditBOVisible(true);
+		} else if (isBloodPressure(modals.editModalData.item)) {
+			modals.setEditBPVisible(true);
+		} else if (isBodyTemperature(modals.editModalData.item)) {
+			modals.setEditBTVisible(true);
+		} else if (isBloodSugar(modals.editModalData.item)) {
+			modals.setEditBSVisible(true);
+		} else if (isBodyWeight(modals.editModalData.item)) {
+			modals.setEditBWVisible(true);
+		}
+	};
+
+	useEffect(() => {}, [modals.editModalData, modals.isEditOpen]);
+
 	return (
-		<Modal visible={visible} animationType='fade' onRequestClose={onClose} transparent={true}>
-			<TouchableWithoutFeedback onPressIn={onClose}>
+		<Modal
+			visible={modals.isEditOpen}
+			animationType='fade'
+			onRequestClose={handleOnClose}
+			transparent={true}
+		>
+			<TouchableWithoutFeedback onPressIn={handleOnClose}>
 				<View style={STYLES.defaultModalView}>
 					<TouchableWithoutFeedback onPress={(e) => e.stopPropagation()}>
 						<View>
@@ -46,23 +156,27 @@ const HvModalEdit = ({
 								gap={36}
 								padding={20}
 								bgColor={LIGHT_THEME}
-								style={{ opacity: visibleDetails ? 1 : 0 }}
+								style={{ opacity: !visibleDetails ? 1 : 0 }}
 							>
 								<View style={STYLES.checkmarkPos}>
-									<HvButtonCheck cancel onPress={onClose} bgColor={DARK_RED} />
+									<HvButtonCheck
+										cancel
+										onPress={handleOnClose}
+										bgColor={DARK_RED}
+									/>
 								</View>
 								<View style={Styles.titleContainer}>
 									<HvText size='xl' color='darkGreen' weight='semibold' center>
-										{title}
+										{modals.editModalData.title}
 									</HvText>
-									<HvCardMeasurement item={item} />
+									<HvCardMeasurement item={modals.editModalData.item} />
 								</View>
 								<View style={Styles.buttonsContainer}>
-									<HvButton text='Breyta' onPress={onEdit} bright />
+									<HvButton text='Breyta' onPress={handleOnEdit} bright />
 									<HvButton
 										text='Eyða'
 										bgColor={DARK_RED}
-										onPress={onDelete}
+										onPress={() => handleMutation(modals.editModalData.item)}
 										bright
 									/>
 								</View>

@@ -44,9 +44,10 @@ const AddBodyTemperature = (): JSX.Element => {
 					10,
 				),
 				temperature: Number(parseFloat(temperature).toFixed(1)),
+				status: 'pending',
 			});
 		} catch (error) {
-			console.error('Error adding body weight:', error);
+			console.error('Error adding body temperature:', error);
 		}
 	};
 

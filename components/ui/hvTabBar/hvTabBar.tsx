@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from 'react';
+import React, { useContext, useState } from 'react';
 import { View, StyleSheet, TouchableWithoutFeedback, Modal } from 'react-native';
 import { RelativePathString, router } from 'expo-router';
 // components
@@ -8,7 +8,6 @@ import { LIGHT_GRAY, WHITE } from '@/constants/colors';
 import HvTabItemAnimated from './hvTabItemAnimated';
 import HvTabButtonWheel from './hvTabButtonWheel';
 import ModalContext from '@/contexts/modalContext';
-import Animated, { useAnimatedStyle, useSharedValue, withTiming } from 'react-native-reanimated';
 // import HideWithKeyboard from 'react-native-hide-with-keyboard';
 
 /**
@@ -16,11 +15,8 @@ import Animated, { useAnimatedStyle, useSharedValue, withTiming } from 'react-na
  * @returns custom tab bar component
  */
 const HvTabBar = (): JSX.Element => {
-	const [stackName, setStackName] = useState('');
-	// const [addOpen, setAddOpen] = useState(false);
-
 	const modals = useContext(ModalContext);
-
+	const [stackName, setStackName] = useState('');
 	const [wheelOpen, setWheelOpen] = useState(false);
 
 	/**
@@ -47,28 +43,6 @@ const HvTabBar = (): JSX.Element => {
 		return route;
 	};
 
-	const isAnyModalVisible =
-		modals.addBTVisible ||
-		modals.addBPVisible ||
-		modals.addBWVisible ||
-		modals.addBOVisible ||
-		modals.addBSVisible;
-
-	// animated dark grey overlay
-	const opacity = useSharedValue<number>(0);
-
-	useEffect(() => {
-		opacity.value = withTiming(isAnyModalVisible ? 1 : 0, {
-			duration: 250, // Animation duration in milliseconds
-		});
-	}, [isAnyModalVisible, opacity]);
-
-	const animatedStyle = useAnimatedStyle(() => {
-		return {
-			opacity: opacity.value,
-		};
-	});
-
 	// TODO: change later
 	const tempButtons = [
 		{
@@ -77,7 +51,7 @@ const HvTabBar = (): JSX.Element => {
 				modals.setAddBTVisible(true);
 				setWheelOpen(false);
 			},
-			isVisible: true,
+			isVisible: true, // TODO: change later so that we use this with whatever program the person is on
 		},
 		{
 			name: 'BloodPressureLight',
@@ -143,12 +117,6 @@ const HvTabBar = (): JSX.Element => {
 			</View>
 			{/* <HideWithKeyboard> */}
 			<View style={Styles.container}>
-				<Animated.View
-					style={[
-						Styles.overlay,
-						animatedStyle, // This already contains the opacity animation
-					]}
-				/>
 				<HvTabItem
 					onPress={() => {
 						setStackName(handleTabRoute('/(app)/(measurements)', stackName));

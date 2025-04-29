@@ -4,24 +4,20 @@ import HvInputForm from '../ui/hvInputForm/hvInputForm';
 import HvInputFormContainer from '../ui/hvInputForm/hvInputFormContainer';
 import HvInputField from '../ui/hvInputForm/hvInputField';
 import { STYLES } from '@/constants/styles';
-import { useEffect, useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import HvText from '../ui/hvText';
 import { patchOxygenSaturation } from '@/queries/patch';
 import HvButtonCheck from '../ui/hvButtonCheck';
 import { DARK_RED } from '@/constants/colors';
+import ModalContext from '@/contexts/modalContext';
 
-interface Props {
-	visible: boolean;
-	onClose: () => void;
-	onSubmit: () => void;
-	itemId: string;
-	item: IOxygenSaturation;
-}
-
-const EditBloodOxygen = ({ visible, onClose, onSubmit, itemId, item }: Props): JSX.Element => {
+const EditBloodOxygen = (): JSX.Element => {
 	const queryClient = useQueryClient();
-
+	const modals = useContext(ModalContext);
+	const item = modals.editModalData.item as IOxygenSaturation;
+	const itemId = item.id.toString();
+	// measurements
 	const [defaultBloodOxygen, setDefaultBloodOxygen] = useState(
 		item.oxygenSaturationValue.toString(),
 	);
@@ -30,7 +26,7 @@ const EditBloodOxygen = ({ visible, onClose, onSubmit, itemId, item }: Props): J
 	useEffect(() => {
 		setBloodOxygen(item.oxygenSaturationValue.toString());
 		setDefaultBloodOxygen(item.oxygenSaturationValue.toString());
-	}, [item]);
+	}, [modals.editBOVisible]);
 
 	const { mutateAsync: addMutation } = useMutation({
 		mutationFn: async (measurement: IPatchOxygenSaturation) =>
@@ -38,7 +34,8 @@ const EditBloodOxygen = ({ visible, onClose, onSubmit, itemId, item }: Props): J
 		onSuccess: () => {
 			queryClient.invalidateQueries({ queryKey: ['oxygensaturation'] });
 			queryClient.invalidateQueries({ queryKey: ['recentmeasurements'] });
-			onSubmit();
+			modals.setEditBOVisible(false);
+			modals.setIsEditOpen(false);
 		},
 	});
 
@@ -58,14 +55,23 @@ const EditBloodOxygen = ({ visible, onClose, onSubmit, itemId, item }: Props): J
 	};
 
 	return (
-		<Modal visible={visible} animationType='fade' onRequestClose={onClose} transparent={true}>
-			<TouchableWithoutFeedback onPressIn={onClose}>
+		<Modal
+			visible={modals.editBOVisible}
+			animationType='fade'
+			onRequestClose={() => modals.setEditBOVisible(false)}
+			transparent={true}
+		>
+			<TouchableWithoutFeedback onPressIn={() => modals.setEditBOVisible(false)}>
 				<View style={STYLES.defaultModalViewDeep}>
 					<TouchableWithoutFeedback onPress={(e) => e.stopPropagation()}>
 						<View>
 							<HvInputForm onPress={HandleMutation} disabled={DisableButton()}>
 								<View style={STYLES.checkmarkPos}>
-									<HvButtonCheck cancel onPress={onClose} bgColor={DARK_RED} />
+									<HvButtonCheck
+										cancel
+										onPress={() => modals.setEditBOVisible(false)}
+										bgColor={DARK_RED}
+									/>
 								</View>
 								<HvText size='xl' color='darkGreen' weight='semibold' center>
 									Breyta súrefnismettun
