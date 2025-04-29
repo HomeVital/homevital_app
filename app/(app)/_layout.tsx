@@ -194,7 +194,7 @@ const AppLayout = (): JSX.Element => {
 				style={[
 					styles.defaultSeethrough,
 					animatedStyle, // This already contains the opacity animation
-					{ zIndex: isAnyModalVisible ? 10 : undefined },
+					{ zIndex: isAnyModalVisible ? 10 : 10 },
 				]}
 			/>
 			<HvTabBar />
@@ -212,7 +212,7 @@ const styles = StyleSheet.create({
 		bottom: 0,
 		left: 0,
 		right: 0,
-		backgroundColor: 'rgba(0, 0, 0, 0.4)',
+		backgroundColor: 'rgba(0, 0, 0, 0.5)',
 	},
 });
 
