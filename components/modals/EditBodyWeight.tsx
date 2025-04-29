@@ -4,7 +4,7 @@ import HvInputForm from '../ui/hvInputForm/hvInputForm';
 import HvInputFormContainer from '../ui/hvInputForm/hvInputFormContainer';
 import HvInputField from '../ui/hvInputForm/hvInputField';
 import { STYLES } from '@/constants/styles';
-import { useContext, useEffect, useState } from 'react';
+import { useContext, useState } from 'react';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import HvText from '../ui/hvText';
 import { patchBodyWeight } from '@/queries/patch';
@@ -19,13 +19,7 @@ const EditBodyWeight = (): JSX.Element => {
 	const itemId = item.id.toString();
 
 	// measurements
-	const [defaultWeight, setDefaultWeight] = useState(item.weight.toString());
 	const [weight, setWeight] = useState(item.weight.toString());
-
-	useEffect(() => {
-		setWeight(item.weight.toString());
-		setDefaultWeight(item.weight.toString());
-	}, [modals.editBWVisible]);
 
 	// mutations (posting new data)
 	const { mutateAsync: addMutation } = useMutation({
@@ -34,7 +28,6 @@ const EditBodyWeight = (): JSX.Element => {
 			queryClient.invalidateQueries({ queryKey: ['bodyweight'] });
 			queryClient.invalidateQueries({ queryKey: ['recentmeasurements'] });
 			modals.setEditBWVisible(false);
-			// modals.setIsEditOpen(false);
 			modals.setIsOpen(false);
 		},
 	});
@@ -58,18 +51,18 @@ const EditBodyWeight = (): JSX.Element => {
 
 	// validation
 	const DisableButton = (): boolean => {
-		return weight === defaultWeight;
+		return weight === item.weight.toString();
 	};
 
 	return (
 		<Modal
 			visible={modals.editBWVisible}
-			animationType='fade'
+			animationType={modals.editReady ? 'fade' : 'none'}
 			onRequestClose={handleClose}
 			transparent={true}
 		>
 			<TouchableWithoutFeedback onPressIn={handleClose}>
-				<View style={STYLES.defaultModalViewDeep}>
+				<View style={[STYLES.defaultModalViewDeep, { opacity: modals.editModalVisible }]}>
 					<TouchableWithoutFeedback onPress={(e) => e.stopPropagation()}>
 						<View>
 							<HvInputForm onPress={HandleMutation} disabled={DisableButton()}>

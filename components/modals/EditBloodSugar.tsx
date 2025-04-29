@@ -4,7 +4,7 @@ import HvInputForm from '../ui/hvInputForm/hvInputForm';
 import HvInputFormContainer from '../ui/hvInputForm/hvInputFormContainer';
 import HvInputField from '../ui/hvInputForm/hvInputField';
 import { STYLES } from '@/constants/styles';
-import { useContext, useEffect, useState } from 'react';
+import { useContext, useState } from 'react';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import HvText from '../ui/hvText';
 import { patchBloodSugar } from '@/queries/patch';
@@ -19,13 +19,7 @@ const EditBloodSugar = (): JSX.Element => {
 	const itemId = item.id.toString();
 
 	// measurements
-	const [defaultBloodSugar, setDefaultBloodSugar] = useState(item.bloodsugarLevel.toString());
 	const [bloodSugar, setBloodSugar] = useState(item.bloodsugarLevel.toString());
-
-	useEffect(() => {
-		setBloodSugar(item.bloodsugarLevel.toString());
-		setDefaultBloodSugar(item.bloodsugarLevel.toString());
-	}, [item]);
 
 	// mutations
 	const { mutateAsync: addMutation } = useMutation({
@@ -34,7 +28,6 @@ const EditBloodSugar = (): JSX.Element => {
 			queryClient.invalidateQueries({ queryKey: ['bloodsugar'] });
 			queryClient.invalidateQueries({ queryKey: ['recentmeasurements'] });
 			modals.setEditBSVisible(false);
-			// modals.setIsEditOpen(false);
 			modals.setIsOpen(false);
 		},
 	});
@@ -58,18 +51,18 @@ const EditBloodSugar = (): JSX.Element => {
 
 	// validation
 	const DisableButton = (): boolean => {
-		return bloodSugar === defaultBloodSugar;
+		return bloodSugar === item.bloodsugarLevel.toString();
 	};
 
 	return (
 		<Modal
 			visible={modals.editBSVisible}
-			animationType='fade'
+			animationType={modals.editReady ? 'fade' : 'none'}
 			onRequestClose={handleClose}
 			transparent={true}
 		>
 			<TouchableWithoutFeedback onPressIn={handleClose}>
-				<View style={STYLES.defaultModalViewDeep}>
+				<View style={[STYLES.defaultModalViewDeep, { opacity: modals.editModalVisible }]}>
 					<TouchableWithoutFeedback onPress={(e) => e.stopPropagation()}>
 						<View>
 							<HvInputForm onPress={HandleMutation} disabled={DisableButton()}>

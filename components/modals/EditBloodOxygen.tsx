@@ -4,7 +4,7 @@ import HvInputForm from '../ui/hvInputForm/hvInputForm';
 import HvInputFormContainer from '../ui/hvInputForm/hvInputFormContainer';
 import HvInputField from '../ui/hvInputForm/hvInputField';
 import { STYLES } from '@/constants/styles';
-import { useContext, useEffect, useState } from 'react';
+import { useContext, useState } from 'react';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import HvText from '../ui/hvText';
 import { patchOxygenSaturation } from '@/queries/patch';
@@ -18,15 +18,7 @@ const EditBloodOxygen = (): JSX.Element => {
 	const item = modals.editModalData.item as IOxygenSaturation;
 	const itemId = item.id.toString();
 	// measurements
-	const [defaultBloodOxygen, setDefaultBloodOxygen] = useState(
-		item.oxygenSaturationValue.toString(),
-	);
 	const [bloodOxygen, setBloodOxygen] = useState(item.oxygenSaturationValue.toString());
-
-	useEffect(() => {
-		setBloodOxygen(item.oxygenSaturationValue.toString());
-		setDefaultBloodOxygen(item.oxygenSaturationValue.toString());
-	}, [modals.editBOVisible]);
 
 	const { mutateAsync: addMutation } = useMutation({
 		mutationFn: async (measurement: IPatchOxygenSaturation) =>
@@ -35,7 +27,6 @@ const EditBloodOxygen = (): JSX.Element => {
 			queryClient.invalidateQueries({ queryKey: ['oxygensaturation'] });
 			queryClient.invalidateQueries({ queryKey: ['recentmeasurements'] });
 			modals.setEditBOVisible(false);
-			// modals.setIsEditOpen(false);
 			modals.setIsOpen(false);
 		},
 	});
@@ -58,18 +49,18 @@ const EditBloodOxygen = (): JSX.Element => {
 	};
 
 	const DisableButton = (): boolean => {
-		return bloodOxygen === defaultBloodOxygen;
+		return bloodOxygen === item.oxygenSaturationValue.toString();
 	};
 
 	return (
 		<Modal
 			visible={modals.editBOVisible}
-			animationType='fade'
+			animationType={modals.editReady ? 'fade' : 'none'}
 			onRequestClose={handleClose}
 			transparent={true}
 		>
 			<TouchableWithoutFeedback onPressIn={handleClose}>
-				<View style={STYLES.defaultModalViewDeep}>
+				<View style={[STYLES.defaultModalViewDeep, { opacity: modals.editModalVisible }]}>
 					<TouchableWithoutFeedback onPress={(e) => e.stopPropagation()}>
 						<View>
 							<HvInputForm onPress={HandleMutation} disabled={DisableButton()}>

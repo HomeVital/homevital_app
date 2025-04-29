@@ -18,9 +18,13 @@ const AddBodyWeight = (): JSX.Element => {
 	const { session } = useSession();
 	const queryClient = useQueryClient();
 	const modals = useContext(ModalContext);
-
+	// measurements
 	const [weight, setWeight] = useState('');
 
+	// // submitting
+	// const [isSubmitting, setIsSubmitting] = useState(false);
+
+	// mutations
 	const { mutateAsync: addMutation } = useMutation({
 		mutationFn: async (measurement: IAddBodyWeight) => postBodyWeight(measurement),
 		onSuccess: (data) => {
@@ -50,6 +54,7 @@ const AddBodyWeight = (): JSX.Element => {
 		}
 	};
 
+	// validation
 	const DisableButton = (): boolean => {
 		return weight === '';
 	};
@@ -57,7 +62,7 @@ const AddBodyWeight = (): JSX.Element => {
 	return (
 		<Modal
 			visible={modals.addBWVisible}
-			animationType='fade'
+			animationType={modals.contentReady ? 'fade' : 'none'}
 			onRequestClose={() => {
 				modals.setAddBWVisible(false);
 				setWeight('');
@@ -72,7 +77,7 @@ const AddBodyWeight = (): JSX.Element => {
 					modals.setIsOpen(false);
 				}}
 			>
-				<View style={STYLES.defaultModalViewDeep}>
+				<View style={[STYLES.defaultModalViewDeep, { opacity: modals.modalVisible }]}>
 					<TouchableWithoutFeedback onPress={(e) => e.stopPropagation()}>
 						<View>
 							<HvInputForm onPress={HandleMutation} disabled={DisableButton()}>

@@ -63,6 +63,55 @@ const AppLayout = (): JSX.Element => {
 			| IOxygenSaturation,
 	});
 
+	// const isAnyModalVisible =
+	// 	addBTVisible ||
+	// 	addBPVisible ||
+	// 	addBWVisible ||
+	// 	addBOVisible ||
+	// 	addBSVisible ||
+	// 	editBTVisible ||
+	// 	editBPVisible ||
+	// 	editBWVisible ||
+	// 	editBOVisible ||
+	// 	editBSVisible ||
+	// 	isEditOpen;
+
+	const isAnyInitModalVisible =
+		addBTVisible || addBPVisible || addBWVisible || addBOVisible || addBSVisible || isEditOpen;
+
+	const isAnyEditModalVisible =
+		editBTVisible || editBPVisible || editBWVisible || editBOVisible || editBSVisible;
+
+	// visibility
+	const [contentReady, setContentReady] = useState(false);
+	const [modalVisible, setModalVisible] = useState(0);
+	const [editReady, setEditReady] = useState(false);
+	const [editModalVisible, setEditModalVisible] = useState(0);
+
+	useEffect(() => {
+		if (isAnyInitModalVisible) {
+			// setTimeout(() => {
+			// 	setModalVisible(1);
+			// 	setContentReady(true);
+			// }, 500);
+			setModalVisible(1);
+			setContentReady(true);
+		} else {
+			setContentReady(false);
+			setModalVisible(0);
+		}
+	}, [isAnyInitModalVisible]);
+
+	useEffect(() => {
+		if (isAnyEditModalVisible) {
+			setEditModalVisible(1);
+			setEditReady(true);
+		} else {
+			setEditReady(false);
+			setEditModalVisible(0);
+		}
+	}, [isAnyEditModalVisible]);
+
 	// temporary sign out on app leave. TODO: CHANGE LATER
 	useEffect(() => {
 		const handleAppStateChange = (nextAppState: string) => {
@@ -103,18 +152,6 @@ const AppLayout = (): JSX.Element => {
 		return <Redirect href='/sign-in' />;
 	}
 
-	const isAnyModalVisible =
-		addBTVisible ||
-		addBPVisible ||
-		addBWVisible ||
-		addBOVisible ||
-		addBSVisible ||
-		editBTVisible ||
-		editBPVisible ||
-		editBWVisible ||
-		editBOVisible ||
-		editBSVisible ||
-		isEditOpen;
 	// This layout can be deferred because it's not the root layout.
 	return (
 		<ModalContext.Provider
@@ -153,6 +190,15 @@ const AppLayout = (): JSX.Element => {
 				setIsEditOpen,
 				editModalData,
 				setEditModalData,
+				// loading
+				contentReady,
+				setContentReady,
+				modalVisible,
+				setModalVisible,
+				editReady,
+				setEditReady,
+				editModalVisible,
+				setEditModalVisible,
 			}}
 		>
 			<View style={styles.container}>
@@ -194,7 +240,8 @@ const AppLayout = (): JSX.Element => {
 				style={[
 					styles.defaultSeethrough,
 					animatedStyle, // This already contains the opacity animation
-					{ zIndex: isAnyModalVisible ? 10 : 10 },
+					// { zIndex: isAnyModalVisible ? 10 : 10 },
+					{ zIndex: 10 },
 				]}
 			/>
 			<HvTabBar />

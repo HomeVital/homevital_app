@@ -19,8 +19,10 @@ const AddBloodSugar = (): JSX.Element => {
 	const queryClient = useQueryClient();
 	const modals = useContext(ModalContext);
 
+	// measurements
 	const [bloodSugar, setBloodSugar] = useState('');
 
+	// mutations
 	const { mutateAsync: addMutation } = useMutation({
 		mutationFn: async (measurement: IAddBloodSugar) => postBloodSugar(measurement),
 		onSuccess: (data) => {
@@ -50,6 +52,7 @@ const AddBloodSugar = (): JSX.Element => {
 		}
 	};
 
+	// validation
 	const DisableButton = (): boolean => {
 		return bloodSugar === '';
 	};
@@ -57,7 +60,7 @@ const AddBloodSugar = (): JSX.Element => {
 	return (
 		<Modal
 			visible={modals.addBSVisible}
-			animationType='fade'
+			animationType={modals.contentReady ? 'fade' : 'none'}
 			onRequestClose={() => {
 				modals.setAddBSVisible(false);
 				setBloodSugar('');
@@ -72,7 +75,7 @@ const AddBloodSugar = (): JSX.Element => {
 					modals.setIsOpen(false);
 				}}
 			>
-				<View style={STYLES.defaultModalViewDeep}>
+				<View style={[STYLES.defaultModalViewDeep, { opacity: modals.modalVisible }]}>
 					<TouchableWithoutFeedback onPress={(e) => e.stopPropagation()}>
 						<View>
 							<HvInputForm onPress={HandleMutation} disabled={DisableButton()}>

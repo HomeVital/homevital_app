@@ -150,12 +150,12 @@ const HvModalEdit = (): JSX.Element => {
 	return (
 		<Modal
 			visible={modals.isEditOpen}
-			animationType='fade'
+			animationType={modals.contentReady ? 'fade' : 'none'}
 			onRequestClose={handleOnClose}
 			transparent={true}
 		>
 			<TouchableWithoutFeedback onPressIn={handleOnClose}>
-				<View style={STYLES.defaultModalViewDeep}>
+				<View style={[STYLES.defaultModalViewDeep, { opacity: modals.modalVisible }]}>
 					<TouchableWithoutFeedback onPress={(e) => e.stopPropagation()}>
 						<View>
 							<HvCard

@@ -1,4 +1,4 @@
-import React, { useContext, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { View, StyleSheet, TouchableWithoutFeedback, Modal } from 'react-native';
 import { RelativePathString, router } from 'expo-router';
 // components
@@ -19,6 +19,20 @@ const HvTabBar = (): JSX.Element => {
 	const [stackName, setStackName] = useState('');
 	const [wheelOpen, setWheelOpen] = useState(false);
 
+	// visibility
+	const [contentReady, setContentReady] = useState(false);
+	const [modalVisible, setModalVisible] = useState(0);
+
+	useEffect(() => {
+		if (wheelOpen) {
+			setModalVisible(1);
+			setContentReady(true);
+		} else {
+			setContentReady(false);
+			setModalVisible(0);
+		}
+	}, [wheelOpen]);
+
 	/**
 	 * Handles tab route with proper depth
 	 * @param route - route to navigate to
@@ -28,18 +42,7 @@ const HvTabBar = (): JSX.Element => {
 	const handleTabRoute = (route: string, prev: string): string => {
 		modals.setIsOpen(false);
 		setWheelOpen(false);
-
-		// if (prev === route) {
-		// 	if (router.canDismiss()) {
-		// 		router.dismiss();
-		// 		return '';
-		// 	} else {
-		// 		router.push(route as RelativePathString);
-		// 		return route;
-		// 	}
-		// }
 		router.push(route as RelativePathString);
-
 		return route;
 	};
 
@@ -92,7 +95,7 @@ const HvTabBar = (): JSX.Element => {
 			<View>
 				<Modal
 					visible={wheelOpen}
-					animationType='fade'
+					animationType={contentReady ? 'fade' : 'none'}
 					onRequestClose={() => {
 						modals.setIsOpen(false);
 						setWheelOpen(false);
@@ -105,7 +108,7 @@ const HvTabBar = (): JSX.Element => {
 							setWheelOpen(false);
 						}}
 					>
-						<View style={Styles.scrollView}>
+						<View style={[Styles.scrollView, { opacity: modalVisible }]}>
 							<HvTabButtonWheel
 								radius={65}
 								roundness={0.5}

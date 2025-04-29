@@ -20,12 +20,14 @@ const AddBloodPressure = (): JSX.Element => {
 	const queryClient = useQueryClient();
 	const modals = useContext(ModalContext);
 
+	// measurements
 	const [measureHand, setMeasureHand] = useState('Hægri');
 	const [bodyPosition, setBodyPosition] = useState('Sitjandi');
 	const [systolic, setSystolic] = useState('');
 	const [diastolic, setDiastolic] = useState('');
 	const [pulse, setPulse] = useState('');
 
+	// mutations
 	const { mutateAsync: addMutation } = useMutation({
 		mutationFn: async (measurement: IAddBloodPressure) => postBloodPressure(measurement),
 		onSuccess: (data) => {
@@ -64,6 +66,7 @@ const AddBloodPressure = (): JSX.Element => {
 		}
 	};
 
+	// validation
 	const DisableButton = (): boolean => {
 		return systolic === '' || diastolic === '' || pulse === '';
 	};
@@ -71,7 +74,7 @@ const AddBloodPressure = (): JSX.Element => {
 	return (
 		<Modal
 			visible={modals.addBPVisible}
-			animationType='fade'
+			animationType={modals.contentReady ? 'fade' : 'none'}
 			onRequestClose={() => {
 				modals.setAddBPVisible(false);
 				// setBloodOxygen('');
@@ -95,7 +98,7 @@ const AddBloodPressure = (): JSX.Element => {
 					modals.setIsOpen(false);
 				}}
 			>
-				<View style={STYLES.defaultModalViewDeep}>
+				<View style={[STYLES.defaultModalViewDeep, { opacity: modals.modalVisible }]}>
 					<TouchableWithoutFeedback onPress={(e) => e.stopPropagation()}>
 						<View>
 							<HvInputForm onPress={HandleMutation} disabled={DisableButton()}>

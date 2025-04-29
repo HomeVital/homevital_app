@@ -19,9 +19,10 @@ const AddBodyTemperature = (): JSX.Element => {
 	const queryClient = useQueryClient();
 	const modals = useContext(ModalContext);
 
-	// const [weight, setWeight] = useState('');
+	// measurements
 	const [temperature, setTemperature] = useState('');
 
+	// mutations
 	const { mutateAsync: addMutation } = useMutation({
 		mutationFn: async (measurement: IAddBodyTemperature) => postBodyTemperature(measurement),
 		onSuccess: (data) => {
@@ -51,6 +52,7 @@ const AddBodyTemperature = (): JSX.Element => {
 		}
 	};
 
+	// validation
 	const DisableButton = (): boolean => {
 		return temperature === '';
 	};
@@ -58,7 +60,7 @@ const AddBodyTemperature = (): JSX.Element => {
 	return (
 		<Modal
 			visible={modals.addBTVisible}
-			animationType='fade'
+			animationType={modals.contentReady ? 'fade' : 'none'}
 			onRequestClose={() => {
 				modals.setAddBTVisible(false);
 				setTemperature('');
@@ -73,7 +75,7 @@ const AddBodyTemperature = (): JSX.Element => {
 					modals.setIsOpen(false);
 				}}
 			>
-				<View style={STYLES.defaultModalViewDeep}>
+				<View style={[STYLES.defaultModalViewDeep, { opacity: modals.modalVisible }]}>
 					<TouchableWithoutFeedback onPress={(e) => e.stopPropagation()}>
 						<View>
 							<HvInputForm onPress={HandleMutation} disabled={DisableButton()}>

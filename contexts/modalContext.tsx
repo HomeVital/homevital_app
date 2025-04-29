@@ -49,6 +49,16 @@ const ModalContext = createContext<{
 		title: string;
 		item: IBloodPressure | IBloodSugar | IBodyWeight | IBodyTemperature | IOxygenSaturation;
 	}) => void;
+
+	// loading
+	contentReady: boolean;
+	setContentReady: (ready: boolean) => void;
+	modalVisible: number;
+	setModalVisible: (visible: number) => void;
+	editReady: boolean;
+	setEditReady: (ready: boolean) => void;
+	editModalVisible: number;
+	setEditModalVisible: (visible: number) => void;
 }>({
 	// add
 	addBPVisible: false,
@@ -92,6 +102,15 @@ const ModalContext = createContext<{
 			| IOxygenSaturation,
 	},
 	setEditModalData: () => null,
+	// loading
+	contentReady: false,
+	setContentReady: () => null,
+	modalVisible: 0,
+	setModalVisible: () => null,
+	editReady: false,
+	setEditReady: () => null,
+	editModalVisible: 0,
+	setEditModalVisible: () => null,
 });
 
 export default ModalContext;

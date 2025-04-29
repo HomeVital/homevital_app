@@ -4,7 +4,7 @@ import HvInputForm from '../ui/hvInputForm/hvInputForm';
 import HvInputFormContainer from '../ui/hvInputForm/hvInputFormContainer';
 import HvInputField from '../ui/hvInputForm/hvInputField';
 import { STYLES } from '@/constants/styles';
-import { useContext, useEffect, useState } from 'react';
+import { useContext, useState } from 'react';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import HvText from '../ui/hvText';
 import { patchTemperature } from '@/queries/patch';
@@ -19,15 +19,9 @@ const EditTemperature = (): JSX.Element => {
 	const itemId = item.id.toString();
 
 	// measurements
-	const [defaultTemperature, setDefaultTemperature] = useState(item.temperature.toString());
 	const [temperature, setTemperature] = useState(item.temperature.toString());
 
-	useEffect(() => {
-		setTemperature(item.temperature.toString());
-		setDefaultTemperature(item.temperature.toString());
-	}, [item]);
-
-	// mutations (posting new data)
+	// mutations (edit)
 	const { mutateAsync: addMutation } = useMutation({
 		mutationFn: async (measurement: IPatchBodyTemperature) =>
 			patchTemperature(itemId, measurement),
@@ -35,7 +29,6 @@ const EditTemperature = (): JSX.Element => {
 			queryClient.invalidateQueries({ queryKey: ['bodytemperature'] });
 			queryClient.invalidateQueries({ queryKey: ['recentmeasurements'] });
 			modals.setEditBTVisible(false);
-			// modals.setIsEditOpen(false);
 			modals.setIsOpen(false);
 		},
 	});
@@ -59,18 +52,18 @@ const EditTemperature = (): JSX.Element => {
 
 	// validation
 	const DisableButton = (): boolean => {
-		return temperature === defaultTemperature;
+		return temperature === item.temperature.toString();
 	};
 
 	return (
 		<Modal
 			visible={modals.editBTVisible}
-			animationType='fade'
+			animationType={modals.editReady ? 'fade' : 'none'}
 			onRequestClose={handleClose}
 			transparent={true}
 		>
 			<TouchableWithoutFeedback onPressIn={handleClose}>
-				<View style={STYLES.defaultModalViewDeep}>
+				<View style={[STYLES.defaultModalViewDeep, { opacity: modals.editModalVisible }]}>
 					<TouchableWithoutFeedback onPress={(e) => e.stopPropagation()}>
 						<View>
 							<HvInputForm onPress={HandleMutation} disabled={DisableButton()}>
