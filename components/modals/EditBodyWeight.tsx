@@ -34,7 +34,8 @@ const EditBodyWeight = (): JSX.Element => {
 			queryClient.invalidateQueries({ queryKey: ['bodyweight'] });
 			queryClient.invalidateQueries({ queryKey: ['recentmeasurements'] });
 			modals.setEditBWVisible(false);
-			modals.setIsEditOpen(false);
+			// modals.setIsEditOpen(false);
+			modals.setIsOpen(false);
 		},
 	});
 
@@ -49,6 +50,12 @@ const EditBodyWeight = (): JSX.Element => {
 		}
 	};
 
+	const handleClose = (): void => {
+		modals.setEditBWVisible(false);
+		modals.setIsEditOpen(true);
+		modals.setIsOpen(true);
+	};
+
 	// validation
 	const DisableButton = (): boolean => {
 		return weight === defaultWeight;
@@ -58,10 +65,10 @@ const EditBodyWeight = (): JSX.Element => {
 		<Modal
 			visible={modals.editBWVisible}
 			animationType='fade'
-			onRequestClose={() => modals.setEditBWVisible(false)}
+			onRequestClose={handleClose}
 			transparent={true}
 		>
-			<TouchableWithoutFeedback onPressIn={() => modals.setEditBWVisible(false)}>
+			<TouchableWithoutFeedback onPressIn={handleClose}>
 				<View style={STYLES.defaultModalViewDeep}>
 					<TouchableWithoutFeedback onPress={(e) => e.stopPropagation()}>
 						<View>
@@ -69,7 +76,7 @@ const EditBodyWeight = (): JSX.Element => {
 								<View style={STYLES.checkmarkPos}>
 									<HvButtonCheck
 										cancel
-										onPress={() => modals.setEditBWVisible(false)}
+										onPress={handleClose}
 										bgColor={DARK_RED}
 									/>
 								</View>

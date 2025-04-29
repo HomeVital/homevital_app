@@ -50,6 +50,7 @@ const BloodSugar = (): JSX.Element => {
 					<HvCardMeasurements
 						items={data as IBloodSugar[]}
 						onPress={(itemData: IBloodSugar) => {
+							modals.setIsOpen(true);
 							modals.setIsEditOpen(true);
 							modals.setEditModalData({
 								title: 'Blóðsykur',

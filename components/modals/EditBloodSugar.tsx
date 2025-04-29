@@ -34,7 +34,8 @@ const EditBloodSugar = (): JSX.Element => {
 			queryClient.invalidateQueries({ queryKey: ['bloodsugar'] });
 			queryClient.invalidateQueries({ queryKey: ['recentmeasurements'] });
 			modals.setEditBSVisible(false);
-			modals.setIsEditOpen(false);
+			// modals.setIsEditOpen(false);
+			modals.setIsOpen(false);
 		},
 	});
 
@@ -45,8 +46,14 @@ const EditBloodSugar = (): JSX.Element => {
 				status: item.status,
 			});
 		} catch (error) {
-			console.error('Error patching oxygen saturation:', error);
+			console.error('Error patching blood sugar:', error);
 		}
+	};
+
+	const handleClose = (): void => {
+		modals.setEditBSVisible(false);
+		modals.setIsEditOpen(true);
+		modals.setIsOpen(true);
 	};
 
 	// validation
@@ -58,10 +65,10 @@ const EditBloodSugar = (): JSX.Element => {
 		<Modal
 			visible={modals.editBSVisible}
 			animationType='fade'
-			onRequestClose={() => modals.setEditBSVisible(false)}
+			onRequestClose={handleClose}
 			transparent={true}
 		>
-			<TouchableWithoutFeedback onPressIn={() => modals.setEditBSVisible(false)}>
+			<TouchableWithoutFeedback onPressIn={handleClose}>
 				<View style={STYLES.defaultModalViewDeep}>
 					<TouchableWithoutFeedback onPress={(e) => e.stopPropagation()}>
 						<View>
@@ -69,7 +76,7 @@ const EditBloodSugar = (): JSX.Element => {
 								<View style={STYLES.checkmarkPos}>
 									<HvButtonCheck
 										cancel
-										onPress={() => modals.setEditBSVisible(false)}
+										onPress={handleClose}
 										bgColor={DARK_RED}
 									/>
 								</View>

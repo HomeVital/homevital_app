@@ -84,7 +84,7 @@ const AppLayout = (): JSX.Element => {
 
 	useEffect(() => {
 		opacity.value = withTiming(isOpen ? 1 : 0, {
-			duration: 250, // Animation duration in milliseconds
+			duration: 350, // Animation duration in milliseconds
 		});
 	}, [isOpen, opacity]);
 
@@ -113,8 +113,8 @@ const AppLayout = (): JSX.Element => {
 		editBPVisible ||
 		editBWVisible ||
 		editBOVisible ||
-		editBSVisible;
-
+		editBSVisible ||
+		isEditOpen;
 	// This layout can be deferred because it's not the root layout.
 	return (
 		<ModalContext.Provider
@@ -171,7 +171,8 @@ const AppLayout = (): JSX.Element => {
 				{addBWVisible && <AddBodyWeight />}
 				{addBTVisible && <AddBodyTemperature />}
 
-				{isEditOpen && <HvModalEdit />}
+				<HvModalEdit />
+				{/* {isEditOpen && <HvModalEdit />} */}
 
 				{editBOVisible && <EditBloodOxygen />}
 				{editBPVisible && <EditBloodPressure />}

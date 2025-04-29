@@ -84,53 +84,49 @@ const HvModalValidation = ({ visible, onClose, validationStatus }: Props): JSX.E
 			<TouchableWithoutFeedback onPressIn={onClose}>
 				<View style={Styles.container}>
 					<TouchableWithoutFeedback onPress={(e) => e.stopPropagation()}>
-						<View>
-							<View style={Styles.popupContainer}>
-								<View
-									style={[
-										Styles.popupBackground,
-										{ backgroundColor: ValidationBackground(validationStatus) },
-									]}
+						{/* <View> */}
+						<View style={Styles.popupContainer}>
+							<View
+								style={[
+									Styles.popupBackground,
+									{ backgroundColor: ValidationBackground(validationStatus) },
+								]}
+							>
+								<View style={Styles.imageCenter}>
+									<HvImage source={ValidationImg(validationStatus)} size={100} />
+								</View>
+								<HvText
+									style={{ marginTop: 20 }}
+									weight='bold'
+									size='xl'
+									color={TRANSLUCENT_TEXT}
+									center
 								>
-									<View style={Styles.imageCenter}>
-										<HvImage
-											source={ValidationImg(validationStatus)}
-											size={100}
-										/>
-									</View>
-									<HvText
-										style={{ marginTop: 20 }}
-										weight='bold'
-										size='xl'
-										color={TRANSLUCENT_TEXT}
-										center
-									>
-										{ValidationHeader(validationStatus)}
-									</HvText>
-									<HvText
-										style={{ marginTop: 20, marginBottom: 20 }}
-										weight='regular'
-										size='lg'
-										color={TRANSLUCENT_TEXT}
-										center
-									>
-										{ValidationText(validationStatus)}
-									</HvText>
+									{ValidationHeader(validationStatus)}
+								</HvText>
+								<HvText
+									style={{ marginTop: 20, marginBottom: 20 }}
+									weight='regular'
+									size='lg'
+									color={TRANSLUCENT_TEXT}
+									center
+								>
+									{ValidationText(validationStatus)}
+								</HvText>
 
-									<View style={Styles.imageCenter}>
-										<HvButton
-											text={'Loka'}
-											onPress={onClose}
-											bright
-											seeThrough
-											width={100}
-											bgColor={TEXT_DEFAULT}
-										/>
-									</View>
+								<View style={Styles.imageCenter}>
+									<HvButton
+										text={'Loka'}
+										onPress={onClose}
+										bright
+										seeThrough
+										width={100}
+										bgColor={TEXT_DEFAULT}
+									/>
 								</View>
 							</View>
-							{/* <HvImage source={ValidationString(validationStatus)} size={300} /> */}
 						</View>
+						{/* </View> */}
 					</TouchableWithoutFeedback>
 				</View>
 			</TouchableWithoutFeedback>
@@ -143,17 +139,13 @@ const Styles = StyleSheet.create({
 		flex: 1,
 		justifyContent: 'center',
 		width: '100%',
-		// alignItems: 'center',
-		// backgroundColor: 'rgba(0, 0, 0, 0.5)',
 	},
 	popupContainer: {
 		width: '100%',
-		// height: 320,
 		alignItems: 'center',
 	},
 	popupBackground: {
 		width: 290,
-		// height: '100%',
 		borderRadius: 10,
 		padding: 16,
 	},

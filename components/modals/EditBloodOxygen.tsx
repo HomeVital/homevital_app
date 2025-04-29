@@ -35,7 +35,8 @@ const EditBloodOxygen = (): JSX.Element => {
 			queryClient.invalidateQueries({ queryKey: ['oxygensaturation'] });
 			queryClient.invalidateQueries({ queryKey: ['recentmeasurements'] });
 			modals.setEditBOVisible(false);
-			modals.setIsEditOpen(false);
+			// modals.setIsEditOpen(false);
+			modals.setIsOpen(false);
 		},
 	});
 
@@ -50,6 +51,12 @@ const EditBloodOxygen = (): JSX.Element => {
 		}
 	};
 
+	const handleClose = (): void => {
+		modals.setEditBOVisible(false);
+		modals.setIsEditOpen(true);
+		modals.setIsOpen(true);
+	};
+
 	const DisableButton = (): boolean => {
 		return bloodOxygen === defaultBloodOxygen;
 	};
@@ -58,10 +65,10 @@ const EditBloodOxygen = (): JSX.Element => {
 		<Modal
 			visible={modals.editBOVisible}
 			animationType='fade'
-			onRequestClose={() => modals.setEditBOVisible(false)}
+			onRequestClose={handleClose}
 			transparent={true}
 		>
-			<TouchableWithoutFeedback onPressIn={() => modals.setEditBOVisible(false)}>
+			<TouchableWithoutFeedback onPressIn={handleClose}>
 				<View style={STYLES.defaultModalViewDeep}>
 					<TouchableWithoutFeedback onPress={(e) => e.stopPropagation()}>
 						<View>
@@ -69,7 +76,7 @@ const EditBloodOxygen = (): JSX.Element => {
 								<View style={STYLES.checkmarkPos}>
 									<HvButtonCheck
 										cancel
-										onPress={() => modals.setEditBOVisible(false)}
+										onPress={handleClose}
 										bgColor={DARK_RED}
 									/>
 								</View>

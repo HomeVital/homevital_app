@@ -56,6 +56,7 @@ const BloodPressure = (): JSX.Element => {
 					<HvCardMeasurements
 						items={data as IBloodPressure[]}
 						onPress={(itemData: IBloodPressure) => {
+							modals.setIsOpen(true);
 							modals.setIsEditOpen(true);
 							modals.setEditModalData({
 								title: 'Blóðþrýstingur',

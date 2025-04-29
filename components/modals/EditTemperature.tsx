@@ -35,7 +35,8 @@ const EditTemperature = (): JSX.Element => {
 			queryClient.invalidateQueries({ queryKey: ['bodytemperature'] });
 			queryClient.invalidateQueries({ queryKey: ['recentmeasurements'] });
 			modals.setEditBTVisible(false);
-			modals.setIsEditOpen(false);
+			// modals.setIsEditOpen(false);
+			modals.setIsOpen(false);
 		},
 	});
 
@@ -50,6 +51,12 @@ const EditTemperature = (): JSX.Element => {
 		}
 	};
 
+	const handleClose = (): void => {
+		modals.setEditBTVisible(false);
+		modals.setIsEditOpen(true);
+		modals.setIsOpen(true);
+	};
+
 	// validation
 	const DisableButton = (): boolean => {
 		return temperature === defaultTemperature;
@@ -59,10 +66,10 @@ const EditTemperature = (): JSX.Element => {
 		<Modal
 			visible={modals.editBTVisible}
 			animationType='fade'
-			onRequestClose={() => modals.setEditBTVisible(false)}
+			onRequestClose={handleClose}
 			transparent={true}
 		>
-			<TouchableWithoutFeedback onPressIn={() => modals.setEditBTVisible(false)}>
+			<TouchableWithoutFeedback onPressIn={handleClose}>
 				<View style={STYLES.defaultModalViewDeep}>
 					<TouchableWithoutFeedback onPress={(e) => e.stopPropagation()}>
 						<View>
@@ -70,7 +77,7 @@ const EditTemperature = (): JSX.Element => {
 								<View style={STYLES.checkmarkPos}>
 									<HvButtonCheck
 										cancel
-										onPress={() => modals.setEditBTVisible(false)}
+										onPress={handleClose}
 										bgColor={DARK_RED}
 									/>
 								</View>

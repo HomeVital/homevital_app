@@ -52,6 +52,7 @@ const Weight = (): JSX.Element => {
 					<HvCardMeasurements
 						items={data as IBodyWeight[]}
 						onPress={(itemData: IBodyWeight) => {
+							modals.setIsOpen(true);
 							modals.setIsEditOpen(true);
 							modals.setEditModalData({
 								title: 'Líkamsþyngd',

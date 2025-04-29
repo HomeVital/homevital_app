@@ -61,7 +61,8 @@ const EditBloodPressure = (): JSX.Element => {
 			queryClient.invalidateQueries({ queryKey: ['bloodpressure'] });
 			queryClient.invalidateQueries({ queryKey: ['recentmeasurements'] });
 			modals.setEditBPVisible(false);
-			modals.setIsEditOpen(false);
+			// modals.setIsEditOpen(false);
+			modals.setIsOpen(false);
 		},
 	});
 
@@ -80,6 +81,12 @@ const EditBloodPressure = (): JSX.Element => {
 		}
 	};
 
+	const handleClose = (): void => {
+		modals.setEditBPVisible(false);
+		modals.setIsEditOpen(true);
+		modals.setIsOpen(true);
+	};
+
 	const DisableButton = (): boolean => {
 		return (
 			hand === defaultHand &&
@@ -94,11 +101,11 @@ const EditBloodPressure = (): JSX.Element => {
 		<Modal
 			visible={modals.editBPVisible}
 			animationType='fade'
-			onRequestClose={() => modals.setEditBPVisible(false)}
+			onRequestClose={handleClose}
 			transparent={true}
 		>
 			<HvScrollView isModal>
-				<TouchableWithoutFeedback onPressIn={() => modals.setEditBPVisible(false)}>
+				<TouchableWithoutFeedback onPressIn={handleClose}>
 					<View style={STYLES.defaultModalViewDeep}>
 						<TouchableWithoutFeedback onPress={(e) => e.stopPropagation()}>
 							<View>
@@ -106,7 +113,7 @@ const EditBloodPressure = (): JSX.Element => {
 									<View style={STYLES.checkmarkPos}>
 										<HvButtonCheck
 											cancel
-											onPress={() => modals.setEditBPVisible(false)}
+											onPress={handleClose}
 											bgColor={DARK_RED}
 										/>
 									</View>

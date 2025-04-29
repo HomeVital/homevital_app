@@ -51,6 +51,7 @@ const OxygenSaturation = (): JSX.Element => {
 					<HvCardMeasurements
 						items={data as IOxygenSaturation[]}
 						onPress={(itemData: IOxygenSaturation) => {
+							modals.setIsOpen(true);
 							modals.setIsEditOpen(true);
 							modals.setEditModalData({
 								title: 'Súrefnismettun',

@@ -55,6 +55,7 @@ const Temperature = (): JSX.Element => {
 					<HvCardMeasurements
 						items={data as IBodyTemperature[]}
 						onPress={(itemData: IBodyTemperature) => {
+							modals.setIsOpen(true);
 							modals.setIsEditOpen(true);
 							modals.setEditModalData({
 								title: 'Líkamshiti',

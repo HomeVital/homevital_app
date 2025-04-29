@@ -49,6 +49,7 @@ const HvModalEdit = (): JSX.Element => {
 			queryClient.invalidateQueries({ queryKey: ['recentmeasurements'] });
 			// status popup
 			modals.setIsEditOpen(false);
+			modals.setIsOpen(false);
 		},
 	});
 
@@ -59,6 +60,7 @@ const HvModalEdit = (): JSX.Element => {
 			queryClient.invalidateQueries({ queryKey: ['recentmeasurements'] });
 			// status popup
 			modals.setIsEditOpen(false);
+			modals.setIsOpen(false);
 		},
 	});
 
@@ -69,6 +71,7 @@ const HvModalEdit = (): JSX.Element => {
 			queryClient.invalidateQueries({ queryKey: ['recentmeasurements'] });
 			// status popup
 			modals.setIsEditOpen(false);
+			modals.setIsOpen(false);
 		},
 	});
 
@@ -79,6 +82,7 @@ const HvModalEdit = (): JSX.Element => {
 			queryClient.invalidateQueries({ queryKey: ['recentmeasurements'] });
 			// status popup
 			modals.setIsEditOpen(false);
+			modals.setIsOpen(false);
 		},
 	});
 
@@ -89,6 +93,7 @@ const HvModalEdit = (): JSX.Element => {
 			queryClient.invalidateQueries({ queryKey: ['recentmeasurements'] });
 			// status popup
 			modals.setIsEditOpen(false);
+			modals.setIsOpen(false);
 		},
 	});
 
@@ -122,6 +127,7 @@ const HvModalEdit = (): JSX.Element => {
 
 	const handleOnClose = () => {
 		modals.setIsEditOpen(false);
+		modals.setIsOpen(false);
 	};
 
 	const handleOnEdit = () => {
@@ -149,7 +155,7 @@ const HvModalEdit = (): JSX.Element => {
 			transparent={true}
 		>
 			<TouchableWithoutFeedback onPressIn={handleOnClose}>
-				<View style={STYLES.defaultModalView}>
+				<View style={STYLES.defaultModalViewDeep}>
 					<TouchableWithoutFeedback onPress={(e) => e.stopPropagation()}>
 						<View>
 							<HvCard
