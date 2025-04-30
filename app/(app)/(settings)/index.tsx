@@ -102,7 +102,11 @@ const MainSettings = (): JSX.Element => {
 								<CountryFlag
 									isoCode={countryCode}
 									size={25}
-									style={{ borderRadius: 4 }}
+									style={{
+										borderRadius: 4,
+										borderColor: DARK_GREEN,
+										borderWidth: 1,
+									}}
 								/>
 							</View>
 						</TouchableOpacity>
