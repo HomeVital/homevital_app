@@ -69,46 +69,50 @@ const ChangeLanguage = ({ onChange }: Props): JSX.Element => {
 									{t('modals.language.changeTitle')}
 								</HvText>
 								<View>
-									{languages.map((lang) => (
-										<TouchableOpacity
-											key={lang}
-											onPress={() => setLangCode(lang)}
-										>
-											<View style={Styles.row}>
-												<HvText
-													weight={
-														lang === langCode ? 'semibold' : 'regular'
-													}
-												>
-													{t('settings.language.' + lang)}
-												</HvText>
-												<View
-													style={{
-														flexDirection: 'row',
-														alignItems: 'center',
-														gap: 10,
-													}}
-												>
-													<CountryFlag
-														isoCode={lang}
-														size={25}
-														style={{ borderRadius: 4 }}
-													/>
-													<View style={{ width: 16, height: 25 }}>
-														{lang === langCode && (
-															<HvText
-																size='xl'
-																color='darkGreen'
-																weight='bold'
-																center
-															>
-																✓
-															</HvText>
-														)}
+									{languages.map((lang, index) => (
+										<View key={lang}>
+											<TouchableOpacity onPress={() => setLangCode(lang)}>
+												<View style={Styles.row}>
+													<HvText
+														weight={
+															lang === langCode
+																? 'semibold'
+																: 'regular'
+														}
+													>
+														{t('settings.language.' + lang)}
+													</HvText>
+													<View
+														style={{
+															flexDirection: 'row',
+															alignItems: 'center',
+															gap: 10,
+														}}
+													>
+														<CountryFlag
+															isoCode={lang}
+															size={25}
+															style={{ borderRadius: 4 }}
+														/>
+														<View style={{ width: 16, height: 25 }}>
+															{lang === langCode && (
+																<HvText
+																	size='xl'
+																	color='darkGreen'
+																	weight='bold'
+																	center
+																>
+																	✓
+																</HvText>
+															)}
+														</View>
 													</View>
 												</View>
-											</View>
-										</TouchableOpacity>
+											</TouchableOpacity>
+											{index !== languages.length - 1 && (
+												<View style={Styles.spacer} />
+											)}
+										</View>
 									))}
 								</View>
 							</HvInputForm>
@@ -127,6 +131,12 @@ const Styles = StyleSheet.create({
 		alignItems: 'center',
 		paddingVertical: 10,
 		paddingHorizontal: 20,
+	},
+	spacer: {
+		borderBottomWidth: 1,
+		borderTopWidth: 1,
+		borderColor: '#E0E0E0',
+		width: '95%',
 	},
 });
 
