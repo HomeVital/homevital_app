@@ -65,6 +65,9 @@
 			"editTitle": "Edit Oxygen Saturation",
 			"oxygenSaturation": "Saturation"
 		},
+		"language": {
+			"changeTitle": "Change Language"
+		},
 		"validation": {
 			"normal": {
 				"header": "Good job!",
@@ -90,7 +93,11 @@
 		"phone": "Phone",
 		"contacts": "Contacts",
 		"devices": "Devices",
-		"language": "Language",
+		"language": {
+			"language": "Language",
+			"us": "English",
+			"is": "Icelandic"
+		},
 		"notifications": "Notifications",
 		"signOut": "Sign out"
 	}

@@ -47,6 +47,8 @@ const AppLayout = (): JSX.Element => {
 	const [editBOVisible, setEditBOVisible] = useState(false);
 	const [editBWVisible, setEditBWVisible] = useState(false);
 	const [editBTVisible, setEditBTVisible] = useState(false);
+	// language modal
+	const [changeLangVisible, setChangeLangVisible] = useState(false);
 	// grayed overlay
 	const [isOpen, setIsOpen] = useState(false);
 	const [isEditOpen, setIsEditOpen] = useState(false);
@@ -77,7 +79,13 @@ const AppLayout = (): JSX.Element => {
 	// 	isEditOpen;
 
 	const isAnyInitModalVisible =
-		addBTVisible || addBPVisible || addBWVisible || addBOVisible || addBSVisible || isEditOpen;
+		addBTVisible ||
+		addBPVisible ||
+		addBWVisible ||
+		addBOVisible ||
+		addBSVisible ||
+		isEditOpen ||
+		changeLangVisible;
 
 	const isAnyEditModalVisible =
 		editBTVisible || editBPVisible || editBWVisible || editBOVisible || editBSVisible;
@@ -199,6 +207,9 @@ const AppLayout = (): JSX.Element => {
 				setEditReady,
 				editModalVisible,
 				setEditModalVisible,
+				// language
+				changeLangVisible,
+				setChangeLangVisible,
 			}}
 		>
 			<View style={styles.container}>

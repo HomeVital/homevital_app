@@ -65,10 +65,13 @@
 			"editTitle": "Breyta Súrefnismettun",
 			"oxygenSaturation": "Súrefnismettun"
 		},
+		"language": {
+			"changeTitle": "Breyta Tungumáli"
+		},
 		"validation": {
 			"normal": {
 				"header": "Vel gert!",
-				"text": "Þú ert innan eðlilega marka. Eigðu góðan dag."
+				"text": "Þú ert innan eðlilegra marka. Eigðu góðan dag."
 			},
 			"raised": {
 				"header": "Rétt utan marka!",
@@ -90,7 +93,11 @@
 		"phone": "Sími",
 		"contacts": "Tengiliðir",
 		"devices": "Tæki",
-		"language": "Tungumál",
+		"language": {
+			"language": "Tungumál",
+			"us": "Enska",
+			"is": "Íslenska"
+		},
 		"notifications": "Tilkynningar",
 		"signOut": "Skrá út"
 	}
