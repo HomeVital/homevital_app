@@ -5,6 +5,7 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 import HvButton from '@/components/ui/hvButton';
 import { LIGHT_GREEN } from '@/constants/colors';
 import { WIN_WIDTH } from '@/constants/window';
+import { useTranslation } from 'react-i18next';
 
 /**
  * Initial screen for the app that goes to the sign-in screen
@@ -12,6 +13,7 @@ import { WIN_WIDTH } from '@/constants/window';
  * @returns initial screen
  */
 const InitialScreen = (): JSX.Element => {
+	const { t } = useTranslation();
 	return (
 		<SafeAreaView style={Styles.container}>
 			<Image
@@ -20,7 +22,7 @@ const InitialScreen = (): JSX.Element => {
 				style={Styles.homeImage}
 			/>
 			<HvButton
-				text='Innskráning'
+				text={t('signIn.title')}
 				width={WIN_WIDTH * 0.75}
 				onPress={() => router.push('/sign-in')}
 			/>

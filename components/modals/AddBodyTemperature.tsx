@@ -13,8 +13,10 @@ import { getClaimBySubstring } from '@/utility/utility';
 import { useSession } from '@/hooks/ctx';
 import ModalContext from '@/contexts/modalContext';
 import { postBodyTemperature } from '@/queries/post';
+import { useTranslation } from 'react-i18next';
 
 const AddBodyTemperature = (): JSX.Element => {
+	const { t } = useTranslation();
 	const { session } = useSession();
 	const queryClient = useQueryClient();
 	const modals = useContext(ModalContext);
@@ -91,13 +93,15 @@ const AddBodyTemperature = (): JSX.Element => {
 									/>
 								</View>
 								<HvText size='xl' color='darkGreen' weight='semibold' center>
-									Skrá líkamshita
+									{/* Skrá líkamshita */}
+									{t('modals.bodyTemperature.addTitle')}
 								</HvText>
 								<HvInputFormContainer textInput>
 									<HvInputField
 										itemState={temperature}
 										setItemState={setTemperature}
-										header='Hitastig'
+										// header='Hitastig'
+										header={t('modals.bodyTemperature.temperature')}
 										description='C°'
 										keyboardMax={4}
 									/>

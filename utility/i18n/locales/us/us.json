@@ -1,0 +1,105 @@
+{
+	"signIn": {
+		"title": "Sign in",
+		"ssn": "Social Security Number",
+		"ssnRequired": "SSN is missing",
+		"ssnLength": "SSN must be 10 digits",
+		"submit": "Submit"
+	},
+	"home": {
+		"welcome": "Welcome ",
+		"recentMeasurements": "Last 10 measurements",
+		"noMeasurements": "No measurements yet"
+	},
+	"measurements": {
+		"bloodPressure": "Blood Pressure",
+		"bloodSugar": "Blood Sugar",
+		"bodyWeight": "Weight",
+		"bodyTemperature": "Temperature",
+		"oxygenSaturation": "Oxygen Saturation",
+		"bpm": " bpm",
+		"page": {
+			"graph": "Graph",
+			"measurements": "Measurements",
+			"days": "days"
+		}
+	},
+	"tabbar": {
+		"measurements": "Measurem.",
+		"addMeasurement": "New measurem.",
+		"settings": "Settings"
+	},
+	"modals": {
+		"buttons": {
+			"save": "Save",
+			"edit": "Edit",
+			"delete": "Delete"
+		},
+		"bloodPressure": {
+			"addTitle": "Add Blood Pressure",
+			"editTitle": "Edit Blood Pressure",
+			"hand": "Measured hand",
+			"position": "Body position",
+			"upper": "Upper limit",
+			"lower": "Lower limit",
+			"pulse": "Pulse",
+			"bpm": "BPM"
+		},
+		"bloodSugar": {
+			"addTitle": "Add Blood Sugar",
+			"editTitle": "Edit Blood Sugar",
+			"bloodSugar": "Blood sugar"
+		},
+		"bodyWeight": {
+			"addTitle": "Add Weight",
+			"editTitle": "Edit Weight",
+			"bodyWeight": "Weight"
+		},
+		"bodyTemperature": {
+			"addTitle": "Add Temperature",
+			"editTitle": "Edit Temperature",
+			"temperature": "Temperature"
+		},
+		"oxygenSaturation": {
+			"addTitle": "Add Oxygen Saturation",
+			"editTitle": "Edit Oxygen Saturation",
+			"oxygenSaturation": "Saturation"
+		},
+		"language": {
+			"changeTitle": "Change Language"
+		},
+		"validation": {
+			"normal": {
+				"header": "Good job!",
+				"text": "You are within a good range. Have a nice day."
+			},
+			"raised": {
+				"header": "Slightly out of range!",
+				"text": "This can be normal, but home care will review the measurement. Have a nice day."
+			},
+			"high": {
+				"header": "Out of range!",
+				"text": "Home care will contact you shortly and guide you."
+			},
+			"unknown": {
+				"header": "Unknown?",
+				"text": "This is a bug on our side, please contact us and let us know."
+			},
+			"close": "Close"
+		}
+	},
+	"settings": {
+		"home": "Home",
+		"phone": "Phone",
+		"contacts": "Contacts",
+		"devices": "Devices",
+		"language": {
+			"language": "Language",
+			"us": "English",
+			"is": "Icelandic",
+			"pl": "Polish"
+		},
+		"notifications": "Notifications",
+		"signOut": "Sign out"
+	}
+}

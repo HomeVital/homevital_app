@@ -5,61 +5,11 @@ import HvText from '../ui/hvText';
 import { IMeasurement } from '@/interfaces/measurements';
 import HvImage from '../ui/hvImage';
 import { RelativePathString, router } from 'expo-router';
+import { useTranslation } from 'react-i18next';
 
 interface Props {
 	items: IMeasurement[];
 }
-
-const measurementLink = (item: IMeasurement): RelativePathString => {
-	switch (item.measurementType) {
-		case 'BodyWeight':
-			return '/(app)/(measurements)/(weight)' as RelativePathString;
-		case 'OxygenSaturation':
-			return '/(app)/(measurements)/(oxygenSaturation)' as RelativePathString;
-		case 'BloodSugar':
-			return '/(app)/(measurements)/(bloodSugar)' as RelativePathString;
-		case 'BodyTemperature':
-			return '/(app)/(measurements)/(temperature)' as RelativePathString;
-		case 'BloodPressure':
-			return '/(app)/(measurements)/(bloodPressure)' as RelativePathString;
-		default:
-			return '' as RelativePathString;
-	}
-};
-
-const measurementString = (item: IMeasurement): string => {
-	switch (item.measurementType) {
-		case 'BodyWeight':
-			return `${item.measurementValues.weight} Kg`;
-		case 'OxygenSaturation':
-			return `${item.measurementValues.oxygenSaturation} %`;
-		case 'BloodSugar':
-			return `${item.measurementValues.bloodSugar} mmol/L`;
-		case 'BodyTemperature':
-			return `${item.measurementValues.temperature} °C`;
-		case 'BloodPressure':
-			return `${item.measurementValues.systolic} / ${item.measurementValues.diastolic}`;
-		default:
-			return '';
-	}
-};
-
-const measurementTypeString = (item: IMeasurement): string => {
-	switch (item.measurementType) {
-		case 'BodyWeight':
-			return 'Þyngd';
-		case 'OxygenSaturation':
-			return 'Súrefnismettun';
-		case 'BloodSugar':
-			return 'Blóðsykur';
-		case 'BodyTemperature':
-			return 'Hitastig';
-		case 'BloodPressure':
-			return 'Blóðþrýstingur';
-		default:
-			return '';
-	}
-};
 
 /**
  * Card component for displaying a measurement
@@ -67,6 +17,59 @@ const measurementTypeString = (item: IMeasurement): string => {
  * @returns card component for displaying a measurement
  */
 const HvCardRecentMeasurements = ({ items }: Props): JSX.Element => {
+	const { t } = useTranslation();
+
+	const measurementLink = (item: IMeasurement): RelativePathString => {
+		switch (item.measurementType) {
+			case 'BodyWeight':
+				return '/(app)/(measurements)/(weight)' as RelativePathString;
+			case 'OxygenSaturation':
+				return '/(app)/(measurements)/(oxygenSaturation)' as RelativePathString;
+			case 'BloodSugar':
+				return '/(app)/(measurements)/(bloodSugar)' as RelativePathString;
+			case 'BodyTemperature':
+				return '/(app)/(measurements)/(temperature)' as RelativePathString;
+			case 'BloodPressure':
+				return '/(app)/(measurements)/(bloodPressure)' as RelativePathString;
+			default:
+				return '' as RelativePathString;
+		}
+	};
+
+	const measurementString = (item: IMeasurement): string => {
+		switch (item.measurementType) {
+			case 'BodyWeight':
+				return `${item.measurementValues.weight} Kg`;
+			case 'OxygenSaturation':
+				return `${item.measurementValues.oxygenSaturation} %`;
+			case 'BloodSugar':
+				return `${item.measurementValues.bloodSugar} mmol/L`;
+			case 'BodyTemperature':
+				return `${item.measurementValues.temperature} °C`;
+			case 'BloodPressure':
+				return `${item.measurementValues.systolic} / ${item.measurementValues.diastolic}`;
+			default:
+				return '';
+		}
+	};
+
+	const measurementTypeString = (item: IMeasurement): string => {
+		switch (item.measurementType) {
+			case 'BodyWeight':
+				return t('measurements.bodyWeight');
+			case 'OxygenSaturation':
+				return t('measurements.oxygenSaturation');
+			case 'BloodSugar':
+				return t('measurements.bloodSugar');
+			case 'BodyTemperature':
+				return t('measurements.bodyTemperature');
+			case 'BloodPressure':
+				return t('measurements.bloodPressure');
+			default:
+				return '';
+		}
+	};
+
 	return (
 		<>
 			{items.map((item) => (
@@ -109,7 +112,7 @@ const HvCardRecentMeasurements = ({ items }: Props): JSX.Element => {
 									</HvText>
 									{item.measurementType === 'BloodPressure' && (
 										<HvText weight='semibold' size='l'>
-											{item.measurementValues.bpm + ' púls'}
+											{item.measurementValues.bpm + t('measurements.bpm')}
 										</HvText>
 									)}
 								</View>

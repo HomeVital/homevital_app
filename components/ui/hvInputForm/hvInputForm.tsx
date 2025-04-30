@@ -2,6 +2,7 @@ import { View, StyleSheet, ViewProps } from 'react-native';
 // constants
 import { WHITE } from '@/constants/colors';
 import HvButton from '../hvButton';
+import { useTranslation } from 'react-i18next';
 
 interface Props extends ViewProps {
 	onPress: () => void;
@@ -15,10 +16,11 @@ interface Props extends ViewProps {
  * @returns custom input form component
  */
 const HvInputForm = ({ onPress, disabled = false, ...props }: Props): JSX.Element => {
+	const { t } = useTranslation();
 	return (
 		<View style={[Styles.container, props.style]}>
 			{props.children}
-			<HvButton text='Vista' onPress={onPress} disabled={disabled} />
+			<HvButton text={t('modals.buttons.save')} onPress={onPress} disabled={disabled} />
 		</View>
 	);
 };

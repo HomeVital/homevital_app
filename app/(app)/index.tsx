@@ -12,8 +12,10 @@ import HvCardRecentMeasurements from '@/components/cards/hvCardRecentMeasurement
 import { ErrorView, LoadingView } from '@/components/queryStates';
 import { getClaimBySubstring } from '@/utility/utility';
 import { TAB_ICON_SIZE } from '@/constants/constants';
+import { useTranslation } from 'react-i18next';
 
 const MainScreen = (): JSX.Element => {
+	const { t } = useTranslation();
 	const { session } = useSession();
 
 	const [patient, recentMeasurements] = useQueries({
@@ -72,17 +74,17 @@ const MainScreen = (): JSX.Element => {
 		<SafeAreaView>
 			{patient.data && (
 				<>
-					<HvHeader name={patient.data.name.split(' ')[0]} />
+					<HvHeader name={t('home.welcome') + patient.data.name.split(' ')[0]} />
 					<View style={STYLES.defaultNoPadView}>
 						<HvText weight='semibold' size='l' style={{ paddingInline: 20 }}>
-							Seinustu 10 Mælingar
+							{t('home.recentMeasurements')}
 						</HvText>
 						<HvScrollView style={{ marginBottom: 166 + TAB_ICON_SIZE + 10 }}>
 							<View style={STYLES.defaultView}>
 								{recentMeasurements.data && recentMeasurements.data.length > 0 ? (
 									<HvCardRecentMeasurements items={recentMeasurements.data} />
 								) : (
-									<HvText>Engar mælingar</HvText>
+									<HvText>{t('home.noMeasurements')}</HvText>
 								)}
 							</View>
 						</HvScrollView>

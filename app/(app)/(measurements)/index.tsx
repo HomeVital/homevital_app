@@ -19,8 +19,10 @@ import { WIN_WIDTH } from '@/constants/window';
 import { PADDING } from '@/constants/constants';
 import { LoadingView } from '@/components/queryStates';
 import { getClaimBySubstring } from '@/utility/utility';
+import { useTranslation } from 'react-i18next';
 
 const MainMeasurements = (): JSX.Element => {
+	const { t } = useTranslation();
 	const { session } = useSession();
 
 	const [bloodpressure, bloodsugar, bodytemperature, bodyweight, oxygensaturation] = useQueries({
@@ -78,7 +80,7 @@ const MainMeasurements = (): JSX.Element => {
 								contentFit='contain'
 								style={Styles.itemImage}
 							/>
-							<HvText>Blóðþrýstingur</HvText>
+							<HvText>{t('measurements.bloodPressure')}</HvText>
 						</TouchableOpacity>
 					</View>
 				)}
@@ -94,7 +96,7 @@ const MainMeasurements = (): JSX.Element => {
 								contentFit='contain'
 								style={Styles.itemImage}
 							/>
-							<HvText>Blóðsykur</HvText>
+							<HvText>{t('measurements.bloodSugar')}</HvText>
 						</TouchableOpacity>
 					</View>
 				)}
@@ -110,7 +112,7 @@ const MainMeasurements = (): JSX.Element => {
 								contentFit='contain'
 								style={Styles.itemImage}
 							/>
-							<HvText>Þyngd</HvText>
+							<HvText>{t('measurements.bodyWeight')}</HvText>
 						</TouchableOpacity>
 					</View>
 				)}
@@ -126,7 +128,7 @@ const MainMeasurements = (): JSX.Element => {
 								contentFit='contain'
 								style={Styles.itemImage}
 							/>
-							<HvText>Hiti</HvText>
+							<HvText>{t('measurements.bodyTemperature')}</HvText>
 						</TouchableOpacity>
 					</View>
 				)}
@@ -142,7 +144,7 @@ const MainMeasurements = (): JSX.Element => {
 								contentFit='contain'
 								style={Styles.itemImage}
 							/>
-							<HvText>Súrefnismettun</HvText>
+							<HvText>{t('measurements.oxygenSaturation')}</HvText>
 						</TouchableOpacity>
 					</View>
 				)}

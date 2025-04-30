@@ -11,8 +11,10 @@ import { patchBodyWeight } from '@/queries/patch';
 import HvButtonCheck from '../ui/hvButtonCheck';
 import { DARK_RED } from '@/constants/colors';
 import ModalContext from '@/contexts/modalContext';
+import { useTranslation } from 'react-i18next';
 
 const EditBodyWeight = (): JSX.Element => {
+	const { t } = useTranslation();
 	const queryClient = useQueryClient();
 	const modals = useContext(ModalContext);
 	const item = modals.editModalData.item as IBodyWeight;
@@ -74,12 +76,13 @@ const EditBodyWeight = (): JSX.Element => {
 									/>
 								</View>
 								<HvText size='xl' color='darkGreen' weight='semibold' center>
-									Breyta þyngd
+									{t('modals.bodyWeight.editTitle')}
 								</HvText>
 								<HvInputFormContainer textInput>
 									<HvInputField
 										itemState={weight}
 										setItemState={setWeight}
+										header={t('modals.bodyWeight.bodyWeight')}
 										description='Kg'
 										keyboardMax={5}
 									/>

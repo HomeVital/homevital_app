@@ -59,6 +59,9 @@ const ModalContext = createContext<{
 	setEditReady: (ready: boolean) => void;
 	editModalVisible: number;
 	setEditModalVisible: (visible: number) => void;
+	// language
+	changeLangVisible: boolean;
+	setChangeLangVisible: (visible: boolean) => void;
 }>({
 	// add
 	addBPVisible: false,
@@ -111,6 +114,9 @@ const ModalContext = createContext<{
 	setEditReady: () => null,
 	editModalVisible: 0,
 	setEditModalVisible: () => null,
+	// language
+	changeLangVisible: false,
+	setChangeLangVisible: () => null,
 });
 
 export default ModalContext;

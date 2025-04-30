@@ -8,6 +8,8 @@ import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { SessionProvider } from '@/hooks/ctx';
 // constants
 import { LIGHT_THEME } from '@/constants/colors';
+// language
+import '@/utility/i18n';
 
 const queryClient = new QueryClient();
 

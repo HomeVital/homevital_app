@@ -13,8 +13,10 @@ import { getClaimBySubstring } from '@/utility/utility';
 import { useSession } from '@/hooks/ctx';
 import ModalContext from '@/contexts/modalContext';
 import { postBodyWeight } from '@/queries/post';
+import { useTranslation } from 'react-i18next';
 
 const AddBodyWeight = (): JSX.Element => {
+	const { t } = useTranslation();
 	const { session } = useSession();
 	const queryClient = useQueryClient();
 	const modals = useContext(ModalContext);
@@ -93,12 +95,13 @@ const AddBodyWeight = (): JSX.Element => {
 									/>
 								</View>
 								<HvText size='xl' color='darkGreen' weight='semibold' center>
-									Skrá líkamsþyngd
+									{t('modals.bodyWeight.addTitle')}
 								</HvText>
 								<HvInputFormContainer textInput>
 									<HvInputField
 										itemState={weight}
 										setItemState={setWeight}
+										header={t('modals.bodyWeight.bodyWeight')}
 										description='Kg'
 										keyboardMax={5}
 									/>

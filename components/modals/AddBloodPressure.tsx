@@ -14,8 +14,10 @@ import { useSession } from '@/hooks/ctx';
 import ModalContext from '@/contexts/modalContext';
 import HvToggleSelect from '../ui/hvInputForm/hvToggleSelect';
 import { postBloodPressure } from '@/queries/post';
+import { useTranslation } from 'react-i18next';
 
 const AddBloodPressure = (): JSX.Element => {
+	const { t } = useTranslation();
 	const { session } = useSession();
 	const queryClient = useQueryClient();
 	const modals = useContext(ModalContext);
@@ -118,7 +120,7 @@ const AddBloodPressure = (): JSX.Element => {
 									/>
 								</View>
 								<HvText size='xl' color='darkGreen' weight='semibold' center>
-									Skrá blóðþrýsting
+									{t('modals.bloodPressure.addTitle')}
 								</HvText>
 
 								<HvInputFormContainer>
@@ -127,7 +129,7 @@ const AddBloodPressure = (): JSX.Element => {
 										setItemState={setMeasureHand}
 										leftIcon={require('@/assets/svgs/handLeftArrow.svg')}
 										rightIcon={require('@/assets/svgs/handRightArrow.svg')}
-										description='Mæli hönd'
+										description={t('modals.bloodPressure.hand')}
 										leftText='Vinstri'
 										rightText='Hægri'
 									/>
@@ -139,7 +141,7 @@ const AddBloodPressure = (): JSX.Element => {
 										setItemState={setBodyPosition}
 										leftIcon={require('@/assets/svgs/sitting.svg')}
 										rightIcon={require('@/assets/svgs/laying.svg')}
-										description='Líkamsstaða'
+										description={t('modals.bloodPressure.position')}
 										leftText='Sitjandi'
 										rightText='Liggjandi'
 									/>
@@ -149,7 +151,7 @@ const AddBloodPressure = (): JSX.Element => {
 									<HvInputField
 										itemState={systolic}
 										setItemState={setSystolic}
-										header='Efri mörk'
+										header={t('modals.bloodPressure.upper')}
 										description='SYS'
 										metric='mmHg'
 									/>
@@ -157,7 +159,7 @@ const AddBloodPressure = (): JSX.Element => {
 									<HvInputField
 										itemState={diastolic}
 										setItemState={setDiastolic}
-										header='Neðri mörk'
+										header={t('modals.bloodPressure.lower')}
 										description='DIA'
 										metric='mmHg'
 									/>
@@ -165,8 +167,8 @@ const AddBloodPressure = (): JSX.Element => {
 									<HvInputField
 										itemState={pulse}
 										setItemState={setPulse}
-										description='Púls'
-										// metric="bpm"
+										header={t('modals.bloodPressure.pulse')}
+										description={t('modals.bloodPressure.bpm')}
 									/>
 								</HvInputFormContainer>
 							</HvInputForm>

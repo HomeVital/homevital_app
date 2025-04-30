@@ -15,8 +15,10 @@ import { ErrorView, LoadingView } from '@/components/queryStates';
 import { useContext } from 'react';
 import { getClaimBySubstring } from '@/utility/utility';
 import ModalContext from '@/contexts/modalContext';
+import { useTranslation } from 'react-i18next';
 
 const BloodPressure = (): JSX.Element => {
+	const { t } = useTranslation();
 	const { session } = useSession();
 	const modals = useContext(ModalContext);
 	const { toggled, setToggledTrue, setToggledFalse } = useToggle();
@@ -38,8 +40,8 @@ const BloodPressure = (): JSX.Element => {
 				toggler={toggled}
 				setToggledTrue={setToggledTrue}
 				setToggledFalse={setToggledFalse}
-				textLeft='Graf'
-				textRight='Mælingar'
+				textLeft={t('measurements.page.graph')}
+				textRight={t('measurements.page.measurements')}
 				margin={20}
 			/>
 			{toggled ? (
@@ -48,7 +50,7 @@ const BloodPressure = (): JSX.Element => {
 					dataTypes={{
 						systolic: { name: 'SYS', color: LIGHT_GREEN },
 						diastolic: { name: 'DIA', color: DARK_GREEN },
-						pulse: { name: 'Púls', color: LIGHT_BLUE },
+						pulse: { name: t('measurements.bpm'), color: LIGHT_BLUE },
 					}}
 				/>
 			) : (
@@ -59,7 +61,7 @@ const BloodPressure = (): JSX.Element => {
 							modals.setIsOpen(true);
 							modals.setIsEditOpen(true);
 							modals.setEditModalData({
-								title: 'Blóðþrýstingur',
+								title: t('measurements.bloodPressure'),
 								item: itemData,
 							});
 						}}

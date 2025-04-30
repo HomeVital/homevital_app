@@ -13,8 +13,10 @@ import { getClaimBySubstring } from '@/utility/utility';
 import { useSession } from '@/hooks/ctx';
 import ModalContext from '@/contexts/modalContext';
 import { postBloodSugar } from '@/queries/post';
+import { useTranslation } from 'react-i18next';
 
 const AddBloodSugar = (): JSX.Element => {
+	const { t } = useTranslation();
 	const { session } = useSession();
 	const queryClient = useQueryClient();
 	const modals = useContext(ModalContext);
@@ -91,14 +93,14 @@ const AddBloodSugar = (): JSX.Element => {
 									/>
 								</View>
 								<HvText size='xl' color='darkGreen' weight='semibold' center>
-									Skrá blóðsykur
+									{t('modals.bloodSugar.addTitle')}
 								</HvText>
 								<HvInputFormContainer textInput>
 									<HvInputField
 										itemState={bloodSugar}
 										setItemState={setBloodSugar}
-										description='Blóðsykur'
-										metric='mmol/L'
+										header={t('modals.bloodSugar.bloodSugar')}
+										description='mmol/L'
 									/>
 								</HvInputFormContainer>
 							</HvInputForm>
