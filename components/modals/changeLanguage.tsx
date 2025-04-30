@@ -3,7 +3,7 @@ import { STYLES } from '@/constants/styles';
 import { useContext, useState } from 'react';
 import HvText from '../ui/hvText';
 import HvButtonCheck from '../ui/hvButtonCheck';
-import { DARK_RED } from '@/constants/colors';
+import { DARK_RED, LIGHT_THEME } from '@/constants/colors';
 import ModalContext from '@/contexts/modalContext';
 import { useTranslation } from 'react-i18next';
 import HvInputForm from '../ui/hvInputForm/hvInputForm';
@@ -17,7 +17,7 @@ const ChangeLanguage = ({ onChange }: Props): JSX.Element => {
 	const { t, i18n } = useTranslation();
 	const modals = useContext(ModalContext);
 
-	const languages = ['is', 'us'];
+	const languages = ['is', 'us', 'pl'];
 
 	// measurements
 	const defaultLangCode = i18n.language;
@@ -68,7 +68,7 @@ const ChangeLanguage = ({ onChange }: Props): JSX.Element => {
 								<HvText size='xl' color='darkGreen' weight='semibold' center>
 									{t('modals.language.changeTitle')}
 								</HvText>
-								<View>
+								<View style={Styles.itemsContainer}>
 									{languages.map((lang, index) => (
 										<View key={lang}>
 											<TouchableOpacity onPress={() => setLangCode(lang)}>
@@ -134,9 +134,14 @@ const Styles = StyleSheet.create({
 	},
 	spacer: {
 		borderBottomWidth: 1,
-		borderTopWidth: 1,
+		// borderTopWidth: 1,
 		borderColor: '#E0E0E0',
-		width: '95%',
+		// width: '95%',
+	},
+	itemsContainer: {
+		padding: 20,
+		backgroundColor: LIGHT_THEME,
+		borderRadius: 10,
 	},
 });
 

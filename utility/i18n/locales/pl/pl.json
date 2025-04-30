@@ -1,0 +1,105 @@
+{
+	"signIn": {
+		"title": "Logowanie",
+		"ssn": "Numer identyfikacji",
+		"ssnRequired": "Brak numeru identyfikacji",
+		"ssnLength": "Numer identyfikacji musi mieć 10 cyfr",
+		"submit": "Zaloguj się"
+	},
+	"home": {
+		"welcome": "Witaj ",
+		"recentMeasurements": "Ostatnie 10 pomiarów",
+		"noMeasurements": "Brak zarejestrowanych pomiarów"
+	},
+	"measurements": {
+		"bloodPressure": "Ciśnienie krwi",
+		"bloodSugar": "Stężenie cukru we krwi",
+		"bodyWeight": "Waga",
+		"bodyTemperature": "Temperatura",
+		"oxygenSaturation": "Saturacja tlenu",
+		"bpm": "puls",
+		"page": {
+			"graph": "Wykres",
+			"measurements": "Pomiary",
+			"days": "dni"
+		}
+	},
+	"tabbar": {
+		"measurements": "Pomiary",
+		"addMeasurement": "Nowy pomiar",
+		"settings": "Ustawienia"
+	},
+	"modals": {
+		"buttons": {
+			"save": "Zapisz",
+			"edit": "Edytuj",
+			"delete": "Usuń"
+		},
+		"bloodPressure": {
+			"addTitle": "Dodaj ciśnienie krwi",
+			"editTitle": "Edytuj ciśnienie krwi",
+			"hand": "Zmierzona ręka",
+			"position": "Pozycja ciała",
+			"upper": "Górna granica",
+			"lower": "Dolna granica",
+			"pulse": " puls",
+			"bpm": "BPM"
+		},
+		"bloodSugar": {
+			"addTitle": "Dodaj stężenie cukru",
+			"editTitle": "Edytuj stężenie cukru",
+			"bloodSugar": "Stężenie cukru"
+		},
+		"bodyWeight": {
+			"addTitle": "Dodaj wagę",
+			"editTitle": "Edytuj wagę",
+			"bodyWeight": "Waga"
+		},
+		"bodyTemperature": {
+			"addTitle": "Dodaj temperaturę",
+			"editTitle": "Edytuj temperaturę",
+			"temperature": "Temperatura"
+		},
+		"oxygenSaturation": {
+			"addTitle": "Dodaj saturację tlenu",
+			"editTitle": "Edytuj saturację tlenu",
+			"oxygenSaturation": "Saturacja tlenu"
+		},
+		"language": {
+			"changeTitle": "Zmien język"
+		},
+		"validation": {
+			"normal": {
+				"header": "Dobra robota!",
+				"text": "Jesteś w normalnych granicach. Miłego dnia."
+			},
+			"raised": {
+				"header": "Dobrze poza granicami!",
+				"text": "To może być normalne, ale pielęgniarka domowa sprawdzi pomiar. Miłego dnia."
+			},
+			"high": {
+				"header": "Poza granicami!",
+				"text": "Pielęgniarka domowa niedługo skontaktuje się z tobą i doradzi co dalej."
+			},
+			"unknown": {
+				"header": "Nieznane?",
+				"text": "To jest błąd z naszej strony, prosimy o kontakt z nami i poinformowanie nas."
+			},
+			"close": "Zamknij"
+		}
+	},
+	"settings": {
+		"home": "Mieszkanie",
+		"phone": "Telefon",
+		"contacts": "Kontakty",
+		"devices": "Urządzenia",
+		"language": {
+			"language": "Język",
+			"us": "Angielski",
+			"is": "Islandzki",
+			"pl": "Polski"
+		},
+		"notifications": "Powiadomienia",
+		"signOut": "Wyloguj się"
+	}
+}
