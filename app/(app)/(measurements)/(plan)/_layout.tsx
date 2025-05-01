@@ -3,7 +3,7 @@ import { useTranslation } from 'react-i18next';
 
 const Layout = (): JSX.Element => {
 	const { t } = useTranslation();
-	return <HvBackStack title={t('measurements.plan')} />;
+	return <HvBackStack title={t('measurements.plan.plan')} />;
 };
 
 export default Layout;

@@ -158,7 +158,7 @@ const MainMeasurements = (): JSX.Element => {
 							contentFit='contain'
 							style={Styles.itemImage}
 						/>
-						<HvText>{t('measurements.plan')}</HvText>
+						<HvText>{t('measurements.plan.plan')}</HvText>
 					</TouchableOpacity>
 				</View>
 			</View>

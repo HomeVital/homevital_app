@@ -23,7 +23,14 @@
 			"measurements": "Pomiary",
 			"days": "dni"
 		},
-		"plan": "Plan"
+		"plan": {
+			"plan": "Plan",
+			"bw": "Waga",
+			"bp": "Ciśnienie krwi",
+			"bs": "Stężenie cukru",
+			"bt": "Temperatura",
+			"os": "Saturacja tlenu"
+		}
 	},
 	"tabbar": {
 		"measurements": "Pomiary",

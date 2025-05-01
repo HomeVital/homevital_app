@@ -23,7 +23,14 @@
 			"measurements": "Mælingar",
 			"days": "Daga"
 		},
-		"plan": "Áætlun"
+		"plan": {
+			"plan": "Áætlun",
+			"bw": "Þyngd",
+			"bp": "Blóðþrýstingur",
+			"bs": "Blóðsykur",
+			"bt": "Hitastig",
+			"os": "Súrefnismettun"
+		}
 	},
 	"tabbar": {
 		"measurements": "Mælingar",

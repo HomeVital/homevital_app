@@ -13,7 +13,7 @@ import HvImage from '@/components/ui/hvImage';
 import { DARK_GREEN } from '@/constants/colors';
 import HvCard from '@/components/cards/hvCard';
 import { fetchPlan } from '@/queries/get';
-import { getClaimBySubstring } from '@/utility/utility';
+import { formatDate, getClaimBySubstring } from '@/utility/utility';
 import { ErrorView, LoadingView } from '@/components/queryStates';
 
 const Plan = (): JSX.Element => {
@@ -31,8 +31,14 @@ const Plan = (): JSX.Element => {
 					top: number;
 				};
 			};
+			BW: boolean;
+			BS: boolean;
+			BP: boolean;
+			OS: boolean;
+			BT: boolean;
 		};
 	}>({});
+	const [selectedDate, setSelectedDate] = React.useState<DateData | null>(null);
 
 	const { data, isError, isLoading } = useQuery({
 		queryKey: ['plan'],
@@ -76,6 +82,19 @@ const Plan = (): JSX.Element => {
 									top: -1,
 								},
 							},
+							BW: markedDaysOfWeek.weightMeasurementDays[dayOfWeek] ? true : false,
+							BS: markedDaysOfWeek.bloodSugarMeasurementDays[dayOfWeek]
+								? true
+								: false,
+							BP: markedDaysOfWeek.bloodPressureMeasurementDays[dayOfWeek]
+								? true
+								: false,
+							BT: markedDaysOfWeek.bodyTemperatureMeasurementDays[dayOfWeek]
+								? true
+								: false,
+							OS: markedDaysOfWeek.oxygenSaturationMeasurementDays[dayOfWeek]
+								? true
+								: false,
 						},
 					}));
 				}
@@ -93,7 +112,11 @@ const Plan = (): JSX.Element => {
 	};
 
 	const handleSelectDay = (day: DateData) => {
-		// set selected date in the calendar
+		if (selectedDate?.dateString === day.dateString) {
+			setSelectedDate(null);
+		} else {
+			setSelectedDate(day);
+		}
 	};
 
 	LocaleConfig.locales['is'] = {
@@ -167,10 +190,6 @@ const Plan = (): JSX.Element => {
 
 	if (isLoading) return <LoadingView />;
 
-	const vacation = { key: 'vacation', color: 'red', selectedDotColor: 'blue' };
-	const massage = { key: 'massage', color: 'blue', selectedDotColor: 'blue' };
-	const workout = { key: 'workout', color: 'green' };
-
 	return (
 		<View style={STYLES.defaultView}>
 			<Calendar
@@ -199,7 +218,6 @@ const Plan = (): JSX.Element => {
 					...markedDates,
 					[new Date().toISOString().split('T')[0]]: {
 						// marked: true,
-						dots: [vacation, massage, workout],
 						customStyles: {
 							container: {
 								// boxShadow: '0px 0px 6px rgba(0, 0, 0, 0.25)',
@@ -214,14 +232,57 @@ const Plan = (): JSX.Element => {
 							},
 						},
 					},
+					//selected date
+					[selectedDate?.dateString || '']: {
+						customStyles: {
+							container: {
+								backgroundColor: DARK_GREEN,
+								width: 40,
+								height: 40,
+								borderRadius: '50%',
+								top: -0.5,
+							},
+							text: {
+								color: '#fff',
+							},
+						},
+					},
 				}}
 				onDayPress={(day: DateData) => {
 					handleSelectDay(day);
 				}}
 			/>
-			<HvCard>
-				<HvText>Something</HvText>
-			</HvCard>
+			{selectedDate && selectedDate.dateString in markedDates && (
+				<HvCard>
+					<HvText>{formatDate(selectedDate.dateString)}</HvText>
+
+					{markedDates[selectedDate.dateString].BW && (
+						<HvText style={{ fontSize: 20, fontWeight: 'bold', marginBottom: 10 }}>
+							{`${i18n.t('measurements.plan.bw')}: ${selectedDate.dateString}`}
+						</HvText>
+					)}
+					{markedDates[selectedDate.dateString].BS && (
+						<HvText style={{ fontSize: 20, fontWeight: 'bold', marginBottom: 10 }}>
+							{`${i18n.t('measurements.plan.bs')}: ${selectedDate.dateString}`}
+						</HvText>
+					)}
+					{markedDates[selectedDate.dateString].BP && (
+						<HvText style={{ fontSize: 20, fontWeight: 'bold', marginBottom: 10 }}>
+							{`${i18n.t('measurements.plan.bp')}: ${selectedDate.dateString}`}
+						</HvText>
+					)}
+					{markedDates[selectedDate.dateString].OS && (
+						<HvText style={{ fontSize: 20, fontWeight: 'bold', marginBottom: 10 }}>
+							{`${i18n.t('measurements.plan.os')}: ${selectedDate.dateString}`}
+						</HvText>
+					)}
+					{markedDates[selectedDate.dateString].BT && (
+						<HvText style={{ fontSize: 20, fontWeight: 'bold', marginBottom: 10 }}>
+							{`${i18n.t('measurements.plan.bt')}: ${selectedDate.dateString}`}
+						</HvText>
+					)}
+				</HvCard>
+			)}
 		</View>
 	);
 };

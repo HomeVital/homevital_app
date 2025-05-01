@@ -23,7 +23,14 @@
 			"measurements": "Measurements",
 			"days": "days"
 		},
-		"plan": "Schedule"
+		"plan": {
+			"plan": "Schedule",
+			"bw": "Weight",
+			"bp": "Blood Pressure",
+			"bs": "Blood Sugar",
+			"bt": "Temperature",
+			"os": "Oxygen Saturation"
+		}
 	},
 	"tabbar": {
 		"measurements": "Measurem.",
