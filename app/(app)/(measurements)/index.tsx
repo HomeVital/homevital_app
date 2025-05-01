@@ -153,11 +153,11 @@ const MainMeasurements = (): JSX.Element => {
 						style={Styles.item}
 						onPress={() => router.push('/(app)/(measurements)/(plan)')}
 					>
-						{/* <Image
-							source={require('@/assets/svgs/calendar.svg')}
+						<Image
+							source={require('@/assets/svgs/schedule.svg')}
 							contentFit='contain'
 							style={Styles.itemImage}
-						/> */}
+						/>
 						<HvText>{t('measurements.plan')}</HvText>
 					</TouchableOpacity>
 				</View>

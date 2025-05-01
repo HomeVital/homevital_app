@@ -12,6 +12,7 @@ const sources = {
 	BodyTemperature: require('@/assets/images/warmDark.png'),
 	BloodPressure: require('@/assets/images/heartDark.png'),
 	BloodSugar: require('@/assets/images/waterDark.png'),
+	Schedule: require('@/assets/svgs/schedule.svg'),
 
 	// add icons
 	BodyWeightLight: require('@/assets/svgs/scale.svg'),
