@@ -22,7 +22,8 @@
 			"graph": "Graph",
 			"measurements": "Measurements",
 			"days": "days"
-		}
+		},
+		"plan": "Plan"
 	},
 	"tabbar": {
 		"measurements": "Measurem.",

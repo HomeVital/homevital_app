@@ -44,6 +44,10 @@ const sources = {
 	// Edit: require('@/assets/svgs/edit.svg'),
 	Edit: require('@/assets/images/pencil.png'),
 	View: require('@/assets/svgs/viewArrow.svg'),
+
+	// navigation icons
+	Back: require('@/assets/svgs/defBack.svg'),
+	Forward: require('@/assets/svgs/defForward.svg'),
 };
 
 const HvImage = ({ source, size = 100, ...props }: Props): JSX.Element => {

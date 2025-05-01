@@ -13,6 +13,7 @@ const Layout = (): JSX.Element => {
 				'(temperature)',
 				'(weight)',
 				'(oxygenSaturation)',
+				'(plan)',
 			]}
 		/>
 	);

@@ -8,10 +8,11 @@ import {
 	MOCK_LOGIN_URL,
 	OXYGENSATURATION_URL,
 	PATIENT_URL,
+	PLAN_URL,
 	TOKEN_URL,
 } from '@/constants/api';
 import axios from 'axios';
-import { IPatient } from '@/interfaces/patient';
+import { IPatient, IPlan } from '@/interfaces/patient';
 import {
 	IBloodPressure,
 	IBloodSugar,
@@ -134,6 +135,16 @@ export const fetchRecentMeasurements = async (sessionId: string): Promise<IMeasu
 		return response.data;
 	} catch (error) {
 		console.error('Error fetching Recent Measurements:', error);
+		throw error;
+	}
+};
+
+export const fetchPlan = async (sessionId: string): Promise<IPlan> => {
+	try {
+		const response = await axios.get(`${PLAN_URL}/${sessionId}`);
+		return response.data[0];
+	} catch (error) {
+		console.error('Error fetching Plan:', error);
 		throw error;
 	}
 };

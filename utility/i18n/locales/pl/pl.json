@@ -22,7 +22,8 @@
 			"graph": "Wykres",
 			"measurements": "Pomiary",
 			"days": "dni"
-		}
+		},
+		"plan": "Plan"
 	},
 	"tabbar": {
 		"measurements": "Pomiary",

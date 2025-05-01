@@ -22,7 +22,8 @@
 			"graph": "Graf",
 			"measurements": "Mælingar",
 			"days": "Daga"
-		}
+		},
+		"plan": "Áætlun"
 	},
 	"tabbar": {
 		"measurements": "Mælingar",
