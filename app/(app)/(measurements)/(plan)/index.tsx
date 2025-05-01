@@ -1,4 +1,4 @@
-import { View } from 'react-native';
+import { View, StyleSheet } from 'react-native';
 // components
 import { STYLES } from '@/constants/styles';
 import { useSession } from '@/hooks/ctx';
@@ -253,38 +253,54 @@ const Plan = (): JSX.Element => {
 				}}
 			/>
 			{selectedDate && selectedDate.dateString in markedDates && (
-				<HvCard>
-					<HvText>{formatDate(selectedDate.dateString)}</HvText>
+				<HvCard padding={12} gap={8}>
+					<HvText weight='semibold' size='l'>
+						{formatDate(selectedDate.dateString)}
+					</HvText>
 
 					{markedDates[selectedDate.dateString].BW && (
-						<HvText style={{ fontSize: 20, fontWeight: 'bold', marginBottom: 10 }}>
-							{`${i18n.t('measurements.plan.bw')}: ${selectedDate.dateString}`}
-						</HvText>
+						<View style={Styles.todo}>
+							<HvImage source={'BodyWeight'} size={30} />
+							<HvText>{`${i18n.t('measurements.plan.bw')}`}</HvText>
+						</View>
 					)}
 					{markedDates[selectedDate.dateString].BS && (
-						<HvText style={{ fontSize: 20, fontWeight: 'bold', marginBottom: 10 }}>
-							{`${i18n.t('measurements.plan.bs')}: ${selectedDate.dateString}`}
-						</HvText>
+						<View style={Styles.todo}>
+							<HvImage source={'BloodSugar'} size={30} />
+							<HvText>{`${i18n.t('measurements.plan.bs')}`}</HvText>
+						</View>
 					)}
 					{markedDates[selectedDate.dateString].BP && (
-						<HvText style={{ fontSize: 20, fontWeight: 'bold', marginBottom: 10 }}>
-							{`${i18n.t('measurements.plan.bp')}: ${selectedDate.dateString}`}
-						</HvText>
+						<View style={Styles.todo}>
+							<HvImage source={'BloodPressure'} size={30} />
+							<HvText>{`${i18n.t('measurements.plan.bp')}`}</HvText>
+						</View>
 					)}
 					{markedDates[selectedDate.dateString].OS && (
-						<HvText style={{ fontSize: 20, fontWeight: 'bold', marginBottom: 10 }}>
-							{`${i18n.t('measurements.plan.os')}: ${selectedDate.dateString}`}
-						</HvText>
+						<View style={Styles.todo}>
+							<HvImage source={'OxygenSaturation'} size={30} />
+							<HvText>{`${i18n.t('measurements.plan.os')}`}</HvText>
+						</View>
 					)}
 					{markedDates[selectedDate.dateString].BT && (
-						<HvText style={{ fontSize: 20, fontWeight: 'bold', marginBottom: 10 }}>
-							{`${i18n.t('measurements.plan.bt')}: ${selectedDate.dateString}`}
-						</HvText>
+						<View style={Styles.todo}>
+							<HvImage source={'BodyTemperature'} size={30} />
+							<HvText>{`${i18n.t('measurements.plan.bt')}`}</HvText>
+						</View>
 					)}
 				</HvCard>
 			)}
 		</View>
 	);
 };
+
+const Styles = StyleSheet.create({
+	todo: {
+		flexDirection: 'row',
+		alignItems: 'center',
+		gap: 10,
+		paddingLeft: 10,
+	},
+});
 
 export default Plan;
