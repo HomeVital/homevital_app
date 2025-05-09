@@ -70,6 +70,7 @@ export const GetUserId = async (ssn: string): Promise<string> => {
 export const fetchBloodPressure = async (sessionId: string): Promise<IBloodPressure[]> => {
 	try {
 		const response = await axios.get(`${BLOODPRESSURE_URL}/${sessionId}`);
+		//
 		return response.data;
 	} catch (error) {
 		console.error('Error fetching Blood Pressure:', error);

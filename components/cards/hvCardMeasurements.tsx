@@ -72,7 +72,7 @@ export const HvCardMeasurement = <T,>({ item, editable }: Props<T>): JSX.Element
 				{isBloodPressure(item) && (
 					<View style={Styles.icons}>
 						<HvImage source={item.bodyPosition} size={34} />
-						<HvImage source={item.measureHand} size={36} />
+						<HvImage source={item.measuredHand} size={36} />
 					</View>
 				)}
 				<HvText weight='semibold'>{formatDate(item.date)}</HvText>

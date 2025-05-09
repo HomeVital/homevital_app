@@ -122,7 +122,7 @@ const HvCardRecentMeasurements = ({ items }: Props): JSX.Element => {
 										size={34}
 									/>
 									<HvImage
-										source={item.measurementValues.measureHand}
+										source={item.measurementValues.measuredHand}
 										size={36}
 									/>
 								</View>

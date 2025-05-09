@@ -21,9 +21,12 @@ const EditBloodPressure = (): JSX.Element => {
 	const modals = useContext(ModalContext);
 	const item = modals.editModalData.item as IBloodPressure;
 	const itemId = item.id.toString();
-
-	const [hand, setHand] = useState(item.measureHand.toString());
-	const [position, setPosition] = useState(item.bodyPosition.toString());
+	// for translation
+	const handLower = item.measuredHand.toString().toLowerCase();
+	const positionLower = item.bodyPosition.toString().toLowerCase();
+	// default
+	const [hand, setHand] = useState(t(`modals.bloodPressure.${handLower}`));
+	const [position, setPosition] = useState(t(`modals.bloodPressure.${positionLower}`));
 	const [sys, setSys] = useState(item.systolic.toString());
 	const [dia, setDia] = useState(item.diastolic.toString());
 	const [pulse, setPulse] = useState(item.pulse.toString());
@@ -42,8 +45,8 @@ const EditBloodPressure = (): JSX.Element => {
 	const HandleMutation = async (): Promise<void> => {
 		try {
 			await addMutation({
-				measureHand: hand === 'Vinstri' ? 'Left' : 'Right',
-				bodyPosition: position === 'Sitjandi' ? 'Sitting' : 'Laying',
+				measuredHand: hand === t('modals.bloodPressure.left') ? 0 : 1,
+				bodyPosition: position === t('modals.bloodPressure.sitting') ? 0 : 1,
 				systolic: parseInt(sys, 10),
 				diastolic: parseInt(dia, 10),
 				pulse: parseInt(pulse, 10),
@@ -62,7 +65,7 @@ const EditBloodPressure = (): JSX.Element => {
 
 	const DisableButton = (): boolean => {
 		return (
-			hand === item.measureHand &&
+			hand === item.measuredHand &&
 			position === item.bodyPosition &&
 			sys === item.systolic.toString() &&
 			dia === item.diastolic.toString() &&
@@ -102,8 +105,8 @@ const EditBloodPressure = (): JSX.Element => {
 											leftIcon={require('@/assets/svgs/handLeftArrow.svg')}
 											rightIcon={require('@/assets/svgs/handRightArrow.svg')}
 											description={t('modals.bloodPressure.hand')}
-											leftText='Vinstri'
-											rightText='Hægri'
+											leftText={t('modals.bloodPressure.left')}
+											rightText={t('modals.bloodPressure.right')}
 										/>
 									</HvInputFormContainer>
 
@@ -114,8 +117,8 @@ const EditBloodPressure = (): JSX.Element => {
 											leftIcon={require('@/assets/svgs/sitting.svg')}
 											rightIcon={require('@/assets/svgs/laying.svg')}
 											description={t('modals.bloodPressure.position')}
-											leftText='Sitjandi'
-											rightText='Liggjandi'
+											leftText={t('modals.bloodPressure.sitting')}
+											rightText={t('modals.bloodPressure.laying')}
 										/>
 									</HvInputFormContainer>
 
