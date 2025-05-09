@@ -17,7 +17,7 @@
 		"bodyWeight": "Waga",
 		"bodyTemperature": "Temperatura",
 		"oxygenSaturation": "Saturacja tlenu",
-		"bpm": "puls",
+		"bpm": " puls",
 		"page": {
 			"graph": "Wykres",
 			"measurements": "Pomiary",
