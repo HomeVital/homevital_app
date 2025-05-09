@@ -9,7 +9,6 @@ import { useMutation, useQueryClient } from '@tanstack/react-query';
 import HvText from '../ui/hvText';
 import { patchBloodPressure } from '@/queries/patch';
 import HvToggleSelect from '../ui/hvInputForm/hvToggleSelect';
-import HvScrollView from '../ui/HvScrollView';
 import HvButtonCheck from '../ui/hvButtonCheck';
 import { DARK_RED } from '@/constants/colors';
 import ModalContext from '@/contexts/modalContext';
@@ -80,76 +79,74 @@ const EditBloodPressure = (): JSX.Element => {
 			onRequestClose={handleClose}
 			transparent={true}
 		>
-			<HvScrollView isModal>
-				<TouchableWithoutFeedback onPressIn={handleClose}>
-					<View
-						style={[STYLES.defaultModalViewDeep, { opacity: modals.editModalVisible }]}
-					>
-						<TouchableWithoutFeedback onPress={(e) => e.stopPropagation()}>
-							<View>
-								<HvInputForm onPress={HandleMutation} disabled={DisableButton()}>
-									<View style={STYLES.checkmarkPos}>
-										<HvButtonCheck
-											cancel
-											onPress={handleClose}
-											bgColor={DARK_RED}
-										/>
-									</View>
-									<HvText size='xl' color='darkGreen' weight='semibold' center>
-										{t('modals.bloodPressure.editTitle')}
-									</HvText>
-									<HvInputFormContainer>
-										<HvToggleSelect
-											itemState={hand}
-											setItemState={setHand}
-											leftIcon={require('@/assets/svgs/handLeftArrow.svg')}
-											rightIcon={require('@/assets/svgs/handRightArrow.svg')}
-											description={t('modals.bloodPressure.hand')}
-											leftText={t('modals.bloodPressure.left')}
-											rightText={t('modals.bloodPressure.right')}
-										/>
-									</HvInputFormContainer>
+			{/* <HvScrollView isModal> */}
+			<TouchableWithoutFeedback onPressIn={handleClose}>
+				<View style={[STYLES.defaultModalViewDeep, { opacity: modals.editModalVisible }]}>
+					<TouchableWithoutFeedback onPress={(e) => e.stopPropagation()}>
+						<View>
+							<HvInputForm onPress={HandleMutation} disabled={DisableButton()}>
+								<View style={STYLES.checkmarkPos}>
+									<HvButtonCheck
+										cancel
+										onPress={handleClose}
+										bgColor={DARK_RED}
+									/>
+								</View>
+								<HvText size='xl' color='darkGreen' weight='semibold' center>
+									{t('modals.bloodPressure.editTitle')}
+								</HvText>
+								<HvInputFormContainer>
+									<HvToggleSelect
+										itemState={hand}
+										setItemState={setHand}
+										leftIcon={require('@/assets/svgs/handLeftArrow.svg')}
+										rightIcon={require('@/assets/svgs/handRightArrow.svg')}
+										description={t('modals.bloodPressure.hand')}
+										leftText={t('modals.bloodPressure.left')}
+										rightText={t('modals.bloodPressure.right')}
+									/>
+								</HvInputFormContainer>
 
-									<HvInputFormContainer>
-										<HvToggleSelect
-											itemState={position}
-											setItemState={setPosition}
-											leftIcon={require('@/assets/svgs/sitting.svg')}
-											rightIcon={require('@/assets/svgs/laying.svg')}
-											description={t('modals.bloodPressure.position')}
-											leftText={t('modals.bloodPressure.sitting')}
-											rightText={t('modals.bloodPressure.laying')}
-										/>
-									</HvInputFormContainer>
+								<HvInputFormContainer>
+									<HvToggleSelect
+										itemState={position}
+										setItemState={setPosition}
+										leftIcon={require('@/assets/svgs/sitting.svg')}
+										rightIcon={require('@/assets/svgs/laying.svg')}
+										description={t('modals.bloodPressure.position')}
+										leftText={t('modals.bloodPressure.sitting')}
+										rightText={t('modals.bloodPressure.laying')}
+									/>
+								</HvInputFormContainer>
 
-									<HvInputFormContainer textInput>
-										<HvInputField
-											itemState={sys}
-											setItemState={setSys}
-											header={t('modals.bloodPressure.upper')}
-											description='SYS'
-											metric='mmHg'
-										/>
-										<HvInputField
-											itemState={dia}
-											setItemState={setDia}
-											header={t('modals.bloodPressure.lower')}
-											description='DIA'
-											metric='mmHg'
-										/>
-										<HvInputField
-											itemState={pulse}
-											setItemState={setPulse}
-											header={t('modals.bloodPressure.pulse')}
-											description={t('modals.bloodPressure.bpm')}
-										/>
-									</HvInputFormContainer>
-								</HvInputForm>
-							</View>
-						</TouchableWithoutFeedback>
-					</View>
-				</TouchableWithoutFeedback>
-			</HvScrollView>
+								<HvInputFormContainer textInput>
+									<HvInputField
+										itemState={sys}
+										setItemState={setSys}
+										header={t('modals.bloodPressure.upper')}
+										description='SYS'
+										metric='mmHg'
+									/>
+									<HvInputField
+										itemState={dia}
+										setItemState={setDia}
+										header={t('modals.bloodPressure.lower')}
+										description='DIA'
+										metric='mmHg'
+									/>
+									<HvInputField
+										itemState={pulse}
+										setItemState={setPulse}
+										header={t('modals.bloodPressure.pulse')}
+										description={t('modals.bloodPressure.bpm')}
+									/>
+								</HvInputFormContainer>
+							</HvInputForm>
+						</View>
+					</TouchableWithoutFeedback>
+				</View>
+			</TouchableWithoutFeedback>
+			{/* </HvScrollView> */}
 		</Modal>
 	);
 };

@@ -36,7 +36,7 @@ const HvInputField = ({
 }: Props): JSX.Element => {
 	return (
 		<View style={Styles.itemContainer}>
-			<HvText weight='light' size='xl'>
+			<HvText weight='light' size='l'>
 				{header}
 			</HvText>
 			<View style={Styles.inputContainer}>
@@ -66,7 +66,7 @@ const HvInputField = ({
 
 const Styles = StyleSheet.create({
 	itemContainer: {
-		gap: 4,
+		gap: 2,
 	},
 	inputContainer: {
 		flexDirection: 'row',
