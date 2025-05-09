@@ -50,11 +50,26 @@ const Plan = (): JSX.Element => {
 			const startDate = new Date(data.startDate);
 			const endDate = new Date(data.endDate);
 			const markedDaysOfWeek = {
-				weightMeasurementDays: data.weightMeasurementDays,
-				bloodSugarMeasurementDays: data.bloodSugarMeasurementDays,
-				bloodPressureMeasurementDays: data.bloodPressureMeasurementDays,
-				oxygenSaturationMeasurementDays: data.oxygenSaturationMeasurementDays,
-				bodyTemperatureMeasurementDays: data.bodyTemperatureMeasurementDays,
+				weightMeasurementDays: [
+					...data.weightMeasurementDays.slice(-1),
+					...data.weightMeasurementDays.slice(0, -1),
+				],
+				bloodSugarMeasurementDays: [
+					...data.bloodSugarMeasurementDays.slice(-1),
+					...data.bloodSugarMeasurementDays.slice(0, -1),
+				],
+				bloodPressureMeasurementDays: [
+					...data.bloodPressureMeasurementDays.slice(-1),
+					...data.bloodPressureMeasurementDays.slice(0, -1),
+				],
+				oxygenSaturationMeasurementDays: [
+					...data.oxygenSaturationMeasurementDays.slice(-1),
+					...data.oxygenSaturationMeasurementDays.slice(0, -1),
+				],
+				bodyTemperatureMeasurementDays: [
+					...data.bodyTemperatureMeasurementDays.slice(-1),
+					...data.bodyTemperatureMeasurementDays.slice(0, -1),
+				],
 			};
 			const currentDate = new Date(startDate);
 
