@@ -53,21 +53,26 @@ const MainSettings = (): JSX.Element => {
 							{patient.name}
 						</HvText>
 						<View style={Styles.aboutLine}>
-							<HvText style={{ width: '25%' }}>
+							<HvText style={{ width: '30%' }}>
 								{/* Heimili */}
 								{t('settings.home')}
 							</HvText>
-							<HvText size='l' weight='semibold'>
-								{patient.address}
-							</HvText>
+							<View>
+								<HvText size='l' weight='semibold'>
+									{patient.address.split(',')[0]}
+								</HvText>
+								<HvText size='m' weight='semibold'>
+									{patient.address.split(', ')[1]?.replace(/,/g, '')}
+								</HvText>
+							</View>
 						</View>
 						<View style={Styles.aboutLine}>
-							<HvText style={{ width: '25%' }}>
+							<HvText style={{ width: '30%' }}>
 								{/* Sími */}
 								{t('settings.phone')}
 							</HvText>
 							<HvText size='l' weight='semibold'>
-								{patient.phone}
+								{patient.phone.slice(0, 3) + ' ' + patient.phone.slice(3)}
 							</HvText>
 						</View>
 					</View>
@@ -164,7 +169,7 @@ const Styles = StyleSheet.create({
 	},
 	aboutLine: {
 		flexDirection: 'row',
-		alignItems: 'center',
+		gap: 5,
 	},
 });
 

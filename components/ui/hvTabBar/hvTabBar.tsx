@@ -13,7 +13,7 @@ import { useSession } from '@/hooks/ctx';
 import { useQuery } from '@tanstack/react-query';
 import { fetchPlan } from '@/queries/get';
 import { getClaimBySubstring } from '@/utility/utility';
-import { ErrorView, LoadingView } from '@/components/queryStates';
+import { ErrorView } from '@/components/queryStates';
 // import HideWithKeyboard from 'react-native-hide-with-keyboard';
 
 /**
@@ -125,7 +125,36 @@ const HvTabBar = (): JSX.Element => {
 
 	if (isError) return <ErrorView />;
 
-	if (isLoading) return <LoadingView />;
+	if (isLoading)
+		return (
+			<View style={Styles.container}>
+				<HvTabItem
+					onPress={() => {
+						setStackName(handleTabRoute('/(app)/(measurements)', stackName));
+					}}
+					source={require('@/assets/svgs/barChart.svg')}
+					text={'...'}
+				/>
+				<HvTabItemAnimated
+					onPress={() => {
+						modals.setIsOpen(!wheelOpen);
+						setWheelOpen(!wheelOpen);
+					}}
+					source={require('@/assets/svgs/add.svg')}
+					source2={require('@/assets/svgs/addRed.svg')}
+					text={'...'}
+					addOpen={wheelOpen}
+					large
+				/>
+				<HvTabItem
+					onPress={() => {
+						setStackName(handleTabRoute('/(app)/(settings)', stackName));
+					}}
+					source={require('@/assets/svgs/manUser.svg')}
+					text={'...'}
+				/>
+			</View>
+		);
 
 	return (
 		<>
