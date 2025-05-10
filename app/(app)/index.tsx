@@ -14,9 +14,12 @@ import { getClaimBySubstring } from '@/utility/utility';
 import { TAB_ICON_SIZE } from '@/constants/constants';
 import { useTranslation } from 'react-i18next';
 
+import { useNotification } from '@/contexts/notificationContext';
+
 const MainScreen = (): JSX.Element => {
 	const { t } = useTranslation();
 	const { session } = useSession();
+	const { expoPushToken, notification } = useNotification();
 
 	const [patient, recentMeasurements] = useQueries({
 		queries: [
@@ -76,6 +79,17 @@ const MainScreen = (): JSX.Element => {
 				<>
 					<HvHeader name={t('home.welcome') + patient.data.name.split(' ')[0]} />
 					<View style={STYLES.defaultNoPadView}>
+						<HvText weight='semibold' size='l' style={{ paddingInline: 20 }}>
+							Your push token is: {expoPushToken}
+						</HvText>
+
+						<HvText weight='semibold' size='l' style={{ paddingInline: 20 }}>
+							{notification?.request.content.title}
+						</HvText>
+
+						<HvText weight='semibold' size='l' style={{ paddingInline: 20 }}>
+							{JSON.stringify(notification?.request.content.data, null, 2)}
+						</HvText>
 						<HvText weight='semibold' size='l' style={{ paddingInline: 20 }}>
 							{t('home.recentMeasurements')}
 						</HvText>
