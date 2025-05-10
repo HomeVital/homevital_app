@@ -11,7 +11,21 @@ import { LIGHT_THEME } from '@/constants/colors';
 // language
 import '@/utility/i18n';
 
+import NotificationProvider from '@/contexts/notificationContext';
+
+import * as Notifications from 'expo-notifications';
+
 const queryClient = new QueryClient();
+
+Notifications.setNotificationHandler({
+	handleNotification: async () => ({
+		shouldShowAlert: true,
+
+		shouldPlaySound: false,
+
+		shouldSetBadge: false,
+	}),
+});
 
 const RootLayout = (): JSX.Element => {
 	const [loaded] = useFonts({
@@ -34,11 +48,13 @@ const RootLayout = (): JSX.Element => {
 	return (
 		<QueryClientProvider client={queryClient}>
 			<SessionProvider>
-				{/* <PaperProvider> */}
-				<StatusBar style='dark' backgroundColor={LIGHT_THEME} />
-				<Slot />
-				<Redirect href='/initial-screen' />
-				{/* </PaperProvider> */}
+				<NotificationProvider>
+					{/* <PaperProvider> */}
+					<StatusBar style='dark' backgroundColor={LIGHT_THEME} />
+					<Slot />
+					<Redirect href='/initial-screen' />
+					{/* </PaperProvider> */}
+				</NotificationProvider>
 			</SessionProvider>
 		</QueryClientProvider>
 	);
