@@ -8,7 +8,10 @@
 		"development": {
 			"developmentClient": true,
 			"distribution": "internal",
-			"environment": "development"
+			"environment": "development",
+			"android": {
+				"prebuildCommand": "echo $GOOGLE_SERVICES_JSON | base64 -d > ./google-services.json"
+			}
 		},
 		"ios-simulator": {
 			"extends": "development",
