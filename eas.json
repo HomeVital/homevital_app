@@ -7,11 +7,7 @@
 	"build": {
 		"development": {
 			"developmentClient": true,
-			"distribution": "internal",
-			"environment": "development",
-			"android": {
-				"prebuildCommand": "bash -c \"echo $GOOGLE_SERVICES_JSON | base64 -d > ./android/app/google-services.json\""
-			}
+			"distribution": "internal"
 		},
 		"ios-simulator": {
 			"extends": "development",
@@ -20,12 +16,10 @@
 			}
 		},
 		"preview": {
-			"distribution": "internal",
-			"environment": "preview"
+			"distribution": "internal"
 		},
 		"production": {
-			"autoIncrement": true,
-			"environment": "production"
+			"autoIncrement": true
 		}
 	},
 	"submit": {
