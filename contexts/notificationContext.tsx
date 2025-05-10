@@ -1,4 +1,5 @@
 import React, { createContext, useContext, useEffect, useState, useRef, ReactNode } from 'react';
+import { EventSubscription } from 'expo-modules-core';
 
 import * as Notifications from 'expo-notifications';
 // import { Subscription } from 'expo-modules-core';
@@ -31,8 +32,8 @@ export const NotificationProvider: React.FC<NotificationProviderProps> = ({ chil
 	const [notification, setNotification] = useState<Notifications.Notification | null>(null);
 	const [error, setError] = useState<Error | null>(null);
 
-	const notificationListener = useRef<Notifications.Subscription | null>(null);
-	const responseListener = useRef<Notifications.Subscription | null>(null);
+	const notificationListener = useRef<EventSubscription | null>(null);
+	const responseListener = useRef<EventSubscription | null>(null);
 
 	useEffect(() => {
 		registerForPushNotificationsAsync().then(

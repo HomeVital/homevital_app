@@ -20,8 +20,19 @@
 				"foregroundImage": "./assets/images/adaptive-icon.png",
 				"backgroundColor": "#3A7283"
 			},
+			"plugins": [
+				[
+					"expo-notifications",
+					{
+						"icon": "./local/path/to/notification-icon.png",
+						"color": "#ffffff",
+						"sounds": ["./local/path/to/notification-sound.wav"]
+					}
+				]
+			],
 			"package": "com.jakub69420.homevital_app",
-			"googleServicesFile": "./google-services.json"
+			"googleServicesFile": "./google-services.json",
+			"useNextNotificationsApi": true
 		},
 		"web": {
 			"bundler": "metro",
