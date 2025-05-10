@@ -10,7 +10,7 @@
 			"distribution": "internal",
 			"environment": "development",
 			"android": {
-				"prebuildCommand": "echo $GOOGLE_SERVICES_JSON | base64 -d > android/app/google-services.json"
+				"prebuildCommand": "bash -c \"echo $GOOGLE_SERVICES_JSON | base64 -d > ./android/app/google-services.json\""
 			}
 		},
 		"ios-simulator": {
