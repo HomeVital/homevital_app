@@ -7,7 +7,10 @@
 	"build": {
 		"development": {
 			"developmentClient": true,
-			"distribution": "internal"
+			"distribution": "internal",
+			"env": {
+				"GOOGLE_SERVICES_JSON": "GOOGLE_SERVICES_JSON"
+			}
 		},
 		"ios-simulator": {
 			"extends": "development",
@@ -16,10 +19,16 @@
 			}
 		},
 		"preview": {
-			"distribution": "internal"
+			"distribution": "internal",
+			"env": {
+				"GOOGLE_SERVICES_JSON": "GOOGLE_SERVICES_JSON"
+			}
 		},
 		"production": {
-			"autoIncrement": true
+			"autoIncrement": true,
+			"env": {
+				"GOOGLE_SERVICES_JSON": "GOOGLE_SERVICES_JSON"
+			}
 		}
 	},
 	"submit": {
