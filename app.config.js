@@ -16,6 +16,7 @@ module.exports = {
 			},
 		},
 		android: {
+			googleServicesFile: process.env.GOOGLE_SERVICES_JSON,
 			adaptiveIcon: {
 				foregroundImage: './assets/images/adaptive-icon.png',
 				backgroundColor: '#3A7283',
