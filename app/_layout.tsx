@@ -20,10 +20,9 @@ const queryClient = new QueryClient();
 Notifications.setNotificationHandler({
 	handleNotification: async () => ({
 		shouldShowAlert: true,
-
 		shouldPlaySound: false,
-
 		shouldSetBadge: false,
+		shouldShowWhenInForeground: true,
 	}),
 });
 

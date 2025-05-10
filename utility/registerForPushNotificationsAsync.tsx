@@ -5,6 +5,7 @@ import * as Notifications from 'expo-notifications';
 import * as Device from 'expo-device';
 
 import Constants from 'expo-constants';
+import { GREEN } from '@/constants/colors';
 
 export async function registerForPushNotificationsAsync(): Promise<string | void> {
 	if (Platform.OS === 'android') {
@@ -15,7 +16,7 @@ export async function registerForPushNotificationsAsync(): Promise<string | void
 
 			vibrationPattern: [0, 250, 250, 250],
 
-			lightColor: '#FF231F7C',
+			lightColor: GREEN,
 		});
 	}
 
