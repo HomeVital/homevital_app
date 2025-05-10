@@ -1,0 +1,67 @@
+module.exports = {
+	expo: {
+		name: 'HomeVital',
+		slug: 'homevital_app',
+		version: '1.0.0',
+		orientation: 'portrait',
+		icon: './assets/images/icon.png',
+		scheme: 'myapp',
+		userInterfaceStyle: 'automatic',
+		newArchEnabled: true,
+		ios: {
+			supportsTablet: true,
+			bundleIdentifier: 'fjdklsfjdsl',
+			infoPlist: {
+				ITSAppUsesNonExemptEncryption: false,
+			},
+		},
+		android: {
+			adaptiveIcon: {
+				foregroundImage: './assets/images/adaptive-icon.png',
+				backgroundColor: '#3A7283',
+			},
+			plugins: [
+				[
+					'expo-notifications',
+					{
+						icon: './local/path/to/notification-icon.png',
+						color: '#ffffff',
+						sounds: ['./local/path/to/notification-sound.wav'],
+					},
+				],
+			],
+			package: 'com.jakub69420.homevital_app',
+			googleServicesFile: process.env.GOOGLE_SERVICES_JSON,
+			useNextNotificationsApi: true,
+		},
+		web: {
+			bundler: 'metro',
+			output: 'static',
+			favicon: './assets/images/favicon.png',
+		},
+		plugins: [
+			'expo-router',
+			[
+				'expo-splash-screen',
+				{
+					image: './assets/images/splash-icon.png',
+					imageWidth: 200,
+					resizeMode: 'contain',
+					backgroundColor: '#D4F8E4',
+				},
+			],
+		],
+		experiments: {
+			typedRoutes: true,
+		},
+		extra: {
+			router: {
+				origin: false,
+			},
+			eas: {
+				projectId: 'cf310271-3bb8-459c-bd1f-c6e4692c032f',
+			},
+		},
+		owner: 'jakub69420',
+	},
+};
