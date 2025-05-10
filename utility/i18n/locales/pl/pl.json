@@ -13,7 +13,7 @@
 	},
 	"measurements": {
 		"bloodPressure": "Ciśnienie krwi",
-		"bloodSugar": "Stężenie cukru we krwi",
+		"bloodSugar": "Poziom cukru we krwi",
 		"bodyWeight": "Waga",
 		"bodyTemperature": "Temperatura",
 		"oxygenSaturation": "Saturacja tlenu",
@@ -27,7 +27,7 @@
 			"plan": "Plan",
 			"bw": "Waga",
 			"bp": "Ciśnienie krwi",
-			"bs": "Stężenie cukru",
+			"bs": "Poziom cukru",
 			"bt": "Temperatura",
 			"os": "Saturacja tlenu"
 		}
@@ -58,9 +58,9 @@
 			"bpm": "BPM"
 		},
 		"bloodSugar": {
-			"addTitle": "Dodaj stężenie cukru",
-			"editTitle": "Edytuj stężenie cukru",
-			"bloodSugar": "Stężenie cukru"
+			"addTitle": "Dodaj poziom cukru",
+			"editTitle": "Edytuj poziom cukru",
+			"bloodSugar": "Poziom cukru"
 		},
 		"bodyWeight": {
 			"addTitle": "Dodaj wagę",
