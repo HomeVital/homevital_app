@@ -11,6 +11,11 @@
 		"recentMeasurements": "Síðustu 10 mælingar",
 		"noMeasurements": "Engar mælingar skráðar"
 	},
+	"notifications": {
+		"title": "Mæling",
+		"message_one": "Þú hefur {{count}}. mælingu í dag",
+		"message_other": "Þú hefur {{count}}. mælingar í dag"
+	},
 	"measurements": {
 		"bloodPressure": "Blóðþrýstingur",
 		"bloodSugar": "Blóðsykur",

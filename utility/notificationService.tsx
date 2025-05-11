@@ -67,6 +67,7 @@ export class NotificationService {
 				trigger: notification.trigger,
 				identifier: notification.id,
 			});
+
 			return id;
 		} catch (error) {
 			console.error('Error scheduling notification:', error);

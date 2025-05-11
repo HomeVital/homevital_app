@@ -11,6 +11,11 @@
 		"recentMeasurements": "Ostatnie 10 pomiarów",
 		"noMeasurements": "Brak zarejestrowanych pomiarów"
 	},
+	"notifications": {
+		"title": "Pomiar",
+		"message_one": "Dzisiaj masz {{count}} pomiar",
+		"message_other": "Dzisiaj masz {{count}} pomiary"
+	},
 	"measurements": {
 		"bloodPressure": "Ciśnienie krwi",
 		"bloodSugar": "Stężenie cukru we krwi",

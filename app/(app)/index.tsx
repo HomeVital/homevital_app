@@ -80,10 +80,10 @@ const MainScreen = (): JSX.Element => {
 					planSetDate.setHours(8, 0, 0, 0); // Set time to 8:00 AM
 					planItems.push({
 						id: planItems.length.toString(),
-						title: 'Mælingar',
-						description: `Þú hefur ${measurementCounter} mælingar í dag`,
+						title: t('notifications.title'),
+						description: t('notifications.message', { count: measurementCounter }),
 						scheduledTime: new Date(planSetDate).toISOString(),
-						type: 'weight',
+						type: 'measurements',
 					});
 				}
 
@@ -91,13 +91,21 @@ const MainScreen = (): JSX.Element => {
 				scheduleCounter++;
 			}
 
-			// planItems.push({
-			// 	id: '1',
-			// 	title: 'Mæling',
-			// 	description: 'Þú hefur 1. mælingu í dag',
-			// 	scheduledTime: new Date(Date.now() + 15000).toISOString(), // Schedule for 5 seconds from now in ISO format
-			// 	type: 'bloodSugar',
-			// });
+			const year = '2025';
+			const month = '05';
+			const day = '11';
+			const hour = '13';
+			const minute = '30';
+
+			planItems.push({
+				id: '6969',
+				title: t('notifications.title'),
+				description: t('notifications.message', { count: 4 }),
+				scheduledTime: new Date(
+					`${year}-${month}-${day}T${hour}:${minute}:00Z`,
+				).toISOString(),
+				type: 'test',
+			});
 
 			schedulePlanNotifications(planItems);
 		}

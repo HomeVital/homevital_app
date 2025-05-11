@@ -1,4 +1,5 @@
 import { NotificationService, PlanNotification } from './notificationService';
+import * as Notifications from 'expo-notifications';
 
 // Define a type for plan items (adjust based on your actual plan structure)
 export interface PlanItem {
@@ -33,7 +34,8 @@ export const schedulePlanNotifications = async (planItems: PlanItem[]): Promise<
 					body: item.description,
 					data: { planItemId: item.id, type: item.type },
 					trigger: {
-						channelId: 'default',
+						// channelId: 'default',
+						type: Notifications.SchedulableTriggerInputTypes.DATE,
 						date: scheduledDate,
 					},
 				};
