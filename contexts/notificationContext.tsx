@@ -3,6 +3,8 @@ import * as Notifications from 'expo-notifications';
 import { NotificationService } from '@/utility/notificationService';
 
 interface NotificationContextType {
+	notificationsActive: boolean;
+	setNotificationsActive: React.Dispatch<React.SetStateAction<boolean>>;
 	notifications: Notifications.Notification[];
 	setNotifications: React.Dispatch<React.SetStateAction<Notifications.Notification[]>>;
 	notificationCount: number;
@@ -24,6 +26,7 @@ interface NotificationProviderProps {
 }
 
 export const NotificationProvider: React.FC<NotificationProviderProps> = ({ children }) => {
+	const [notificationsActive, setNotificationsActive] = useState(true);
 	const [notifications, setNotifications] = useState<Notifications.Notification[]>([]);
 	const [notificationCount, setNotificationCount] = useState<number>(0);
 
@@ -41,7 +44,14 @@ export const NotificationProvider: React.FC<NotificationProviderProps> = ({ chil
 	}, []);
 	return (
 		<NotificationContext.Provider
-			value={{ notifications, setNotifications, notificationCount, setNotificationCount }}
+			value={{
+				notifications,
+				setNotifications,
+				notificationCount,
+				setNotificationCount,
+				notificationsActive,
+				setNotificationsActive,
+			}}
 		>
 			{children}
 		</NotificationContext.Provider>

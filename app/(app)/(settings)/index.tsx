@@ -18,15 +18,14 @@ import { getClaimBySubstring } from '@/utility/utility';
 import { useTranslation } from 'react-i18next';
 import ChangeLanguage from '@/components/modals/changeLanguage';
 import ModalContext from '@/contexts/modalContext';
+import { useNotification } from '@/contexts/notificationContext';
 
 const MainSettings = (): JSX.Element => {
 	const { t, i18n } = useTranslation();
 	const modals = useContext(ModalContext);
 	const { session, signOut } = useSession();
+	const { notificationsActive, setNotificationsActive } = useNotification();
 	const [countryCode, setCountryCode] = useState(i18n.language); // TODO: change so that I don't have to use states
-	const [isSwitchOn, setIsSwitchOn] = useState(false); // TODO: change so that I don't have to use states
-
-	const onToggleSwitch = () => setIsSwitchOn(!isSwitchOn);
 
 	const {
 		data: patient,
@@ -122,10 +121,10 @@ const MainSettings = (): JSX.Element => {
 								{t('settings.notifications')}
 							</HvText>
 							<Switch
-								value={isSwitchOn}
-								onValueChange={onToggleSwitch}
+								value={notificationsActive}
+								onValueChange={() => setNotificationsActive(!notificationsActive)}
 								trackColor={{ false: '#767577', true: GREEN }}
-								thumbColor={isSwitchOn ? DARK_GREEN : '#f4f3f4'}
+								thumbColor={notificationsActive ? DARK_GREEN : '#f4f3f4'}
 								ios_backgroundColor='#3e3e3e'
 							/>
 						</View>

@@ -47,35 +47,3 @@ export const schedulePlanNotifications = async (planItems: PlanItem[]): Promise<
 		console.error('Error scheduling plan notifications:', error);
 	}
 };
-
-// // Helper function to schedule medication reminders
-// export const scheduleMedicationReminders = async (medications: any[]): Promise<void> => {
-// 	// Implementation depends on your medication data structure
-// 	// This is just a placeholder
-
-// 	try {
-// 		for (const med of medications) {
-// 			// Example: Schedule daily medication reminders
-// 			if (med.frequency === 'daily') {
-// 				const [hours, minutes] = med.time.split(':');
-
-// 				const notification: PlanNotification = {
-// 					id: `med-${med.id}`,
-// 					title: t('notifications.medicationReminder'),
-// 					body: `${t('notifications.timeToTake')} ${med.name}`,
-// 					data: { medicationId: med.id },
-// 					trigger: {
-// 						channelId: 'default',
-// 						hour: parseInt(hours, 10),
-// 						minute: parseInt(minutes, 10),
-// 						repeats: true,
-// 					},
-// 				};
-
-// 				await NotificationService.scheduleNotification(notification);
-// 			}
-// 		}
-// 	} catch (error) {
-// 		console.error('Error scheduling medication reminders:', error);
-// 	}
-// };

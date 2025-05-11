@@ -12,14 +12,19 @@ import HvCardRecentMeasurements from '@/components/cards/hvCardRecentMeasurement
 import { ErrorView, LoadingView } from '@/components/queryStates';
 import { getClaimBySubstring } from '@/utility/utility';
 import { useTranslation } from 'react-i18next';
-import { useEffect } from 'react';
+import { useContext, useEffect } from 'react';
 import { PlanItem, schedulePlanNotifications } from '@/utility/notidicationHelper';
 import HvCard from '@/components/cards/hvCard';
 import HvLayeredIcon from '@/components/ui/hvLayeredIcon';
+import { useNotification } from '@/contexts/notificationContext';
+import { NotificationService } from '@/utility/notificationService';
+import ModalContext from '@/contexts/modalContext';
 
 const MainScreen = (): JSX.Element => {
 	const { t } = useTranslation();
 	const { session } = useSession();
+	const modals = useContext(ModalContext);
+	const { notificationsActive, notificationCount, setNotificationCount } = useNotification();
 
 	const [patient, recentMeasurements, plan] = useQueries({
 		queries: [
@@ -41,22 +46,21 @@ const MainScreen = (): JSX.Element => {
 		],
 	});
 
+	useEffect(() => {
+		if (modals.viewNotificationsVisible) {
+			setNotificationCount(0);
+		}
+	}, [modals.viewNotificationsVisible, notificationCount]);
+
 	// Set up notifications when the plan data is available
 	useEffect(() => {
-		if (plan.data && !plan.isLoading && !plan.isError) {
-			// Transform your plan data to match the PlanItem interface
-			// This will depend on your actual data structure
+		if (plan.data && !plan.isLoading && !plan.isError && notificationsActive) {
 			const planItems: PlanItem[] = [];
-
-			// get current week
 			const currentDate = new Date();
 
 			let scheduleCounter = 0;
-
 			while (currentDate <= new Date(plan.data.endDate) && scheduleCounter < 7) {
-				//
 				const weekday = currentDate.getDay();
-
 				let measurementCounter = 0;
 
 				if (plan.data.weightMeasurementDays[weekday]) {
@@ -89,12 +93,6 @@ const MainScreen = (): JSX.Element => {
 				currentDate.setDate(currentDate.getDate() + 1);
 				scheduleCounter++;
 			}
-
-			// const year = '2025';
-			// const month = '05';
-			// const day = '11';
-			// const hour = '13';
-			// const minute = '30';
 
 			planItems.push({
 				id: Math.floor(Math.random() * 10000 + 1).toString(),
@@ -144,10 +142,11 @@ const MainScreen = (): JSX.Element => {
 				type: 'test',
 			});
 
-			//
 			schedulePlanNotifications(planItems);
+		} else if (notificationsActive === false) {
+			NotificationService.cancelAllNotifications();
 		}
-	}, [plan.data, plan.isLoading, plan.isError, t]);
+	}, [plan.data, plan.isLoading, plan.isError, t, notificationsActive]);
 
 	// loading
 	// if (patient.isLoading && recentMeasurements.isLoading && plan.isLoading) return <LoadingView />;
