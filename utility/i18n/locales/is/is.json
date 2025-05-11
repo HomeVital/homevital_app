@@ -8,6 +8,7 @@
 	},
 	"home": {
 		"welcome": "Hæ ",
+		"instructions": "Leiðbeiningar",
 		"recentMeasurements": "Síðustu 10 mælingar",
 		"noMeasurements": "Engar mælingar skráðar"
 	},

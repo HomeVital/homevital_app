@@ -8,6 +8,7 @@
 	},
 	"home": {
 		"welcome": "Witaj ",
+		"instructions": "Instrukcje",
 		"recentMeasurements": "Ostatnie 10 pomiarów",
 		"noMeasurements": "Brak zarejestrowanych pomiarów"
 	},

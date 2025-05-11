@@ -45,6 +45,7 @@ const sources = {
 	// Edit: require('@/assets/svgs/edit.svg'),
 	Edit: require('@/assets/images/pencil.png'),
 	View: require('@/assets/svgs/viewArrow.svg'),
+	Instruction: require('@/assets/svgs/instruction.svg'),
 
 	// navigation icons
 	Back: require('@/assets/svgs/defBack.svg'),

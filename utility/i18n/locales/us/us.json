@@ -8,6 +8,7 @@
 	},
 	"home": {
 		"welcome": "Welcome ",
+		"instructions": "Instructions",
 		"recentMeasurements": "Last 10 measurements",
 		"noMeasurements": "No measurements yet"
 	},

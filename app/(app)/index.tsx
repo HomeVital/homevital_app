@@ -15,6 +15,7 @@ import { useTranslation } from 'react-i18next';
 import { useEffect } from 'react';
 import { PlanItem, schedulePlanNotifications } from '@/utility/notidicationHelper';
 import HvCard from '@/components/cards/hvCard';
+import HvLayeredIcon from '@/components/ui/hvLayeredIcon';
 
 const MainScreen = (): JSX.Element => {
 	const { t } = useTranslation();
@@ -74,8 +75,6 @@ const MainScreen = (): JSX.Element => {
 					measurementCounter++;
 				}
 				if (measurementCounter >= 1) {
-					//
-
 					const planSetDate = new Date(currentDate);
 					planSetDate.setHours(8, 0, 0, 0); // Set time to 8:00 AM
 					planItems.push({
@@ -137,17 +136,25 @@ const MainScreen = (): JSX.Element => {
 						<HvHeader name={t('home.welcome') + patient.data.name.split(' ')[0]} />
 
 						{/* instructions */}
-						{/* <HvText weight='semibold' size='l' style={{ paddingInline: 20 }}>
-							{t('home.instructions')}
-						</HvText> */}
-						<View style={STYLES.defaultViewNoMargin}>
-							<HvCard padding={20}>
-								<HvText weight='semibold' size='l'>
-									{t('home.instructions')}
-								</HvText>
-								<HvText>{plan.data?.instructions}</HvText>
-							</HvCard>
-						</View>
+						{plan.data && plan.data.instructions && (
+							<View style={STYLES.defaultViewNoMargin}>
+								<HvCard padding={20} gap={20} row spacing={'flex-start'}>
+									<View style={{ justifyContent: 'center' }}>
+										<HvLayeredIcon
+											innerIcon='Instruction'
+											outerIcon={require('@/assets/svgs/circle.svg')}
+											size={40}
+										/>
+									</View>
+									<View style={{ flex: 1, gap: 8 }}>
+										<HvText weight='semibold' size='l'>
+											{t('home.instructions')}
+										</HvText>
+										<HvText>{plan.data?.instructions}</HvText>
+									</View>
+								</HvCard>
+							</View>
+						)}
 
 						{/* recent measurements */}
 						<HvText weight='semibold' size='l' style={{ paddingInline: 20 }}>
