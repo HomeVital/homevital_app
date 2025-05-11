@@ -11,10 +11,10 @@ import { fetchPatient, fetchPlan, fetchRecentMeasurements } from '@/queries/get'
 import HvCardRecentMeasurements from '@/components/cards/hvCardRecentMeasurement';
 import { ErrorView, LoadingView } from '@/components/queryStates';
 import { getClaimBySubstring } from '@/utility/utility';
-import { TAB_ICON_SIZE } from '@/constants/constants';
 import { useTranslation } from 'react-i18next';
 import { useEffect } from 'react';
 import { PlanItem, schedulePlanNotifications } from '@/utility/notidicationHelper';
+import HvCard from '@/components/cards/hvCard';
 
 const MainScreen = (): JSX.Element => {
 	const { t } = useTranslation();
@@ -114,7 +114,7 @@ const MainScreen = (): JSX.Element => {
 	// loading
 	if (patient.isLoading && recentMeasurements.isLoading && plan.isLoading) return <LoadingView />;
 
-	if (recentMeasurements.isLoading) {
+	if (recentMeasurements.isLoading || plan.isLoading) {
 		return (
 			<SafeAreaView>
 				{patient.data && (
@@ -130,15 +130,31 @@ const MainScreen = (): JSX.Element => {
 	if (patient.isError || recentMeasurements.isError || plan.isError) return <ErrorView />;
 
 	return (
-		<SafeAreaView>
+		<SafeAreaView style={{ flex: 1 }}>
 			{patient.data && (
 				<>
-					<HvHeader name={t('home.welcome') + patient.data.name.split(' ')[0]} />
-					<View style={STYLES.defaultNoPadView}>
+					<View style={{ flex: 1, gap: 12 }}>
+						<HvHeader name={t('home.welcome') + patient.data.name.split(' ')[0]} />
+
+						{/* instructions */}
+						{/* <HvText weight='semibold' size='l' style={{ paddingInline: 20 }}>
+							{t('home.instructions')}
+						</HvText> */}
+						<View style={STYLES.defaultViewNoMargin}>
+							<HvCard padding={20}>
+								<HvText weight='semibold' size='l'>
+									{t('home.instructions')}
+								</HvText>
+								<HvText>{plan.data?.instructions}</HvText>
+							</HvCard>
+						</View>
+
+						{/* recent measurements */}
 						<HvText weight='semibold' size='l' style={{ paddingInline: 20 }}>
 							{t('home.recentMeasurements')}
 						</HvText>
-						<HvScrollView style={{ marginBottom: 166 + TAB_ICON_SIZE + 10 }}>
+						{/* <HvScrollView style={{ marginBottom: 166 + TAB_ICON_SIZE + 10 }}> */}
+						<HvScrollView>
 							<View style={STYLES.defaultView}>
 								{recentMeasurements.data && recentMeasurements.data.length > 0 ? (
 									<HvCardRecentMeasurements items={recentMeasurements.data} />

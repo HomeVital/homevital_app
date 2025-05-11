@@ -221,7 +221,7 @@ const Styles = StyleSheet.create({
 	container: {
 		display: 'flex',
 		flexDirection: 'row',
-		position: 'absolute',
+		position: 'relative',
 		bottom: 0,
 		width: '100%',
 		paddingHorizontal: 20,

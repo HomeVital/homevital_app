@@ -25,7 +25,7 @@ const HvScrollView = ({
 	return (
 		<ScrollView
 			fadingEdgeLength={!isModal ? TAB_HEIGHT + 42 : 0}
-			style={[{ marginBottom: !isModal ? TAB_HEIGHT : undefined }, props.style]}
+			style={[props.style]}
 			refreshControl={
 				onRefresh ? (
 					<RefreshControl

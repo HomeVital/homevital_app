@@ -65,19 +65,6 @@ const AppLayout = (): JSX.Element => {
 			| IOxygenSaturation,
 	});
 
-	// const isAnyModalVisible =
-	// 	addBTVisible ||
-	// 	addBPVisible ||
-	// 	addBWVisible ||
-	// 	addBOVisible ||
-	// 	addBSVisible ||
-	// 	editBTVisible ||
-	// 	editBPVisible ||
-	// 	editBWVisible ||
-	// 	editBOVisible ||
-	// 	editBSVisible ||
-	// 	isEditOpen;
-
 	const isAnyInitModalVisible =
 		addBTVisible ||
 		addBPVisible ||
