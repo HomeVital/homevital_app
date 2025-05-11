@@ -143,7 +143,43 @@ export const fetchRecentMeasurements = async (sessionId: string): Promise<IMeasu
 export const fetchPlan = async (sessionId: string): Promise<IPlan> => {
 	try {
 		const response = await axios.get(`${PLAN_URL}/${sessionId}`);
-		return response.data[0];
+		let returnData = response.data[0];
+
+		for (const p in response.data) {
+			if (response.data[p].isActive === true) {
+				returnData = response.data[p];
+				break;
+			}
+		}
+
+		returnData.weightMeasurementDays = [
+			...returnData.weightMeasurementDays.slice(-1),
+			...returnData.weightMeasurementDays.slice(0, -1),
+		];
+
+		// shift bloodSugarMeasurementDays to the right
+		returnData.bloodSugarMeasurementDays = [
+			...returnData.bloodSugarMeasurementDays.slice(-1),
+			...returnData.bloodSugarMeasurementDays.slice(0, -1),
+		];
+
+		// shift bloodPressureMeasurementDays to the right
+		returnData.bloodPressureMeasurementDays = [
+			...returnData.bloodPressureMeasurementDays.slice(-1),
+			...returnData.bloodPressureMeasurementDays.slice(0, -1),
+		];
+		// shift oxygenSaturationMeasurementDays to the right
+		returnData.oxygenSaturationMeasurementDays = [
+			...returnData.oxygenSaturationMeasurementDays.slice(-1),
+			...returnData.oxygenSaturationMeasurementDays.slice(0, -1),
+		];
+		// shift bodyTemperatureMeasurementDays to the right
+		returnData.bodyTemperatureMeasurementDays = [
+			...returnData.bodyTemperatureMeasurementDays.slice(-1),
+			...returnData.bodyTemperatureMeasurementDays.slice(0, -1),
+		];
+
+		return returnData;
 	} catch (error) {
 		console.error('Error fetching Plan:', error);
 		throw error;

@@ -50,31 +50,23 @@ const Plan = (): JSX.Element => {
 			const startDate = new Date(data.startDate);
 			const endDate = new Date(data.endDate);
 			const markedDaysOfWeek = {
-				weightMeasurementDays: [
-					...data.weightMeasurementDays.slice(-1),
-					...data.weightMeasurementDays.slice(0, -1),
-				],
-				bloodSugarMeasurementDays: [
-					...data.bloodSugarMeasurementDays.slice(-1),
-					...data.bloodSugarMeasurementDays.slice(0, -1),
-				],
-				bloodPressureMeasurementDays: [
-					...data.bloodPressureMeasurementDays.slice(-1),
-					...data.bloodPressureMeasurementDays.slice(0, -1),
-				],
-				oxygenSaturationMeasurementDays: [
-					...data.oxygenSaturationMeasurementDays.slice(-1),
-					...data.oxygenSaturationMeasurementDays.slice(0, -1),
-				],
-				bodyTemperatureMeasurementDays: [
-					...data.bodyTemperatureMeasurementDays.slice(-1),
-					...data.bodyTemperatureMeasurementDays.slice(0, -1),
-				],
+				weightMeasurementDays: [...data.weightMeasurementDays],
+				bloodSugarMeasurementDays: [...data.bloodSugarMeasurementDays],
+				bloodPressureMeasurementDays: [...data.bloodPressureMeasurementDays],
+				oxygenSaturationMeasurementDays: [...data.oxygenSaturationMeasurementDays],
+				bodyTemperatureMeasurementDays: [...data.bodyTemperatureMeasurementDays],
 			};
 			const currentDate = new Date(startDate);
 
 			while (currentDate <= endDate) {
 				const dayOfWeek = currentDate.getDay();
+				const dateNow = new Date();
+
+				let borderColor = '#e3e3e3';
+
+				if (currentDate > dateNow) {
+					borderColor = DARK_GREEN;
+				}
 				// Checks if any measurement is scheduled for this day of the week and adds to marked
 				if (
 					markedDaysOfWeek.weightMeasurementDays[dayOfWeek] ||
@@ -89,7 +81,7 @@ const Plan = (): JSX.Element => {
 						[formattedDate]: {
 							customStyles: {
 								container: {
-									borderColor: DARK_GREEN,
+									borderColor: borderColor,
 									borderWidth: 1.5,
 									width: 40,
 									height: 40,

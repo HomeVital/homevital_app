@@ -47,32 +47,59 @@ const MainScreen = (): JSX.Element => {
 			// This will depend on your actual data structure
 			const planItems: PlanItem[] = [];
 
-			// for (const day of plan.data.weightMeasurementDays) {
-			// 	planItems.push({
-			// 		id: day,
-			// 		title: t('home.weightMeasurement'),
-			// 		description: t('home.weightMeasurementDescription'),
-			// 		scheduledTime: day,
-			// 		type: 'weight',
-			// 	});
-			// }
+			// get current week
+			const currentDate = new Date();
 
-			planItems.push({
-				id: '1',
-				title: 'Mæling',
-				description: 'Þú hefur 1. mælingu í dag',
-				scheduledTime: new Date(Date.now() + 5000).toISOString(), // Schedule for 5 seconds from now in ISO format
-				type: 'bloodSugar',
-			});
+			let scheduleCounter = 0;
+
+			while (currentDate <= new Date(plan.data.endDate) && scheduleCounter < 7) {
+				//
+				const weekday = currentDate.getDay();
+
+				let measurementCounter = 0;
+
+				if (plan.data.weightMeasurementDays[weekday]) {
+					measurementCounter++;
+				}
+				if (plan.data.bloodSugarMeasurementDays[weekday]) {
+					measurementCounter++;
+				}
+				if (plan.data.bloodPressureMeasurementDays[weekday]) {
+					measurementCounter++;
+				}
+				if (plan.data.oxygenSaturationMeasurementDays[weekday]) {
+					measurementCounter++;
+				}
+				if (plan.data.bodyTemperatureMeasurementDays[weekday]) {
+					measurementCounter++;
+				}
+				if (measurementCounter >= 1) {
+					//
+
+					const planSetDate = new Date(currentDate);
+					planSetDate.setHours(8, 0, 0, 0); // Set time to 8:00 AM
+					planItems.push({
+						id: planItems.length.toString(),
+						title: 'Mælingar',
+						description: `Þú hefur ${measurementCounter} mælingar í dag`,
+						scheduledTime: new Date(planSetDate).toISOString(),
+						type: 'weight',
+					});
+				}
+
+				currentDate.setDate(currentDate.getDate() + 1);
+				scheduleCounter++;
+			}
+
+			// planItems.push({
+			// 	id: '1',
+			// 	title: 'Mæling',
+			// 	description: 'Þú hefur 1. mælingu í dag',
+			// 	scheduledTime: new Date(Date.now() + 15000).toISOString(), // Schedule for 5 seconds from now in ISO format
+			// 	type: 'bloodSugar',
+			// });
 
 			schedulePlanNotifications(planItems);
-
-			// // Schedule notifications based on the plan data
-			// schedulePlanNotifications(planNotifications)
-			// 	.then(() => )
-			// 	.catch((error) => {
-			// 		console.error('Failed to set up notifications:', error);
-			// 	});
 		}
 	}, [plan.data, plan.isLoading, plan.isError, t]);
 

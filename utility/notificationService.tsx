@@ -43,8 +43,8 @@ export class NotificationService {
 		if (Platform.OS === 'android') {
 			await Notifications.setNotificationChannelAsync('default', {
 				name: 'Default',
-				importance: Notifications.AndroidImportance.HIGH,
-				vibrationPattern: [0, 250, 250, 250],
+				importance: Notifications.AndroidImportance.MAX,
+				vibrationPattern: [0, 300, 300, 300],
 				lightColor: '#FF231F7C',
 			});
 		}
