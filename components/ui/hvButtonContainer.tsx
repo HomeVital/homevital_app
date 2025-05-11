@@ -1,20 +1,15 @@
-import { View, StyleSheet, TouchableOpacity } from 'react-native';
+import { TouchableOpacity, ViewProps } from 'react-native';
 import { useState, useRef, useEffect } from 'react';
-// constants
-import { DARK_GREEN } from '@/constants/colors';
-import HvImage from './hvImage';
 
-interface Props {
-	// text: string;
+interface Props extends ViewProps {
 	onPress: () => void;
-	// width?: number;
+	width?: number;
 	style?: object; // optional
-	bgColor?: string; // optional
 	loading?: boolean; // optional
 	disabled?: boolean; // optional
 	small?: boolean; // optional
 	bright?: boolean; // optional
-	cancel?: boolean; // optional
+	seeThrough?: boolean; // optional
 }
 
 /**
@@ -22,19 +17,24 @@ interface Props {
  * @param onPress - function to execute on button press
  * @param width - button width
  * @param style - additional button styles
+ * @param bgColor - background color of the button
+ * @param loading - loading state of the button
+ * @param disabled - disabled state of the button
+ * @param small - small button variant
+ * @param bright - bright button variant
+ * @param seeThrough - see-through button variant
  * @returns custom button component
  */
-const HvButtonCheck = ({
-	// text,
+const HvButtonContainer = ({
 	onPress,
-	// width,
+	width,
 	style = {},
-	bgColor = DARK_GREEN,
 	loading = false,
 	disabled = false,
 	small = false,
 	bright = false,
-	cancel = false,
+	seeThrough = false,
+	...props
 }: Props): JSX.Element => {
 	const [isPressIn, setIsPressIn] = useState(false);
 	const animationRef = useRef<number | null>(null);
@@ -91,33 +91,14 @@ const HvButtonCheck = ({
 			disabled={disabledBtn}
 			style={[
 				{
-					borderRadius: 10,
-					backgroundColor: !bright ? bgColor : 'white',
-					borderColor: !bright ? undefined : bgColor,
-					borderWidth: !bright ? 0 : 1,
 					opacity: disabledBtn ? 0.3 : 1,
-					padding: !small ? 15 : 10,
 				},
 				style,
 			]}
 		>
-			<View style={Styles.button}>
-				{cancel ? <HvImage source='Cancel' size={20} /> : <></>}
-			</View>
+			{props.children}
 		</TouchableOpacity>
 	);
 };
 
-const Styles = StyleSheet.create({
-	button: {
-		// height: 56, // expected 48
-		borderRadius: 10,
-		alignItems: 'center',
-		justifyContent: 'center',
-		width: 5,
-		height: 5,
-		zIndex: 1,
-	},
-});
-
-export default HvButtonCheck;
+export default HvButtonContainer;

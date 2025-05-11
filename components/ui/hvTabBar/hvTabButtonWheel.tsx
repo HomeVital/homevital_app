@@ -1,9 +1,10 @@
 import React from 'react';
-import { TouchableOpacity, View, StyleSheet } from 'react-native';
+import { View, StyleSheet } from 'react-native';
 // components
 import HvLayeredIcon from '../hvLayeredIcon';
 // constants
 import { TAB_ICON_SIZE } from '@/constants/constants';
+import HvButtonContainer from '../hvButtonContainer';
 
 interface Props {
 	roundness: number;
@@ -59,7 +60,7 @@ const HvTabButtonWheel = ({ radius, roundness, buttons }: Props): JSX.Element =>
 				.reverse()
 				.map((button, index) => {
 					return (
-						<TouchableOpacity
+						<HvButtonContainer
 							key={index}
 							onPress={button.onPress}
 							style={[margins(index), { position: 'absolute' }]}
@@ -69,7 +70,7 @@ const HvTabButtonWheel = ({ radius, roundness, buttons }: Props): JSX.Element =>
 								outerIcon={require('@/assets/svgs/filledCircle.svg')}
 								innerIcon={button.name}
 							/>
-						</TouchableOpacity>
+						</HvButtonContainer>
 					);
 				})}
 		</View>

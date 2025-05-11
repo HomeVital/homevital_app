@@ -1,5 +1,5 @@
 import React, { useContext, useState } from 'react';
-import { View, StyleSheet, Switch, TouchableOpacity } from 'react-native';
+import { View, StyleSheet, Switch } from 'react-native';
 import CountryFlag from 'react-native-country-flag';
 // components
 // import HvDivider from '@/components/ui/hvDivider';
@@ -19,6 +19,7 @@ import { useTranslation } from 'react-i18next';
 import ChangeLanguage from '@/components/modals/changeLanguage';
 import ModalContext from '@/contexts/modalContext';
 import { useNotification } from '@/contexts/notificationContext';
+import HvButtonContainer from '@/components/ui/hvButtonContainer';
 
 const MainSettings = (): JSX.Element => {
 	const { t, i18n } = useTranslation();
@@ -92,7 +93,7 @@ const MainSettings = (): JSX.Element => {
 							bright
 							disabled
 						/>
-						<TouchableOpacity
+						<HvButtonContainer
 							onPress={() => {
 								modals.setChangeLangVisible(true);
 								modals.setIsOpen(true);
@@ -114,7 +115,7 @@ const MainSettings = (): JSX.Element => {
 									}}
 								/>
 							</View>
-						</TouchableOpacity>
+						</HvButtonContainer>
 						<View style={Styles.leftRightContainer}>
 							<HvText>
 								{/* Áminningar */}

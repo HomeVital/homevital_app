@@ -13,7 +13,7 @@ import { ErrorView, LoadingView } from '@/components/queryStates';
 import { getClaimBySubstring } from '@/utility/utility';
 import { useTranslation } from 'react-i18next';
 import { useContext, useEffect } from 'react';
-import { PlanItem, schedulePlanNotifications } from '@/utility/notidicationHelper';
+import { scheduleNotifications } from '@/utility/notificationHelper';
 import HvCard from '@/components/cards/hvCard';
 import HvLayeredIcon from '@/components/ui/hvLayeredIcon';
 import { useNotification } from '@/contexts/notificationContext';
@@ -26,6 +26,7 @@ const MainScreen = (): JSX.Element => {
 	const modals = useContext(ModalContext);
 	const { notificationsActive, notificationCount, setNotificationCount } = useNotification();
 
+	// queries
 	const [patient, recentMeasurements, plan] = useQueries({
 		queries: [
 			{
@@ -46,111 +47,26 @@ const MainScreen = (): JSX.Element => {
 		],
 	});
 
+	// reset count when notification modal is open
 	useEffect(() => {
 		if (modals.viewNotificationsVisible) {
 			setNotificationCount(0);
 		}
-	}, [modals.viewNotificationsVisible, notificationCount]);
+	}, [modals.viewNotificationsVisible, notificationCount, setNotificationCount]);
 
-	// Set up notifications when the plan data is available
+	// Set up calendar notifications
 	useEffect(() => {
-		if (plan.data && !plan.isLoading && !plan.isError && notificationsActive) {
-			const planItems: PlanItem[] = [];
-			const currentDate = new Date();
-
-			let scheduleCounter = 0;
-			while (currentDate <= new Date(plan.data.endDate) && scheduleCounter < 7) {
-				const weekday = currentDate.getDay();
-				let measurementCounter = 0;
-
-				if (plan.data.weightMeasurementDays[weekday]) {
-					measurementCounter++;
-				}
-				if (plan.data.bloodSugarMeasurementDays[weekday]) {
-					measurementCounter++;
-				}
-				if (plan.data.bloodPressureMeasurementDays[weekday]) {
-					measurementCounter++;
-				}
-				if (plan.data.oxygenSaturationMeasurementDays[weekday]) {
-					measurementCounter++;
-				}
-				if (plan.data.bodyTemperatureMeasurementDays[weekday]) {
-					measurementCounter++;
-				}
-				if (measurementCounter >= 1) {
-					const planSetDate = new Date(currentDate);
-					planSetDate.setHours(8, 0, 0, 0); // Set time to 8:00 AM
-					planItems.push({
-						id: planItems.length.toString(),
-						title: t('notifications.title'),
-						description: t('notifications.message', { count: measurementCounter }),
-						scheduledTime: new Date(planSetDate).toISOString(),
-						type: 'measurements',
-					});
-				}
-
-				currentDate.setDate(currentDate.getDate() + 1);
-				scheduleCounter++;
+		const setupNotifications = async () => {
+			if (plan.data && !plan.isLoading && !plan.isError && notificationsActive) {
+				await scheduleNotifications(plan.data, t);
+			} else if (notificationsActive === false) {
+				NotificationService.cancelAllNotifications();
 			}
-
-			planItems.push({
-				id: Math.floor(Math.random() * 10000 + 1).toString(),
-				title: t('notifications.title'),
-				description: t('notifications.message', { count: 4 }),
-				scheduledTime: new Date(new Date().getTime() + 5000).toISOString(),
-				type: 'test',
-			});
-
-			planItems.push({
-				id: Math.floor(Math.random() * 10000 + 1).toString(),
-				title: t('notifications.title'),
-				description: t('notifications.message', { count: 1 }),
-				scheduledTime: new Date(new Date().getTime() + 10000).toISOString(),
-				type: 'test',
-			});
-
-			planItems.push({
-				id: Math.floor(Math.random() * 10000 + 1).toString(),
-				title: t('notifications.title'),
-				description: t('notifications.message', { count: 3 }),
-				scheduledTime: new Date(new Date().getTime() + 15000).toISOString(),
-				type: 'test',
-			});
-
-			planItems.push({
-				id: Math.floor(Math.random() * 10000 + 1).toString(),
-				title: t('notifications.title'),
-				description: t('notifications.message', { count: 4 }),
-				scheduledTime: new Date(new Date().getTime() + 20000).toISOString(),
-				type: 'test',
-			});
-
-			planItems.push({
-				id: Math.floor(Math.random() * 10000 + 1).toString(),
-				title: t('notifications.title'),
-				description: t('notifications.message', { count: 2 }),
-				scheduledTime: new Date(new Date().getTime() + 25000).toISOString(),
-				type: 'test',
-			});
-
-			planItems.push({
-				id: Math.floor(Math.random() * 10000 + 1).toString(),
-				title: t('notifications.title'),
-				description: t('notifications.message', { count: 2 }),
-				scheduledTime: new Date(new Date().getTime() + 30000).toISOString(),
-				type: 'test',
-			});
-
-			schedulePlanNotifications(planItems);
-		} else if (notificationsActive === false) {
-			NotificationService.cancelAllNotifications();
-		}
+		};
+		setupNotifications();
 	}, [plan.data, plan.isLoading, plan.isError, t, notificationsActive]);
 
 	// loading
-	// if (patient.isLoading && recentMeasurements.isLoading && plan.isLoading) return <LoadingView />;
-
 	if (recentMeasurements.isLoading || plan.isLoading || patient.isLoading) {
 		return (
 			<SafeAreaView>
@@ -160,6 +76,7 @@ const MainScreen = (): JSX.Element => {
 		);
 	}
 
+	// error
 	if (patient.isError || recentMeasurements.isError || plan.isError) return <ErrorView />;
 
 	return (
@@ -181,7 +98,7 @@ const MainScreen = (): JSX.Element => {
 										/>
 									</View>
 									<View style={{ flex: 1, justifyContent: 'center' }}>
-										<HvText>{plan.data?.instructions}</HvText>
+										<HvText weight='semibold'>{plan.data?.instructions}</HvText>
 									</View>
 								</HvCard>
 							</View>

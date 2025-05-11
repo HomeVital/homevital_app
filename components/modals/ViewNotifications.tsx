@@ -1,4 +1,4 @@
-import { Modal, TouchableOpacity, TouchableWithoutFeedback, View } from 'react-native';
+import { Modal, TouchableWithoutFeedback, View } from 'react-native';
 import { STYLES } from '@/constants/styles';
 import { useContext } from 'react';
 import ModalContext from '@/contexts/modalContext';
@@ -11,6 +11,7 @@ import HvText from '../ui/hvText';
 import HvScrollView from '../ui/HvScrollView';
 import HvImage from '../ui/hvImage';
 import { formatDate } from '@/utility/utility';
+import HvButtonContainer from '../ui/hvButtonContainer';
 
 const ViewNotifications = (): JSX.Element => {
 	const { t } = useTranslation();
@@ -53,7 +54,7 @@ const ViewNotifications = (): JSX.Element => {
 									<View style={{ gap: 12, padding: 10 }}>
 										{notifications.length > 0 ? (
 											notifications.map((notification) => (
-												<TouchableOpacity
+												<HvButtonContainer
 													key={notification.request.identifier}
 													onPress={() => {
 														setNotifications((prev) =>
@@ -97,7 +98,7 @@ const ViewNotifications = (): JSX.Element => {
 															<HvImage source={'Delete'} size={24} />
 														</View>
 													</HvCard>
-												</TouchableOpacity>
+												</HvButtonContainer>
 											))
 										) : (
 											<HvCard padding={20}>

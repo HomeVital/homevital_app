@@ -3,6 +3,7 @@ import { View, StyleSheet, TouchableOpacity, ActivityIndicator } from 'react-nat
 import HvText from './hvText';
 // constants
 import { DARK_GREEN, WHITE } from '@/constants/colors';
+import { useState, useRef, useEffect } from 'react';
 
 interface Props {
 	text: string;
@@ -53,11 +54,59 @@ const HvButton = ({
 	bright = false,
 	seeThrough = false,
 }: Props): JSX.Element => {
+	const [isPressIn, setIsPressIn] = useState(false);
+	const animationRef = useRef<number | null>(null);
+	const wasPressed = useRef(false);
+
+	// Clean up any pending animation frame on unmount
+	useEffect(() => {
+		return () => {
+			if (animationRef.current !== null) {
+				cancelAnimationFrame(animationRef.current);
+			}
+		};
+	}, []);
+
+	const handlePressIn = () => {
+		setIsPressIn(true);
+		wasPressed.current = true;
+	};
+
+	const handlePressOut = () => {
+		setIsPressIn(false);
+
+		// Only trigger the press animation if this was a real press (not a cancel)
+		if (wasPressed.current) {
+			// Mark that we've handled this press
+			wasPressed.current = false;
+			// Clear any existing animation
+			if (animationRef.current !== null) {
+				cancelAnimationFrame(animationRef.current);
+			}
+
+			// Use requestAnimationFrame for smooth animation timing
+			animationRef.current = requestAnimationFrame(() => {
+				// Schedule the reset of pressed state in the next frame
+				animationRef.current = requestAnimationFrame(() => {
+					animationRef.current = null;
+				});
+			});
+		}
+	};
+
+	const handlePress = () => {
+		onPress();
+	};
+
+	const disabledBtn = disabled || loading || isPressIn ? true : false;
+
 	return (
 		<TouchableOpacity
-			onPress={onPress}
-			activeOpacity={0.5}
-			disabled={disabled || loading}
+			onPress={handlePress}
+			onPressIn={handlePressIn}
+			onPressOut={handlePressOut}
+			activeOpacity={0.5} // Disable default opacity effect
+			disabled={disabledBtn}
 			style={[
 				{
 					width: width ? width : {},
@@ -65,7 +114,7 @@ const HvButton = ({
 					backgroundColor: GetBGColor(bgColor, bright, seeThrough),
 					borderColor: !bright ? undefined : bgColor,
 					borderWidth: !bright ? 0 : 1,
-					opacity: disabled || loading ? 0.5 : 1,
+					opacity: disabledBtn ? 0.5 : 1,
 					padding: !small ? 15 : 10,
 				},
 				style,

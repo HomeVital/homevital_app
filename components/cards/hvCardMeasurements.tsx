@@ -7,7 +7,7 @@ import {
 	IOxygenSaturation,
 } from '@/interfaces/measurements';
 import HvCard from './hvCard';
-import { View, StyleSheet, TouchableOpacity } from 'react-native';
+import { View, StyleSheet } from 'react-native';
 import { formatDate } from '@/utility/utility';
 import HvText from '../ui/hvText';
 import {
@@ -19,6 +19,7 @@ import {
 } from '@/constants/typeGuards';
 import HvImage from '../ui/hvImage';
 import { PADDING, TAB_ICON_SIZE } from '@/constants/constants';
+import HvButtonContainer from '../ui/hvButtonContainer';
 
 interface Props<
 	T = IBloodPressure | IOxygenSaturation | IBodyTemperature | IBodyWeight | IBloodSugar,
@@ -104,19 +105,19 @@ export const HvCardMeasurements = <T,>({
 			{items.map((item) => {
 				if (isBloodPressure(item)) {
 					return (
-						<TouchableOpacity onPress={() => onPress?.(item as never)} key={item.id}>
+						<HvButtonContainer onPress={() => onPress?.(item as never)} key={item.id}>
 							<HvCardMeasurement
 								key={item.id}
 								item={item as never}
 								editable={editable}
 							/>
-						</TouchableOpacity>
+						</HvButtonContainer>
 					);
 				}
 				return (
-					<TouchableOpacity onPress={() => onPress?.(item as never)} key={item.id}>
+					<HvButtonContainer onPress={() => onPress?.(item as never)} key={item.id}>
 						<HvCardMeasurement key={item.id} item={item as never} editable={editable} />
-					</TouchableOpacity>
+					</HvButtonContainer>
 				);
 			})}
 		</View>

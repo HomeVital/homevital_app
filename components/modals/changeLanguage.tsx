@@ -1,4 +1,4 @@
-import { Modal, TouchableOpacity, TouchableWithoutFeedback, View, StyleSheet } from 'react-native';
+import { Modal, TouchableWithoutFeedback, View, StyleSheet } from 'react-native';
 import { STYLES } from '@/constants/styles';
 import { useContext, useState } from 'react';
 import HvText from '../ui/hvText';
@@ -8,6 +8,7 @@ import ModalContext from '@/contexts/modalContext';
 import { useTranslation } from 'react-i18next';
 import HvInputForm from '../ui/hvInputForm/hvInputForm';
 import CountryFlag from 'react-native-country-flag';
+import HvButtonContainer from '../ui/hvButtonContainer';
 
 interface Props {
 	onChange: (newLangCode: string) => void;
@@ -71,7 +72,7 @@ const ChangeLanguage = ({ onChange }: Props): JSX.Element => {
 								<View style={Styles.itemsContainer}>
 									{languages.map((lang, index) => (
 										<View key={lang}>
-											<TouchableOpacity onPress={() => setLangCode(lang)}>
+											<HvButtonContainer onPress={() => setLangCode(lang)}>
 												<View style={Styles.row}>
 													<HvText
 														weight={
@@ -114,7 +115,7 @@ const ChangeLanguage = ({ onChange }: Props): JSX.Element => {
 														</View>
 													</View>
 												</View>
-											</TouchableOpacity>
+											</HvButtonContainer>
 											{index !== languages.length - 1 && (
 												<View style={Styles.spacer} />
 											)}

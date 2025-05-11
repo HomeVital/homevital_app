@@ -1,4 +1,4 @@
-import { ColorValue, TouchableOpacity, View, StyleSheet } from 'react-native';
+import { ColorValue, View, StyleSheet } from 'react-native';
 import HvText from '../ui/hvText';
 import HvCard from '../cards/hvCard';
 import { CurveType, LineChart } from 'react-native-gifted-charts';
@@ -22,6 +22,7 @@ import {
 	isOxygenSaturation,
 } from '@/constants/typeGuards';
 import { useTranslation } from 'react-i18next';
+import HvButtonContainer from '../ui/hvButtonContainer';
 
 interface IDataType {
 	name: string;
@@ -141,7 +142,7 @@ const HvGraphObject = <T,>({ data, dataTypes, setItem }: PropsObject<T>): JSX.El
 					width: '100%',
 				}}
 			>
-				<TouchableOpacity
+				<HvButtonContainer
 					onPress={() => {
 						handleDateRange('7');
 					}}
@@ -155,8 +156,8 @@ const HvGraphObject = <T,>({ data, dataTypes, setItem }: PropsObject<T>): JSX.El
 					<HvText weight='bold' size='l' center>
 						7 {t('measurements.page.days')}
 					</HvText>
-				</TouchableOpacity>
-				<TouchableOpacity
+				</HvButtonContainer>
+				<HvButtonContainer
 					onPress={() => {
 						handleDateRange('30');
 					}}
@@ -170,8 +171,8 @@ const HvGraphObject = <T,>({ data, dataTypes, setItem }: PropsObject<T>): JSX.El
 					<HvText weight='bold' size='l' center>
 						30 {t('measurements.page.days')}
 					</HvText>
-				</TouchableOpacity>
-				<TouchableOpacity
+				</HvButtonContainer>
+				<HvButtonContainer
 					onPress={() => {
 						handleDateRange('90');
 					}}
@@ -185,7 +186,7 @@ const HvGraphObject = <T,>({ data, dataTypes, setItem }: PropsObject<T>): JSX.El
 					<HvText weight='bold' size='l' center>
 						90 {t('measurements.page.days')}
 					</HvText>
-				</TouchableOpacity>
+				</HvButtonContainer>
 			</View>
 
 			<LineChart

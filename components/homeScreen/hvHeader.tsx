@@ -1,4 +1,4 @@
-import { View, StyleSheet, TouchableOpacity } from 'react-native';
+import { View, StyleSheet } from 'react-native';
 import { Image } from 'expo-image';
 // components
 import HvText from '../ui/hvText';
@@ -6,6 +6,7 @@ import HvBadge from '../ui/hvBadge';
 import { useNotification } from '@/contexts/notificationContext';
 import { useContext } from 'react';
 import ModalContext from '@/contexts/modalContext';
+import HvButtonContainer from '../ui/hvButtonContainer';
 
 interface Props {
 	name: string;
@@ -30,7 +31,7 @@ const HvHeader = ({ name }: Props): JSX.Element => {
 			<HvText size='l' weight='semibold' style={Styles.headerText}>
 				{name}
 			</HvText>
-			<TouchableOpacity
+			<HvButtonContainer
 				onPress={() => {
 					modals.setIsOpen(true);
 					modals.setViewNotificationsVisible(true);
@@ -47,7 +48,7 @@ const HvHeader = ({ name }: Props): JSX.Element => {
 					size={20}
 					position='topRight'
 				/>
-			</TouchableOpacity>
+			</HvButtonContainer>
 		</View>
 	);
 };

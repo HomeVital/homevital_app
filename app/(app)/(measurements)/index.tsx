@@ -1,4 +1,4 @@
-import { StyleSheet, TouchableOpacity, View } from 'react-native';
+import { StyleSheet, View } from 'react-native';
 import { router } from 'expo-router';
 import { Image } from 'expo-image';
 import { useQueries } from '@tanstack/react-query';
@@ -20,6 +20,7 @@ import { PADDING } from '@/constants/constants';
 import { LoadingView } from '@/components/queryStates';
 import { getClaimBySubstring } from '@/utility/utility';
 import { useTranslation } from 'react-i18next';
+import HvButtonContainer from '@/components/ui/hvButtonContainer';
 
 const MainMeasurements = (): JSX.Element => {
 	const { t } = useTranslation();
@@ -71,7 +72,7 @@ const MainMeasurements = (): JSX.Element => {
 			<View style={Styles.container}>
 				{bloodpressure.data && bloodpressure.data.length > 0 && (
 					<View style={Styles.itemContainer}>
-						<TouchableOpacity
+						<HvButtonContainer
 							style={Styles.item}
 							onPress={() => router.push('/(app)/(measurements)/(bloodPressure)')}
 						>
@@ -81,13 +82,13 @@ const MainMeasurements = (): JSX.Element => {
 								style={Styles.itemImage}
 							/>
 							<HvText>{t('measurements.bloodPressure')}</HvText>
-						</TouchableOpacity>
+						</HvButtonContainer>
 					</View>
 				)}
 
 				{bloodsugar.data && bloodsugar.data.length > 0 && (
 					<View style={Styles.itemContainer}>
-						<TouchableOpacity
+						<HvButtonContainer
 							style={Styles.item}
 							onPress={() => router.push('/(app)/(measurements)/(bloodSugar)')}
 						>
@@ -97,13 +98,13 @@ const MainMeasurements = (): JSX.Element => {
 								style={Styles.itemImage}
 							/>
 							<HvText>{t('measurements.bloodSugar')}</HvText>
-						</TouchableOpacity>
+						</HvButtonContainer>
 					</View>
 				)}
 
 				{bodyweight.data && bodyweight.data.length > 0 && (
 					<View style={Styles.itemContainer}>
-						<TouchableOpacity
+						<HvButtonContainer
 							style={Styles.item}
 							onPress={() => router.push('/(app)/(measurements)/(weight)')}
 						>
@@ -113,13 +114,13 @@ const MainMeasurements = (): JSX.Element => {
 								style={Styles.itemImage}
 							/>
 							<HvText>{t('measurements.bodyWeight')}</HvText>
-						</TouchableOpacity>
+						</HvButtonContainer>
 					</View>
 				)}
 
 				{bodytemperature.data && bodytemperature.data.length > 0 && (
 					<View style={Styles.itemContainer}>
-						<TouchableOpacity
+						<HvButtonContainer
 							style={Styles.item}
 							onPress={() => router.push('/(app)/(measurements)/(temperature)')}
 						>
@@ -129,13 +130,13 @@ const MainMeasurements = (): JSX.Element => {
 								style={Styles.itemImage}
 							/>
 							<HvText>{t('measurements.bodyTemperature')}</HvText>
-						</TouchableOpacity>
+						</HvButtonContainer>
 					</View>
 				)}
 
 				{oxygensaturation.data && oxygensaturation.data.length > 0 && (
 					<View style={Styles.itemContainer}>
-						<TouchableOpacity
+						<HvButtonContainer
 							style={Styles.item}
 							onPress={() => router.push('/(app)/(measurements)/(oxygenSaturation)')}
 						>
@@ -145,11 +146,11 @@ const MainMeasurements = (): JSX.Element => {
 								style={Styles.itemImage}
 							/>
 							<HvText>{t('measurements.oxygenSaturation')}</HvText>
-						</TouchableOpacity>
+						</HvButtonContainer>
 					</View>
 				)}
 				<View style={Styles.itemContainer}>
-					<TouchableOpacity
+					<HvButtonContainer
 						style={Styles.item}
 						onPress={() => router.push('/(app)/(measurements)/(plan)')}
 					>
@@ -159,7 +160,7 @@ const MainMeasurements = (): JSX.Element => {
 							style={Styles.itemImage}
 						/>
 						<HvText>{t('measurements.plan.plan')}</HvText>
-					</TouchableOpacity>
+					</HvButtonContainer>
 				</View>
 			</View>
 		</View>

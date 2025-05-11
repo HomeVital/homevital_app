@@ -1,11 +1,12 @@
 import HvCard from './hvCard';
-import { View, StyleSheet, TouchableOpacity } from 'react-native';
+import { View, StyleSheet } from 'react-native';
 import { formatDate } from '@/utility/utility';
 import HvText from '../ui/hvText';
 import { IMeasurement } from '@/interfaces/measurements';
 import HvImage from '../ui/hvImage';
 import { RelativePathString, router } from 'expo-router';
 import { useTranslation } from 'react-i18next';
+import HvButtonContainer from '../ui/hvButtonContainer';
 
 interface Props {
 	items: IMeasurement[];
@@ -73,7 +74,10 @@ const HvCardRecentMeasurements = ({ items }: Props): JSX.Element => {
 	return (
 		<>
 			{items.map((item) => (
-				<TouchableOpacity onPress={() => router.push(measurementLink(item))} key={item.uid}>
+				<HvButtonContainer
+					onPress={() => router.push(measurementLink(item))}
+					key={item.uid}
+				>
 					<HvCard
 						key={item.uid}
 						style={Styles.container}
@@ -129,7 +133,7 @@ const HvCardRecentMeasurements = ({ items }: Props): JSX.Element => {
 							</View>
 						</View>
 					</HvCard>
-				</TouchableOpacity>
+				</HvButtonContainer>
 			))}
 		</>
 	);
@@ -159,28 +163,16 @@ const Styles = StyleSheet.create({
 		flexDirection: 'row',
 		justifyContent: 'flex-end',
 		height: '100%',
-		// borderColor: '#E0E0E0',
-		// borderWidth: 1,
 		flex: 1,
-		// paddingInline: 20,
 		paddingLeft: 30,
-		// paddingBottom: 10,
 	},
 	measurementLeft: {
 		flex: 1,
-
-		// alignItems: 'center',
 		justifyContent: 'space-between',
-		// borderColor: '#E0E0E0',
-		// borderWidth: 1,
 	},
 	measurementRight: {
-		// borderColor: '#E0E0E0',
-		// borderWidth: 1,
 		alignItems: 'flex-end',
 		flexDirection: 'row',
-		// justifyContent: 'space-between',
-		// alignItems: 'flex-end',
 	},
 });
 

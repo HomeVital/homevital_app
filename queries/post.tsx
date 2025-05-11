@@ -16,8 +16,16 @@ import {
 import axios from 'axios';
 
 export const postBloodSugar = async (measurement: IAddBloodSugar): Promise<IAddBloodSugar> => {
-	const response = await axios.post(`${BLOODSUGAR_URL}/${measurement.patientID}`, measurement);
-	return response.data;
+	try {
+		const response = await axios.post(
+			`${BLOODSUGAR_URL}/${measurement.patientID}`,
+			measurement,
+		);
+		return response.data;
+	} catch (error) {
+		console.error('Error posting blood sugar:', error);
+		throw error;
+	}
 };
 
 export const postOxygenSaturation = async (
@@ -53,14 +61,27 @@ export const postBloodPressure = async (
 export const postBodyTemperature = async (
 	measurement: IAddBodyTemperature,
 ): Promise<IAddBodyTemperature> => {
-	const response = await axios.post(
-		`${BODYTEMPERATURE_URL}/${measurement.patientID}`,
-		measurement,
-	);
-	return response.data;
+	try {
+		const response = await axios.post(
+			`${BODYTEMPERATURE_URL}/${measurement.patientID}`,
+			measurement,
+		);
+		return response.data;
+	} catch (error) {
+		console.error('Error posting body temperature:', error);
+		throw error;
+	}
 };
 
 export const postBodyWeight = async (measurement: IAddBodyWeight): Promise<IAddBodyWeight> => {
-	const response = await axios.post(`${BODYWEIGHT_URL}/${measurement.patientID}`, measurement);
-	return response.data;
+	try {
+		const response = await axios.post(
+			`${BODYWEIGHT_URL}/${measurement.patientID}`,
+			measurement,
+		);
+		return response.data;
+	} catch (error) {
+		console.error('Error posting body weight:', error);
+		throw error;
+	}
 };

@@ -1,12 +1,13 @@
 import React, { useEffect } from 'react';
-import { TouchableOpacity, StyleSheet, View, TouchableOpacityProps } from 'react-native';
+import { StyleSheet, View, TouchableOpacityProps } from 'react-native';
 import { Image } from 'expo-image';
 import Animated, { useAnimatedStyle, useSharedValue, withTiming } from 'react-native-reanimated';
 // components
 import HvText from '../hvText';
 // constants
-import { ACTIVE_OPACITY, FONT_SIZE } from './constants';
+import { FONT_SIZE } from './constants';
 import { TAB_BAR_PADDING, TAB_HEIGHT, TAB_ICON_SIZE, TAB_TEXT_HEIGHT } from '@/constants/constants';
+import HvButtonContainer from '../hvButtonContainer';
 
 interface Props extends TouchableOpacityProps {
 	onPress: () => void;
@@ -63,11 +64,7 @@ const HvTabItemAnimated = ({
 	});
 
 	return (
-		<TouchableOpacity
-			style={Styles.tabContainer}
-			activeOpacity={ACTIVE_OPACITY}
-			onPress={onPress}
-		>
+		<HvButtonContainer style={Styles.tabContainer} onPress={onPress}>
 			<Animated.View
 				style={[animatedStyle, large ? Styles.largeContainer : Styles.smallContainer]}
 			>
@@ -91,7 +88,7 @@ const HvTabItemAnimated = ({
 				{text}
 			</HvText>
 			{props.children}
-		</TouchableOpacity>
+		</HvButtonContainer>
 	);
 };
 

@@ -22,3 +22,11 @@ export interface IPlan {
 	oxygenSaturationMeasurementDays: [number, number, number, number, number, number, number];
 	bodyTemperatureMeasurementDays: [number, number, number, number, number, number, number];
 }
+
+export interface PlanItem {
+	id: string;
+	title: string;
+	description: string;
+	scheduledTime: string; // ISO format date string
+	type: string;
+}
