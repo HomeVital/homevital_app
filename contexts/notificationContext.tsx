@@ -30,7 +30,7 @@ export const NotificationProvider: React.FC<NotificationProviderProps> = ({ chil
 	useEffect(() => {
 		// Set up listener for notifications received while app is in foreground
 		NotificationService.addForegroundNotificationListener((notification) => {
-			setNotifications((prevNotifications) => [...prevNotifications, notification]);
+			setNotifications((prevNotifications) => [notification, ...prevNotifications]);
 			setNotificationCount((prevCount) => prevCount + 1);
 		});
 

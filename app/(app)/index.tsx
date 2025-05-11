@@ -97,10 +97,50 @@ const MainScreen = (): JSX.Element => {
 			// const minute = '30';
 
 			planItems.push({
-				id: '6969',
+				id: Math.floor(Math.random() * 10000 + 1).toString(),
 				title: t('notifications.title'),
 				description: t('notifications.message', { count: 4 }),
+				scheduledTime: new Date(new Date().getTime() + 5000).toISOString(),
+				type: 'test',
+			});
+
+			planItems.push({
+				id: Math.floor(Math.random() * 10000 + 1).toString(),
+				title: t('notifications.title'),
+				description: t('notifications.message', { count: 1 }),
 				scheduledTime: new Date(new Date().getTime() + 10000).toISOString(),
+				type: 'test',
+			});
+
+			planItems.push({
+				id: Math.floor(Math.random() * 10000 + 1).toString(),
+				title: t('notifications.title'),
+				description: t('notifications.message', { count: 3 }),
+				scheduledTime: new Date(new Date().getTime() + 15000).toISOString(),
+				type: 'test',
+			});
+
+			planItems.push({
+				id: Math.floor(Math.random() * 10000 + 1).toString(),
+				title: t('notifications.title'),
+				description: t('notifications.message', { count: 4 }),
+				scheduledTime: new Date(new Date().getTime() + 20000).toISOString(),
+				type: 'test',
+			});
+
+			planItems.push({
+				id: Math.floor(Math.random() * 10000 + 1).toString(),
+				title: t('notifications.title'),
+				description: t('notifications.message', { count: 2 }),
+				scheduledTime: new Date(new Date().getTime() + 25000).toISOString(),
+				type: 'test',
+			});
+
+			planItems.push({
+				id: Math.floor(Math.random() * 10000 + 1).toString(),
+				title: t('notifications.title'),
+				description: t('notifications.message', { count: 2 }),
+				scheduledTime: new Date(new Date().getTime() + 30000).toISOString(),
 				type: 'test',
 			});
 
@@ -110,17 +150,13 @@ const MainScreen = (): JSX.Element => {
 	}, [plan.data, plan.isLoading, plan.isError, t]);
 
 	// loading
-	if (patient.isLoading && recentMeasurements.isLoading && plan.isLoading) return <LoadingView />;
+	// if (patient.isLoading && recentMeasurements.isLoading && plan.isLoading) return <LoadingView />;
 
-	if (recentMeasurements.isLoading || plan.isLoading) {
+	if (recentMeasurements.isLoading || plan.isLoading || patient.isLoading) {
 		return (
 			<SafeAreaView>
-				{patient.data && (
-					<>
-						<HvHeader name={patient.data.name} />
-						<LoadingView />
-					</>
-				)}
+				<HvHeader name={patient.data?.name ? patient.data?.name.split(' ')[0] : ''} />
+				<LoadingView />
 			</SafeAreaView>
 		);
 	}
@@ -145,8 +181,7 @@ const MainScreen = (): JSX.Element => {
 											size={40}
 										/>
 									</View>
-									<View style={{ flex: 1, gap: 8 }}>
-										<HvText weight='semibold'>{t('home.instructions')}</HvText>
+									<View style={{ flex: 1, justifyContent: 'center' }}>
 										<HvText>{plan.data?.instructions}</HvText>
 									</View>
 								</HvCard>

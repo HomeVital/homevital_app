@@ -62,6 +62,9 @@ const ModalContext = createContext<{
 	// language
 	changeLangVisible: boolean;
 	setChangeLangVisible: (visible: boolean) => void;
+	// notifications
+	viewNotificationsVisible: boolean;
+	setViewNotificationsVisible: (visible: boolean) => void;
 }>({
 	// add
 	addBPVisible: false,
@@ -117,6 +120,9 @@ const ModalContext = createContext<{
 	// language
 	changeLangVisible: false,
 	setChangeLangVisible: () => null,
+	// notifications
+	viewNotificationsVisible: false,
+	setViewNotificationsVisible: () => null,
 });
 
 export default ModalContext;

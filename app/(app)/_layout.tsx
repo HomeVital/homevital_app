@@ -28,6 +28,7 @@ import EditBloodPressure from '@/components/modals/EditBloodPressure';
 import EditBodyWeight from '@/components/modals/EditBodyWeight';
 import EditTemperature from '@/components/modals/EditTemperature';
 import EditBloodSugar from '@/components/modals/EditBloodSugar';
+import ViewNotifications from '@/components/modals/ViewNotifications';
 
 const AppLayout = (): JSX.Element => {
 	const { session, isLoading, signOut } = useSession();
@@ -49,6 +50,8 @@ const AppLayout = (): JSX.Element => {
 	const [editBTVisible, setEditBTVisible] = useState(false);
 	// language modal
 	const [changeLangVisible, setChangeLangVisible] = useState(false);
+	// notifications modal
+	const [viewNotificationsVisible, setViewNotificationsVisible] = useState(false);
 	// grayed overlay
 	const [isOpen, setIsOpen] = useState(false);
 	const [isEditOpen, setIsEditOpen] = useState(false);
@@ -72,7 +75,8 @@ const AppLayout = (): JSX.Element => {
 		addBOVisible ||
 		addBSVisible ||
 		isEditOpen ||
-		changeLangVisible;
+		changeLangVisible ||
+		viewNotificationsVisible;
 
 	const isAnyEditModalVisible =
 		editBTVisible || editBPVisible || editBWVisible || editBOVisible || editBSVisible;
@@ -197,6 +201,9 @@ const AppLayout = (): JSX.Element => {
 				// language
 				changeLangVisible,
 				setChangeLangVisible,
+				// notifications
+				viewNotificationsVisible,
+				setViewNotificationsVisible,
 			}}
 		>
 			<View style={styles.container}>
@@ -223,6 +230,8 @@ const AppLayout = (): JSX.Element => {
 				{editBWVisible && <EditBodyWeight />}
 				{editBTVisible && <EditTemperature />}
 				{editBSVisible && <EditBloodSugar />}
+
+				{viewNotificationsVisible && <ViewNotifications />}
 
 				<HvModalValidation
 					visible={validationVisible}

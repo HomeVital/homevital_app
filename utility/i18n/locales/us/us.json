@@ -44,6 +44,10 @@
 		"settings": "Settings"
 	},
 	"modals": {
+		"notifications": {
+			"title": "Notifications",
+			"noNotifications": "No notifications"
+		},
 		"buttons": {
 			"save": "Save",
 			"edit": "Edit",

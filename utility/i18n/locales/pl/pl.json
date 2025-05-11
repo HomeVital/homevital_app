@@ -44,6 +44,10 @@
 		"settings": "Ustawienia"
 	},
 	"modals": {
+		"notifications": {
+			"title": "Powiadomienia",
+			"noNotifications": "Brak powiadomień"
+		},
 		"buttons": {
 			"save": "Zapisz",
 			"edit": "Edytuj",

@@ -44,6 +44,10 @@
 		"settings": "Stillingar"
 	},
 	"modals": {
+		"notifications": {
+			"title": "Tilkynningar",
+			"noNotifications": "Engar tilkynningar"
+		},
 		"buttons": {
 			"save": "Vista",
 			"edit": "Breyta",

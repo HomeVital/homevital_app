@@ -4,6 +4,8 @@ import { Image } from 'expo-image';
 import HvText from '../ui/hvText';
 import HvBadge from '../ui/hvBadge';
 import { useNotification } from '@/contexts/notificationContext';
+import { useContext } from 'react';
+import ModalContext from '@/contexts/modalContext';
 
 interface Props {
 	name: string;
@@ -15,7 +17,8 @@ interface Props {
  * @returns header component for the home screen
  */
 const HvHeader = ({ name }: Props): JSX.Element => {
-	const { notificationCount } = useNotification();
+	const { notificationCount, setNotificationCount } = useNotification();
+	const modals = useContext(ModalContext);
 
 	return (
 		<View style={Styles.container}>
@@ -27,7 +30,13 @@ const HvHeader = ({ name }: Props): JSX.Element => {
 			<HvText size='l' weight='semibold' style={Styles.headerText}>
 				{name}
 			</HvText>
-			<TouchableOpacity>
+			<TouchableOpacity
+				onPress={() => {
+					modals.setIsOpen(true);
+					modals.setViewNotificationsVisible(true);
+					setNotificationCount(0);
+				}}
+			>
 				<Image
 					source={require('@/assets/svgs/notificationBell.svg')}
 					contentFit='contain'
