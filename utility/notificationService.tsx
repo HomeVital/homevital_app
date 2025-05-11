@@ -1,5 +1,6 @@
 import * as Notifications from 'expo-notifications';
 import { Platform } from 'react-native';
+import { EventSubscription } from 'expo-modules-core';
 
 // Configure how notifications appear when app is in foreground
 Notifications.setNotificationHandler({
@@ -24,6 +25,40 @@ export interface PlanNotification {
 }
 
 export class NotificationService {
+	private static foregroundSubscription: EventSubscription | null = null;
+	private static notificationReceivedCallback:
+		| ((notification: Notifications.Notification) => void)
+		| null = null;
+
+	static addForegroundNotificationListener(
+		callback: (notification: Notifications.Notification) => void,
+	): void {
+		// Remove any existing subscription to prevent memory leaks
+		if (this.foregroundSubscription) {
+			this.foregroundSubscription.remove();
+		}
+
+		this.notificationReceivedCallback = callback;
+		this.foregroundSubscription = Notifications.addNotificationReceivedListener(
+			(notification) => {
+				if (this.notificationReceivedCallback) {
+					this.notificationReceivedCallback(notification);
+				}
+			},
+		);
+	}
+
+	/**
+	 * Remove the foreground notification listener
+	 */
+	static removeForegroundNotificationListener(): void {
+		if (this.foregroundSubscription) {
+			this.foregroundSubscription.remove();
+			this.foregroundSubscription = null;
+		}
+		this.notificationReceivedCallback = null;
+	}
+
 	/**
 	 * Request permission to send notifications
 	 */

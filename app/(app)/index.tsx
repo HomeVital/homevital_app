@@ -90,22 +90,21 @@ const MainScreen = (): JSX.Element => {
 				scheduleCounter++;
 			}
 
-			const year = '2025';
-			const month = '05';
-			const day = '11';
-			const hour = '13';
-			const minute = '30';
+			// const year = '2025';
+			// const month = '05';
+			// const day = '11';
+			// const hour = '13';
+			// const minute = '30';
 
 			planItems.push({
 				id: '6969',
 				title: t('notifications.title'),
 				description: t('notifications.message', { count: 4 }),
-				scheduledTime: new Date(
-					`${year}-${month}-${day}T${hour}:${minute}:00Z`,
-				).toISOString(),
+				scheduledTime: new Date(new Date().getTime() + 10000).toISOString(),
 				type: 'test',
 			});
 
+			//
 			schedulePlanNotifications(planItems);
 		}
 	}, [plan.data, plan.isLoading, plan.isError, t]);
@@ -147,9 +146,7 @@ const MainScreen = (): JSX.Element => {
 										/>
 									</View>
 									<View style={{ flex: 1, gap: 8 }}>
-										<HvText weight='semibold' size='l'>
-											{t('home.instructions')}
-										</HvText>
+										<HvText weight='semibold'>{t('home.instructions')}</HvText>
 										<HvText>{plan.data?.instructions}</HvText>
 									</View>
 								</HvCard>

@@ -10,6 +10,7 @@ import { SessionProvider } from '@/hooks/ctx';
 import { LIGHT_THEME } from '@/constants/colors';
 // language
 import '@/utility/i18n';
+import NotificationProvider from '@/contexts/notificationContext';
 
 const queryClient = new QueryClient();
 
@@ -34,11 +35,11 @@ const RootLayout = (): JSX.Element => {
 	return (
 		<QueryClientProvider client={queryClient}>
 			<SessionProvider>
-				{/* <PaperProvider> */}
-				<StatusBar style='dark' backgroundColor={LIGHT_THEME} />
-				<Slot />
-				<Redirect href='/initial-screen' />
-				{/* </PaperProvider> */}
+				<NotificationProvider>
+					<StatusBar style='dark' backgroundColor={LIGHT_THEME} />
+					<Slot />
+					<Redirect href='/initial-screen' />
+				</NotificationProvider>
 			</SessionProvider>
 		</QueryClientProvider>
 	);
