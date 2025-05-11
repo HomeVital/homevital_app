@@ -2,9 +2,11 @@ import { View, StyleSheet, TouchableOpacity } from 'react-native';
 import { Image } from 'expo-image';
 // components
 import HvText from '../ui/hvText';
+import HvBadge from '../ui/hvBadge';
 
 interface Props {
 	name: string;
+	notificationCount?: number;
 }
 
 /**
@@ -12,7 +14,7 @@ interface Props {
  * @param name - name of the user
  * @returns header component for the home screen
  */
-const HvHeader = ({ name }: Props): JSX.Element => {
+const HvHeader = ({ name, notificationCount }: Props): JSX.Element => {
 	return (
 		<View style={Styles.container}>
 			<Image
@@ -28,6 +30,11 @@ const HvHeader = ({ name }: Props): JSX.Element => {
 					source={require('@/assets/svgs/notificationBell.svg')}
 					contentFit='contain'
 					style={Styles.headerRight}
+				></Image>
+				<HvBadge
+					count={notificationCount ? notificationCount : 0}
+					size={20}
+					position='topRight'
 				/>
 			</TouchableOpacity>
 		</View>

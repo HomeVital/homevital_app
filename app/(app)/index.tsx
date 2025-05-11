@@ -160,7 +160,6 @@ const MainScreen = (): JSX.Element => {
 						<HvText weight='semibold' size='l' style={{ paddingInline: 20 }}>
 							{t('home.recentMeasurements')}
 						</HvText>
-						{/* <HvScrollView style={{ marginBottom: 166 + TAB_ICON_SIZE + 10 }}> */}
 						<HvScrollView>
 							<View style={STYLES.defaultView}>
 								{recentMeasurements.data && recentMeasurements.data.length > 0 ? (
