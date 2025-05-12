@@ -3,7 +3,6 @@ import { AppState, View, StyleSheet } from 'react-native';
 import { Redirect, Stack } from 'expo-router';
 // components
 import { useSession } from '@/hooks/ctx';
-import HvText from '@/components/ui/hvText';
 import HvTabBar from '@/components/ui/hvTabBar/hvTabBar';
 // constants
 import { LIGHT_THEME } from '@/constants/colors';
@@ -30,6 +29,7 @@ import EditTemperature from '@/components/modals/EditTemperature';
 import EditBloodSugar from '@/components/modals/EditBloodSugar';
 import ViewNotifications from '@/components/modals/ViewNotifications';
 import { isExpired } from '@/utility/utility';
+import { LoadingView } from '@/components/queryStates';
 
 const AppLayout = (): JSX.Element => {
 	const { session, isLoading, signOut, token } = useSession();
@@ -90,10 +90,6 @@ const AppLayout = (): JSX.Element => {
 
 	useEffect(() => {
 		if (isAnyInitModalVisible) {
-			// setTimeout(() => {
-			// 	setModalVisible(1);
-			// 	setContentReady(true);
-			// }, 500);
 			setModalVisible(1);
 			setContentReady(true);
 		} else {
@@ -116,9 +112,6 @@ const AppLayout = (): JSX.Element => {
 	useEffect(() => {
 		const handleAppStateChange = (nextAppState: string) => {
 			if (nextAppState === 'background') {
-				//  || nextAppState === 'inactive'
-				// router.replace('/initial-screen');
-				// signOut();
 				if (isExpired(token)) {
 					signOut();
 					return;
@@ -149,7 +142,7 @@ const AppLayout = (): JSX.Element => {
 	});
 
 	if (isLoading) {
-		return <HvText center>Loading...</HvText>; // TODO
+		return <LoadingView />;
 	}
 
 	if (!session) {

@@ -11,6 +11,7 @@ import { LIGHT_THEME } from '@/constants/colors';
 // language
 import '@/utility/i18n';
 import NotificationProvider from '@/contexts/notificationContext';
+import { LoadingView } from '@/components/queryStates';
 
 const queryClient = new QueryClient();
 
@@ -29,7 +30,7 @@ const RootLayout = (): JSX.Element => {
 	}, [loaded]);
 
 	if (!loaded) {
-		return <></>;
+		return <LoadingView />;
 	}
 	// Set up the auth context and render our layout inside of it.
 	return (

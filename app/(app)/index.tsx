@@ -24,7 +24,7 @@ const MainScreen = (): JSX.Element => {
 	const { t } = useTranslation();
 	const { token } = useSession();
 	const modals = useContext(ModalContext);
-	const { notificationsActive, notificationCount, setNotificationCount } = useNotification();
+	const { getNotificationState, setNotificationCount } = useNotification();
 	// queries
 	const [patient, recentMeasurements, plan] = useQueries({
 		queries: [
@@ -49,24 +49,24 @@ const MainScreen = (): JSX.Element => {
 		if (modals.viewNotificationsVisible) {
 			setNotificationCount(0);
 		}
-	}, [modals.viewNotificationsVisible, notificationCount, setNotificationCount]);
+	}, [modals.viewNotificationsVisible, setNotificationCount]);
 
 	// Set up calendar notifications
 	useEffect(() => {
 		const setupNotifications = async () => {
-			if (plan.data && !plan.isLoading && !plan.isError && notificationsActive) {
+			if (plan.data && !plan.isLoading && !plan.isError && getNotificationState() === true) {
 				await scheduleNotifications(plan.data, t);
-			} else if (notificationsActive === false) {
+			} else if (getNotificationState() === false) {
 				NotificationService.cancelAllNotifications();
 			}
 		};
 		setupNotifications();
-	}, [plan.data, plan.isLoading, plan.isError, t, notificationsActive]);
+	}, [plan.data, plan.isLoading, plan.isError, t, getNotificationState]);
 
 	// loading
 	if (recentMeasurements.isLoading || plan.isLoading || patient.isLoading) {
 		return (
-			<SafeAreaView>
+			<SafeAreaView style={{ flex: 1 }}>
 				<HvHeader name={patient.data?.name ? patient.data?.name.split(' ')[0] : ''} />
 				<LoadingView />
 			</SafeAreaView>

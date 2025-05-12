@@ -21,12 +21,13 @@ const InitialScreen = (): JSX.Element => {
 	const { t } = useTranslation();
 	const { session, token } = useSession();
 	const { setNotificationCount, setNotifications, language } = useNotification();
+	// const modals = useContext(ModalContext);
 
 	useEffect(() => {
 		// clearing for other potential users
 		setNotificationCount(0);
 		setNotifications([]);
-		i18n.changeLanguage(language || 'en');
+		i18n.changeLanguage(language || 'us');
 		// log automatically in
 		if (session && !isExpired(token)) {
 			if (router.canDismiss()) {
@@ -43,6 +44,27 @@ const InitialScreen = (): JSX.Element => {
 				contentFit='contain'
 				style={Styles.homeImage}
 			/>
+
+			{/* <View style={{ position: 'absolute', top: 50, right: 20 }}>
+
+				<HvButtonContainer
+					onPress={() => {
+						modals.setChangeLangVisible(true);
+						modals.setIsOpen(true);
+					}}>
+					<CountryFlag
+						isoCode={language ? language : i18n.language}
+						size={32}
+						style={{
+							borderRadius: 4,
+							// borderColor: DARK_GREEN,
+							// borderWidth: 1,
+							boxShadow: '0px 0px 4px rgba(0, 0, 0, 0.5)',
+						}}
+					/>
+				</HvButtonContainer>
+			</View> */}
+
 			<HvButton
 				text={t('signIn.title')}
 				width={WIN_WIDTH * 0.75}
