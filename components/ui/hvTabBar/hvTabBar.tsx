@@ -120,10 +120,63 @@ const HvTabBar = (): JSX.Element => {
 			];
 
 			setButtonsToShow(updatedButtons);
+		} else {
+			setButtonsToShow([
+				{
+					title: 'bodyTemperatureMeasurementDays',
+					name: 'BodyTemperatureLight',
+					onPress: () => {
+						modals.setAddBTVisible(true);
+						setWheelOpen(false);
+					},
+					isVisible: false,
+				},
+				{
+					title: 'bloodPressureMeasurementDays',
+					name: 'BloodPressureLight',
+					onPress: () => {
+						modals.setAddBPVisible(true);
+						setWheelOpen(false);
+					},
+					isVisible: false,
+				},
+				{
+					title: 'weightMeasurementDays',
+					name: 'BodyWeightLight',
+					onPress: () => {
+						modals.setAddBWVisible(true);
+						setWheelOpen(false);
+					},
+					isVisible: false,
+				},
+				{
+					title: 'oxygenSaturationMeasurementDays',
+					name: 'OxygenSaturationLight',
+					onPress: () => {
+						modals.setAddBOVisible(true);
+						setWheelOpen(false);
+					},
+					isVisible: false,
+				},
+				{
+					title: 'bloodSugarMeasurementDays',
+					name: 'BloodSugarLight',
+					onPress: () => {
+						modals.setAddBSVisible(true);
+						setWheelOpen(false);
+					},
+					isVisible: false,
+				},
+			]);
 		}
 	}, [data, modals]);
 
 	if (isError) return <ErrorView />;
+
+	// console.log(
+	// 	'buttonsToShow',
+	// 	buttonsToShow.some((button) => button.isVisible),
+	// );
 
 	if (isLoading)
 		return (
@@ -133,25 +186,27 @@ const HvTabBar = (): JSX.Element => {
 						setStackName(handleTabRoute('/(app)/(measurements)', stackName));
 					}}
 					source={require('@/assets/svgs/barChart.svg')}
-					text={'...'}
+					text={t('tabbar.measurements')}
 				/>
-				<HvTabItemAnimated
-					onPress={() => {
-						modals.setIsOpen(!wheelOpen);
-						setWheelOpen(!wheelOpen);
-					}}
-					source={require('@/assets/svgs/add.svg')}
-					source2={require('@/assets/svgs/addRed.svg')}
-					text={'...'}
-					addOpen={wheelOpen}
-					large
-				/>
+				{buttonsToShow.some((button) => button.isVisible) && (
+					<HvTabItemAnimated
+						onPress={() => {
+							modals.setIsOpen(!wheelOpen);
+							setWheelOpen(!wheelOpen);
+						}}
+						source={require('@/assets/svgs/add.svg')}
+						source2={require('@/assets/svgs/addRed.svg')}
+						text={t('tabbar.addMeasurement')}
+						addOpen={wheelOpen}
+						large
+					/>
+				)}
 				<HvTabItem
 					onPress={() => {
 						setStackName(handleTabRoute('/(app)/(settings)', stackName));
 					}}
 					source={require('@/assets/svgs/manUser.svg')}
-					text={'...'}
+					text={t('tabbar.settings')}
 				/>
 			</View>
 		);
@@ -193,17 +248,19 @@ const HvTabBar = (): JSX.Element => {
 					source={require('@/assets/svgs/barChart.svg')}
 					text={t('tabbar.measurements')}
 				/>
-				<HvTabItemAnimated
-					onPress={() => {
-						modals.setIsOpen(!wheelOpen);
-						setWheelOpen(!wheelOpen);
-					}}
-					source={require('@/assets/svgs/add.svg')}
-					source2={require('@/assets/svgs/addRed.svg')}
-					text={t('tabbar.addMeasurement')}
-					addOpen={wheelOpen}
-					large
-				/>
+				{buttonsToShow.some((button) => button.isVisible) && (
+					<HvTabItemAnimated
+						onPress={() => {
+							modals.setIsOpen(!wheelOpen);
+							setWheelOpen(!wheelOpen);
+						}}
+						source={require('@/assets/svgs/add.svg')}
+						source2={require('@/assets/svgs/addRed.svg')}
+						text={t('tabbar.addMeasurement')}
+						addOpen={wheelOpen}
+						large
+					/>
+				)}
 				<HvTabItem
 					onPress={() => {
 						setStackName(handleTabRoute('/(app)/(settings)', stackName));

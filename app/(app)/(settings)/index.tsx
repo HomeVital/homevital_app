@@ -47,7 +47,28 @@ const MainSettings = (): JSX.Element => {
 
 	if (isLoading) return <LoadingView />;
 
-	if (!patient) return <></>;
+	if (!patient)
+		return (
+			<View style={STYLES.defaultView}>
+				<HvCard padding={20} gap={20}>
+					<View style={Styles.partContainer}>
+						<HvText size='xl' weight='semibold' center>
+							{':('}
+						</HvText>
+					</View>
+					<View style={Styles.bottomContainer}>
+						<HvButton
+							// text='Skrá út'
+							text={t('settings.signOut')}
+							onPress={() => signOut()}
+							small
+							bgColor={DARK_RED}
+							bright
+						/>
+					</View>
+				</HvCard>
+			</View>
+		);
 
 	return (
 		<>

@@ -11,7 +11,8 @@
 		"instructions": "Instrukcje",
 		"recentMeasurements": "Ostatnie 10 pomiarów",
 		"noMeasurements": "Brak zarejestrowanych pomiarów",
-		"today": "Pozostałe pomiary na dziś"
+		"today": "Pozostałe pomiary na dziś",
+		"noInstructions": "Brak zarejestrowanego planu"
 	},
 	"notifications": {
 		"title": "Pomiar",

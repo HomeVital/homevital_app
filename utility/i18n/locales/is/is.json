@@ -11,7 +11,8 @@
 		"instructions": "Leiðbeiningar",
 		"recentMeasurements": "Síðustu 10 mælingar",
 		"noMeasurements": "Engar mælingar skráðar",
-		"today": "Mælingar eftir í dag"
+		"today": "Mælingar eftir í dag",
+		"noInstructions": "Engin áætlun skráð"
 	},
 	"notifications": {
 		"title": "Mæling",

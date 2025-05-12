@@ -186,28 +186,23 @@ const MainScreen = (): JSX.Element => {
 		measurementsLeftToday,
 	]);
 
-	// loading
-	if (recentMeasurements.isLoading || plan.isLoading || patient.isLoading) {
-		return (
-			<SafeAreaView style={{ flex: 1 }}>
-				<HvHeader name={patient.data?.name ? patient.data?.name.split(' ')[0] : ''} />
-				<LoadingView />
-			</SafeAreaView>
-		);
-	}
-
 	// error
-	if (patient.isError || recentMeasurements.isError || plan.isError) return <ErrorView />;
+	if (patient.isError && recentMeasurements.isError && plan.isError) return <ErrorView />;
 
 	return (
 		<SafeAreaView style={{ flex: 1 }}>
 			{patient.data && (
 				<>
 					<View style={{ flex: 1, gap: 12 }}>
-						<HvHeader name={t('home.welcome') + patient.data.name.split(' ')[0]} />
-
+						{patient.data && patient.data.name ? (
+							<HvHeader name={t('home.welcome') + patient.data.name.split(' ')[0]} />
+						) : (
+							<HvHeader name={t('home.welcome') + '?'} />
+						)}
 						{/* instructions */}
-						{plan.data && plan.data.instructions && (
+						{plan.isLoading ? (
+							<LoadingView />
+						) : plan.data && plan.data.instructions ? (
 							<View style={STYLES.defaultViewNoMargin}>
 								<HvCard padding={20} gap={20} row spacing={'flex-start'}>
 									<View style={{ justifyContent: 'center' }}>
@@ -218,8 +213,16 @@ const MainScreen = (): JSX.Element => {
 										/>
 									</View>
 									<View style={{ flex: 1, justifyContent: 'center' }}>
-										<HvText weight='semibold'>{plan.data?.instructions}</HvText>
+										<HvText weight='semibold'>{plan.data.instructions}</HvText>
 									</View>
+								</HvCard>
+							</View>
+						) : plan.data ? (
+							<></>
+						) : (
+							<View style={STYLES.defaultViewNoMargin}>
+								<HvCard padding={20} gap={20} row spacing={'flex-start'}>
+									<HvText weight='semibold'>{t('home.noInstructions')}</HvText>
 								</HvCard>
 							</View>
 						)}
@@ -267,18 +270,23 @@ const MainScreen = (): JSX.Element => {
 						)}
 
 						{/* recent measurements */}
-						<HvText weight='semibold' size='l' style={{ paddingInline: 20 }}>
-							{t('home.recentMeasurements')}
-						</HvText>
-						<HvScrollView onRefresh={() => recentMeasurements.refetch()}>
-							<View style={STYLES.defaultView}>
-								{recentMeasurements.data && recentMeasurements.data.length > 0 ? (
-									<HvCardRecentMeasurements items={recentMeasurements.data} />
-								) : (
-									<HvText>{t('home.noMeasurements')}</HvText>
-								)}
-							</View>
-						</HvScrollView>
+						{recentMeasurements && (
+							<HvText weight='semibold' size='l' style={{ paddingInline: 20 }}>
+								{t('home.recentMeasurements')}
+							</HvText>
+						)}
+						{recentMeasurements && (
+							<HvScrollView onRefresh={() => recentMeasurements.refetch()}>
+								<View style={STYLES.defaultView}>
+									{recentMeasurements.data &&
+									recentMeasurements.data.length > 0 ? (
+										<HvCardRecentMeasurements items={recentMeasurements.data} />
+									) : (
+										<HvText>{t('home.noMeasurements')}</HvText>
+									)}
+								</View>
+							</HvScrollView>
+						)}
 					</View>
 				</>
 			)}

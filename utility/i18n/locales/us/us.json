@@ -11,7 +11,8 @@
 		"instructions": "Instructions",
 		"recentMeasurements": "Last 10 measurements",
 		"noMeasurements": "No measurements yet",
-		"today": "Measurements left today"
+		"today": "Measurements left today",
+		"noInstructions": "No schedule assigned"
 	},
 	"notifications": {
 		"title": "Measurement",

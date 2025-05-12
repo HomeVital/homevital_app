@@ -208,7 +208,7 @@ export const fetchRecentMeasurements = async (
 	}
 };
 
-export const fetchPlan = async (sessionId: string, token: string): Promise<IPlan> => {
+export const fetchPlan = async (sessionId: string, token: string): Promise<IPlan | null> => {
 	if (isExpired(token)) {
 		return Promise.reject(new Error('Token expired'));
 	}
@@ -218,13 +218,22 @@ export const fetchPlan = async (sessionId: string, token: string): Promise<IPlan
 				Authorization: `Bearer ${token}`,
 			},
 		});
-		let returnData = response.data[0];
+		if (response.data.length === 0) {
+			return null;
+		}
+		let returnData = null;
 
 		for (const p in response.data) {
 			if (response.data[p].isActive === true) {
 				returnData = response.data[p];
 				break;
 			}
+			//
+			// else if (response.data[p].)
+		}
+
+		if (returnData === null) {
+			return null;
 		}
 
 		returnData.weightMeasurementDays = [
