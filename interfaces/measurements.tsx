@@ -13,7 +13,7 @@ export interface IMeasurement {
 		systolic: number;
 		diastolic: number;
 		bpm: number;
-		measureHand: string;
+		measuredHand: string;
 		bodyPosition: string;
 		bloodSugar: number;
 		weight: number;
@@ -25,7 +25,17 @@ export interface IMeasurement {
 
 export interface IAddBloodPressure {
 	patientID: number;
-	measureHand: string;
+	measuredHand: number;
+	bodyPosition: number;
+	systolic: number;
+	diastolic: number;
+	pulse: number;
+	status: string;
+}
+
+export interface IViewBloodPressure {
+	patientID: number;
+	measuredHand: string;
 	bodyPosition: string;
 	systolic: number;
 	diastolic: number;
@@ -58,8 +68,8 @@ export interface IAddOxygenSaturation {
 }
 
 export interface IPatchBloodPressure {
-	measureHand: string;
-	bodyPosition: string;
+	measuredHand: number;
+	bodyPosition: number;
 	systolic: number;
 	diastolic: number;
 	pulse: number;
@@ -86,7 +96,7 @@ export interface IPatchOxygenSaturation {
 	status: string;
 }
 
-export interface IBloodPressure extends IAddBloodPressure, IMeasurementBase {}
+export interface IBloodPressure extends IViewBloodPressure, IMeasurementBase {}
 export interface IBloodSugar extends IAddBloodSugar, IMeasurementBase {}
 export interface IBodyTemperature extends IAddBodyTemperature, IMeasurementBase {}
 export interface IBodyWeight extends IAddBodyWeight, IMeasurementBase {}

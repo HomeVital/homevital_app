@@ -18,20 +18,20 @@ import { useTranslation } from 'react-i18next';
 
 const AddBloodPressure = (): JSX.Element => {
 	const { t } = useTranslation();
-	const { session } = useSession();
+	const { token, signOut } = useSession();
 	const queryClient = useQueryClient();
 	const modals = useContext(ModalContext);
 
 	// measurements
-	const [measureHand, setMeasureHand] = useState('Hægri');
-	const [bodyPosition, setBodyPosition] = useState('Sitjandi');
+	const [measuredHand, setMeasuredHand] = useState(t('modals.bloodPressure.right'));
+	const [bodyPosition, setBodyPosition] = useState(t('modals.bloodPressure.sitting'));
 	const [systolic, setSystolic] = useState('');
 	const [diastolic, setDiastolic] = useState('');
 	const [pulse, setPulse] = useState('');
 
 	// mutations
 	const { mutateAsync: addMutation } = useMutation({
-		mutationFn: async (measurement: IAddBloodPressure) => postBloodPressure(measurement),
+		mutationFn: async (measurement: IAddBloodPressure) => postBloodPressure(measurement, token),
 		onSuccess: (data) => {
 			queryClient.invalidateQueries({ queryKey: ['bloodpressure'] });
 			queryClient.invalidateQueries({ queryKey: ['recentmeasurements'] });
@@ -40,24 +40,26 @@ const AddBloodPressure = (): JSX.Element => {
 			modals.setAddBPVisible(false);
 			modals.setValidationVisible(true);
 
-			setMeasureHand('Hægri');
-			setBodyPosition('Sitjandi');
+			setMeasuredHand(t('modals.bloodPressure.right'));
+			setBodyPosition(t('modals.bloodPressure.sitting'));
 			setSystolic('');
 			setDiastolic('');
 			setPulse('');
 			modals.setIsOpen(false);
+		},
+		onError: (error) => {
+			if (error.message === 'Token expired') {
+				signOut();
+			}
 		},
 	});
 
 	const HandleMutation = async (): Promise<void> => {
 		try {
 			await addMutation({
-				patientID: parseInt(
-					getClaimBySubstring(session?.toString() || '', 'sub').toString() || '0',
-					10,
-				),
-				measureHand: measureHand === 'Vinstri' ? 'Left' : 'Right',
-				bodyPosition: bodyPosition === 'Sitjandi' ? 'Sitting' : 'Laying',
+				patientID: parseInt(getClaimBySubstring(token, 'sub').toString() || '0', 10),
+				measuredHand: measuredHand === t('modals.bloodPressure.left') ? 0 : 1,
+				bodyPosition: bodyPosition === t('modals.bloodPressure.sitting') ? 0 : 1,
 				systolic: Number(parseFloat(systolic).toFixed(1)),
 				diastolic: Number(parseFloat(diastolic).toFixed(1)),
 				pulse: Number(parseFloat(pulse).toFixed(1)),
@@ -70,7 +72,23 @@ const AddBloodPressure = (): JSX.Element => {
 
 	// validation
 	const DisableButton = (): boolean => {
-		return systolic === '' || diastolic === '' || pulse === '';
+		if (systolic === '' || diastolic === '' || pulse === '') {
+			return true;
+		}
+		if (
+			isNaN(parseFloat(systolic)) ||
+			isNaN(parseFloat(diastolic)) ||
+			isNaN(parseFloat(pulse))
+		) {
+			return true;
+		}
+		if (parseFloat(systolic) <= 0 || parseFloat(diastolic) <= 0 || parseFloat(pulse) <= 0) {
+			return true;
+		}
+		if (parseFloat(systolic) > 500 || parseFloat(diastolic) > 500 || parseFloat(pulse) > 300) {
+			return true;
+		}
+		return false;
 	};
 
 	return (
@@ -80,7 +98,7 @@ const AddBloodPressure = (): JSX.Element => {
 			onRequestClose={() => {
 				modals.setAddBPVisible(false);
 				// setBloodOxygen('');
-				setMeasureHand('Hægri');
+				setMeasuredHand('Hægri');
 				setBodyPosition('Sitjandi');
 				setSystolic('');
 				setDiastolic('');
@@ -92,7 +110,7 @@ const AddBloodPressure = (): JSX.Element => {
 			<TouchableWithoutFeedback
 				onPressIn={() => {
 					modals.setAddBPVisible(false);
-					setMeasureHand('Hægri');
+					setMeasuredHand('Hægri');
 					setBodyPosition('Sitjandi');
 					setSystolic('');
 					setDiastolic('');
@@ -109,8 +127,8 @@ const AddBloodPressure = (): JSX.Element => {
 										cancel
 										onPress={() => {
 											modals.setAddBPVisible(false);
-											setMeasureHand('Hægri');
-											setBodyPosition('Sitjandi');
+											setMeasuredHand(t('modals.bloodPressure.right'));
+											setBodyPosition(t('modals.bloodPressure.sitting'));
 											setSystolic('');
 											setDiastolic('');
 											setPulse('');
@@ -125,13 +143,13 @@ const AddBloodPressure = (): JSX.Element => {
 
 								<HvInputFormContainer>
 									<HvToggleSelect
-										itemState={measureHand}
-										setItemState={setMeasureHand}
+										itemState={measuredHand}
+										setItemState={setMeasuredHand}
 										leftIcon={require('@/assets/svgs/handLeftArrow.svg')}
 										rightIcon={require('@/assets/svgs/handRightArrow.svg')}
 										description={t('modals.bloodPressure.hand')}
-										leftText='Vinstri'
-										rightText='Hægri'
+										leftText={t('modals.bloodPressure.left')}
+										rightText={t('modals.bloodPressure.right')}
 									/>
 								</HvInputFormContainer>
 
@@ -142,8 +160,8 @@ const AddBloodPressure = (): JSX.Element => {
 										leftIcon={require('@/assets/svgs/sitting.svg')}
 										rightIcon={require('@/assets/svgs/laying.svg')}
 										description={t('modals.bloodPressure.position')}
-										leftText='Sitjandi'
-										rightText='Liggjandi'
+										leftText={t('modals.bloodPressure.sitting')}
+										rightText={t('modals.bloodPressure.laying')}
 									/>
 								</HvInputFormContainer>
 

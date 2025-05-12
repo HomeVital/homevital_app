@@ -1,10 +1,28 @@
+import HvImage from '@/components/ui/hvImage';
+import HvText from '@/components/ui/hvText';
+import { DARK_GREEN, ORANGE, WHITE } from '@/constants/colors';
 import { jwtDecode } from 'jwt-decode';
+import { View } from 'react-native';
+import Toast, { BaseToastProps } from 'react-native-toast-message';
 
-export const formatDate = (dateString: string): string => {
+/**
+ * Formats a date string into a more readable format.
+ * @param dateString - The date string to format.
+ * @param hour - Optional parameter to include hours and minutes in the format.
+ * @returns The formatted date string.
+ * @example '2025-06-01T12:00:00Z' => '01.06.2025, 12:00'
+ */
+export const formatDate = (dateString: string, hour?: boolean): string => {
 	const date = new Date(dateString);
 	const day = String(date.getDate()).padStart(2, '0');
 	const month = String(date.getMonth() + 1).padStart(2, '0');
 	const year = date.getFullYear();
+	const hours = String(date.getHours()).padStart(2, '0');
+	const minutes = String(date.getMinutes()).padStart(2, '0');
+
+	if (hour) {
+		return `${day}.${month}.${year}, ${hours}:${minutes}`;
+	}
 	return `${day}.${month}.${year}`;
 };
 
@@ -12,6 +30,12 @@ type JWTClaims = {
 	[key: string]: never;
 };
 
+/**
+ * Retrieves claims from a JWT token based on a substring match.
+ * @param token - The JWT token to decode.
+ * @param includes - Optional array of substrings to include in the claims.
+ * @returns - The filtered claims from the token.
+ */
 export function getClaimsBySubstring(token: string, includes?: string[]): Partial<JWTClaims> {
 	const payload = jwtDecode<JWTClaims>(token);
 
@@ -26,6 +50,12 @@ export function getClaimsBySubstring(token: string, includes?: string[]): Partia
 	return filtered;
 }
 
+/**
+ * Retrieves a specific claim from a JWT token based on a substring match.
+ * @param token - The JWT token to decode.
+ * @param includes - The substring to include in the claim key.
+ * @returns - The value of the claim if found, otherwise '-1'.
+ */
 export const getClaimBySubstring = (token: string, includes: string): string => {
 	const payload = jwtDecode<JWTClaims>(token);
 
@@ -38,4 +68,119 @@ export const getClaimBySubstring = (token: string, includes: string): string => 
 	}
 
 	return '-1';
+};
+
+/**
+ * Checks if a JWT token is expired.
+ * @param token - The JWT token to check.
+ * @returns - True if the token is expired, otherwise false.
+ */
+export const isExpired = (token: string): boolean => {
+	const payload = jwtDecode<JWTClaims>(token);
+	const exp = payload.exp as number;
+	const now = Math.floor(Date.now() / 1000);
+	return exp < now;
+};
+
+export const toastConfig = {
+	customWarning: ({ ...props }: BaseToastProps): JSX.Element => (
+		<View
+			style={{
+				height: 90,
+				width: 380,
+				backgroundColor: ORANGE,
+				borderRadius: 10,
+				paddingVertical: 20,
+				justifyContent: 'space-between',
+				alignItems: 'center',
+			}}
+			onTouchEnd={props.onPress}
+		>
+			<HvText color='white' weight='bold' size='m'>
+				{props.text1}
+			</HvText>
+			<HvText color='white' weight='normal' size='s'>
+				{props.text2}
+			</HvText>
+		</View>
+	),
+
+	customNotification: ({ ...props }: BaseToastProps): JSX.Element => (
+		<View
+			style={{
+				height: 90,
+				width: 380,
+				backgroundColor: WHITE,
+				borderRadius: 10,
+				paddingVertical: 20,
+				paddingHorizontal: 20,
+				flexDirection: 'row',
+				justifyContent: 'flex-start',
+				alignItems: 'center',
+				gap: 20,
+				borderColor: DARK_GREEN,
+				borderWidth: 2,
+			}}
+			onTouchEnd={props.onPress}
+		>
+			<HvImage source='NotificationBell' size={24} />
+			<View style={{ flex: 1, flexDirection: 'column', justifyContent: 'space-between' }}>
+				<HvText weight='bold' size='m'>
+					{props.text1}
+				</HvText>
+				<HvText weight='normal' size='s'>
+					{props.text2}
+				</HvText>
+			</View>
+		</View>
+	),
+};
+
+/**
+ * Displays a custom warning toast message.
+ * @returns - A toast message indicating that changes can only be made within 24 hours.
+ */
+export const showToastWarning = (header: string, content: string): void => {
+	Toast.show({
+		type: 'customWarning',
+		text1: header,
+		text2: content,
+		avoidKeyboard: true,
+		text1Style: {
+			fontSize: 18,
+			fontWeight: 'bold',
+		},
+		text2Style: {
+			fontSize: 14,
+			fontWeight: 'normal',
+		},
+		visibilityTime: 2000,
+		onPress: () => {
+			Toast.hide();
+		},
+	});
+};
+
+/**
+ * Displays a custom warning toast message.
+ * @returns - A toast message indicating that you got a notification.
+ */
+export const showToastNotification = (header: string, content: string): void => {
+	Toast.show({
+		type: 'customNotification',
+		text1: header,
+		text2: content,
+		avoidKeyboard: true,
+		text1Style: {
+			fontSize: 16,
+			fontWeight: 'bold',
+		},
+		text2Style: {
+			fontSize: 12,
+			fontWeight: 'normal',
+		},
+		onPress: () => {
+			Toast.hide();
+		},
+	});
 };

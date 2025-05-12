@@ -3,7 +3,6 @@ import { AppState, View, StyleSheet } from 'react-native';
 import { Redirect, Stack } from 'expo-router';
 // components
 import { useSession } from '@/hooks/ctx';
-import HvText from '@/components/ui/hvText';
 import HvTabBar from '@/components/ui/hvTabBar/hvTabBar';
 // constants
 import { LIGHT_THEME } from '@/constants/colors';
@@ -28,9 +27,12 @@ import EditBloodPressure from '@/components/modals/EditBloodPressure';
 import EditBodyWeight from '@/components/modals/EditBodyWeight';
 import EditTemperature from '@/components/modals/EditTemperature';
 import EditBloodSugar from '@/components/modals/EditBloodSugar';
+import ViewNotifications from '@/components/modals/ViewNotifications';
+import { isExpired } from '@/utility/utility';
+import { LoadingView } from '@/components/queryStates';
 
 const AppLayout = (): JSX.Element => {
-	const { session, isLoading, signOut } = useSession();
+	const { session, isLoading, signOut, token } = useSession();
 
 	// validation modal
 	const [validationVisible, setValidationVisible] = useState(false);
@@ -49,6 +51,8 @@ const AppLayout = (): JSX.Element => {
 	const [editBTVisible, setEditBTVisible] = useState(false);
 	// language modal
 	const [changeLangVisible, setChangeLangVisible] = useState(false);
+	// notifications modal
+	const [viewNotificationsVisible, setViewNotificationsVisible] = useState(false);
 	// grayed overlay
 	const [isOpen, setIsOpen] = useState(false);
 	const [isEditOpen, setIsEditOpen] = useState(false);
@@ -65,19 +69,6 @@ const AppLayout = (): JSX.Element => {
 			| IOxygenSaturation,
 	});
 
-	// const isAnyModalVisible =
-	// 	addBTVisible ||
-	// 	addBPVisible ||
-	// 	addBWVisible ||
-	// 	addBOVisible ||
-	// 	addBSVisible ||
-	// 	editBTVisible ||
-	// 	editBPVisible ||
-	// 	editBWVisible ||
-	// 	editBOVisible ||
-	// 	editBSVisible ||
-	// 	isEditOpen;
-
 	const isAnyInitModalVisible =
 		addBTVisible ||
 		addBPVisible ||
@@ -85,7 +76,8 @@ const AppLayout = (): JSX.Element => {
 		addBOVisible ||
 		addBSVisible ||
 		isEditOpen ||
-		changeLangVisible;
+		changeLangVisible ||
+		viewNotificationsVisible;
 
 	const isAnyEditModalVisible =
 		editBTVisible || editBPVisible || editBWVisible || editBOVisible || editBSVisible;
@@ -98,10 +90,6 @@ const AppLayout = (): JSX.Element => {
 
 	useEffect(() => {
 		if (isAnyInitModalVisible) {
-			// setTimeout(() => {
-			// 	setModalVisible(1);
-			// 	setContentReady(true);
-			// }, 500);
 			setModalVisible(1);
 			setContentReady(true);
 		} else {
@@ -124,9 +112,10 @@ const AppLayout = (): JSX.Element => {
 	useEffect(() => {
 		const handleAppStateChange = (nextAppState: string) => {
 			if (nextAppState === 'background') {
-				//  || nextAppState === 'inactive'
-				// router.replace('/initial-screen');
-				// signOut();
+				if (isExpired(token)) {
+					signOut();
+					return;
+				}
 			}
 		};
 		// Listen for app state change, and deletes after state change to avoid duplicates
@@ -134,7 +123,7 @@ const AppLayout = (): JSX.Element => {
 		return () => {
 			subscription.remove();
 		};
-	}, [signOut]);
+	}, [signOut, token]);
 
 	// animated dark grey overlay
 	const opacity = useSharedValue<number>(0);
@@ -153,10 +142,11 @@ const AppLayout = (): JSX.Element => {
 	});
 
 	if (isLoading) {
-		return <HvText center>Loading...</HvText>; // TODO
+		return <LoadingView />;
 	}
 
 	if (!session) {
+		// TODO: check if session is expired
 		return <Redirect href='/sign-in' />;
 	}
 
@@ -210,6 +200,9 @@ const AppLayout = (): JSX.Element => {
 				// language
 				changeLangVisible,
 				setChangeLangVisible,
+				// notifications
+				viewNotificationsVisible,
+				setViewNotificationsVisible,
 			}}
 		>
 			<View style={styles.container}>
@@ -236,6 +229,8 @@ const AppLayout = (): JSX.Element => {
 				{editBWVisible && <EditBodyWeight />}
 				{editBTVisible && <EditTemperature />}
 				{editBSVisible && <EditBloodSugar />}
+
+				{viewNotificationsVisible && <ViewNotifications />}
 
 				<HvModalValidation
 					visible={validationVisible}

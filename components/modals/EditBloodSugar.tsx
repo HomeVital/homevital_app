@@ -12,9 +12,11 @@ import HvButtonCheck from '../ui/hvButtonCheck';
 import { DARK_RED } from '@/constants/colors';
 import ModalContext from '@/contexts/modalContext';
 import { useTranslation } from 'react-i18next';
+import { useSession } from '@/hooks/ctx';
 
 const EditBloodSugar = (): JSX.Element => {
 	const { t } = useTranslation();
+	const { token, signOut } = useSession();
 	const queryClient = useQueryClient();
 	const modals = useContext(ModalContext);
 	const item = modals.editModalData.item as IBloodSugar;
@@ -25,12 +27,23 @@ const EditBloodSugar = (): JSX.Element => {
 
 	// mutations
 	const { mutateAsync: addMutation } = useMutation({
-		mutationFn: async (measurement: IPatchBloodSugar) => patchBloodSugar(itemId, measurement),
-		onSuccess: () => {
+		mutationFn: async (measurement: IPatchBloodSugar) =>
+			patchBloodSugar(itemId, measurement, token),
+		onSuccess: (itemDataResponse) => {
 			queryClient.invalidateQueries({ queryKey: ['bloodsugar'] });
 			queryClient.invalidateQueries({ queryKey: ['recentmeasurements'] });
 			modals.setEditBSVisible(false);
-			modals.setIsOpen(false);
+			modals.setIsEditOpen(true);
+			modals.setEditModalData({
+				title: t('measurements.bloodSugar'),
+				item: itemDataResponse,
+			});
+			modals.setIsOpen(true);
+		},
+		onError: (error) => {
+			if (error.message === 'Token expired') {
+				signOut();
+			}
 		},
 	});
 
@@ -53,7 +66,15 @@ const EditBloodSugar = (): JSX.Element => {
 
 	// validation
 	const DisableButton = (): boolean => {
-		return bloodSugar === item.bloodsugarLevel.toString();
+		if (bloodSugar === item.bloodsugarLevel.toString()) {
+			return true;
+		}
+		return (
+			bloodSugar === '' ||
+			isNaN(Number(bloodSugar)) ||
+			Number(bloodSugar) < 0 ||
+			Number(bloodSugar) > 500
+		);
 	};
 
 	return (

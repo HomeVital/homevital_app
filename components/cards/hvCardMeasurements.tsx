@@ -7,7 +7,7 @@ import {
 	IOxygenSaturation,
 } from '@/interfaces/measurements';
 import HvCard from './hvCard';
-import { View, StyleSheet, TouchableOpacity } from 'react-native';
+import { View, StyleSheet } from 'react-native';
 import { formatDate } from '@/utility/utility';
 import HvText from '../ui/hvText';
 import {
@@ -19,6 +19,7 @@ import {
 } from '@/constants/typeGuards';
 import HvImage from '../ui/hvImage';
 import { PADDING, TAB_ICON_SIZE } from '@/constants/constants';
+import HvButtonContainer from '../ui/hvButtonContainer';
 
 interface Props<
 	T = IBloodPressure | IOxygenSaturation | IBodyTemperature | IBodyWeight | IBloodSugar,
@@ -72,7 +73,7 @@ export const HvCardMeasurement = <T,>({ item, editable }: Props<T>): JSX.Element
 				{isBloodPressure(item) && (
 					<View style={Styles.icons}>
 						<HvImage source={item.bodyPosition} size={34} />
-						<HvImage source={item.measureHand} size={36} />
+						<HvImage source={item.measuredHand} size={36} />
 					</View>
 				)}
 				<HvText weight='semibold'>{formatDate(item.date)}</HvText>
@@ -82,11 +83,21 @@ export const HvCardMeasurement = <T,>({ item, editable }: Props<T>): JSX.Element
 			</HvText>
 			{/* <View style={Styles.right}> */}
 			<View>
-				{editable && (
+				{editable &&
+				new Date().getTime() - new Date(item.date).getTime() < 24 * 60 * 60 * 1000 ? (
 					<HvImage
 						source={'Edit'}
 						size={26}
 						style={{ marginLeft: 'auto', marginRight: 10 }}
+					/>
+				) : (
+					<View
+						style={{
+							width: 26,
+							height: 26,
+							marginLeft: 'auto',
+							marginRight: 10,
+						}}
 					/>
 				)}
 			</View>
@@ -104,19 +115,19 @@ export const HvCardMeasurements = <T,>({
 			{items.map((item) => {
 				if (isBloodPressure(item)) {
 					return (
-						<TouchableOpacity onPress={() => onPress?.(item as never)} key={item.id}>
+						<HvButtonContainer onPress={() => onPress?.(item as never)} key={item.id}>
 							<HvCardMeasurement
 								key={item.id}
 								item={item as never}
 								editable={editable}
 							/>
-						</TouchableOpacity>
+						</HvButtonContainer>
 					);
 				}
 				return (
-					<TouchableOpacity onPress={() => onPress?.(item as never)} key={item.id}>
+					<HvButtonContainer onPress={() => onPress?.(item as never)} key={item.id}>
 						<HvCardMeasurement key={item.id} item={item as never} editable={editable} />
-					</TouchableOpacity>
+					</HvButtonContainer>
 				);
 			})}
 		</View>

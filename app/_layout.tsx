@@ -10,6 +10,10 @@ import { SessionProvider } from '@/hooks/ctx';
 import { LIGHT_THEME } from '@/constants/colors';
 // language
 import '@/utility/i18n';
+import NotificationProvider from '@/contexts/notificationContext';
+import { LoadingView } from '@/components/queryStates';
+import Toast from 'react-native-toast-message';
+import { toastConfig } from '@/utility/utility';
 
 const queryClient = new QueryClient();
 
@@ -28,17 +32,18 @@ const RootLayout = (): JSX.Element => {
 	}, [loaded]);
 
 	if (!loaded) {
-		return <></>;
+		return <LoadingView />;
 	}
 	// Set up the auth context and render our layout inside of it.
 	return (
 		<QueryClientProvider client={queryClient}>
 			<SessionProvider>
-				{/* <PaperProvider> */}
-				<StatusBar style='dark' backgroundColor={LIGHT_THEME} />
-				<Slot />
-				<Redirect href='/initial-screen' />
-				{/* </PaperProvider> */}
+				<NotificationProvider>
+					<StatusBar style='dark' backgroundColor={LIGHT_THEME} />
+					<Slot />
+					<Redirect href='/initial-screen' />
+					<Toast config={toastConfig} />
+				</NotificationProvider>
 			</SessionProvider>
 		</QueryClientProvider>
 	);

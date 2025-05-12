@@ -8,10 +8,11 @@ import {
 	MOCK_LOGIN_URL,
 	OXYGENSATURATION_URL,
 	PATIENT_URL,
+	PLAN_URL,
 	TOKEN_URL,
 } from '@/constants/api';
 import axios from 'axios';
-import { IPatient } from '@/interfaces/patient';
+import { IPatient, IPlan } from '@/interfaces/patient';
 import {
 	IBloodPressure,
 	IBloodSugar,
@@ -20,14 +21,21 @@ import {
 	IMeasurement,
 	IOxygenSaturation,
 } from '@/interfaces/measurements';
+import { AxError, ISignIn } from '@/interfaces/api';
+import { GetErrorFromStatus } from '@/errorHandler';
+import { isExpired } from '@/utility/utility';
 
 export const GetToken = async (ssn: string): Promise<string> => {
 	try {
 		const response = await axios.post(TOKEN_URL, { kennitala: ssn });
 		return response.data.token;
 	} catch (error) {
-		console.error('Error fetching Token:', error);
-		throw error;
+		const signInData: ISignIn = { ssn };
+		const errorMessage = GetErrorFromStatus(
+			(error as AxError).response?.status || 0,
+			signInData,
+		);
+		throw new Error(`${errorMessage}`);
 	}
 };
 
@@ -66,9 +74,20 @@ export const GetUserId = async (ssn: string): Promise<string> => {
 };
 
 // get measurements by patient id
-export const fetchBloodPressure = async (sessionId: string): Promise<IBloodPressure[]> => {
+export const fetchBloodPressure = async (
+	sessionId: string,
+	token: string,
+): Promise<IBloodPressure[]> => {
+	if (isExpired(token)) {
+		return Promise.reject(new Error('Token expired'));
+	}
 	try {
-		const response = await axios.get(`${BLOODPRESSURE_URL}/${sessionId}`);
+		const response = await axios.get(`${BLOODPRESSURE_URL}/${sessionId}`, {
+			headers: {
+				Authorization: `Bearer ${token}`,
+			},
+		});
+		//
 		return response.data;
 	} catch (error) {
 		console.error('Error fetching Blood Pressure:', error);
@@ -76,9 +95,16 @@ export const fetchBloodPressure = async (sessionId: string): Promise<IBloodPress
 	}
 };
 
-export const fetchBloodSugar = async (sessionId: string): Promise<IBloodSugar[]> => {
+export const fetchBloodSugar = async (sessionId: string, token: string): Promise<IBloodSugar[]> => {
+	if (isExpired(token)) {
+		return Promise.reject(new Error('Token expired'));
+	}
 	try {
-		const response = await axios.get(`${BLOODSUGAR_URL}/${sessionId}`);
+		const response = await axios.get(`${BLOODSUGAR_URL}/${sessionId}`, {
+			headers: {
+				Authorization: `Bearer ${token}`,
+			},
+		});
 		return response.data;
 	} catch (error) {
 		console.error('Error fetching Blood Sugar:', error);
@@ -86,9 +112,19 @@ export const fetchBloodSugar = async (sessionId: string): Promise<IBloodSugar[]>
 	}
 };
 
-export const fetchBodyTemperature = async (sessionId: string): Promise<IBodyTemperature[]> => {
+export const fetchBodyTemperature = async (
+	sessionId: string,
+	token: string,
+): Promise<IBodyTemperature[]> => {
+	if (isExpired(token)) {
+		return Promise.reject(new Error('Token expired'));
+	}
 	try {
-		const response = await axios.get(`${BODYTEMPERATURE_URL}/${sessionId}`);
+		const response = await axios.get(`${BODYTEMPERATURE_URL}/${sessionId}`, {
+			headers: {
+				Authorization: `Bearer ${token}`,
+			},
+		});
 		return response.data;
 	} catch (error) {
 		console.error('Error fetching Body Temperature:', error);
@@ -96,9 +132,16 @@ export const fetchBodyTemperature = async (sessionId: string): Promise<IBodyTemp
 	}
 };
 
-export const fetchBodyWeight = async (sessionId: string): Promise<IBodyWeight[]> => {
+export const fetchBodyWeight = async (sessionId: string, token: string): Promise<IBodyWeight[]> => {
+	if (isExpired(token)) {
+		return Promise.reject(new Error('Token expired'));
+	}
 	try {
-		const response = await axios.get(`${BODYWEIGHT_URL}/${sessionId}`);
+		const response = await axios.get(`${BODYWEIGHT_URL}/${sessionId}`, {
+			headers: {
+				Authorization: `Bearer ${token}`,
+			},
+		});
 		return response.data;
 	} catch (error) {
 		console.error('Error fetching Body Weight:', error);
@@ -107,9 +150,19 @@ export const fetchBodyWeight = async (sessionId: string): Promise<IBodyWeight[]>
 };
 
 // // get measurements by patient id
-export const fetchOxygenSaturation = async (sessionId: string): Promise<IOxygenSaturation[]> => {
+export const fetchOxygenSaturation = async (
+	sessionId: string,
+	token: string,
+): Promise<IOxygenSaturation[]> => {
+	if (isExpired(token)) {
+		return Promise.reject(new Error('Token expired'));
+	}
 	try {
-		const response = await axios.get(`${OXYGENSATURATION_URL}/${sessionId}`);
+		const response = await axios.get(`${OXYGENSATURATION_URL}/${sessionId}`, {
+			headers: {
+				Authorization: `Bearer ${token}`,
+			},
+		});
 		return response.data;
 	} catch (error) {
 		console.error('Error fetching Oxygen Saturation:', error);
@@ -118,9 +171,16 @@ export const fetchOxygenSaturation = async (sessionId: string): Promise<IOxygenS
 };
 
 // get measurements by patient id
-export const fetchPatient = async (sessionId: string): Promise<IPatient> => {
+export const fetchPatient = async (sessionId: string, token: string): Promise<IPatient> => {
+	if (isExpired(token)) {
+		return Promise.reject(new Error('Token expired'));
+	}
 	try {
-		const response = await axios.get(`${PATIENT_URL}/${sessionId}`);
+		const response = await axios.get(`${PATIENT_URL}/${sessionId}`, {
+			headers: {
+				Authorization: `Bearer ${token}`,
+			},
+		});
 		return response.data;
 	} catch (error) {
 		console.error('Error fetching Patient:', error);
@@ -128,12 +188,75 @@ export const fetchPatient = async (sessionId: string): Promise<IPatient> => {
 	}
 };
 
-export const fetchRecentMeasurements = async (sessionId: string): Promise<IMeasurement[]> => {
+export const fetchRecentMeasurements = async (
+	sessionId: string,
+	token: string,
+): Promise<IMeasurement[]> => {
+	if (isExpired(token)) {
+		return Promise.reject(new Error('Token expired'));
+	}
 	try {
-		const response = await axios.get(`${MEASUREMENTS_URL}/${sessionId}/latest/10`);
+		const response = await axios.get(`${MEASUREMENTS_URL}/${sessionId}/latest/10`, {
+			headers: {
+				Authorization: `Bearer ${token}`,
+			},
+		});
 		return response.data;
 	} catch (error) {
 		console.error('Error fetching Recent Measurements:', error);
+		throw error;
+	}
+};
+
+export const fetchPlan = async (sessionId: string, token: string): Promise<IPlan> => {
+	if (isExpired(token)) {
+		return Promise.reject(new Error('Token expired'));
+	}
+	try {
+		const response = await axios.get(`${PLAN_URL}/${sessionId}`, {
+			headers: {
+				Authorization: `Bearer ${token}`,
+			},
+		});
+		let returnData = response.data[0];
+
+		for (const p in response.data) {
+			if (response.data[p].isActive === true) {
+				returnData = response.data[p];
+				break;
+			}
+		}
+
+		returnData.weightMeasurementDays = [
+			...returnData.weightMeasurementDays.slice(-1),
+			...returnData.weightMeasurementDays.slice(0, -1),
+		];
+
+		// shift bloodSugarMeasurementDays to the right
+		returnData.bloodSugarMeasurementDays = [
+			...returnData.bloodSugarMeasurementDays.slice(-1),
+			...returnData.bloodSugarMeasurementDays.slice(0, -1),
+		];
+
+		// shift bloodPressureMeasurementDays to the right
+		returnData.bloodPressureMeasurementDays = [
+			...returnData.bloodPressureMeasurementDays.slice(-1),
+			...returnData.bloodPressureMeasurementDays.slice(0, -1),
+		];
+		// shift oxygenSaturationMeasurementDays to the right
+		returnData.oxygenSaturationMeasurementDays = [
+			...returnData.oxygenSaturationMeasurementDays.slice(-1),
+			...returnData.oxygenSaturationMeasurementDays.slice(0, -1),
+		];
+		// shift bodyTemperatureMeasurementDays to the right
+		returnData.bodyTemperatureMeasurementDays = [
+			...returnData.bodyTemperatureMeasurementDays.slice(-1),
+			...returnData.bodyTemperatureMeasurementDays.slice(0, -1),
+		];
+
+		return returnData;
+	} catch (error) {
+		console.error('Error fetching Plan:', error);
 		throw error;
 	}
 };

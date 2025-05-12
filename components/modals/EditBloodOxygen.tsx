@@ -12,9 +12,11 @@ import HvButtonCheck from '../ui/hvButtonCheck';
 import { DARK_RED } from '@/constants/colors';
 import ModalContext from '@/contexts/modalContext';
 import { useTranslation } from 'react-i18next';
+import { useSession } from '@/hooks/ctx';
 
 const EditBloodOxygen = (): JSX.Element => {
 	const { t } = useTranslation();
+	const { token, signOut } = useSession();
 	const queryClient = useQueryClient();
 	const modals = useContext(ModalContext);
 	const item = modals.editModalData.item as IOxygenSaturation;
@@ -24,12 +26,22 @@ const EditBloodOxygen = (): JSX.Element => {
 
 	const { mutateAsync: addMutation } = useMutation({
 		mutationFn: async (measurement: IPatchOxygenSaturation) =>
-			patchOxygenSaturation(itemId, measurement),
-		onSuccess: () => {
+			patchOxygenSaturation(itemId, measurement, token),
+		onSuccess: (itemDataResponse) => {
 			queryClient.invalidateQueries({ queryKey: ['oxygensaturation'] });
 			queryClient.invalidateQueries({ queryKey: ['recentmeasurements'] });
 			modals.setEditBOVisible(false);
-			modals.setIsOpen(false);
+			modals.setIsEditOpen(true);
+			modals.setEditModalData({
+				title: t('measurements.oxygenSaturation'),
+				item: itemDataResponse,
+			});
+			modals.setIsOpen(true);
+		},
+		onError: (error) => {
+			if (error.message === 'Token expired') {
+				signOut();
+			}
 		},
 	});
 
@@ -51,7 +63,15 @@ const EditBloodOxygen = (): JSX.Element => {
 	};
 
 	const DisableButton = (): boolean => {
-		return bloodOxygen === item.oxygenSaturationValue.toString();
+		if (bloodOxygen === item.oxygenSaturationValue.toString()) {
+			return true;
+		}
+		return (
+			bloodOxygen === '' ||
+			isNaN(parseFloat(bloodOxygen)) ||
+			parseFloat(bloodOxygen) <= 0 ||
+			parseFloat(bloodOxygen) > 100
+		);
 	};
 
 	return (

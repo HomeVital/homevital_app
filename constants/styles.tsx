@@ -1,23 +1,31 @@
 import { StyleSheet } from 'react-native';
 // constants
-import { TAB_ICON_SIZE } from './constants';
+import { TAB_HEIGHT } from './constants';
+
+const PAD_HORIZONTAL = 20;
+const DEFAULT_GAP = 12;
+const BOTTOM_MARGIN = TAB_HEIGHT - 12;
 
 export const STYLES = StyleSheet.create({
 	defaultView: {
-		paddingHorizontal: 20,
-		gap: 12,
-		marginBottom: TAB_ICON_SIZE + 10,
+		paddingHorizontal: PAD_HORIZONTAL,
+		gap: DEFAULT_GAP,
+		marginBottom: BOTTOM_MARGIN,
+	},
+	defaultViewNoMargin: {
+		paddingHorizontal: PAD_HORIZONTAL,
+		gap: DEFAULT_GAP,
 	},
 	defaultNoPadView: {
-		gap: 12,
-		marginBottom: TAB_ICON_SIZE + 10,
+		gap: DEFAULT_GAP,
+		marginBottom: BOTTOM_MARGIN,
 	},
 	defaultModalView: {
 		flex: 1,
 		justifyContent: 'center',
 		width: '100%',
 		height: '100%',
-		padding: 20,
+		padding: PAD_HORIZONTAL,
 		backgroundColor: 'rgba(0, 0, 0, 0.5)',
 	},
 	baseModalView: {
@@ -29,7 +37,7 @@ export const STYLES = StyleSheet.create({
 		justifyContent: 'center',
 		width: '100%',
 		height: '100%',
-		padding: 20,
+		padding: PAD_HORIZONTAL,
 	},
 	loadingView: {
 		flex: 1,
@@ -37,7 +45,7 @@ export const STYLES = StyleSheet.create({
 		alignItems: 'center',
 	},
 	imageView: {
-		marginBottom: TAB_ICON_SIZE + 10,
+		marginBottom: BOTTOM_MARGIN,
 	},
 	checkmarkPos: {
 		position: 'absolute',
@@ -50,5 +58,11 @@ export const STYLES = StyleSheet.create({
 		top: 10,
 		left: 40,
 		zIndex: 1,
+	},
+	todo: {
+		flexDirection: 'row',
+		alignItems: 'center',
+		gap: 10,
+		paddingLeft: 10,
 	},
 });

@@ -1,13 +1,14 @@
-import { Modal, TouchableOpacity, TouchableWithoutFeedback, View, StyleSheet } from 'react-native';
+import { Modal, TouchableWithoutFeedback, View, StyleSheet } from 'react-native';
 import { STYLES } from '@/constants/styles';
 import { useContext, useState } from 'react';
 import HvText from '../ui/hvText';
 import HvButtonCheck from '../ui/hvButtonCheck';
-import { DARK_GREEN, DARK_RED, LIGHT_THEME } from '@/constants/colors';
+import { DARK_RED, LIGHT_THEME } from '@/constants/colors';
 import ModalContext from '@/contexts/modalContext';
 import { useTranslation } from 'react-i18next';
 import HvInputForm from '../ui/hvInputForm/hvInputForm';
 import CountryFlag from 'react-native-country-flag';
+import HvButtonContainer from '../ui/hvButtonContainer';
 
 interface Props {
 	onChange: (newLangCode: string) => void;
@@ -71,7 +72,7 @@ const ChangeLanguage = ({ onChange }: Props): JSX.Element => {
 								<View style={Styles.itemsContainer}>
 									{languages.map((lang, index) => (
 										<View key={lang}>
-											<TouchableOpacity onPress={() => setLangCode(lang)}>
+											<HvButtonContainer onPress={() => setLangCode(lang)}>
 												<View style={Styles.row}>
 													<HvText
 														weight={
@@ -94,8 +95,10 @@ const ChangeLanguage = ({ onChange }: Props): JSX.Element => {
 															size={25}
 															style={{
 																borderRadius: 4,
-																borderColor: DARK_GREEN,
-																borderWidth: 1,
+																// borderColor: DARK_GREEN,
+																// borderWidth: 1,
+																boxShadow:
+																	'0px 0px 4px rgba(0, 0, 0, 0.5)',
 															}}
 														/>
 														<View style={{ width: 16, height: 25 }}>
@@ -112,7 +115,7 @@ const ChangeLanguage = ({ onChange }: Props): JSX.Element => {
 														</View>
 													</View>
 												</View>
-											</TouchableOpacity>
+											</HvButtonContainer>
 											{index !== languages.length - 1 && (
 												<View style={Styles.spacer} />
 											)}

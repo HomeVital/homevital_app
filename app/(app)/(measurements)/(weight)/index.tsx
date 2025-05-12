@@ -13,22 +13,28 @@ import { DARK_GREEN } from '@/constants/colors';
 import HvGraph from '@/components/graphs/HvGraph';
 import { ErrorView, LoadingView } from '@/components/queryStates';
 import { useContext } from 'react';
-import { getClaimBySubstring } from '@/utility/utility';
+import { getClaimBySubstring, showToastWarning } from '@/utility/utility';
 import ModalContext from '@/contexts/modalContext';
 import { useTranslation } from 'react-i18next';
 
 const Weight = (): JSX.Element => {
 	const { t } = useTranslation();
-	const { session } = useSession();
+	const { token, signOut } = useSession();
 	const modals = useContext(ModalContext);
 	const { toggled, setToggledTrue, setToggledFalse } = useToggle();
 	// query
-	const { data, isError, isLoading, refetch } = useQuery({
+	const { data, isError, error, isLoading, refetch } = useQuery({
 		queryKey: ['bodyweight'],
-		queryFn: async () => fetchBodyWeight(getClaimBySubstring(session?.toString() || '', 'sub')),
+		queryFn: async () => fetchBodyWeight(getClaimBySubstring(token, 'sub'), token),
 	});
 
-	if (isError) return <ErrorView />;
+	if (isError) {
+		if (error.message === 'Token expired') {
+			signOut();
+			return <></>;
+		}
+		return <ErrorView />;
+	}
 
 	if (isLoading) return <LoadingView />;
 
@@ -54,12 +60,22 @@ const Weight = (): JSX.Element => {
 					<HvCardMeasurements
 						items={data as IBodyWeight[]}
 						onPress={(itemData: IBodyWeight) => {
-							modals.setIsOpen(true);
-							modals.setIsEditOpen(true);
-							modals.setEditModalData({
-								title: t('measurements.bodyWeight'),
-								item: itemData,
-							});
+							if (
+								new Date().getTime() - new Date(itemData.date).getTime() <
+								24 * 60 * 60 * 1000
+							) {
+								modals.setIsOpen(true);
+								modals.setIsEditOpen(true);
+								modals.setEditModalData({
+									title: t('measurements.bodyWeight'),
+									item: itemData,
+								});
+							} else {
+								showToastWarning(
+									t('toast.warning.header'),
+									t('toast.warning.text'),
+								);
+							}
 						}}
 						editable
 					/>

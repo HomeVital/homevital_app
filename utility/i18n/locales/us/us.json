@@ -8,8 +8,27 @@
 	},
 	"home": {
 		"welcome": "Welcome ",
+		"instructions": "Instructions",
 		"recentMeasurements": "Last 10 measurements",
-		"noMeasurements": "No measurements yet"
+		"noMeasurements": "No measurements yet",
+		"today": "Measurements left today"
+	},
+	"notifications": {
+		"title": "Measurement",
+		"message_one": "You have {{count}} measurement today",
+		"message_other": "You have {{count}} measurements today",
+		"titleReminder": "Reminder",
+		"messageReminder_one": "Don't forget the measurement today :)",
+		"messageReminder_other": "Don't forget the measurements today :)",
+		"titleReminderMissing": "Reminder",
+		"messageReminderMissing_one": "You have 1 measurement left today",
+		"messageReminderMissing_other": "You have {{count}} measurements left today"
+	},
+	"toast": {
+		"warning": {
+			"header": "Cannot edit after 24 hours",
+			"text": "There is a pen next to editable measurements"
+		}
 	},
 	"measurements": {
 		"bloodPressure": "Blood Pressure",
@@ -21,7 +40,15 @@
 		"page": {
 			"graph": "Graph",
 			"measurements": "Measurements",
-			"days": "days"
+			"days": "Last"
+		},
+		"plan": {
+			"plan": "Schedule",
+			"bw": "Weight",
+			"bp": "Blood Pressure",
+			"bs": "Blood Sugar",
+			"bt": "Temperature",
+			"os": "Oxygen Saturation"
 		}
 	},
 	"tabbar": {
@@ -30,6 +57,10 @@
 		"settings": "Settings"
 	},
 	"modals": {
+		"notifications": {
+			"title": "Notifications",
+			"noNotifications": "No notifications"
+		},
 		"buttons": {
 			"save": "Save",
 			"edit": "Edit",
@@ -39,7 +70,11 @@
 			"addTitle": "Add Blood Pressure",
 			"editTitle": "Edit Blood Pressure",
 			"hand": "Measured hand",
+			"left": "Left",
+			"right": "Right",
 			"position": "Body position",
+			"sitting": "Sitting",
+			"laying": "Laying",
 			"upper": "Upper limit",
 			"lower": "Lower limit",
 			"pulse": "Pulse",

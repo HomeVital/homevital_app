@@ -17,7 +17,7 @@ import { useTranslation } from 'react-i18next';
 
 const AddBloodSugar = (): JSX.Element => {
 	const { t } = useTranslation();
-	const { session } = useSession();
+	const { token, signOut } = useSession();
 	const queryClient = useQueryClient();
 	const modals = useContext(ModalContext);
 
@@ -26,7 +26,7 @@ const AddBloodSugar = (): JSX.Element => {
 
 	// mutations
 	const { mutateAsync: addMutation } = useMutation({
-		mutationFn: async (measurement: IAddBloodSugar) => postBloodSugar(measurement),
+		mutationFn: async (measurement: IAddBloodSugar) => postBloodSugar(measurement, token),
 		onSuccess: (data) => {
 			queryClient.invalidateQueries({ queryKey: ['bloodsugar'] });
 			queryClient.invalidateQueries({ queryKey: ['recentmeasurements'] });
@@ -37,15 +37,17 @@ const AddBloodSugar = (): JSX.Element => {
 			setBloodSugar('');
 			modals.setIsOpen(false);
 		},
+		onError: (error) => {
+			if (error.message === 'Token expired') {
+				signOut();
+			}
+		},
 	});
 
 	const HandleMutation = async (): Promise<void> => {
 		try {
 			await addMutation({
-				patientID: parseInt(
-					getClaimBySubstring(session?.toString() || '', 'sub').toString() || '0',
-					10,
-				),
+				patientID: parseInt(getClaimBySubstring(token, 'sub').toString() || '0', 10),
 				bloodsugarLevel: Number(parseFloat(bloodSugar).toFixed(1)),
 				status: 'pending',
 			});
@@ -56,7 +58,12 @@ const AddBloodSugar = (): JSX.Element => {
 
 	// validation
 	const DisableButton = (): boolean => {
-		return bloodSugar === '';
+		return (
+			bloodSugar === '' ||
+			isNaN(Number(bloodSugar)) ||
+			Number(bloodSugar) < 0 ||
+			Number(bloodSugar) > 500
+		);
 	};
 
 	return (

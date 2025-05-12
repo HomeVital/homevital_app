@@ -1,7 +1,12 @@
-import { View, StyleSheet, TouchableOpacity } from 'react-native';
+import { View, StyleSheet } from 'react-native';
 import { Image } from 'expo-image';
 // components
 import HvText from '../ui/hvText';
+import HvBadge from '../ui/hvBadge';
+import { useNotification } from '@/contexts/notificationContext';
+import { useContext } from 'react';
+import ModalContext from '@/contexts/modalContext';
+import HvButtonContainer from '../ui/hvButtonContainer';
 
 interface Props {
 	name: string;
@@ -13,6 +18,9 @@ interface Props {
  * @returns header component for the home screen
  */
 const HvHeader = ({ name }: Props): JSX.Element => {
+	const { notificationCount, setNotificationCount } = useNotification();
+	const modals = useContext(ModalContext);
+
 	return (
 		<View style={Styles.container}>
 			<Image
@@ -23,13 +31,24 @@ const HvHeader = ({ name }: Props): JSX.Element => {
 			<HvText size='l' weight='semibold' style={Styles.headerText}>
 				{name}
 			</HvText>
-			<TouchableOpacity>
+			<HvButtonContainer
+				onPress={() => {
+					modals.setIsOpen(true);
+					modals.setViewNotificationsVisible(true);
+					setNotificationCount(0);
+				}}
+			>
 				<Image
 					source={require('@/assets/svgs/notificationBell.svg')}
 					contentFit='contain'
 					style={Styles.headerRight}
+				></Image>
+				<HvBadge
+					count={notificationCount ? notificationCount : 0}
+					size={20}
+					position='topRight'
 				/>
-			</TouchableOpacity>
+			</HvButtonContainer>
 		</View>
 	);
 };

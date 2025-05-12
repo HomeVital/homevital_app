@@ -15,7 +15,7 @@ interface Props extends ViewProps {
 const HvInputFormContainer = ({ textInput = false, ...props }: Props): JSX.Element => {
 	return (
 		<View
-			style={[Styles.itemsContainer, props.style, { paddingBottom: textInput ? 50 : null }]}
+			style={[Styles.itemsContainer, props.style, { paddingBottom: textInput ? 30 : null }]}
 		>
 			{props.children}
 		</View>
@@ -24,8 +24,10 @@ const HvInputFormContainer = ({ textInput = false, ...props }: Props): JSX.Eleme
 
 const Styles = StyleSheet.create({
 	itemsContainer: {
-		padding: 20,
-		gap: 30,
+		// padding: 20,
+		paddingVertical: 15,
+		paddingHorizontal: 20,
+		gap: 20,
 		borderRadius: 10,
 		backgroundColor: LIGHT_THEME,
 	},

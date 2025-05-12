@@ -1,5 +1,5 @@
-import React, { useContext, useState } from 'react';
-import { View, StyleSheet, Switch, TouchableOpacity } from 'react-native';
+import React, { useContext } from 'react';
+import { View, StyleSheet, Switch } from 'react-native';
 import CountryFlag from 'react-native-country-flag';
 // components
 // import HvDivider from '@/components/ui/hvDivider';
@@ -18,26 +18,32 @@ import { getClaimBySubstring } from '@/utility/utility';
 import { useTranslation } from 'react-i18next';
 import ChangeLanguage from '@/components/modals/changeLanguage';
 import ModalContext from '@/contexts/modalContext';
+import { useNotification } from '@/contexts/notificationContext';
+import HvButtonContainer from '@/components/ui/hvButtonContainer';
 
 const MainSettings = (): JSX.Element => {
 	const { t, i18n } = useTranslation();
 	const modals = useContext(ModalContext);
-	const { session, signOut } = useSession();
-	const [countryCode, setCountryCode] = useState(i18n.language); // TODO: change so that I don't have to use states
-	const [isSwitchOn, setIsSwitchOn] = useState(false); // TODO: change so that I don't have to use states
-
-	const onToggleSwitch = () => setIsSwitchOn(!isSwitchOn);
+	const { token, signOut } = useSession();
+	const { setNotificationsOn, getNotificationState, language, setLanguage } = useNotification();
 
 	const {
 		data: patient,
 		isError,
+		error,
 		isLoading,
 	} = useQuery<IPatient>({
 		queryKey: ['patient'],
-		queryFn: async () => fetchPatient(getClaimBySubstring(session?.toString() || '', 'sub')),
+		queryFn: async () => fetchPatient(getClaimBySubstring(token, 'sub'), token),
 	});
 
-	if (isError) return <ErrorView />;
+	if (isError) {
+		if (error.message === 'Token expired') {
+			signOut();
+			return <></>;
+		}
+		return <ErrorView />;
+	}
 
 	if (isLoading) return <LoadingView />;
 
@@ -53,21 +59,26 @@ const MainSettings = (): JSX.Element => {
 							{patient.name}
 						</HvText>
 						<View style={Styles.aboutLine}>
-							<HvText style={{ width: '25%' }}>
+							<HvText style={{ width: '30%' }}>
 								{/* Heimili */}
 								{t('settings.home')}
 							</HvText>
-							<HvText size='l' weight='semibold'>
-								{patient.address}
-							</HvText>
+							<View>
+								<HvText size='l' weight='semibold'>
+									{patient.address.split(',')[0]}
+								</HvText>
+								<HvText size='m' weight='semibold'>
+									{patient.address.split(', ')[1]?.replace(/,/g, '')}
+								</HvText>
+							</View>
 						</View>
 						<View style={Styles.aboutLine}>
-							<HvText style={{ width: '25%' }}>
+							<HvText style={{ width: '30%' }}>
 								{/* Sími */}
 								{t('settings.phone')}
 							</HvText>
 							<HvText size='l' weight='semibold'>
-								{patient.phone}
+								{patient.phone.slice(0, 3) + ' ' + patient.phone.slice(3)}
 							</HvText>
 						</View>
 					</View>
@@ -88,7 +99,7 @@ const MainSettings = (): JSX.Element => {
 							bright
 							disabled
 						/>
-						<TouchableOpacity
+						<HvButtonContainer
 							onPress={() => {
 								modals.setChangeLangVisible(true);
 								modals.setIsOpen(true);
@@ -100,26 +111,29 @@ const MainSettings = (): JSX.Element => {
 									{t('settings.language.language')}
 								</HvText>
 								<CountryFlag
-									isoCode={countryCode}
+									isoCode={language ? language : i18n.language}
 									size={25}
 									style={{
 										borderRadius: 4,
-										borderColor: DARK_GREEN,
-										borderWidth: 1,
+										// borderColor: DARK_GREEN,
+										// borderWidth: 1,
+										boxShadow: '0px 0px 4px rgba(0, 0, 0, 0.5)',
 									}}
 								/>
 							</View>
-						</TouchableOpacity>
+						</HvButtonContainer>
 						<View style={Styles.leftRightContainer}>
 							<HvText>
 								{/* Áminningar */}
 								{t('settings.notifications')}
 							</HvText>
 							<Switch
-								value={isSwitchOn}
-								onValueChange={onToggleSwitch}
+								value={getNotificationState()}
+								onValueChange={() =>
+									setNotificationsOn(getNotificationState() ? null : 'true')
+								}
 								trackColor={{ false: '#767577', true: GREEN }}
-								thumbColor={isSwitchOn ? DARK_GREEN : '#f4f3f4'}
+								thumbColor={getNotificationState() ? DARK_GREEN : '#f4f3f4'}
 								ios_backgroundColor='#3e3e3e'
 							/>
 						</View>
@@ -136,7 +150,7 @@ const MainSettings = (): JSX.Element => {
 					</View>
 				</HvCard>
 			</View>
-			<ChangeLanguage onChange={(lang: string) => setCountryCode(lang)} />
+			<ChangeLanguage onChange={(lang: string) => setLanguage(lang)} />
 		</>
 	);
 };
@@ -163,7 +177,7 @@ const Styles = StyleSheet.create({
 	},
 	aboutLine: {
 		flexDirection: 'row',
-		alignItems: 'center',
+		gap: 5,
 	},
 });
 

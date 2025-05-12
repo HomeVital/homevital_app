@@ -6,3 +6,27 @@ export interface IPatient {
 	address: string;
 	teamID: number;
 }
+
+export interface IPlan {
+	id: number;
+	name: string;
+	startDate: string;
+	endDate: string;
+	patientID: number;
+	instructions: string;
+	teamID: number;
+	isActive: boolean;
+	weightMeasurementDays: [number, number, number, number, number, number, number];
+	bloodSugarMeasurementDays: [number, number, number, number, number, number, number];
+	bloodPressureMeasurementDays: [number, number, number, number, number, number, number];
+	oxygenSaturationMeasurementDays: [number, number, number, number, number, number, number];
+	bodyTemperatureMeasurementDays: [number, number, number, number, number, number, number];
+}
+
+export interface PlanItem {
+	id: string;
+	title: string;
+	description: string;
+	scheduledTime: string; // ISO format date string
+	type: string;
+}

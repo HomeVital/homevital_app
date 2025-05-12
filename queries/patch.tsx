@@ -17,14 +17,23 @@ import {
 	IPatchBodyWeight,
 	IPatchOxygenSaturation,
 } from '@/interfaces/measurements';
+import { isExpired } from '@/utility/utility';
 import axios from 'axios';
 
 export const patchOxygenSaturation = async (
 	itemId: string,
 	measurement: IPatchOxygenSaturation,
+	token: string,
 ): Promise<IOxygenSaturation> => {
+	if (isExpired(token)) {
+		return Promise.reject(new Error('Token expired'));
+	}
 	try {
-		const response = await axios.patch(`${OXYGENSATURATION_URL}/${itemId}`, measurement);
+		const response = await axios.patch(`${OXYGENSATURATION_URL}/${itemId}`, measurement, {
+			headers: {
+				Authorization: `Bearer ${token}`,
+			},
+		});
 		return response.data;
 	} catch (error) {
 		console.error('Error patching oxygen saturation:', error);
@@ -35,9 +44,17 @@ export const patchOxygenSaturation = async (
 export const patchBloodSugar = async (
 	itemId: string,
 	measurement: IPatchBloodSugar,
+	token: string,
 ): Promise<IBloodSugar> => {
+	if (isExpired(token)) {
+		return Promise.reject(new Error('Token expired'));
+	}
 	try {
-		const response = await axios.patch(`${BLOODSUGAR_URL}/${itemId}`, measurement);
+		const response = await axios.patch(`${BLOODSUGAR_URL}/${itemId}`, measurement, {
+			headers: {
+				Authorization: `Bearer ${token}`,
+			},
+		});
 		return response.data;
 	} catch (error) {
 		console.error('Error patching blood sugar:', error);
@@ -48,9 +65,17 @@ export const patchBloodSugar = async (
 export const patchTemperature = async (
 	itemId: string,
 	measurement: IPatchBodyTemperature,
+	token: string,
 ): Promise<IBodyTemperature> => {
+	if (isExpired(token)) {
+		return Promise.reject(new Error('Token expired'));
+	}
 	try {
-		const response = await axios.patch(`${BODYTEMPERATURE_URL}/${itemId}`, measurement);
+		const response = await axios.patch(`${BODYTEMPERATURE_URL}/${itemId}`, measurement, {
+			headers: {
+				Authorization: `Bearer ${token}`,
+			},
+		});
 		return response.data;
 	} catch (error) {
 		console.error('Error patching temperature:', error);
@@ -61,9 +86,17 @@ export const patchTemperature = async (
 export const patchBloodPressure = async (
 	itemId: string,
 	measurement: IPatchBloodPressure,
+	token: string,
 ): Promise<IBloodPressure> => {
+	if (isExpired(token)) {
+		return Promise.reject(new Error('Token expired'));
+	}
 	try {
-		const response = await axios.patch(`${BLOODPRESSURE_URL}/${itemId}`, measurement);
+		const response = await axios.patch(`${BLOODPRESSURE_URL}/${itemId}`, measurement, {
+			headers: {
+				Authorization: `Bearer ${token}`,
+			},
+		});
 		return response.data;
 	} catch (error) {
 		console.error('Error patching blood pressure:', error);
@@ -74,9 +107,17 @@ export const patchBloodPressure = async (
 export const patchBodyWeight = async (
 	itemId: string,
 	measurement: IPatchBodyWeight,
+	token: string,
 ): Promise<IBodyWeight> => {
+	if (isExpired(token)) {
+		return Promise.reject(new Error('Token expired'));
+	}
 	try {
-		const response = await axios.patch(`${BODYWEIGHT_URL}/${itemId}`, measurement);
+		const response = await axios.patch(`${BODYWEIGHT_URL}/${itemId}`, measurement, {
+			headers: {
+				Authorization: `Bearer ${token}`,
+			},
+		});
 		return response.data;
 	} catch (error) {
 		console.error('Error patching weight:', error);

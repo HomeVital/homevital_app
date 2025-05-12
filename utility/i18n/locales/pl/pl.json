@@ -8,8 +8,27 @@
 	},
 	"home": {
 		"welcome": "Witaj ",
+		"instructions": "Instrukcje",
 		"recentMeasurements": "Ostatnie 10 pomiarów",
-		"noMeasurements": "Brak zarejestrowanych pomiarów"
+		"noMeasurements": "Brak zarejestrowanych pomiarów",
+		"today": "Pozostałe pomiary na dziś"
+	},
+	"notifications": {
+		"title": "Pomiar",
+		"message_one": "Dzisiaj masz {{count}} pomiar",
+		"message_other": "Dzisiaj masz {{count}} pomiary",
+		"titleReminder": "Przypomnienie",
+		"messageReminder_one": "Nie zapomnij o dzisiejszym pomiarze :)",
+		"messageReminder_other": "Nie zapomnij o dzisiejszych pomiarach :)",
+		"titleReminderMissing": "Przypomnienie",
+		"messageReminderMissing_one": "Został ci dzisiaj 1 pomiar",
+		"messageReminderMissing_other": "Zostały ci dzisiaj {{count}} pomiary"
+	},
+	"toast": {
+		"warning": {
+			"header": "Nie można zmienić po 24 godzinach",
+			"text": "Jest długopis przy zmiennych pomiarach"
+		}
 	},
 	"measurements": {
 		"bloodPressure": "Ciśnienie krwi",
@@ -17,11 +36,19 @@
 		"bodyWeight": "Waga",
 		"bodyTemperature": "Temperatura",
 		"oxygenSaturation": "Saturacja tlenu",
-		"bpm": "puls",
+		"bpm": " puls",
 		"page": {
 			"graph": "Wykres",
 			"measurements": "Pomiary",
-			"days": "dni"
+			"days": "Ostatnie"
+		},
+		"plan": {
+			"plan": "Plan",
+			"bw": "Waga",
+			"bp": "Ciśnienie krwi",
+			"bs": "Stężenie cukru",
+			"bt": "Temperatura",
+			"os": "Saturacja tlenu"
 		}
 	},
 	"tabbar": {
@@ -30,6 +57,10 @@
 		"settings": "Ustawienia"
 	},
 	"modals": {
+		"notifications": {
+			"title": "Powiadomienia",
+			"noNotifications": "Brak powiadomień"
+		},
 		"buttons": {
 			"save": "Zapisz",
 			"edit": "Edytuj",
@@ -39,7 +70,11 @@
 			"addTitle": "Dodaj ciśnienie krwi",
 			"editTitle": "Edytuj ciśnienie krwi",
 			"hand": "Zmierzona ręka",
+			"left": "Lewa",
+			"right": "Prawa",
 			"position": "Pozycja ciała",
+			"sitting": "Siedząco",
+			"laying": "Leżąco",
 			"upper": "Górna granica",
 			"lower": "Dolna granica",
 			"pulse": " puls",

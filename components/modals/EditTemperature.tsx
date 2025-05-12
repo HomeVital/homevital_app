@@ -12,9 +12,11 @@ import HvButtonCheck from '../ui/hvButtonCheck';
 import { DARK_RED } from '@/constants/colors';
 import ModalContext from '@/contexts/modalContext';
 import { useTranslation } from 'react-i18next';
+import { useSession } from '@/hooks/ctx';
 
 const EditTemperature = (): JSX.Element => {
 	const { t } = useTranslation();
+	const { token, signOut } = useSession();
 	const queryClient = useQueryClient();
 	const modals = useContext(ModalContext);
 	const item = modals.editModalData.item as IBodyTemperature;
@@ -26,12 +28,22 @@ const EditTemperature = (): JSX.Element => {
 	// mutations (edit)
 	const { mutateAsync: addMutation } = useMutation({
 		mutationFn: async (measurement: IPatchBodyTemperature) =>
-			patchTemperature(itemId, measurement),
-		onSuccess: () => {
+			patchTemperature(itemId, measurement, token),
+		onSuccess: (itemDataResponse) => {
 			queryClient.invalidateQueries({ queryKey: ['bodytemperature'] });
 			queryClient.invalidateQueries({ queryKey: ['recentmeasurements'] });
 			modals.setEditBTVisible(false);
-			modals.setIsOpen(false);
+			modals.setIsEditOpen(true);
+			modals.setEditModalData({
+				title: t('measurements.bodyTemperature'),
+				item: itemDataResponse,
+			});
+			modals.setIsOpen(true);
+		},
+		onError: (error) => {
+			if (error.message === 'Token expired') {
+				signOut();
+			}
 		},
 	});
 
@@ -54,7 +66,15 @@ const EditTemperature = (): JSX.Element => {
 
 	// validation
 	const DisableButton = (): boolean => {
-		return temperature === item.temperature.toString();
+		if (temperature === item.temperature.toString()) {
+			return true;
+		}
+		return (
+			temperature === '' ||
+			isNaN(Number(temperature)) ||
+			Number(temperature) <= 0 ||
+			Number(temperature) > 99
+		);
 	};
 
 	return (
