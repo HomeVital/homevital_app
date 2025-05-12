@@ -59,7 +59,12 @@ const AddBodyTemperature = (): JSX.Element => {
 
 	// validation
 	const DisableButton = (): boolean => {
-		return temperature === '';
+		return (
+			temperature === '' ||
+			isNaN(Number(temperature)) ||
+			Number(temperature) <= 0 ||
+			Number(temperature) > 99
+		);
 	};
 
 	return (

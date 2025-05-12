@@ -59,7 +59,12 @@ const AddBloodOxygen = (): JSX.Element => {
 
 	// validation
 	const DisableButton = (): boolean => {
-		return bloodOxygen === '' || parseFloat(bloodOxygen) <= 0 || parseFloat(bloodOxygen) > 100;
+		return (
+			bloodOxygen === '' ||
+			isNaN(parseFloat(bloodOxygen)) ||
+			parseFloat(bloodOxygen) <= 0 ||
+			parseFloat(bloodOxygen) > 100
+		);
 	};
 
 	return (

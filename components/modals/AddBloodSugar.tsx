@@ -58,7 +58,12 @@ const AddBloodSugar = (): JSX.Element => {
 
 	// validation
 	const DisableButton = (): boolean => {
-		return bloodSugar === '';
+		return (
+			bloodSugar === '' ||
+			isNaN(Number(bloodSugar)) ||
+			Number(bloodSugar) < 0 ||
+			Number(bloodSugar) > 500
+		);
 	};
 
 	return (

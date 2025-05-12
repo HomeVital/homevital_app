@@ -66,7 +66,12 @@ const EditBodyWeight = (): JSX.Element => {
 
 	// validation
 	const DisableButton = (): boolean => {
-		return weight === item.weight.toString();
+		if (weight === item.weight.toString()) {
+			return true;
+		}
+		return (
+			weight === '' || isNaN(Number(weight)) || Number(weight) <= 0 || Number(weight) > 500
+		);
 	};
 
 	return (

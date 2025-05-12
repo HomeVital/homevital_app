@@ -63,7 +63,15 @@ const EditBloodOxygen = (): JSX.Element => {
 	};
 
 	const DisableButton = (): boolean => {
-		return bloodOxygen === item.oxygenSaturationValue.toString();
+		if (bloodOxygen === item.oxygenSaturationValue.toString()) {
+			return true;
+		}
+		return (
+			bloodOxygen === '' ||
+			isNaN(parseFloat(bloodOxygen)) ||
+			parseFloat(bloodOxygen) <= 0 ||
+			parseFloat(bloodOxygen) > 100
+		);
 	};
 
 	return (

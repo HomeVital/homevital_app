@@ -60,53 +60,53 @@ export const scheduleNotifications = async (
 			scheduleCounter++;
 		}
 
-		planItems.push({
-			id: Math.floor(Math.random() * 10000 + 1).toString(),
-			title: t('notifications.title'),
-			description: t('notifications.message', { count: 4 }),
-			scheduledTime: new Date(new Date().getTime() + 5000).toISOString(),
-			type: 'test',
-		});
+		// planItems.push({
+		// 	id: Math.floor(Math.random() * 10000 + 1).toString(),
+		// 	title: t('notifications.title'),
+		// 	description: t('notifications.message', { count: 4 }),
+		// 	scheduledTime: new Date(new Date().getTime() + 5000).toISOString(),
+		// 	type: 'test',
+		// });
 
-		planItems.push({
-			id: Math.floor(Math.random() * 10000 + 1).toString(),
-			title: t('notifications.title'),
-			description: t('notifications.message', { count: 1 }),
-			scheduledTime: new Date(new Date().getTime() + 10000).toISOString(),
-			type: 'test',
-		});
+		// planItems.push({
+		// 	id: Math.floor(Math.random() * 10000 + 1).toString(),
+		// 	title: t('notifications.title'),
+		// 	description: t('notifications.message', { count: 1 }),
+		// 	scheduledTime: new Date(new Date().getTime() + 10000).toISOString(),
+		// 	type: 'test',
+		// });
 
-		planItems.push({
-			id: Math.floor(Math.random() * 10000 + 1).toString(),
-			title: t('notifications.title'),
-			description: t('notifications.message', { count: 3 }),
-			scheduledTime: new Date(new Date().getTime() + 15000).toISOString(),
-			type: 'test',
-		});
+		// planItems.push({
+		// 	id: Math.floor(Math.random() * 10000 + 1).toString(),
+		// 	title: t('notifications.title'),
+		// 	description: t('notifications.message', { count: 3 }),
+		// 	scheduledTime: new Date(new Date().getTime() + 15000).toISOString(),
+		// 	type: 'test',
+		// });
 
-		planItems.push({
-			id: Math.floor(Math.random() * 10000 + 1).toString(),
-			title: t('notifications.title'),
-			description: t('notifications.message', { count: 4 }),
-			scheduledTime: new Date(new Date().getTime() + 20000).toISOString(),
-			type: 'test',
-		});
+		// planItems.push({
+		// 	id: Math.floor(Math.random() * 10000 + 1).toString(),
+		// 	title: t('notifications.title'),
+		// 	description: t('notifications.message', { count: 4 }),
+		// 	scheduledTime: new Date(new Date().getTime() + 20000).toISOString(),
+		// 	type: 'test',
+		// });
 
-		planItems.push({
-			id: Math.floor(Math.random() * 10000 + 1).toString(),
-			title: t('notifications.title'),
-			description: t('notifications.message', { count: 2 }),
-			scheduledTime: new Date(new Date().getTime() + 25000).toISOString(),
-			type: 'test',
-		});
+		// planItems.push({
+		// 	id: Math.floor(Math.random() * 10000 + 1).toString(),
+		// 	title: t('notifications.title'),
+		// 	description: t('notifications.message', { count: 2 }),
+		// 	scheduledTime: new Date(new Date().getTime() + 25000).toISOString(),
+		// 	type: 'test',
+		// });
 
-		planItems.push({
-			id: Math.floor(Math.random() * 10000 + 1).toString(),
-			title: t('notifications.title'),
-			description: t('notifications.message', { count: 2 }),
-			scheduledTime: new Date(new Date().getTime() + 30000).toISOString(),
-			type: 'test',
-		});
+		// planItems.push({
+		// 	id: Math.floor(Math.random() * 10000 + 1).toString(),
+		// 	title: t('notifications.title'),
+		// 	description: t('notifications.message', { count: 2 }),
+		// 	scheduledTime: new Date(new Date().getTime() + 30000).toISOString(),
+		// 	type: 'test',
+		// });
 
 		// Schedule new notifications for each plan item
 		for (const item of planItems) {
@@ -129,6 +129,7 @@ export const scheduleNotifications = async (
 				await NotificationService.scheduleNotification(notification);
 			}
 		}
+		//
 	} catch (error) {
 		console.error('Error scheduling notifications:', error);
 	}

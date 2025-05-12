@@ -75,13 +75,38 @@ const EditBloodPressure = (): JSX.Element => {
 	};
 
 	const DisableButton = (): boolean => {
-		return (
-			hand === item.measuredHand &&
-			position === item.bodyPosition &&
+		// return (
+		// 	hand === item.measuredHand &&
+		// 	position === item.bodyPosition &&
+		// 	sys === item.systolic.toString() &&
+		// 	dia === item.diastolic.toString() &&
+		// 	pulse === item.pulse.toString()
+		// );
+
+		if (
+			hand === item.measuredHand.toString() &&
+			position === item.bodyPosition.toString() &&
 			sys === item.systolic.toString() &&
 			dia === item.diastolic.toString() &&
 			pulse === item.pulse.toString()
-		);
+		) {
+			return true;
+		}
+		// validation
+		if (sys === '' || dia === '' || pulse === '') {
+			return true;
+		}
+		if (isNaN(parseFloat(sys)) || isNaN(parseFloat(dia)) || isNaN(parseFloat(pulse))) {
+			return true;
+		}
+		if (parseFloat(sys) <= 0 || parseFloat(dia) <= 0 || parseFloat(pulse) <= 0) {
+			return true;
+		}
+		if (parseFloat(sys) > 500 || parseFloat(dia) > 500 || parseFloat(pulse) > 300) {
+			return true;
+		}
+
+		return false;
 	};
 
 	return (

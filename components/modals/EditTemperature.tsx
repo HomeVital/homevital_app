@@ -66,7 +66,15 @@ const EditTemperature = (): JSX.Element => {
 
 	// validation
 	const DisableButton = (): boolean => {
-		return temperature === item.temperature.toString();
+		if (temperature === item.temperature.toString()) {
+			return true;
+		}
+		return (
+			temperature === '' ||
+			isNaN(Number(temperature)) ||
+			Number(temperature) <= 0 ||
+			Number(temperature) > 99
+		);
 	};
 
 	return (

@@ -72,7 +72,23 @@ const AddBloodPressure = (): JSX.Element => {
 
 	// validation
 	const DisableButton = (): boolean => {
-		return systolic === '' || diastolic === '' || pulse === '';
+		if (systolic === '' || diastolic === '' || pulse === '') {
+			return true;
+		}
+		if (
+			isNaN(parseFloat(systolic)) ||
+			isNaN(parseFloat(diastolic)) ||
+			isNaN(parseFloat(pulse))
+		) {
+			return true;
+		}
+		if (parseFloat(systolic) <= 0 || parseFloat(diastolic) <= 0 || parseFloat(pulse) <= 0) {
+			return true;
+		}
+		if (parseFloat(systolic) > 500 || parseFloat(diastolic) > 500 || parseFloat(pulse) > 300) {
+			return true;
+		}
+		return false;
 	};
 
 	return (
