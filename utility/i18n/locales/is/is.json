@@ -10,12 +10,25 @@
 		"welcome": "Hæ ",
 		"instructions": "Leiðbeiningar",
 		"recentMeasurements": "Síðustu 10 mælingar",
-		"noMeasurements": "Engar mælingar skráðar"
+		"noMeasurements": "Engar mælingar skráðar",
+		"today": "Mælingar eftir í dag"
 	},
 	"notifications": {
 		"title": "Mæling",
 		"message_one": "Þú hefur {{count}}. mælingu í dag",
-		"message_other": "Þú hefur {{count}}. mælingar í dag"
+		"message_other": "Þú hefur {{count}}. mælingar í dag",
+		"titleReminder": "Áminning",
+		"messageReminder_one": "Ekki gleyma mælingunni í dag :)",
+		"messageReminder_other": "Ekki gleyma mælingunum í dag :)",
+		"titleReminderMissing": "Áminning",
+		"messageReminderMissing_one": "Þú átt 1 mælingu eftir í dag",
+		"messageReminderMissing_other": "Þú átt {{count}} mælingar eftir í dag"
+	},
+	"toast": {
+		"warning": {
+			"header": "Ekki hægt að breyta eftir 24 klst.",
+			"text": "Það er penni hjá breytilegum mælingum"
+		}
 	},
 	"measurements": {
 		"bloodPressure": "Blóðþrýstingur",

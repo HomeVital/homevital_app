@@ -13,7 +13,7 @@ import { DARK_GREEN } from '@/constants/colors';
 import HvGraph from '@/components/graphs/HvGraph';
 import { ErrorView, LoadingView } from '@/components/queryStates';
 import { useContext } from 'react';
-import { getClaimBySubstring } from '@/utility/utility';
+import { getClaimBySubstring, showToastWarning } from '@/utility/utility';
 import ModalContext from '@/contexts/modalContext';
 import { useTranslation } from 'react-i18next';
 
@@ -68,6 +68,11 @@ const BloodSugar = (): JSX.Element => {
 									title: t('measurements.bloodSugar'),
 									item: itemData,
 								});
+							} else {
+								showToastWarning(
+									t('toast.warning.header'),
+									t('toast.warning.text'),
+								);
 							}
 						}}
 						editable

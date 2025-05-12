@@ -59,4 +59,10 @@ export const STYLES = StyleSheet.create({
 		left: 40,
 		zIndex: 1,
 	},
+	todo: {
+		flexDirection: 'row',
+		alignItems: 'center',
+		gap: 10,
+		paddingLeft: 10,
+	},
 });

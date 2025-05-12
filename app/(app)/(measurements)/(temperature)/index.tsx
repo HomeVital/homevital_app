@@ -15,7 +15,7 @@ import HvGraph from '@/components/graphs/HvGraph';
 import { IBodyTemperature } from '@/interfaces/measurements';
 import { ErrorView, LoadingView } from '@/components/queryStates';
 import { useContext } from 'react';
-import { getClaimBySubstring } from '@/utility/utility';
+import { getClaimBySubstring, showToastWarning } from '@/utility/utility';
 import ModalContext from '@/contexts/modalContext';
 import { useTranslation } from 'react-i18next';
 
@@ -72,6 +72,11 @@ const Temperature = (): JSX.Element => {
 									title: t('measurements.bodyTemperature'),
 									item: itemData,
 								});
+							} else {
+								showToastWarning(
+									t('toast.warning.header'),
+									t('toast.warning.text'),
+								);
 							}
 						}}
 						editable

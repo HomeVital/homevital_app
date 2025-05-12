@@ -10,7 +10,7 @@ import { Calendar, LocaleConfig, DateData } from 'react-native-calendars';
 import HvText from '@/components/ui/hvText';
 import React, { useEffect } from 'react';
 import HvImage from '@/components/ui/hvImage';
-import { DARK_GREEN } from '@/constants/colors';
+import { DARK_GREEN, LIGHT_THEME } from '@/constants/colors';
 import HvCard from '@/components/cards/hvCard';
 import { fetchPlan } from '@/queries/get';
 import { formatDate, getClaimBySubstring } from '@/utility/utility';
@@ -64,7 +64,7 @@ const Plan = (): JSX.Element => {
 
 				let borderColor = '#e3e3e3';
 
-				if (currentDate > dateNow) {
+				if (currentDate >= dateNow) {
 					borderColor = DARK_GREEN;
 				}
 				// Checks if any measurement is scheduled for this day of the week and adds to marked
@@ -87,6 +87,16 @@ const Plan = (): JSX.Element => {
 									height: 40,
 									borderRadius: '50%',
 									top: -1,
+									backgroundColor:
+										formattedDate === new Date().toISOString().split('T')[0]
+											? LIGHT_THEME
+											: 'transparent',
+								},
+								text: {
+									fontWeight:
+										formattedDate === new Date().toISOString().split('T')[0]
+											? 'bold'
+											: 'normal',
 								},
 							},
 							BW: markedDaysOfWeek.weightMeasurementDays[dayOfWeek] ? true : false,
@@ -228,13 +238,11 @@ const Plan = (): JSX.Element => {
 				hideExtraDays={true}
 				markingType={'custom'}
 				markedDates={{
-					...markedDates,
 					[new Date().toISOString().split('T')[0]]: {
-						// marked: true,
 						customStyles: {
 							container: {
 								// boxShadow: '0px 0px 6px rgba(0, 0, 0, 0.25)',
-								backgroundColor: '#e3e3e3',
+								backgroundColor: LIGHT_THEME,
 								width: 40,
 								height: 40,
 								borderRadius: '50%',
@@ -245,6 +253,7 @@ const Plan = (): JSX.Element => {
 							},
 						},
 					},
+					...markedDates,
 					//selected date
 					[selectedDate?.dateString || '']: {
 						customStyles: {

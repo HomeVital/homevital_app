@@ -2,6 +2,7 @@ import React, { createContext, useContext, useEffect, useState, ReactNode } from
 import * as Notifications from 'expo-notifications';
 import { NotificationService } from '@/utility/notificationService';
 import { useStorageState } from '@/hooks/useStorageState';
+import { showToastNotification } from '@/utility/utility';
 
 interface NotificationContextType {
 	notificationsActive?: string | null;
@@ -44,6 +45,10 @@ export const NotificationProvider: React.FC<NotificationProviderProps> = ({ chil
 		NotificationService.addForegroundNotificationListener((notification) => {
 			setNotifications((prevNotifications) => [notification, ...prevNotifications]);
 			setNotificationCount((prevCount) => prevCount + 1);
+			showToastNotification(
+				notification.request.content.title ?? '',
+				notification.request.content.body ?? '',
+			);
 		});
 
 		// Clean up the listener when component unmounts

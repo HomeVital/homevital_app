@@ -13,7 +13,7 @@ import { useToggle } from '@/hooks/UseToggle';
 import { HvCardMeasurements } from '@/components/cards/hvCardMeasurements';
 import { ErrorView, LoadingView } from '@/components/queryStates';
 import { useContext } from 'react';
-import { getClaimBySubstring } from '@/utility/utility';
+import { getClaimBySubstring, showToastWarning } from '@/utility/utility';
 import ModalContext from '@/contexts/modalContext';
 import { useTranslation } from 'react-i18next';
 
@@ -73,6 +73,11 @@ const BloodPressure = (): JSX.Element => {
 									title: t('measurements.bloodPressure'),
 									item: itemData,
 								});
+							} else {
+								showToastWarning(
+									t('toast.warning.header'),
+									t('toast.warning.text'),
+								);
 							}
 						}}
 						editable

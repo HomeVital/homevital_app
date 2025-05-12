@@ -12,6 +12,8 @@ import { LIGHT_THEME } from '@/constants/colors';
 import '@/utility/i18n';
 import NotificationProvider from '@/contexts/notificationContext';
 import { LoadingView } from '@/components/queryStates';
+import Toast from 'react-native-toast-message';
+import { toastConfig } from '@/utility/utility';
 
 const queryClient = new QueryClient();
 
@@ -40,6 +42,7 @@ const RootLayout = (): JSX.Element => {
 					<StatusBar style='dark' backgroundColor={LIGHT_THEME} />
 					<Slot />
 					<Redirect href='/initial-screen' />
+					<Toast config={toastConfig} />
 				</NotificationProvider>
 			</SessionProvider>
 		</QueryClientProvider>

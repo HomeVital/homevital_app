@@ -19,6 +19,8 @@ import HvLayeredIcon from '@/components/ui/hvLayeredIcon';
 import { useNotification } from '@/contexts/notificationContext';
 import { NotificationService } from '@/utility/notificationService';
 import ModalContext from '@/contexts/modalContext';
+import HvImage from '@/components/ui/hvImage';
+import HvButtonContainer from '@/components/ui/hvButtonContainer';
 
 const MainScreen = (): JSX.Element => {
 	const { t } = useTranslation();
@@ -44,6 +46,112 @@ const MainScreen = (): JSX.Element => {
 		],
 	});
 
+	const todayMeasurements = recentMeasurements.data?.filter((measurement) => {
+		const measurementDate = new Date(measurement.measurementDate);
+		const today = new Date();
+		return (
+			measurementDate.getDate() === today.getDate() &&
+			measurementDate.getMonth() === today.getMonth() &&
+			measurementDate.getFullYear() === today.getFullYear()
+		);
+	});
+
+	const measurementsLeftToday = (): string[] => {
+		const today = new Date();
+		const weekday = today.getDay();
+
+		const todayMeasurementsLeft = [] as string[];
+
+		if (
+			plan.data?.endDate &&
+			today <= new Date(plan.data.endDate) &&
+			plan.data?.startDate &&
+			today >= new Date(plan.data.startDate)
+		) {
+			if (plan.data?.weightMeasurementDays[weekday]) {
+				if (todayMeasurements && todayMeasurements.length > 0) {
+					let found = false;
+					for (let i = 0; i < todayMeasurements.length; i++) {
+						if (todayMeasurements[i].measurementType === 'BodyWeight') {
+							found = true;
+							break;
+						}
+					}
+					if (!found) {
+						todayMeasurementsLeft.push('BodyWeight');
+					}
+				} else {
+					todayMeasurementsLeft.push('BodyWeight');
+				}
+			}
+			if (plan.data?.bloodSugarMeasurementDays[weekday]) {
+				if (todayMeasurements && todayMeasurements.length > 0) {
+					let found = false;
+					for (let i = 0; i < todayMeasurements.length; i++) {
+						if (todayMeasurements[i].measurementType === 'BloodSugar') {
+							found = true;
+							break;
+						}
+					}
+					if (!found) {
+						todayMeasurementsLeft.push('BloodSugar');
+					}
+				} else {
+					todayMeasurementsLeft.push('BloodSugar');
+				}
+			}
+			if (plan.data?.bloodPressureMeasurementDays[weekday]) {
+				if (todayMeasurements && todayMeasurements.length > 0) {
+					let found = false;
+					for (let i = 0; i < todayMeasurements.length; i++) {
+						if (todayMeasurements[i].measurementType === 'BloodPressure') {
+							found = true;
+							break;
+						}
+					}
+					if (!found) {
+						todayMeasurementsLeft.push('BloodPressure');
+					}
+				} else {
+					todayMeasurementsLeft.push('BloodPressure');
+				}
+			}
+			if (plan.data?.oxygenSaturationMeasurementDays[weekday]) {
+				if (todayMeasurements && todayMeasurements.length > 0) {
+					let found = false;
+					for (let i = 0; i < todayMeasurements.length; i++) {
+						if (todayMeasurements[i].measurementType === 'OxygenSaturation') {
+							found = true;
+							break;
+						}
+					}
+					if (!found) {
+						todayMeasurementsLeft.push('OxygenSaturation');
+					}
+				} else {
+					todayMeasurementsLeft.push('OxygenSaturation');
+				}
+			}
+			if (plan.data?.bodyTemperatureMeasurementDays[weekday]) {
+				if (todayMeasurements && todayMeasurements.length > 0) {
+					let found = false;
+					for (let i = 0; i < todayMeasurements.length; i++) {
+						if (todayMeasurements[i].measurementType === 'BodyTemperature') {
+							found = true;
+							break;
+						}
+					}
+					if (!found) {
+						todayMeasurementsLeft.push('BodyTemperature');
+					}
+				} else {
+					todayMeasurementsLeft.push('BodyTemperature');
+				}
+			}
+		}
+		return todayMeasurementsLeft;
+	};
+
 	// reset count when notification modal is open
 	useEffect(() => {
 		if (modals.viewNotificationsVisible) {
@@ -54,14 +162,29 @@ const MainScreen = (): JSX.Element => {
 	// Set up calendar notifications
 	useEffect(() => {
 		const setupNotifications = async () => {
-			if (plan.data && !plan.isLoading && !plan.isError && getNotificationState() === true) {
-				await scheduleNotifications(plan.data, t);
+			if (
+				plan.data &&
+				!plan.isLoading &&
+				!plan.isError &&
+				!recentMeasurements.isLoading &&
+				!recentMeasurements.isError &&
+				getNotificationState() === true
+			) {
+				await scheduleNotifications(plan.data, t, measurementsLeftToday() || []);
 			} else if (getNotificationState() === false) {
 				NotificationService.cancelAllNotifications();
 			}
 		};
 		setupNotifications();
-	}, [plan.data, plan.isLoading, plan.isError, t, getNotificationState]);
+	}, [
+		plan.data,
+		plan.isLoading,
+		plan.isError,
+		t,
+		getNotificationState,
+		recentMeasurements,
+		measurementsLeftToday,
+	]);
 
 	// loading
 	if (recentMeasurements.isLoading || plan.isLoading || patient.isLoading) {
@@ -98,6 +221,48 @@ const MainScreen = (): JSX.Element => {
 										<HvText weight='semibold'>{plan.data?.instructions}</HvText>
 									</View>
 								</HvCard>
+							</View>
+						)}
+						{/* today measurements */}
+						{measurementsLeftToday().length > 0 && (
+							<View style={STYLES.defaultViewNoMargin}>
+								<HvText weight='semibold' size='l'>
+									{t('home.today')}
+								</HvText>
+								<View
+									style={{
+										justifyContent: 'space-evenly',
+										flexDirection: 'row',
+									}}
+								>
+									{measurementsLeftToday().map((measurement) => (
+										<HvButtonContainer
+											key={measurement}
+											onPress={() => {
+												modals.setIsOpen(true);
+												if (measurement === 'BodyWeight') {
+													modals.setAddBWVisible(true);
+												}
+												if (measurement === 'BloodSugar') {
+													modals.setAddBSVisible(true);
+												}
+												if (measurement === 'BloodPressure') {
+													modals.setAddBPVisible(true);
+												}
+												if (measurement === 'OxygenSaturation') {
+													modals.setAddBOVisible(true);
+												}
+												if (measurement === 'BodyTemperature') {
+													modals.setAddBTVisible(true);
+												}
+											}}
+										>
+											<HvCard key={measurement} padding={10}>
+												<HvImage source={measurement} size={34} />
+											</HvCard>
+										</HvButtonContainer>
+									))}
+								</View>
 							</View>
 						)}
 

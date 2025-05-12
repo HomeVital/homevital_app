@@ -10,12 +10,25 @@
 		"welcome": "Welcome ",
 		"instructions": "Instructions",
 		"recentMeasurements": "Last 10 measurements",
-		"noMeasurements": "No measurements yet"
+		"noMeasurements": "No measurements yet",
+		"today": "Measurements left today"
 	},
 	"notifications": {
 		"title": "Measurement",
 		"message_one": "You have {{count}} measurement today",
-		"message_other": "You have {{count}} measurements today"
+		"message_other": "You have {{count}} measurements today",
+		"titleReminder": "Reminder",
+		"messageReminder_one": "Don't forget the measurement today :)",
+		"messageReminder_other": "Don't forget the measurements today :)",
+		"titleReminderMissing": "Reminder",
+		"messageReminderMissing_one": "You have 1 measurement left today",
+		"messageReminderMissing_other": "You have {{count}} measurements left today"
+	},
+	"toast": {
+		"warning": {
+			"header": "Cannot edit after 24 hours",
+			"text": "There is a pen next to editable measurements"
+		}
 	},
 	"measurements": {
 		"bloodPressure": "Blood Pressure",

@@ -47,6 +47,7 @@ const sources = {
 	View: require('@/assets/svgs/viewArrow.svg'),
 	Instruction: require('@/assets/svgs/instruction.svg'),
 	Delete: require('@/assets/svgs/trash.svg'),
+	NotificationBell: require('@/assets/svgs/notificationBell.svg'),
 
 	// navigation icons
 	Back: require('@/assets/svgs/defBack.svg'),

@@ -10,8 +10,10 @@ import * as Notifications from 'expo-notifications';
 export const scheduleNotifications = async (
 	plan: IPlan,
 	t: (key: string, options?: Record<string, unknown>) => string,
+	todayMeasurements: string[],
 ): Promise<void> => {
 	try {
+		//
 		// Request permissions first
 		const hasPermission = await NotificationService.requestPermissions();
 		if (!hasPermission) {
@@ -45,8 +47,9 @@ export const scheduleNotifications = async (
 				measurementCounter++;
 			}
 			if (measurementCounter >= 1) {
+				// morning
 				const planSetDate = new Date(currentDate);
-				planSetDate.setHours(8, 0, 0, 0); // Set time to 8:00 AM
+				planSetDate.setHours(8, 0, 0, 0); // 8:00
 				planItems.push({
 					id: planItems.length.toString(),
 					title: t('notifications.title'),
@@ -54,6 +57,53 @@ export const scheduleNotifications = async (
 					scheduledTime: new Date(planSetDate).toISOString(),
 					type: 'measurements',
 				});
+				// afternoon reminder
+				const planSetDate2 = new Date(currentDate);
+				planSetDate2.setHours(17, 0, 0, 0); // 17:00
+				// if today, check if already done with the measurements
+				if (planSetDate2.toDateString() === new Date().toDateString()) {
+					if (
+						todayMeasurements.length > 0 &&
+						todayMeasurements.length < measurementCounter
+					) {
+						let todayStringMeasurements = '';
+						for (let i = 0; i < todayMeasurements.length; i++) {
+							todayStringMeasurements += `${t('measurements.' + todayMeasurements[i][0].toLowerCase() + todayMeasurements[i].slice(1))}`;
+							if (i < todayMeasurements.length - 1) {
+								todayStringMeasurements += ', ';
+							}
+						}
+						// some missing
+						planItems.push({
+							id: (planItems.length + 1000).toString(),
+							title: t('notifications.titleReminderMissing'),
+							description: todayStringMeasurements,
+							scheduledTime: new Date(planSetDate2).toISOString(),
+							type: 'measurements',
+						});
+					} else if (todayMeasurements.length === 0) {
+						// all missing
+						planItems.push({
+							id: (planItems.length + 1000).toString(),
+							title: t('notifications.titleReminder'),
+							description: t('notifications.messageReminder', {
+								count: measurementCounter,
+							}),
+							scheduledTime: new Date(planSetDate2).toISOString(),
+							type: 'measurements',
+						});
+					}
+				} else {
+					planItems.push({
+						id: (planItems.length + 1000).toString(),
+						title: t('notifications.titleReminder'),
+						description: t('notifications.messageReminder', {
+							count: measurementCounter,
+						}),
+						scheduledTime: new Date(planSetDate2).toISOString(),
+						type: 'measurements',
+					});
+				}
 			}
 
 			currentDate.setDate(currentDate.getDate() + 1);
@@ -62,17 +112,9 @@ export const scheduleNotifications = async (
 
 		// planItems.push({
 		// 	id: Math.floor(Math.random() * 10000 + 1).toString(),
-		// 	title: t('notifications.title'),
-		// 	description: t('notifications.message', { count: 4 }),
+		// 	title: t('notifications.titleReminder'),
+		// 	description: t('notifications.messageReminder', { count: 4 }),
 		// 	scheduledTime: new Date(new Date().getTime() + 5000).toISOString(),
-		// 	type: 'test',
-		// });
-
-		// planItems.push({
-		// 	id: Math.floor(Math.random() * 10000 + 1).toString(),
-		// 	title: t('notifications.title'),
-		// 	description: t('notifications.message', { count: 1 }),
-		// 	scheduledTime: new Date(new Date().getTime() + 10000).toISOString(),
 		// 	type: 'test',
 		// });
 
@@ -120,13 +162,13 @@ export const scheduleNotifications = async (
 					body: item.description,
 					data: { planItemId: item.id, type: item.type },
 					trigger: {
-						// channelId: 'default',
 						type: Notifications.SchedulableTriggerInputTypes.DATE,
 						date: scheduledDate,
 					},
 				};
 
 				await NotificationService.scheduleNotification(notification);
+				//
 			}
 		}
 	} catch (error) {
