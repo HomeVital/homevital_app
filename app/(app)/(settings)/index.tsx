@@ -1,4 +1,4 @@
-import React, { useContext, useState } from 'react';
+import React, { useContext } from 'react';
 import { View, StyleSheet, Switch } from 'react-native';
 import CountryFlag from 'react-native-country-flag';
 // components
@@ -25,8 +25,7 @@ const MainSettings = (): JSX.Element => {
 	const { t, i18n } = useTranslation();
 	const modals = useContext(ModalContext);
 	const { token, signOut } = useSession();
-	const { notificationsActive, setNotificationsActive } = useNotification();
-	const [countryCode, setCountryCode] = useState(i18n.language); // TODO: change so that I don't have to use states
+	const { setNotificationsOn, getNotificationState, language, setLanguage } = useNotification();
 
 	const {
 		data: patient,
@@ -112,7 +111,7 @@ const MainSettings = (): JSX.Element => {
 									{t('settings.language.language')}
 								</HvText>
 								<CountryFlag
-									isoCode={countryCode}
+									isoCode={language ? language : i18n.language}
 									size={25}
 									style={{
 										borderRadius: 4,
@@ -129,10 +128,12 @@ const MainSettings = (): JSX.Element => {
 								{t('settings.notifications')}
 							</HvText>
 							<Switch
-								value={notificationsActive}
-								onValueChange={() => setNotificationsActive(!notificationsActive)}
+								value={getNotificationState()}
+								onValueChange={() =>
+									setNotificationsOn(getNotificationState() ? null : 'true')
+								}
 								trackColor={{ false: '#767577', true: GREEN }}
-								thumbColor={notificationsActive ? DARK_GREEN : '#f4f3f4'}
+								thumbColor={getNotificationState() ? DARK_GREEN : '#f4f3f4'}
 								ios_backgroundColor='#3e3e3e'
 							/>
 						</View>
@@ -149,7 +150,7 @@ const MainSettings = (): JSX.Element => {
 					</View>
 				</HvCard>
 			</View>
-			<ChangeLanguage onChange={(lang: string) => setCountryCode(lang)} />
+			<ChangeLanguage onChange={(lang: string) => setLanguage(lang)} />
 		</>
 	);
 };

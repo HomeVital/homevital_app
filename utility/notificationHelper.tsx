@@ -129,7 +129,6 @@ export const scheduleNotifications = async (
 				await NotificationService.scheduleNotification(notification);
 			}
 		}
-		//
 	} catch (error) {
 		console.error('Error scheduling notifications:', error);
 	}

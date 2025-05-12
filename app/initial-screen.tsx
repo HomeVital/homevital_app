@@ -10,6 +10,7 @@ import { useSession } from '@/hooks/ctx';
 import { useEffect } from 'react';
 import { useNotification } from '@/contexts/notificationContext';
 import { isExpired } from '@/utility/utility';
+import i18n from '@/utility/i18n';
 
 /**
  * Initial screen for the app that goes to the sign-in screen
@@ -19,12 +20,13 @@ import { isExpired } from '@/utility/utility';
 const InitialScreen = (): JSX.Element => {
 	const { t } = useTranslation();
 	const { session, token } = useSession();
-	const { setNotificationCount, setNotifications } = useNotification();
+	const { setNotificationCount, setNotifications, language } = useNotification();
 
 	useEffect(() => {
 		// clearing for other potential users
 		setNotificationCount(0);
 		setNotifications([]);
+		i18n.changeLanguage(language || 'en');
 		// log automatically in
 		if (session && !isExpired(token)) {
 			if (router.canDismiss()) {
@@ -32,7 +34,7 @@ const InitialScreen = (): JSX.Element => {
 			}
 			router.replace('/');
 		}
-	}, [session, token, setNotificationCount, setNotifications]);
+	}, [session, token, setNotificationCount, setNotifications, language]);
 
 	return (
 		<SafeAreaView style={Styles.container}>

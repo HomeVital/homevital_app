@@ -1,10 +1,16 @@
 import React, { createContext, useContext, useEffect, useState, ReactNode } from 'react';
 import * as Notifications from 'expo-notifications';
 import { NotificationService } from '@/utility/notificationService';
+import { useStorageState } from '@/hooks/useStorageState';
 
 interface NotificationContextType {
-	notificationsActive: boolean;
-	setNotificationsActive: React.Dispatch<React.SetStateAction<boolean>>;
+	notificationsActive?: string | null;
+	getNotificationState: () => boolean;
+	setNotificationsOn: (value: string | null) => void;
+	loading: boolean;
+	language: string | null;
+	setLanguage: (value: string | null) => void;
+	loading2: boolean;
 	notifications: Notifications.Notification[];
 	setNotifications: React.Dispatch<React.SetStateAction<Notifications.Notification[]>>;
 	notificationCount: number;
@@ -26,7 +32,10 @@ interface NotificationProviderProps {
 }
 
 export const NotificationProvider: React.FC<NotificationProviderProps> = ({ children }) => {
-	const [notificationsActive, setNotificationsActive] = useState(true);
+	// const [notificationsActive, setNotificationsActive] = useState(true);
+	const [[loading, notificationsActive], setNotificationsActive] =
+		useStorageState('notificationsActive');
+	const [[loading2, language], setLanguage] = useStorageState('language');
 	const [notifications, setNotifications] = useState<Notifications.Notification[]>([]);
 	const [notificationCount, setNotificationCount] = useState<number>(0);
 
@@ -49,8 +58,19 @@ export const NotificationProvider: React.FC<NotificationProviderProps> = ({ chil
 				setNotifications,
 				notificationCount,
 				setNotificationCount,
+				loading,
 				notificationsActive,
-				setNotificationsActive,
+				setNotificationsOn: (value: string | null) => {
+					setNotificationsActive(value);
+				},
+				getNotificationState: () => {
+					return notificationsActive ? true : false;
+				},
+				loading2,
+				language,
+				setLanguage: (value: string | null) => {
+					setLanguage(value);
+				},
 			}}
 		>
 			{children}
