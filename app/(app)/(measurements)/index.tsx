@@ -24,37 +24,52 @@ import HvButtonContainer from '@/components/ui/hvButtonContainer';
 
 const MainMeasurements = (): JSX.Element => {
 	const { t } = useTranslation();
-	const { session } = useSession();
+	const { token, signOut } = useSession();
 
 	const [bloodpressure, bloodsugar, bodytemperature, bodyweight, oxygensaturation] = useQueries({
 		queries: [
 			{
 				queryKey: ['bloodpressure'],
-				queryFn: async () =>
-					fetchBloodPressure(getClaimBySubstring(session?.toString() || '', 'sub')),
+				queryFn: async () => fetchBloodPressure(getClaimBySubstring(token, 'sub'), token),
 			},
 			{
 				queryKey: ['bloodsugar'],
-				queryFn: async () =>
-					fetchBloodSugar(getClaimBySubstring(session?.toString() || '', 'sub')),
+				queryFn: async () => fetchBloodSugar(getClaimBySubstring(token, 'sub'), token),
 			},
 			{
 				queryKey: ['bodytemperature'],
-				queryFn: async () =>
-					fetchBodyTemperature(getClaimBySubstring(session?.toString() || '', 'sub')),
+				queryFn: async () => fetchBodyTemperature(getClaimBySubstring(token, 'sub'), token),
 			},
 			{
 				queryKey: ['bodyweight'],
-				queryFn: async () =>
-					fetchBodyWeight(getClaimBySubstring(session?.toString() || '', 'sub')),
+				queryFn: async () => fetchBodyWeight(getClaimBySubstring(token, 'sub'), token),
 			},
 			{
 				queryKey: ['oxygensaturation'],
 				queryFn: async () =>
-					fetchOxygenSaturation(getClaimBySubstring(session?.toString() || '', 'sub')), // Note: This is using fetchBodyWeight, might need correction
+					fetchOxygenSaturation(getClaimBySubstring(token, 'sub'), token), // Note: This is using fetchBodyWeight, might need correction
 			},
 		],
 	});
+
+	if (
+		bloodpressure.isError ||
+		bloodsugar.isError ||
+		bodytemperature.isError ||
+		bodyweight.isError ||
+		oxygensaturation.isError
+	) {
+		if (
+			bloodpressure.error?.message === 'Token expired' ||
+			bloodsugar.error?.message === 'Token expired' ||
+			bodytemperature.error?.message === 'Token expired' ||
+			bodyweight.error?.message === 'Token expired' ||
+			oxygensaturation.error?.message === 'Token expired'
+		) {
+			signOut();
+			return <></>;
+		}
+	}
 
 	if (
 		bloodpressure.isLoading ||

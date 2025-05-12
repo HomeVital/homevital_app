@@ -31,11 +31,13 @@ import {
 	isOxygenSaturation,
 } from '@/constants/typeGuards';
 import { useTranslation } from 'react-i18next';
+import { useSession } from '@/hooks/ctx';
 
 const HvModalEdit = (): JSX.Element => {
 	const { t } = useTranslation();
-	const modals = useContext(ModalContext);
+	const { token, signOut } = useSession();
 	const queryClient = useQueryClient();
+	const modals = useContext(ModalContext);
 
 	const visibleDetails =
 		modals.editBOVisible ||
@@ -45,7 +47,8 @@ const HvModalEdit = (): JSX.Element => {
 		modals.editBTVisible;
 
 	const { mutateAsync: deleteBT } = useMutation({
-		mutationFn: async (item: IBodyTemperature) => deleteBodyTemperature(item.id.toString()),
+		mutationFn: async (item: IBodyTemperature) =>
+			deleteBodyTemperature(item.id.toString(), token),
 		onSuccess: () => {
 			queryClient.invalidateQueries({ queryKey: ['bodytemperature'] });
 			queryClient.invalidateQueries({ queryKey: ['recentmeasurements'] });
@@ -53,10 +56,15 @@ const HvModalEdit = (): JSX.Element => {
 			modals.setIsEditOpen(false);
 			modals.setIsOpen(false);
 		},
+		onError: (error) => {
+			if (error.message === 'Token expired') {
+				signOut();
+			}
+		},
 	});
 
 	const { mutateAsync: deleteBW } = useMutation({
-		mutationFn: async (item: IBodyWeight) => deleteBodyWeight(item.id.toString()),
+		mutationFn: async (item: IBodyWeight) => deleteBodyWeight(item.id.toString(), token),
 		onSuccess: () => {
 			queryClient.invalidateQueries({ queryKey: ['bodyweight'] });
 			queryClient.invalidateQueries({ queryKey: ['recentmeasurements'] });
@@ -64,10 +72,15 @@ const HvModalEdit = (): JSX.Element => {
 			modals.setIsEditOpen(false);
 			modals.setIsOpen(false);
 		},
+		onError: (error) => {
+			if (error.message === 'Token expired') {
+				signOut();
+			}
+		},
 	});
 
 	const { mutateAsync: deleteBS } = useMutation({
-		mutationFn: async (item: IBloodSugar) => deleteBloodSugar(item.id.toString()),
+		mutationFn: async (item: IBloodSugar) => deleteBloodSugar(item.id.toString(), token),
 		onSuccess: () => {
 			queryClient.invalidateQueries({ queryKey: ['bloodsugar'] });
 			queryClient.invalidateQueries({ queryKey: ['recentmeasurements'] });
@@ -75,10 +88,15 @@ const HvModalEdit = (): JSX.Element => {
 			modals.setIsEditOpen(false);
 			modals.setIsOpen(false);
 		},
+		onError: (error) => {
+			if (error.message === 'Token expired') {
+				signOut();
+			}
+		},
 	});
 
 	const { mutateAsync: deleteBP } = useMutation({
-		mutationFn: async (item: IBloodPressure) => deleteBloodPressure(item.id.toString()),
+		mutationFn: async (item: IBloodPressure) => deleteBloodPressure(item.id.toString(), token),
 		onSuccess: () => {
 			queryClient.invalidateQueries({ queryKey: ['bloodpressure'] });
 			queryClient.invalidateQueries({ queryKey: ['recentmeasurements'] });
@@ -86,16 +104,27 @@ const HvModalEdit = (): JSX.Element => {
 			modals.setIsEditOpen(false);
 			modals.setIsOpen(false);
 		},
+		onError: (error) => {
+			if (error.message === 'Token expired') {
+				signOut();
+			}
+		},
 	});
 
 	const { mutateAsync: deleteBO } = useMutation({
-		mutationFn: async (item: IOxygenSaturation) => deleteOxygenSaturation(item.id.toString()),
+		mutationFn: async (item: IOxygenSaturation) =>
+			deleteOxygenSaturation(item.id.toString(), token),
 		onSuccess: () => {
 			queryClient.invalidateQueries({ queryKey: ['oxygensaturation'] });
 			queryClient.invalidateQueries({ queryKey: ['recentmeasurements'] });
 			// status popup
 			modals.setIsEditOpen(false);
 			modals.setIsOpen(false);
+		},
+		onError: (error) => {
+			if (error.message === 'Token expired') {
+				signOut();
+			}
 		},
 	});
 

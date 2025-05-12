@@ -27,7 +27,7 @@
 		"page": {
 			"graph": "Wykres",
 			"measurements": "Pomiary",
-			"days": "dni"
+			"days": "Ostatnie"
 		},
 		"plan": {
 			"plan": "Plan",

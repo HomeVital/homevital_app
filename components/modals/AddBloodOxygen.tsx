@@ -17,7 +17,7 @@ import { useTranslation } from 'react-i18next';
 
 const AddBloodOxygen = (): JSX.Element => {
 	const { t } = useTranslation();
-	const { session } = useSession();
+	const { token, signOut } = useSession();
 	const queryClient = useQueryClient();
 	const modals = useContext(ModalContext);
 
@@ -26,7 +26,8 @@ const AddBloodOxygen = (): JSX.Element => {
 
 	// mutations
 	const { mutateAsync: addMutation } = useMutation({
-		mutationFn: async (measurement: IAddOxygenSaturation) => postOxygenSaturation(measurement),
+		mutationFn: async (measurement: IAddOxygenSaturation) =>
+			postOxygenSaturation(measurement, token),
 		onSuccess: (data) => {
 			queryClient.invalidateQueries({ queryKey: ['oxygensaturation'] });
 			queryClient.invalidateQueries({ queryKey: ['recentmeasurements'] });
@@ -37,15 +38,17 @@ const AddBloodOxygen = (): JSX.Element => {
 			setBloodOxygen('');
 			modals.setIsOpen(false);
 		},
+		onError: (error) => {
+			if (error.message === 'Token expired') {
+				signOut();
+			}
+		},
 	});
 
 	const HandleMutation = async (): Promise<void> => {
 		try {
 			await addMutation({
-				patientID: parseInt(
-					getClaimBySubstring(session?.toString() || '', 'sub').toString() || '0',
-					10,
-				),
+				patientID: parseInt(getClaimBySubstring(token, 'sub').toString() || '0', 10),
 				oxygenSaturationValue: Number(parseFloat(bloodOxygen).toFixed(1)),
 				status: 'pending',
 			});

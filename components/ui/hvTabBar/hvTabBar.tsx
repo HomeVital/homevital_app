@@ -22,7 +22,7 @@ import { ErrorView } from '@/components/queryStates';
  */
 const HvTabBar = (): JSX.Element => {
 	const { t } = useTranslation();
-	const { session } = useSession();
+	const { token } = useSession();
 	const modals = useContext(ModalContext);
 	const [stackName, setStackName] = useState('');
 	const [wheelOpen, setWheelOpen] = useState(false);
@@ -32,7 +32,7 @@ const HvTabBar = (): JSX.Element => {
 
 	const { data, isError, isLoading } = useQuery({
 		queryKey: ['plan'],
-		queryFn: async () => fetchPlan(getClaimBySubstring(session?.toString() || '', 'sub')),
+		queryFn: async () => fetchPlan(getClaimBySubstring(token, 'sub'), token),
 	});
 
 	// visibility

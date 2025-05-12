@@ -22,27 +22,24 @@ import ModalContext from '@/contexts/modalContext';
 
 const MainScreen = (): JSX.Element => {
 	const { t } = useTranslation();
-	const { session } = useSession();
+	const { token } = useSession();
 	const modals = useContext(ModalContext);
 	const { notificationsActive, notificationCount, setNotificationCount } = useNotification();
-
 	// queries
 	const [patient, recentMeasurements, plan] = useQueries({
 		queries: [
 			{
 				queryKey: ['patient'],
-				queryFn: async () =>
-					fetchPatient(getClaimBySubstring(session?.toString() || '', 'sub')),
+				queryFn: async () => fetchPatient(getClaimBySubstring(token, 'sub'), token),
 			},
 			{
 				queryKey: ['recentmeasurements'],
 				queryFn: async () =>
-					fetchRecentMeasurements(getClaimBySubstring(session?.toString() || '', 'sub')),
+					fetchRecentMeasurements(getClaimBySubstring(token, 'sub'), token),
 			},
 			{
 				queryKey: ['plan'],
-				queryFn: async () =>
-					fetchPlan(getClaimBySubstring(session?.toString() || '', 'sub')),
+				queryFn: async () => fetchPlan(getClaimBySubstring(token, 'sub'), token),
 			},
 		],
 	});
@@ -108,7 +105,7 @@ const MainScreen = (): JSX.Element => {
 						<HvText weight='semibold' size='l' style={{ paddingInline: 20 }}>
 							{t('home.recentMeasurements')}
 						</HvText>
-						<HvScrollView>
+						<HvScrollView onRefresh={() => recentMeasurements.refetch()}>
 							<View style={STYLES.defaultView}>
 								{recentMeasurements.data && recentMeasurements.data.length > 0 ? (
 									<HvCardRecentMeasurements items={recentMeasurements.data} />

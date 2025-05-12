@@ -16,6 +16,7 @@ export const useSession = (): {
 	signOut: () => void;
 	session?: string | null;
 	isLoading: boolean;
+	token: string;
 } => {
 	const value = useContext(AuthenticationContext);
 	if (process.env.NODE_ENV !== 'production') {
@@ -46,7 +47,7 @@ export const SessionProvider = ({ children }: PropsWithChildren): JSX.Element =>
 		if (role === 'Patient') {
 			setSession(token);
 		} else {
-			setSession(null);
+			throw new Error('Wrong social security number');
 		}
 		// }
 		return token;
@@ -61,6 +62,7 @@ export const SessionProvider = ({ children }: PropsWithChildren): JSX.Element =>
 				},
 				session,
 				isLoading,
+				token: session ? session.toString() : '',
 			}}
 		>
 			{children}

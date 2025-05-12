@@ -6,6 +6,10 @@ import HvButton from '@/components/ui/hvButton';
 import { LIGHT_GREEN } from '@/constants/colors';
 import { WIN_WIDTH } from '@/constants/window';
 import { useTranslation } from 'react-i18next';
+import { useSession } from '@/hooks/ctx';
+import { useEffect } from 'react';
+import { useNotification } from '@/contexts/notificationContext';
+import { isExpired } from '@/utility/utility';
 
 /**
  * Initial screen for the app that goes to the sign-in screen
@@ -14,6 +18,22 @@ import { useTranslation } from 'react-i18next';
  */
 const InitialScreen = (): JSX.Element => {
 	const { t } = useTranslation();
+	const { session, token } = useSession();
+	const { setNotificationCount, setNotifications } = useNotification();
+
+	useEffect(() => {
+		// clearing for other potential users
+		setNotificationCount(0);
+		setNotifications([]);
+		// log automatically in
+		if (session && !isExpired(token)) {
+			if (router.canDismiss()) {
+				router.dismissAll();
+			}
+			router.replace('/');
+		}
+	}, [session, token, setNotificationCount, setNotifications]);
+
 	return (
 		<SafeAreaView style={Styles.container}>
 			<Image

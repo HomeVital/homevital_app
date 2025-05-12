@@ -27,7 +27,7 @@
 		"page": {
 			"graph": "Graph",
 			"measurements": "Measurements",
-			"days": "days"
+			"days": "Last"
 		},
 		"plan": {
 			"plan": "Schedule",

@@ -5,9 +5,11 @@ export const AuthenticationContext = createContext<{
 	signOut: () => void;
 	session?: string | null;
 	isLoading: boolean;
+	token: string;
 }>({
 	signIn: async () => '',
 	signOut: () => null,
 	session: null,
 	isLoading: false,
+	token: '',
 });

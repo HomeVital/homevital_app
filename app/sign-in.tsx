@@ -14,6 +14,8 @@ import HvText from '@/components/ui/hvText';
 import { ISignIn, AxError } from '@/interfaces/api';
 import { GetErrorMessage } from '@/errorHandler';
 import { useTranslation } from 'react-i18next';
+import { isExpired } from '@/utility/utility';
+import { useNotification } from '@/contexts/notificationContext';
 
 /**
  * Sign in screen which allows the user to sign in with their SSN
@@ -21,17 +23,22 @@ import { useTranslation } from 'react-i18next';
  */
 const SignIn = (): JSX.Element => {
 	const { t } = useTranslation();
-	const { signIn, session } = useSession();
+	const { signIn, session, token } = useSession();
 	const [loading, setLoading] = useState(false);
+	const { setNotificationCount, setNotifications } = useNotification();
 	// Navigate to the app screen if there is a session
 	useEffect(() => {
-		if (session) {
+		// clearing for other potential users
+		setNotificationCount(0);
+		setNotifications([]);
+		// log automatically in
+		if (session && !isExpired(token)) {
 			if (router.canDismiss()) {
 				router.dismissAll();
 			}
 			router.replace('/');
 		}
-	}, [session]);
+	}, [session, token]);
 
 	const {
 		control,

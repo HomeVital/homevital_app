@@ -24,20 +24,27 @@ import HvButtonContainer from '@/components/ui/hvButtonContainer';
 const MainSettings = (): JSX.Element => {
 	const { t, i18n } = useTranslation();
 	const modals = useContext(ModalContext);
-	const { session, signOut } = useSession();
+	const { token, signOut } = useSession();
 	const { notificationsActive, setNotificationsActive } = useNotification();
 	const [countryCode, setCountryCode] = useState(i18n.language); // TODO: change so that I don't have to use states
 
 	const {
 		data: patient,
 		isError,
+		error,
 		isLoading,
 	} = useQuery<IPatient>({
 		queryKey: ['patient'],
-		queryFn: async () => fetchPatient(getClaimBySubstring(session?.toString() || '', 'sub')),
+		queryFn: async () => fetchPatient(getClaimBySubstring(token, 'sub'), token),
 	});
 
-	if (isError) return <ErrorView />;
+	if (isError) {
+		if (error.message === 'Token expired') {
+			signOut();
+			return <></>;
+		}
+		return <ErrorView />;
+	}
 
 	if (isLoading) return <LoadingView />;
 

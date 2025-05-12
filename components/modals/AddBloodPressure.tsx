@@ -18,7 +18,7 @@ import { useTranslation } from 'react-i18next';
 
 const AddBloodPressure = (): JSX.Element => {
 	const { t } = useTranslation();
-	const { session } = useSession();
+	const { token, signOut } = useSession();
 	const queryClient = useQueryClient();
 	const modals = useContext(ModalContext);
 
@@ -31,7 +31,7 @@ const AddBloodPressure = (): JSX.Element => {
 
 	// mutations
 	const { mutateAsync: addMutation } = useMutation({
-		mutationFn: async (measurement: IAddBloodPressure) => postBloodPressure(measurement),
+		mutationFn: async (measurement: IAddBloodPressure) => postBloodPressure(measurement, token),
 		onSuccess: (data) => {
 			queryClient.invalidateQueries({ queryKey: ['bloodpressure'] });
 			queryClient.invalidateQueries({ queryKey: ['recentmeasurements'] });
@@ -47,15 +47,17 @@ const AddBloodPressure = (): JSX.Element => {
 			setPulse('');
 			modals.setIsOpen(false);
 		},
+		onError: (error) => {
+			if (error.message === 'Token expired') {
+				signOut();
+			}
+		},
 	});
 
 	const HandleMutation = async (): Promise<void> => {
 		try {
 			await addMutation({
-				patientID: parseInt(
-					getClaimBySubstring(session?.toString() || '', 'sub').toString() || '0',
-					10,
-				),
+				patientID: parseInt(getClaimBySubstring(token, 'sub').toString() || '0', 10),
 				measuredHand: measuredHand === t('modals.bloodPressure.left') ? 0 : 1,
 				bodyPosition: bodyPosition === t('modals.bloodPressure.sitting') ? 0 : 1,
 				systolic: Number(parseFloat(systolic).toFixed(1)),

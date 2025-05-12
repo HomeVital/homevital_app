@@ -45,3 +45,10 @@ export const getClaimBySubstring = (token: string, includes: string): string => 
 
 	return '-1';
 };
+
+export const isExpired = (token: string): boolean => {
+	const payload = jwtDecode<JWTClaims>(token);
+	const exp = payload.exp as number;
+	const now = Math.floor(Date.now() / 1000);
+	return exp < now;
+};

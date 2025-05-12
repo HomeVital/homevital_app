@@ -74,10 +74,6 @@ const HvGraph = <T,>({ data, dataTypes }: Props<T>): JSX.Element => {
  */
 const HvGraphObject = <T,>({ data, dataTypes, setItem }: PropsObject<T>): JSX.Element => {
 	const { t } = useTranslation();
-	// selected data point indexing
-	const filteredData = Object.keys(dataTypes).map((key) =>
-		data?.map((item) => ({ value: Number(item[key as keyof T]) })),
-	);
 
 	const legends = Object.entries(dataTypes).map(
 		([_, value]) => [value.name, value.color] as [string, ColorValue],
@@ -87,18 +83,37 @@ const HvGraphObject = <T,>({ data, dataTypes, setItem }: PropsObject<T>): JSX.El
 	const [moving, setMoving] = useState(false);
 	let INDEX = undefined as number | undefined;
 	// month range
-	const refRanges = { '7': 50, '30': 50 * 0.2333, '90': 50 * 0.0777 };
+	// const refRanges = { '7': 50, '30': 50 * 0.2333, '90': 50 * 0.0777 };
 	const [dateRange, setDateRange] = useState('7');
+
+	// Filter data based on the selected date range
+	const dataToShow = data.slice(
+		data.length - (parseInt(dateRange) > data.length ? data.length : parseInt(dateRange)),
+		data.length,
+	);
+
+	// selected data point indexing
+	const filteredData = Object.keys(dataTypes).map((key) =>
+		dataToShow.map((item) => ({ value: Number(item[key as keyof T]) })),
+	);
 
 	// pointer and item data
 	const handleFocus = (index: number | undefined) => {
-		if (focusIndex === index) {
+		const indexRange = data.length;
+		let filterAdjustedIndex =
+			index !== undefined ? indexRange - Number(dateRange) + index : undefined;
+
+		if (parseInt(dateRange) > data.length) {
+			filterAdjustedIndex = index !== undefined ? index : 0;
+		}
+
+		if (focusIndex === filterAdjustedIndex) {
 			setFocusIndex(undefined);
 			setItem(undefined);
 		} else {
-			setFocusIndex(index);
-			if (index !== undefined) {
-				setItem(data && data[index]);
+			setFocusIndex(filterAdjustedIndex);
+			if (filterAdjustedIndex !== undefined) {
+				setItem(data && data[filterAdjustedIndex]);
 			}
 		}
 	};
@@ -140,6 +155,8 @@ const HvGraphObject = <T,>({ data, dataTypes, setItem }: PropsObject<T>): JSX.El
 					flexDirection: 'row',
 					justifyContent: 'space-evenly',
 					width: '100%',
+					paddingHorizontal: 20,
+					gap: 5,
 				}}
 			>
 				<HvButtonContainer
@@ -150,11 +167,11 @@ const HvGraphObject = <T,>({ data, dataTypes, setItem }: PropsObject<T>): JSX.El
 						marginVertical: 20,
 						paddingVertical: 4,
 						opacity: dateRange === '7' ? 1 : 0.3,
-						width: 90,
+						flex: 1,
 					}}
 				>
-					<HvText weight='bold' size='l' center>
-						7 {t('measurements.page.days')}
+					<HvText weight='bold' size='m' center>
+						{t('measurements.page.days')} 7
 					</HvText>
 				</HvButtonContainer>
 				<HvButtonContainer
@@ -165,11 +182,11 @@ const HvGraphObject = <T,>({ data, dataTypes, setItem }: PropsObject<T>): JSX.El
 						marginVertical: 20,
 						paddingVertical: 4,
 						opacity: dateRange === '30' ? 1 : 0.3,
-						width: 90,
+						flex: 1,
 					}}
 				>
-					<HvText weight='bold' size='l' center>
-						30 {t('measurements.page.days')}
+					<HvText weight='bold' size='m' center>
+						{t('measurements.page.days')} 30
 					</HvText>
 				</HvButtonContainer>
 				<HvButtonContainer
@@ -180,11 +197,12 @@ const HvGraphObject = <T,>({ data, dataTypes, setItem }: PropsObject<T>): JSX.El
 						marginVertical: 20,
 						paddingVertical: 4,
 						opacity: dateRange === '90' ? 1 : 0.3,
-						width: 90,
+						flex: 1,
+						// alignItems: 'flex-end',
 					}}
 				>
-					<HvText weight='bold' size='l' center>
-						90 {t('measurements.page.days')}
+					<HvText weight='bold' size='m' center>
+						{t('measurements.page.days')} 90
 					</HvText>
 				</HvButtonContainer>
 			</View>
@@ -246,12 +264,13 @@ const HvGraphObject = <T,>({ data, dataTypes, setItem }: PropsObject<T>): JSX.El
 				rulesColor={LIGHT_GRAY}
 				xAxisColor={LIGHT_GRAY}
 				initialSpacing={7} // distance from left side of start chart
-				spacing={refRanges[dateRange as keyof typeof refRanges]} // distance between each point
+				// spacing={refRanges[dateRange as keyof typeof refRanges]} // distance between each point
 				disableScroll
 				// y-axis
 				yAxisThickness={0}
 				yAxisTextStyle={{ color: DARK_GREEN, fontSize: 16 }}
 				// horizontalRulesStyle={{ width: 100 }}
+				adjustToWidth={true}
 			/>
 			{HvGraphLegend(legends)}
 		</HvCard>

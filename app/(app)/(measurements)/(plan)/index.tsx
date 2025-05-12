@@ -18,7 +18,7 @@ import { ErrorView, LoadingView } from '@/components/queryStates';
 
 const Plan = (): JSX.Element => {
 	const { i18n } = useTranslation();
-	const { session } = useSession();
+	const { token, signOut } = useSession();
 	const [markedDates, setMarkedDates] = React.useState<{
 		[key: string]: {
 			customStyles: {
@@ -40,9 +40,9 @@ const Plan = (): JSX.Element => {
 	}>({});
 	const [selectedDate, setSelectedDate] = React.useState<DateData | null>(null);
 
-	const { data, isError, isLoading } = useQuery({
+	const { data, isError, error, isLoading } = useQuery({
 		queryKey: ['plan'],
-		queryFn: async () => fetchPlan(getClaimBySubstring(session?.toString() || '', 'sub')),
+		queryFn: async () => fetchPlan(getClaimBySubstring(token, 'sub'), token),
 	});
 
 	useEffect(() => {
@@ -193,7 +193,13 @@ const Plan = (): JSX.Element => {
 
 	LocaleConfig.defaultLocale = i18n.language;
 
-	if (isError) return <ErrorView />;
+	if (isError) {
+		if (error.message === 'Token expired') {
+			signOut();
+			return <></>;
+		}
+		return <ErrorView />;
+	}
 
 	if (isLoading) return <LoadingView />;
 

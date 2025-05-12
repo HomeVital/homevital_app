@@ -29,9 +29,10 @@ import EditBodyWeight from '@/components/modals/EditBodyWeight';
 import EditTemperature from '@/components/modals/EditTemperature';
 import EditBloodSugar from '@/components/modals/EditBloodSugar';
 import ViewNotifications from '@/components/modals/ViewNotifications';
+import { isExpired } from '@/utility/utility';
 
 const AppLayout = (): JSX.Element => {
-	const { session, isLoading, signOut } = useSession();
+	const { session, isLoading, signOut, token } = useSession();
 
 	// validation modal
 	const [validationVisible, setValidationVisible] = useState(false);
@@ -118,6 +119,10 @@ const AppLayout = (): JSX.Element => {
 				//  || nextAppState === 'inactive'
 				// router.replace('/initial-screen');
 				// signOut();
+				if (isExpired(token)) {
+					signOut();
+					return;
+				}
 			}
 		};
 		// Listen for app state change, and deletes after state change to avoid duplicates
@@ -125,7 +130,7 @@ const AppLayout = (): JSX.Element => {
 		return () => {
 			subscription.remove();
 		};
-	}, [signOut]);
+	}, [signOut, token]);
 
 	// animated dark grey overlay
 	const opacity = useSharedValue<number>(0);
@@ -148,6 +153,7 @@ const AppLayout = (): JSX.Element => {
 	}
 
 	if (!session) {
+		// TODO: check if session is expired
 		return <Redirect href='/sign-in' />;
 	}
 

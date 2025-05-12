@@ -19,16 +19,22 @@ import { useTranslation } from 'react-i18next';
 
 const BloodSugar = (): JSX.Element => {
 	const { t } = useTranslation();
-	const { session } = useSession();
+	const { token, signOut } = useSession();
 	const modals = useContext(ModalContext);
 	const { toggled, setToggledTrue, setToggledFalse } = useToggle();
 	// query
-	const { data, isError, isLoading, refetch } = useQuery({
+	const { data, isError, error, isLoading, refetch } = useQuery({
 		queryKey: ['bloodsugar'],
-		queryFn: async () => fetchBloodSugar(getClaimBySubstring(session?.toString() || '', 'sub')),
+		queryFn: async () => fetchBloodSugar(getClaimBySubstring(token, 'sub'), token),
 	});
 
-	if (isError) return <ErrorView />;
+	if (isError) {
+		if (error.message === 'Token expired') {
+			signOut();
+			return <></>;
+		}
+		return <ErrorView />;
+	}
 
 	if (isLoading) return <LoadingView />;
 
@@ -52,12 +58,17 @@ const BloodSugar = (): JSX.Element => {
 					<HvCardMeasurements
 						items={data as IBloodSugar[]}
 						onPress={(itemData: IBloodSugar) => {
-							modals.setIsOpen(true);
-							modals.setIsEditOpen(true);
-							modals.setEditModalData({
-								title: t('measurements.bloodSugar'),
-								item: itemData,
-							});
+							if (
+								new Date().getTime() - new Date(itemData.date).getTime() <
+								24 * 60 * 60 * 1000
+							) {
+								modals.setIsOpen(true);
+								modals.setIsEditOpen(true);
+								modals.setEditModalData({
+									title: t('measurements.bloodSugar'),
+									item: itemData,
+								});
+							}
 						}}
 						editable
 					/>

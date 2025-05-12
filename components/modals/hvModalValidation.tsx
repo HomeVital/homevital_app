@@ -138,7 +138,7 @@ const HvModalValidation = ({ visible, onClose, validationStatus }: Props): JSX.E
 										onPress={onClose}
 										bright
 										seeThrough
-										width={100}
+										width={110}
 										bgColor={TEXT_DEFAULT}
 									/>
 								</View>

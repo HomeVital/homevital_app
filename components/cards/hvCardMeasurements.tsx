@@ -83,11 +83,21 @@ export const HvCardMeasurement = <T,>({ item, editable }: Props<T>): JSX.Element
 			</HvText>
 			{/* <View style={Styles.right}> */}
 			<View>
-				{editable && (
+				{editable &&
+				new Date().getTime() - new Date(item.date).getTime() < 24 * 60 * 60 * 1000 ? (
 					<HvImage
 						source={'Edit'}
 						size={26}
 						style={{ marginLeft: 'auto', marginRight: 10 }}
+					/>
+				) : (
+					<View
+						style={{
+							width: 26,
+							height: 26,
+							marginLeft: 'auto',
+							marginRight: 10,
+						}}
 					/>
 				)}
 			</View>

@@ -19,17 +19,22 @@ import { useTranslation } from 'react-i18next';
 
 const OxygenSaturation = (): JSX.Element => {
 	const { t } = useTranslation();
-	const { session } = useSession();
+	const { token, signOut } = useSession();
 	const modals = useContext(ModalContext);
 	const { toggled, setToggledTrue, setToggledFalse } = useToggle();
 	// query
-	const { data, isError, isLoading, refetch } = useQuery({
+	const { data, isError, error, isLoading, refetch } = useQuery({
 		queryKey: ['oxygensaturation'],
-		queryFn: async () =>
-			fetchOxygenSaturation(getClaimBySubstring(session?.toString() || '', 'sub')),
+		queryFn: async () => fetchOxygenSaturation(getClaimBySubstring(token, 'sub'), token),
 	});
 
-	if (isError) return <ErrorView />;
+	if (isError) {
+		if (error.message === 'Token expired') {
+			signOut();
+			return <></>;
+		}
+		return <ErrorView />;
+	}
 
 	if (isLoading) return <LoadingView />;
 
@@ -53,28 +58,20 @@ const OxygenSaturation = (): JSX.Element => {
 					<HvCardMeasurements
 						items={data as IOxygenSaturation[]}
 						onPress={(itemData: IOxygenSaturation) => {
-							modals.setIsOpen(true);
-							modals.setIsEditOpen(true);
-							modals.setEditModalData({
-								title: t('measurements.oxygenSaturation'),
-								item: itemData,
-							});
+							if (
+								new Date().getTime() - new Date(itemData.date).getTime() <
+								24 * 60 * 60 * 1000
+							) {
+								modals.setIsOpen(true);
+								modals.setIsEditOpen(true);
+								modals.setEditModalData({
+									title: t('measurements.oxygenSaturation'),
+									item: itemData,
+								});
+							}
 						}}
 						editable
 					/>
-					{/* Modal for editing */}
-					{/* {modalData && (
-						<EditBloodOxygen
-							onSubmit={() => {
-								// setEditModalVisible(false);
-								modals.setEditBOVisible(false);
-								setModalVisible(false);
-								setModalData(null);
-							}}
-							itemId={modalData.id.toString()}
-							item={modalData}
-						/>
-					)} */}
 				</HvScrollView>
 			)}
 		</View>
