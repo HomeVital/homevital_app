@@ -154,7 +154,7 @@ const Styles = StyleSheet.create({
 		flex: 1,
 		justifyContent: 'center',
 		alignItems: 'center',
-		padding: 20,
+		padding: 40,
 		backgroundColor: LIGHT_GREEN,
 	},
 	form: {
