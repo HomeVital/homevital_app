@@ -45,6 +45,10 @@ const AddBloodOxygen = (): JSX.Element => {
 		},
 	});
 
+	/**
+	 * Handle mutation
+	 * @returns {Promise<void>}
+	 */
 	const HandleMutation = async (): Promise<void> => {
 		try {
 			await addMutation({
@@ -57,7 +61,10 @@ const AddBloodOxygen = (): JSX.Element => {
 		}
 	};
 
-	// validation
+	/**
+	 * Disable button if input is invalid
+	 * @returns {boolean}
+	 */
 	const DisableButton = (): boolean => {
 		return (
 			bloodOxygen === '' ||

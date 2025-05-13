@@ -4,16 +4,13 @@ import * as SplashScreen from 'expo-splash-screen';
 import { StatusBar } from 'expo-status-bar'; // battery life and such
 import { Redirect, Slot } from 'expo-router';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
-// components
 import { SessionProvider } from '@/hooks/ctx';
-// constants
 import { LIGHT_THEME } from '@/constants/colors';
-// language
-import '@/utility/i18n';
 import NotificationProvider from '@/contexts/notificationContext';
 import { LoadingView } from '@/components/queryStates';
 import Toast from 'react-native-toast-message';
 import { toastConfig } from '@/utility/utility';
+import '@/utility/i18n';
 
 const queryClient = new QueryClient();
 

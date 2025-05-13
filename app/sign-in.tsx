@@ -26,12 +26,13 @@ const SignIn = (): JSX.Element => {
 	const { signIn, session, token } = useSession();
 	const [loading, setLoading] = useState(false);
 	const { setNotificationCount, setNotifications } = useNotification();
+
 	// Navigate to the app screen if there is a session
 	useEffect(() => {
-		// clearing for other potential users
+		// clearing notifications for potential other users
 		setNotificationCount(0);
 		setNotifications([]);
-		// log automatically in
+
 		if (session && !isExpired(token)) {
 			if (router.canDismiss()) {
 				router.dismissAll();
@@ -52,9 +53,12 @@ const SignIn = (): JSX.Element => {
 		mode: 'onBlur',
 	});
 
+	/**
+	 * Function to handle the sign in process
+	 * @param data sign in data
+	 */
 	const onSubmit = async (data: ISignIn) => {
 		try {
-			// set loading spinner
 			setLoading(true);
 			await signIn(data.ssn);
 		} catch (e: unknown) {
@@ -111,9 +115,9 @@ const SignIn = (): JSX.Element => {
 
 const Styles = StyleSheet.create({
 	container: {
-		flex: 1, // take up entire screen
-		justifyContent: 'center', // center vertically
-		alignItems: 'center', // center horizontally
+		flex: 1,
+		justifyContent: 'center',
+		alignItems: 'center',
 		padding: 20,
 		gap: 20,
 		backgroundColor: LIGHT_GREEN,

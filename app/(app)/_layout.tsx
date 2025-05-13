@@ -88,6 +88,7 @@ const AppLayout = (): JSX.Element => {
 	const [editReady, setEditReady] = useState(false);
 	const [editModalVisible, setEditModalVisible] = useState(0);
 
+	// add handler
 	useEffect(() => {
 		if (isAnyInitModalVisible) {
 			setModalVisible(1);
@@ -98,6 +99,7 @@ const AppLayout = (): JSX.Element => {
 		}
 	}, [isAnyInitModalVisible]);
 
+	// edit handler
 	useEffect(() => {
 		if (isAnyEditModalVisible) {
 			setEditModalVisible(1);

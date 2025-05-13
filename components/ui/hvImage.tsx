@@ -42,7 +42,6 @@ const sources = {
 
 	// checkmark icons
 	Cancel: require('@/assets/svgs/cancel.svg'),
-	// Edit: require('@/assets/svgs/edit.svg'),
 	Edit: require('@/assets/images/pencil.png'),
 	View: require('@/assets/svgs/viewArrow.svg'),
 	Instruction: require('@/assets/svgs/instruction.svg'),
@@ -54,6 +53,13 @@ const sources = {
 	Forward: require('@/assets/svgs/defForward.svg'),
 };
 
+/**
+ * Custom image component for displaying images
+ * @param source - image source
+ * @param size - size of the image
+ * @param props - additional props for the image component
+ * @returns image component
+ */
 const HvImage = ({ source, size = 100, ...props }: Props): JSX.Element => {
 	return (
 		<Image

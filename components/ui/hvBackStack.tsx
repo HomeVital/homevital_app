@@ -8,8 +8,11 @@ interface Props {
 	ignoreHeaderRoutes?: string[];
 }
 
+/**
+ * Function to go back to the previous screen
+ * or dismiss the current screen if it can be dismissed
+ */
 const GoBack = () => {
-	// router.back();
 	if (router.canDismiss()) {
 		router.dismiss();
 	} else {

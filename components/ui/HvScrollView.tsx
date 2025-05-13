@@ -1,5 +1,4 @@
 import { ScrollView, ScrollViewProps } from 'react-native';
-// constants
 import { TAB_HEIGHT } from '@/constants/constants';
 import React from 'react';
 import { RefreshControl } from 'react-native';

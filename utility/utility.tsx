@@ -84,6 +84,12 @@ export const isExpired = (token: string): boolean => {
 	return exp < now;
 };
 
+/**
+ * Returns a custom toast config.
+ * @param type - The type of the toast message.
+ * @param header - The header text of the toast message.
+ * @param content - The content of the toast message.
+ */
 export const toastConfig = {
 	customWarning: ({ ...props }: BaseToastProps): JSX.Element => (
 		<View

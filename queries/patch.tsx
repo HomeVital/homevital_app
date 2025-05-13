@@ -20,6 +20,13 @@ import {
 import { isExpired } from '@/utility/utility';
 import axios from 'axios';
 
+/**
+ * Patch oxygen saturation measurements for a patient.
+ * @param itemId - The ID of the item to patch
+ * @param measurement - The measurement data to patch
+ * @param token - The authentication token
+ * @returns The patched oxygen saturation measurement
+ */
 export const patchOxygenSaturation = async (
 	itemId: string,
 	measurement: IPatchOxygenSaturation,
@@ -41,6 +48,13 @@ export const patchOxygenSaturation = async (
 	}
 };
 
+/**
+ * Patch blood sugar measurements for a patient.
+ * @param itemId - The ID of the item to patch
+ * @param measurement - The measurement data to patch
+ * @param token - The authentication token
+ * @returns The patched blood sugar measurement
+ */
 export const patchBloodSugar = async (
 	itemId: string,
 	measurement: IPatchBloodSugar,
@@ -62,6 +76,13 @@ export const patchBloodSugar = async (
 	}
 };
 
+/**
+ * Patch body temperature measurements for a patient.
+ * @param itemId - The ID of the item to patch
+ * @param measurement - The measurement data to patch
+ * @param token - The authentication token
+ * @returns The patched body temperature measurement
+ */
 export const patchTemperature = async (
 	itemId: string,
 	measurement: IPatchBodyTemperature,
@@ -83,6 +104,13 @@ export const patchTemperature = async (
 	}
 };
 
+/**
+ * Patch body weight measurements for a patient.
+ * @param itemId - The ID of the item to patch
+ * @param measurement - The measurement data to patch
+ * @param token - The authentication token
+ * @returns The patched body weight measurement
+ */
 export const patchBloodPressure = async (
 	itemId: string,
 	measurement: IPatchBloodPressure,
@@ -104,6 +132,13 @@ export const patchBloodPressure = async (
 	}
 };
 
+/**
+ * Patch body weight measurements for a patient.
+ * @param itemId - The ID of the item to patch
+ * @param measurement - The measurement data to patch
+ * @param token - The authentication token
+ * @returns The patched body weight measurement
+ */
 export const patchBodyWeight = async (
 	itemId: string,
 	measurement: IPatchBodyWeight,

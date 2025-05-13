@@ -12,12 +12,16 @@ import HvScrollView from '../ui/HvScrollView';
 import HvImage from '../ui/hvImage';
 import { formatDate } from '@/utility/utility';
 import HvButtonContainer from '../ui/hvButtonContainer';
+import HvCardMissing from '../cards/HvCardMissing';
 
 const ViewNotifications = (): JSX.Element => {
 	const { t } = useTranslation();
 	const modals = useContext(ModalContext);
 	const { notifications, setNotifications } = useNotification();
 
+	/**
+	 * Handle close
+	 */
 	const handleClose = (): void => {
 		modals.setViewNotificationsVisible(false);
 		modals.setIsOpen(false);
@@ -101,11 +105,9 @@ const ViewNotifications = (): JSX.Element => {
 												</HvButtonContainer>
 											))
 										) : (
-											<HvCard padding={20}>
-												<HvText center>
-													{t('modals.notifications.noNotifications')}
-												</HvText>
-											</HvCard>
+											<HvCardMissing
+												text={t('modals.notifications.noNotifications')}
+											/>
 										)}
 									</View>
 								</HvScrollView>

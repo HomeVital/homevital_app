@@ -1,6 +1,5 @@
 import { View, StyleSheet } from 'react-native';
 import { Image } from 'expo-image';
-// components
 import HvText from '../ui/hvText';
 import HvBadge from '../ui/hvBadge';
 import { useNotification } from '@/contexts/notificationContext';

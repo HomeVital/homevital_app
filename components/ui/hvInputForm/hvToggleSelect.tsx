@@ -1,6 +1,5 @@
 import { View, StyleSheet, TouchableOpacity } from 'react-native';
 import { Image } from 'expo-image';
-// components
 import HvText from '@/components/ui/hvText';
 
 interface Props {

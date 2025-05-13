@@ -53,7 +53,6 @@ export const HvCardMeasurement = <T,>({ item, editable }: Props<T>): JSX.Element
 			return `${item.weight} Kg`;
 		} else if (isBloodSugar(item)) {
 			return `${item.bloodsugarLevel} mmol/L`;
-			// return `${item.bloodsugarLevel} Mg/DL`;
 		}
 		return '';
 	};
@@ -68,8 +67,6 @@ export const HvCardMeasurement = <T,>({ item, editable }: Props<T>): JSX.Element
 			borderColor={item.status}
 		>
 			<View style={Styles.left}>
-				{/* {MeasurementStatus(item.status)} */}
-				{/* <HvImage source={item.status} size={26} /> */}
 				{isBloodPressure(item) && (
 					<View style={Styles.icons}>
 						<HvImage source={item.bodyPosition} size={34} />
@@ -81,7 +78,6 @@ export const HvCardMeasurement = <T,>({ item, editable }: Props<T>): JSX.Element
 			<HvText size='xxl' weight='semibold'>
 				{renderMeasurementValue()}
 			</HvText>
-			{/* <View style={Styles.right}> */}
 			<View>
 				{editable &&
 				new Date().getTime() - new Date(item.date).getTime() < 24 * 60 * 60 * 1000 ? (
@@ -105,6 +101,12 @@ export const HvCardMeasurement = <T,>({ item, editable }: Props<T>): JSX.Element
 	);
 };
 
+/**
+ * Card component for displaying a list of measurements
+ * @param items - measurements to display
+ * @param onPress - function to call when a measurement is pressed
+ * @returns card component for displaying a list of measurements
+ */
 export const HvCardMeasurements = <T,>({
 	items,
 	onPress,

@@ -1,20 +1,18 @@
 import { View, StyleSheet } from 'react-native';
-// components
 import { STYLES } from '@/constants/styles';
 import { useSession } from '@/hooks/ctx';
 import { useQuery } from '@tanstack/react-query';
 import { useTranslation } from 'react-i18next';
-
 import { Calendar, LocaleConfig, DateData } from 'react-native-calendars';
-
 import HvText from '@/components/ui/hvText';
 import React, { useEffect } from 'react';
 import HvImage from '@/components/ui/hvImage';
-import { DARK_GREEN, GREEN, LIGHT_THEME } from '@/constants/colors';
+import { DARK_GREEN, LIGHT_THEME } from '@/constants/colors';
 import HvCard from '@/components/cards/hvCard';
 import { fetchPlan } from '@/queries/get';
 import { formatDate, getClaimBySubstring } from '@/utility/utility';
 import { ErrorView, LoadingView } from '@/components/queryStates';
+import HvCardMissing from '@/components/cards/HvCardMissing';
 
 const Plan = (): JSX.Element => {
 	const { i18n } = useTranslation();
@@ -216,21 +214,7 @@ const Plan = (): JSX.Element => {
 
 	return (
 		<View style={STYLES.defaultView}>
-			{!data && (
-				<View style={STYLES.defaultNoPadNoMarginView}>
-					<HvCard
-						padding={20}
-						gap={20}
-						row
-						spacing={'center'}
-						hideShadow
-						fullBorder
-						borderColor={GREEN}
-					>
-						<HvText weight='semibold'>{t('home.noInstructions')}</HvText>
-					</HvCard>
-				</View>
-			)}
+			{!data && <HvCardMissing text={t('home.noInstructions')} />}
 			<Calendar
 				theme={{
 					textSectionTitleDisabledColor: '#d9e1e8',

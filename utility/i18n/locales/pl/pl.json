@@ -33,7 +33,7 @@
 	},
 	"measurements": {
 		"bloodPressure": "Ciśnienie krwi",
-		"bloodSugar": "Stężenie cukru we krwi",
+		"bloodSugar": "Stężenie cukru",
 		"bodyWeight": "Waga",
 		"bodyTemperature": "Temperatura",
 		"oxygenSaturation": "Saturacja tlenu",

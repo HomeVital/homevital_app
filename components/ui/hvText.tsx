@@ -10,7 +10,6 @@ interface Props extends TextProps {
 
 /**
  * Custom home vital text component with base default styles
- *
  * @param weight - font weight
  * @param size - font size
  * @param color - font color

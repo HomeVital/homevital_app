@@ -40,7 +40,10 @@ const HvCard = ({
 	hideShadow = false,
 	...props
 }: Props): JSX.Element => {
-	// get color from borderColor status prop
+	/**
+	 * Get color from borderColor status prop
+	 * @returns color based on the border color
+	 */
 	const getColor = () => {
 		switch (borderColor) {
 			case 'Normal':
@@ -52,7 +55,7 @@ const HvCard = ({
 			case 'Critical':
 				return '#FF3333'; // red
 			default:
-				return '#FF3333'; // default color
+				return '#FF3333'; // red
 		}
 	};
 

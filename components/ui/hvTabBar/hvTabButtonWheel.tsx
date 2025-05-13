@@ -1,8 +1,6 @@
 import React from 'react';
 import { View, StyleSheet } from 'react-native';
-// components
 import HvLayeredIcon from '../hvLayeredIcon';
-// constants
 import { TAB_ICON_SIZE } from '@/constants/constants';
 import HvButtonContainer from '../hvButtonContainer';
 

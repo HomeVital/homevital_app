@@ -24,7 +24,11 @@ const ChangeLanguage = ({ onChange }: Props): JSX.Element => {
 	const defaultLangCode = i18n.language;
 	const [langCode, setLangCode] = useState(defaultLangCode);
 
-	// handle change
+	/**
+	 * Handle change language
+	 * @param {string} newLangCode
+	 * @returns {void}
+	 */
 	const handleChange = (newLangCode: string): void => {
 		i18n.changeLanguage(newLangCode);
 		onChange(newLangCode);
@@ -32,15 +36,20 @@ const ChangeLanguage = ({ onChange }: Props): JSX.Element => {
 		modals.setIsOpen(false);
 	};
 
-	// handle close
+	/**
+	 * Handle close
+	 * @returns {void}
+	 */
 	const handleClose = (): void => {
 		modals.setChangeLangVisible(false);
 		modals.setIsOpen(false);
 	};
 
-	// validation
+	/**
+	 * Disable button if input is invalid
+	 * @returns {boolean}
+	 */
 	const DisableButton = (): boolean => {
-		// return bloodOxygen === '' || parseFloat(bloodOxygen) <= 0 || parseFloat(bloodOxygen) > 100;
 		return defaultLangCode === langCode;
 	};
 
@@ -95,8 +104,6 @@ const ChangeLanguage = ({ onChange }: Props): JSX.Element => {
 															size={25}
 															style={{
 																borderRadius: 4,
-																// borderColor: DARK_GREEN,
-																// borderWidth: 1,
 																boxShadow:
 																	'0px 0px 4px rgba(0, 0, 0, 0.5)',
 															}}
@@ -141,9 +148,7 @@ const Styles = StyleSheet.create({
 	},
 	spacer: {
 		borderBottomWidth: 1,
-		// borderTopWidth: 1,
 		borderColor: '#E0E0E0',
-		// width: '95%',
 	},
 	itemsContainer: {
 		padding: 20,

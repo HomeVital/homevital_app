@@ -1,7 +1,5 @@
 import { View, StyleSheet, TextInput } from 'react-native';
-// components
 import HvText from '@/components/ui/hvText';
-// constants
 import { DARK_GREEN, WHITE } from '@/constants/colors';
 import { FieldError } from 'react-hook-form';
 
@@ -51,10 +49,8 @@ const HvInputField = ({
 						value={itemState as string}
 						keyboardType='number-pad'
 						maxLength={keyboardMax}
-						// placeholder='ex. 120'
 						selectTextOnFocus={true}
 						textAlign='right'
-						// enterKeyHint='next'
 						onChangeText={(text) => setItemState(text)}
 						style={Styles.textInput}
 					/>

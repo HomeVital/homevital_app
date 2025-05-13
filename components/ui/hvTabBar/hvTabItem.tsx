@@ -1,9 +1,7 @@
 import React from 'react';
 import { StyleSheet, TouchableOpacityProps, View } from 'react-native';
 import { Image } from 'expo-image';
-// components
 import HvText from '../hvText';
-// constants
 import { FONT_SIZE } from './constants';
 import { TAB_BAR_PADDING, TAB_HEIGHT, TAB_ICON_SIZE, TAB_TEXT_HEIGHT } from '@/constants/constants';
 import HvButtonContainer from '../hvButtonContainer';
@@ -25,11 +23,7 @@ interface Props extends TouchableOpacityProps {
  */
 const HvTabItem = ({ onPress, source, text, large = false, ...props }: Props): JSX.Element => {
 	return (
-		<HvButtonContainer
-			style={Styles.tabContainer}
-			// activeOpacity={ACTIVE_OPACITY}
-			onPress={onPress}
-		>
+		<HvButtonContainer style={Styles.tabContainer} onPress={onPress}>
 			<Image
 				source={source}
 				contentFit='contain'

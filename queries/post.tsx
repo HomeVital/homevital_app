@@ -16,6 +16,12 @@ import {
 import { isExpired } from '@/utility/utility';
 import axios from 'axios';
 
+/**
+ * Post a new blood sugar measurement.
+ * @param measurement - The measurement data to post
+ * @param token - The authentication token
+ * @returns The posted blood sugar measurement
+ */
 export const postBloodSugar = async (
 	measurement: IAddBloodSugar,
 	token: string,
@@ -40,6 +46,12 @@ export const postBloodSugar = async (
 	}
 };
 
+/**
+ * Post a new oxygen saturation measurement.
+ * @param measurement - The measurement data to post
+ * @param token - The authentication token
+ * @returns The posted oxygen saturation measurement
+ */
 export const postOxygenSaturation = async (
 	measurement: IAddOxygenSaturation,
 	token: string,
@@ -64,6 +76,12 @@ export const postOxygenSaturation = async (
 	}
 };
 
+/**
+ * Post a new blood pressure measurement.
+ * @param measurement - The measurement data to post
+ * @param token - The authentication token
+ * @returns The posted blood pressure measurement
+ */
 export const postBloodPressure = async (
 	measurement: IAddBloodPressure,
 	token: string,
@@ -88,6 +106,12 @@ export const postBloodPressure = async (
 	}
 };
 
+/**
+ * Post a new body temperature measurement.
+ * @param measurement - The measurement data to post
+ * @param token - The authentication token
+ * @returns The posted body temperature measurement
+ */
 export const postBodyTemperature = async (
 	measurement: IAddBodyTemperature,
 	token: string,
@@ -112,6 +136,12 @@ export const postBodyTemperature = async (
 	}
 };
 
+/**
+ * Post a new body weight measurement.
+ * @param measurement - The measurement data to post
+ * @param token - The authentication token
+ * @returns The posted body weight measurement
+ */
 export const postBodyWeight = async (
 	measurement: IAddBodyWeight,
 	token: string,

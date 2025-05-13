@@ -33,7 +33,6 @@ interface NotificationProviderProps {
 }
 
 export const NotificationProvider: React.FC<NotificationProviderProps> = ({ children }) => {
-	// const [notificationsActive, setNotificationsActive] = useState(true);
 	const [[loading, notificationsActive], setNotificationsActive] =
 		useStorageState('notificationsActive');
 	const [[loading2, language], setLanguage] = useStorageState('language');
@@ -50,7 +49,6 @@ export const NotificationProvider: React.FC<NotificationProviderProps> = ({ chil
 				notification.request.content.body ?? '',
 			);
 		});
-
 		// Clean up the listener when component unmounts
 		return () => {
 			NotificationService.removeForegroundNotificationListener();

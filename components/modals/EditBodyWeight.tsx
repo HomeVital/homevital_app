@@ -47,6 +47,10 @@ const EditBodyWeight = (): JSX.Element => {
 		},
 	});
 
+	/**
+	 * Handle mutation
+	 * @returns {Promise<void>}
+	 */
 	const HandleMutation = async (): Promise<void> => {
 		try {
 			await addMutation({
@@ -58,13 +62,20 @@ const EditBodyWeight = (): JSX.Element => {
 		}
 	};
 
+	/**
+	 * Handle close modal
+	 * @returns {void}
+	 */
 	const handleClose = (): void => {
 		modals.setEditBWVisible(false);
 		modals.setIsEditOpen(true);
 		modals.setIsOpen(true);
 	};
 
-	// validation
+	/**
+	 * Disable button if input is invalid
+	 * @returns {boolean}
+	 */
 	const DisableButton = (): boolean => {
 		if (weight === item.weight.toString()) {
 			return true;

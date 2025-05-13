@@ -54,6 +54,10 @@ const AddBloodPressure = (): JSX.Element => {
 		},
 	});
 
+	/**
+	 * Handle mutation
+	 * @returns {Promise<void>}
+	 */
 	const HandleMutation = async (): Promise<void> => {
 		try {
 			await addMutation({
@@ -70,7 +74,10 @@ const AddBloodPressure = (): JSX.Element => {
 		}
 	};
 
-	// validation
+	/**
+	 * Disable button if input is invalid
+	 * @returns {boolean}
+	 */
 	const DisableButton = (): boolean => {
 		if (systolic === '' || diastolic === '' || pulse === '') {
 			return true;

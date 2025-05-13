@@ -2,9 +2,7 @@ import React, { useEffect } from 'react';
 import { StyleSheet, View, TouchableOpacityProps } from 'react-native';
 import { Image } from 'expo-image';
 import Animated, { useAnimatedStyle, useSharedValue, withTiming } from 'react-native-reanimated';
-// components
 import HvText from '../hvText';
-// constants
 import { FONT_SIZE } from './constants';
 import { TAB_BAR_PADDING, TAB_HEIGHT, TAB_ICON_SIZE, TAB_TEXT_HEIGHT } from '@/constants/constants';
 import HvButtonContainer from '../hvButtonContainer';

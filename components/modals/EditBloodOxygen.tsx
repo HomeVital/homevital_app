@@ -45,6 +45,10 @@ const EditBloodOxygen = (): JSX.Element => {
 		},
 	});
 
+	/**
+	 * Handle mutation
+	 * @returns {Promise<void>}
+	 */
 	const HandleMutation = async (): Promise<void> => {
 		try {
 			await addMutation({
@@ -56,12 +60,20 @@ const EditBloodOxygen = (): JSX.Element => {
 		}
 	};
 
+	/**
+	 * Handle close modal
+	 * @returns {void}
+	 */
 	const handleClose = (): void => {
 		modals.setEditBOVisible(false);
 		modals.setIsEditOpen(true);
 		modals.setIsOpen(true);
 	};
 
+	/**
+	 * Disable button if input is invalid
+	 * @returns {boolean}
+	 */
 	const DisableButton = (): boolean => {
 		if (bloodOxygen === item.oxygenSaturationValue.toString()) {
 			return true;

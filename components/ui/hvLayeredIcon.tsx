@@ -11,7 +11,6 @@ interface Props {
 
 /**
  * Custom layered icon component with two images
- *
  * @param size - size of the icon
  * @param outerIcon - outer icon image
  * @param innerIcon - inner icon image

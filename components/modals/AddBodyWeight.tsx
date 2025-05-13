@@ -43,6 +43,10 @@ const AddBodyWeight = (): JSX.Element => {
 		},
 	});
 
+	/**
+	 * Handle mutation
+	 * @returns {Promise<void>}
+	 */
 	const HandleMutation = async (): Promise<void> => {
 		try {
 			await addMutation({
@@ -55,7 +59,10 @@ const AddBodyWeight = (): JSX.Element => {
 		}
 	};
 
-	// validation
+	/**
+	 * Disable button if input is invalid
+	 * @returns {boolean}
+	 */
 	const DisableButton = (): boolean => {
 		return (
 			weight === '' || isNaN(Number(weight)) || Number(weight) <= 0 || Number(weight) > 500

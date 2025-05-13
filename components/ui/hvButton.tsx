@@ -1,7 +1,5 @@
 import { View, StyleSheet, TouchableOpacity, ActivityIndicator } from 'react-native';
-// components
 import HvText from './hvText';
-// constants
 import { DARK_GREEN, WHITE } from '@/constants/colors';
 import { useState, useRef, useEffect } from 'react';
 
@@ -9,15 +7,22 @@ interface Props {
 	text: string;
 	onPress: () => void;
 	width?: number;
-	style?: object; // optional
-	bgColor?: string; // optional
-	loading?: boolean; // optional
-	disabled?: boolean; // optional
-	small?: boolean; // optional
-	bright?: boolean; // optional
-	seeThrough?: boolean; // optional
+	style?: object;
+	bgColor?: string;
+	loading?: boolean;
+	disabled?: boolean;
+	small?: boolean;
+	bright?: boolean;
+	seeThrough?: boolean;
 }
 
+/**
+ * Gets the background color based on the button state
+ * @param bgColor - background color of the button
+ * @param bright - bright button variant
+ * @param seeThrough - see-through button variant
+ * @returns background color of the button
+ */
 const GetBGColor = (bgColor: string, bright: boolean, seeThrough: boolean): string => {
 	if (seeThrough) {
 		return 'rgba(255, 255, 255, 0.5)';
@@ -67,26 +72,27 @@ const HvButton = ({
 		};
 	}, []);
 
+	/**
+	 * Handles the press in animation
+	 */
 	const handlePressIn = () => {
 		setIsPressIn(true);
 		wasPressed.current = true;
 	};
 
+	/**
+	 * Handles the press out animation
+	 */
 	const handlePressOut = () => {
 		setIsPressIn(false);
-
 		// Only trigger the press animation if this was a real press (not a cancel)
 		if (wasPressed.current) {
-			// Mark that we've handled this press
 			wasPressed.current = false;
-			// Clear any existing animation
 			if (animationRef.current !== null) {
 				cancelAnimationFrame(animationRef.current);
 			}
-
-			// Use requestAnimationFrame for smooth animation timing
+			// smooth animation timing
 			animationRef.current = requestAnimationFrame(() => {
-				// Schedule the reset of pressed state in the next frame
 				animationRef.current = requestAnimationFrame(() => {
 					animationRef.current = null;
 				});
@@ -94,18 +100,14 @@ const HvButton = ({
 		}
 	};
 
-	const handlePress = () => {
-		onPress();
-	};
-
 	const disabledBtn = disabled || loading || isPressIn ? true : false;
 
 	return (
 		<TouchableOpacity
-			onPress={handlePress}
+			onPress={onPress}
 			onPressIn={handlePressIn}
 			onPressOut={handlePressOut}
-			activeOpacity={0.5} // Disable default opacity effect
+			activeOpacity={0.5}
 			disabled={disabledBtn}
 			style={[
 				{
@@ -135,7 +137,6 @@ const HvButton = ({
 
 const Styles = StyleSheet.create({
 	button: {
-		// height: 56, // expected 48
 		borderRadius: 10,
 		alignItems: 'center',
 		justifyContent: 'center',

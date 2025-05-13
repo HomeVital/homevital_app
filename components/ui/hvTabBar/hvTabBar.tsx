@@ -1,9 +1,7 @@
 import React, { useContext, useEffect, useState } from 'react';
 import { View, StyleSheet, TouchableWithoutFeedback, Modal } from 'react-native';
 import { RelativePathString, router } from 'expo-router';
-// components
 import HvTabItem from './hvTabItem';
-// constants
 import { LIGHT_GRAY, WHITE } from '@/constants/colors';
 import HvTabItemAnimated from './hvTabItemAnimated';
 import HvTabButtonWheel from './hvTabButtonWheel';
@@ -14,7 +12,6 @@ import { useQuery } from '@tanstack/react-query';
 import { fetchPlan } from '@/queries/get';
 import { getClaimBySubstring } from '@/utility/utility';
 import { ErrorView } from '@/components/queryStates';
-// import HideWithKeyboard from 'react-native-hide-with-keyboard';
 
 /**
  * Custom tab bar component with possible large tab, and a rotating tab for a button wheel
@@ -62,9 +59,9 @@ const HvTabBar = (): JSX.Element => {
 		return route;
 	};
 
+	// Define your buttons with isVisible based on data
 	useEffect(() => {
 		if (data) {
-			// Define your buttons with isVisible based on data
 			const updatedButtons = [
 				{
 					title: 'bodyTemperatureMeasurementDays',
@@ -173,11 +170,6 @@ const HvTabBar = (): JSX.Element => {
 
 	if (isError) return <ErrorView />;
 
-	// console.log(
-	// 	'buttonsToShow',
-	// 	buttonsToShow.some((button) => button.isVisible),
-	// );
-
 	if (isLoading)
 		return (
 			<View style={Styles.container}>
@@ -239,7 +231,6 @@ const HvTabBar = (): JSX.Element => {
 					</TouchableWithoutFeedback>
 				</Modal>
 			</View>
-			{/* <HideWithKeyboard> */}
 			<View style={Styles.container}>
 				<HvTabItem
 					onPress={() => {
@@ -269,7 +260,6 @@ const HvTabBar = (): JSX.Element => {
 					text={t('tabbar.settings')}
 				/>
 			</View>
-			{/* </HideWithKeyboard> */}
 		</>
 	);
 };

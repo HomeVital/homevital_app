@@ -5,7 +5,6 @@ const Layout = (): JSX.Element => {
 	const { t } = useTranslation();
 	return (
 		<HvBackStack
-			// title='Mælingar'
 			title={t('measurements.page.measurements')}
 			ignoreHeaderRoutes={[
 				'(bloodPressure)',

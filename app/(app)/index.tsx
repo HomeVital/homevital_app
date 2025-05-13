@@ -1,7 +1,6 @@
 import { View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { useQueries } from '@tanstack/react-query';
-// components
 import HvHeader from '@/components/homeScreen/hvHeader';
 import HvText from '@/components/ui/hvText';
 import { STYLES } from '@/constants/styles';
@@ -15,13 +14,14 @@ import { useTranslation } from 'react-i18next';
 import { useContext, useEffect } from 'react';
 import { scheduleNotifications } from '@/utility/notificationHelper';
 import HvCard from '@/components/cards/hvCard';
-import HvLayeredIcon from '@/components/ui/hvLayeredIcon';
 import { useNotification } from '@/contexts/notificationContext';
 import { NotificationService } from '@/utility/notificationService';
 import ModalContext from '@/contexts/modalContext';
 import HvImage from '@/components/ui/hvImage';
 import HvButtonContainer from '@/components/ui/hvButtonContainer';
-import { GREEN } from '@/constants/colors';
+import { FlatGrid } from 'react-native-super-grid';
+import HvCardMissing from '@/components/cards/HvCardMissing';
+import HvCardInstructions from '@/components/cards/HvCardinstructions';
 
 const MainScreen = (): JSX.Element => {
 	const { t } = useTranslation();
@@ -91,42 +91,13 @@ const MainScreen = (): JSX.Element => {
 							<LoadingView />
 						) : plan.data && plan.data.instructions ? (
 							<View style={STYLES.defaultViewNoMargin}>
-								<HvCard
-									padding={20}
-									gap={20}
-									row
-									spacing={'flex-start'}
-									hideShadow
-									fullBorder
-									borderColor={GREEN}
-								>
-									<View style={{ justifyContent: 'center' }}>
-										<HvLayeredIcon
-											innerIcon='Instruction'
-											outerIcon={require('@/assets/svgs/circle.svg')}
-											size={34}
-										/>
-									</View>
-									<View style={{ flex: 1, justifyContent: 'center' }}>
-										<HvText weight='semibold'>{plan.data.instructions}</HvText>
-									</View>
-								</HvCard>
+								<HvCardInstructions text={plan.data.instructions} />
 							</View>
 						) : plan.data ? (
 							<></>
 						) : (
 							<View style={STYLES.defaultViewNoMargin}>
-								<HvCard
-									padding={20}
-									gap={20}
-									row
-									spacing={'center'}
-									hideShadow
-									fullBorder
-									borderColor={GREEN}
-								>
-									<HvText weight='semibold'>{t('home.noInstructions')}</HvText>
-								</HvCard>
+								<HvCardMissing text={t('home.noInstructions')} />
 							</View>
 						)}
 						{/* today measurements */}
@@ -135,42 +106,45 @@ const MainScreen = (): JSX.Element => {
 								<HvText weight='semibold' size='l'>
 									{t('home.today')}
 								</HvText>
-								<View
-									style={{
-										justifyContent: 'space-evenly',
-										flexDirection: 'row',
-									}}
-								>
-									{measurementsLeftToday(recentMeasurements.data, plan.data).map(
-										(measurement) => (
-											<HvButtonContainer
-												key={measurement}
-												onPress={() => {
-													modals.setIsOpen(true);
-													if (measurement === 'BodyWeight') {
+								<FlatGrid
+									itemDimension={50}
+									spacing={12}
+									showsVerticalScrollIndicator={false}
+									data={measurementsLeftToday(recentMeasurements.data, plan.data)}
+									renderItem={({ item }) => (
+										<HvButtonContainer
+											key={item}
+											onPress={() => {
+												modals.setIsOpen(true);
+												switch (item) {
+													case 'BodyWeight':
 														modals.setAddBWVisible(true);
-													}
-													if (measurement === 'BloodSugar') {
+														break;
+													case 'BloodSugar':
 														modals.setAddBSVisible(true);
-													}
-													if (measurement === 'BloodPressure') {
+														break;
+													case 'BloodPressure':
 														modals.setAddBPVisible(true);
-													}
-													if (measurement === 'OxygenSaturation') {
+														break;
+													case 'OxygenSaturation':
 														modals.setAddBOVisible(true);
-													}
-													if (measurement === 'BodyTemperature') {
+														break;
+													case 'BodyTemperature':
 														modals.setAddBTVisible(true);
-													}
-												}}
-											>
-												<HvCard key={measurement} padding={10}>
-													<HvImage source={measurement} size={34} />
-												</HvCard>
-											</HvButtonContainer>
-										),
+														break;
+													default:
+														break;
+												}
+											}}
+										>
+											<HvCard key={item} padding={10} spacing='center'>
+												<View style={{ alignItems: 'center' }}>
+													<HvImage source={item} size={40} />
+												</View>
+											</HvCard>
+										</HvButtonContainer>
 									)}
-								</View>
+								/>
 							</View>
 						)}
 
@@ -180,7 +154,9 @@ const MainScreen = (): JSX.Element => {
 								{t('home.recentMeasurements')}
 							</HvText>
 						)}
-						{recentMeasurements && (
+						{recentMeasurements &&
+						recentMeasurements.data &&
+						recentMeasurements.data.length > 0 ? (
 							<HvScrollView onRefresh={() => recentMeasurements.refetch()}>
 								<View style={STYLES.defaultView}>
 									{recentMeasurements.data &&
@@ -189,6 +165,14 @@ const MainScreen = (): JSX.Element => {
 									) : (
 										<HvText>{t('home.noMeasurements')}</HvText>
 									)}
+								</View>
+							</HvScrollView>
+						) : recentMeasurements.isLoading ? (
+							<LoadingView />
+						) : (
+							<HvScrollView onRefresh={() => recentMeasurements.refetch()}>
+								<View style={STYLES.defaultViewNoMargin}>
+									<HvCardMissing text={t('home.noMeasurements')} />
 								</View>
 							</HvScrollView>
 						)}

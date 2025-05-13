@@ -47,6 +47,10 @@ const EditTemperature = (): JSX.Element => {
 		},
 	});
 
+	/**
+	 * Handle mutation
+	 * @returns {Promise<void>}
+	 */
 	const HandleMutation = async (): Promise<void> => {
 		try {
 			await addMutation({
@@ -58,13 +62,20 @@ const EditTemperature = (): JSX.Element => {
 		}
 	};
 
+	/**
+	 * Handle close modal
+	 * @returns {void}
+	 */
 	const handleClose = (): void => {
 		modals.setEditBTVisible(false);
 		modals.setIsEditOpen(true);
 		modals.setIsOpen(true);
 	};
 
-	// validation
+	/**
+	 * Disable button if input is invalid
+	 * @returns {boolean}
+	 */
 	const DisableButton = (): boolean => {
 		if (temperature === item.temperature.toString()) {
 			return true;

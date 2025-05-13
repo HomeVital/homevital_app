@@ -44,6 +44,10 @@ const AddBloodSugar = (): JSX.Element => {
 		},
 	});
 
+	/**
+	 * Handle mutation
+	 * @returns {Promise<void>}
+	 */
 	const HandleMutation = async (): Promise<void> => {
 		try {
 			await addMutation({
@@ -56,7 +60,10 @@ const AddBloodSugar = (): JSX.Element => {
 		}
 	};
 
-	// validation
+	/**
+	 * Disable button if input is invalid
+	 * @returns {boolean}
+	 */
 	const DisableButton = (): boolean => {
 		return (
 			bloodSugar === '' ||
