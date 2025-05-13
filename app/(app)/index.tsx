@@ -168,7 +168,7 @@ const MainScreen = (): JSX.Element => {
 								</View>
 							</HvScrollView>
 						) : recentMeasurements.isLoading ? (
-							<LoadingView />
+							<></>
 						) : (
 							<HvScrollView onRefresh={() => recentMeasurements.refetch()}>
 								<View style={STYLES.defaultViewNoMargin}>

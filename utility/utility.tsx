@@ -122,7 +122,7 @@ export const toastConfig = {
 		return (
 			<View
 				style={{
-					height: 90,
+					height: props.text2 !== '' ? 90 : 70,
 					width: 380,
 					backgroundColor: DARK_RED,
 					borderRadius: 10,
@@ -141,9 +141,11 @@ export const toastConfig = {
 				<HvText color='white' weight='bold' size='m'>
 					{props.text1}
 				</HvText>
-				<HvText color='white' weight='normal' size='s'>
-					{props.text2}
-				</HvText>
+				{props.text2 !== '' && (
+					<HvText color='white' weight='normal' size='s'>
+						{props.text2}
+					</HvText>
+				)}
 			</View>
 		);
 	},
@@ -194,11 +196,11 @@ export const toastConfig = {
  * Displays a custom warning toast message.
  * @returns - A toast message indicating that changes can only be made within 24 hours.
  */
-export const showToastWarning = (header: string, content: string): void => {
+export const showToastWarning = (header: string, content?: string): void => {
 	Toast.show({
 		type: 'useCustomWarning',
 		text1: header,
-		text2: content,
+		text2: content ?? '',
 		avoidKeyboard: true,
 		text1Style: {
 			fontSize: 18,

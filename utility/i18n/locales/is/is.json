@@ -4,7 +4,11 @@
 		"ssn": "Kennitala",
 		"ssnRequired": "Vantar kennitölu",
 		"ssnLength": "Kennitala verður að vera 10 tölustafir",
-		"submit": "Skrá inn"
+		"submit": "Skrá inn",
+		"enterInSSN": "Sláðu inn kennitölu",
+		"pressSubmit": "Smelltu á 'skrá inn'",
+		"skilriki": "Innskráning með rafrænum skilríkjum",
+		"followInstructions": "Fylgdu leiðbeiningunum á skjánum"
 	},
 	"home": {
 		"welcome": "Hæ ",

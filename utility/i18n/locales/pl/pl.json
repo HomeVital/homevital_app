@@ -4,7 +4,11 @@
 		"ssn": "Numer identyfikacji",
 		"ssnRequired": "Brak numeru identyfikacji",
 		"ssnLength": "Numer identyfikacji musi mieć 10 cyfr",
-		"submit": "Zaloguj się"
+		"submit": "Zaloguj się",
+		"enterInSSN": "Wpisz numer identyfikacji",
+		"pressSubmit": "Naciśnij 'Zaloguj się'",
+		"skilriki": "Logowanie z użyciem 'rafræn skilríki'",
+		"followInstructions": "Postępuj zgodnie z instrukcjami na ekranie"
 	},
 	"home": {
 		"welcome": "Witaj ",

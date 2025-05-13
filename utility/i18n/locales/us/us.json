@@ -4,7 +4,11 @@
 		"ssn": "Social Security Number",
 		"ssnRequired": "SSN is missing",
 		"ssnLength": "SSN must be 10 digits",
-		"submit": "Submit"
+		"submit": "Submit",
+		"enterInSSN": "Enter your SSN",
+		"pressSubmit": "Press 'Submit'",
+		"skilriki": "Signing in with electronic ID",
+		"followInstructions": "Follow the instructions on the screen"
 	},
 	"home": {
 		"welcome": "Welcome ",
