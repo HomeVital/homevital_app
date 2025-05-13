@@ -1,5 +1,5 @@
 import { IBloodPressure, IPatchBloodPressure } from '@/interfaces/measurements';
-import { Modal, TouchableWithoutFeedback, View } from 'react-native';
+import { Keyboard, Modal, TouchableWithoutFeedback, View } from 'react-native';
 import HvInputForm from '../ui/hvInputForm/hvInputForm';
 import HvInputFormContainer from '../ui/hvInputForm/hvInputFormContainer';
 import HvInputField from '../ui/hvInputForm/hvInputField';
@@ -59,6 +59,7 @@ const EditBloodPressure = (): JSX.Element => {
 	 */
 	const HandleMutation = async (): Promise<void> => {
 		try {
+			Keyboard.dismiss();
 			await addMutation({
 				measuredHand: hand === t('modals.bloodPressure.left') ? 0 : 1,
 				bodyPosition: position === t('modals.bloodPressure.sitting') ? 0 : 1,

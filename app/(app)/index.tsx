@@ -149,7 +149,7 @@ const MainScreen = (): JSX.Element => {
 						)}
 
 						{/* recent measurements */}
-						{recentMeasurements && (
+						{!recentMeasurements.isLoading && (
 							<HvText weight='semibold' size='l' style={{ paddingInline: 20 }}>
 								{t('home.recentMeasurements')}
 							</HvText>

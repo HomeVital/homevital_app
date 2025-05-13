@@ -1,5 +1,5 @@
 import { IOxygenSaturation, IPatchOxygenSaturation } from '@/interfaces/measurements';
-import { Modal, View, TouchableWithoutFeedback } from 'react-native';
+import { Modal, View, TouchableWithoutFeedback, Keyboard } from 'react-native';
 import HvInputForm from '../ui/hvInputForm/hvInputForm';
 import HvInputFormContainer from '../ui/hvInputForm/hvInputFormContainer';
 import HvInputField from '../ui/hvInputForm/hvInputField';
@@ -51,6 +51,7 @@ const EditBloodOxygen = (): JSX.Element => {
 	 */
 	const HandleMutation = async (): Promise<void> => {
 		try {
+			Keyboard.dismiss();
 			await addMutation({
 				oxygenSaturationValue: parseInt(bloodOxygen, 10),
 				status: item.status,

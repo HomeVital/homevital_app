@@ -1,5 +1,5 @@
 import { IAddBodyTemperature } from '@/interfaces/measurements';
-import { Modal, TouchableWithoutFeedback, View } from 'react-native';
+import { Keyboard, Modal, TouchableWithoutFeedback, View } from 'react-native';
 import HvInputForm from '../ui/hvInputForm/hvInputForm';
 import HvInputFormContainer from '../ui/hvInputForm/hvInputFormContainer';
 import HvInputField from '../ui/hvInputForm/hvInputField';
@@ -51,6 +51,7 @@ const AddBodyTemperature = (): JSX.Element => {
 	 */
 	const HandleMutation = async (): Promise<void> => {
 		try {
+			Keyboard.dismiss();
 			await addMutation({
 				patientID: parseInt(getClaimBySubstring(token, 'sub').toString() || '0', 10),
 				temperature: Number(parseFloat(temperature).toFixed(1)),

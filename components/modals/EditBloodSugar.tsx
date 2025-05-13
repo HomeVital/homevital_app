@@ -1,5 +1,5 @@
 import { IBloodSugar, IPatchBloodSugar } from '@/interfaces/measurements';
-import { Modal, TouchableWithoutFeedback, View } from 'react-native';
+import { Keyboard, Modal, TouchableWithoutFeedback, View } from 'react-native';
 import HvInputForm from '../ui/hvInputForm/hvInputForm';
 import HvInputFormContainer from '../ui/hvInputForm/hvInputFormContainer';
 import HvInputField from '../ui/hvInputForm/hvInputField';
@@ -53,6 +53,7 @@ const EditBloodSugar = (): JSX.Element => {
 	 */
 	const HandleMutation = async (): Promise<void> => {
 		try {
+			Keyboard.dismiss();
 			await addMutation({
 				bloodsugarLevel: parseFloat(bloodSugar),
 				status: item.status,
