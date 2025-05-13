@@ -102,7 +102,7 @@ const SignIn = (): JSX.Element => {
 									</HvText>
 								)}
 								<TextInput
-									style={[Styles.input, errors.ssn && Styles.error]}
+									style={Styles.input}
 									placeholder='0123456789'
 									onBlur={onBlur}
 									onChangeText={onChange}
@@ -172,10 +172,6 @@ const Styles = StyleSheet.create({
 		borderRadius: 10,
 		textAlign: 'center',
 		textAlignVertical: 'center',
-	},
-	error: {
-		borderColor: 'red',
-		borderWidth: 2,
 	},
 });
 

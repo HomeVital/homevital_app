@@ -41,6 +41,7 @@ const ChangeLanguage = ({ onChange }: Props): JSX.Element => {
 	 * @returns {void}
 	 */
 	const handleClose = (): void => {
+		setLangCode(defaultLangCode);
 		modals.setChangeLangVisible(false);
 		modals.setIsOpen(false);
 	};

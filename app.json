@@ -20,10 +20,7 @@
 				"foregroundImage": "./assets/images/adaptive-icon.png",
 				"backgroundColor": "#3A7283"
 			},
-			"package": "com.jakub69420.homevital_app",
-			"notification": {
-				"icon": "./assets/images/notification.png"
-			}
+			"package": "com.jakub69420.homevital_app"
 		},
 		"web": {
 			"bundler": "metro",
