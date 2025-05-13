@@ -3,7 +3,7 @@
 		"title": "Logowanie",
 		"ssn": "Numer identyfikacji",
 		"ssnRequired": "Brak numeru identyfikacji",
-		"ssnLength": "Numer identyfikacji musi mieć 10 cyfr",
+		"ssnLength": "Numer musi mieć 10 cyfr",
 		"submit": "Zaloguj się",
 		"enterInSSN": "Wpisz numer identyfikacji",
 		"pressSubmit": "Naciśnij 'Zaloguj się'",

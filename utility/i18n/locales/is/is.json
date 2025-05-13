@@ -3,7 +3,7 @@
 		"title": "Innskráning",
 		"ssn": "Kennitala",
 		"ssnRequired": "Vantar kennitölu",
-		"ssnLength": "Kennitala verður að vera 10 tölustafir",
+		"ssnLength": "Verða að vera 10 tölustafir",
 		"submit": "Skrá inn",
 		"enterInSSN": "Sláðu inn kennitölu",
 		"pressSubmit": "Smelltu á 'skrá inn'",
