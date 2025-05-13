@@ -69,7 +69,7 @@ export const NotificationProvider: React.FC<NotificationProviderProps> = ({ chil
 					setNotificationsActive(value);
 				},
 				getNotificationState: () => {
-					return notificationsActive ? true : false;
+					return notificationsActive ? false : true;
 				},
 				loading2,
 				language,

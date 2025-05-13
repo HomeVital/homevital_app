@@ -20,6 +20,9 @@ export const STYLES = StyleSheet.create({
 		gap: DEFAULT_GAP,
 		marginBottom: BOTTOM_MARGIN,
 	},
+	defaultNoPadNoMarginView: {
+		gap: DEFAULT_GAP,
+	},
 	defaultModalView: {
 		flex: 1,
 		justifyContent: 'center',

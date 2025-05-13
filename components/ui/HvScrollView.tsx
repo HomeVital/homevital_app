@@ -24,7 +24,7 @@ const HvScrollView = ({
 }: Props): JSX.Element => {
 	return (
 		<ScrollView
-			fadingEdgeLength={!isModal ? TAB_HEIGHT + 42 : 0}
+			fadingEdgeLength={!isModal ? TAB_HEIGHT + 20 : 0}
 			style={[props.style]}
 			refreshControl={
 				onRefresh ? (

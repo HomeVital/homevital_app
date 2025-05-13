@@ -9,7 +9,7 @@
 	"home": {
 		"welcome": "Witaj ",
 		"instructions": "Instrukcje",
-		"recentMeasurements": "Ostatnie 10 pomiarów",
+		"recentMeasurements": "Ostatnie pomiary",
 		"noMeasurements": "Brak zarejestrowanych pomiarów",
 		"today": "Pozostałe pomiary na dziś",
 		"noInstructions": "Brak zarejestrowanego planu"
@@ -110,7 +110,7 @@
 				"text": "Jesteś w normalnych granicach. Miłego dnia."
 			},
 			"raised": {
-				"header": "Dobrze poza granicami!",
+				"header": "Lekko poza granicami!",
 				"text": "To może być normalne, ale pielęgniarka domowa sprawdzi pomiar. Miłego dnia."
 			},
 			"high": {

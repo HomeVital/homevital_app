@@ -84,7 +84,7 @@ const HvGraphObject = <T,>({ data, dataTypes, setItem }: PropsObject<T>): JSX.El
 	let INDEX = undefined as number | undefined;
 	// month range
 	// const refRanges = { '7': 50, '30': 50 * 0.2333, '90': 50 * 0.0777 };
-	const [dateRange, setDateRange] = useState('7');
+	const [dateRange, setDateRange] = useState('10');
 
 	// Filter data based on the selected date range
 	const dataToShow = data.slice(
@@ -161,17 +161,17 @@ const HvGraphObject = <T,>({ data, dataTypes, setItem }: PropsObject<T>): JSX.El
 			>
 				<HvButtonContainer
 					onPress={() => {
-						handleDateRange('7');
+						handleDateRange('10');
 					}}
 					style={{
 						marginVertical: 20,
 						paddingVertical: 4,
-						opacity: dateRange === '7' ? 1 : 0.3,
+						opacity: dateRange === '10' ? 1 : 0.3,
 						flex: 1,
 					}}
 				>
 					<HvText weight='bold' size='m' center>
-						{t('measurements.page.days')} 7
+						{t('measurements.page.days')} 10
 					</HvText>
 				</HvButtonContainer>
 				<HvButtonContainer
@@ -191,18 +191,18 @@ const HvGraphObject = <T,>({ data, dataTypes, setItem }: PropsObject<T>): JSX.El
 				</HvButtonContainer>
 				<HvButtonContainer
 					onPress={() => {
-						handleDateRange('90');
+						handleDateRange('60');
 					}}
 					style={{
 						marginVertical: 20,
 						paddingVertical: 4,
-						opacity: dateRange === '90' ? 1 : 0.3,
+						opacity: dateRange === '60' ? 1 : 0.3,
 						flex: 1,
 						// alignItems: 'flex-end',
 					}}
 				>
 					<HvText weight='bold' size='m' center>
-						{t('measurements.page.days')} 90
+						{t('measurements.page.days')} 60
 					</HvText>
 				</HvButtonContainer>
 			</View>

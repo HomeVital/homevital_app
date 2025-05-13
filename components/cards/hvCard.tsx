@@ -14,8 +14,10 @@ interface Props extends ViewProps {
 	gap?: number | null;
 	padding?: number | null;
 	bgColor?: string;
+	fullBorder?: boolean;
 	border?: boolean;
 	borderColor?: string;
+	hideShadow?: boolean;
 }
 
 /**
@@ -32,8 +34,10 @@ const HvCard = ({
 	gap = null,
 	padding = null,
 	bgColor = WHITE,
+	fullBorder = false,
 	border = false,
 	borderColor = DARK_GREEN,
+	hideShadow = false,
 	...props
 }: Props): JSX.Element => {
 	// get color from borderColor status prop
@@ -52,6 +56,11 @@ const HvCard = ({
 		}
 	};
 
+	let borderColorStyle = borderColor;
+	if (border) {
+		borderColorStyle = getColor();
+	}
+
 	return (
 		<View
 			style={[
@@ -64,10 +73,10 @@ const HvCard = ({
 					gap: gap ? gap : undefined,
 					padding: padding ? padding : undefined,
 					backgroundColor: bgColor,
-					// borderRightWidth: border ? 4 : 0,
-					// borderLeftWidth: border ? 4 : 0,
-					borderBottomWidth: border ? 4 : 0,
-					borderColor: border ? getColor() : undefined,
+					borderBottomWidth: border ? 4 : undefined,
+					borderWidth: fullBorder ? 1 : undefined,
+					borderColor: border || fullBorder ? borderColorStyle : undefined,
+					boxShadow: hideShadow ? undefined : '0px 2px 4px rgba(0, 0, 0, 0.25)',
 				},
 			]}
 		>
@@ -79,7 +88,6 @@ const HvCard = ({
 const Styles = StyleSheet.create({
 	item: {
 		borderRadius: 10,
-		boxShadow: '0px 2px 4px rgba(0, 0, 0, 0.25)',
 	},
 });
 

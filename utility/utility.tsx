@@ -1,6 +1,8 @@
 import HvImage from '@/components/ui/hvImage';
 import HvText from '@/components/ui/hvText';
 import { DARK_GREEN, ORANGE, WHITE } from '@/constants/colors';
+import { IMeasurement } from '@/interfaces/measurements';
+import { IPlan } from '@/interfaces/patient';
 import { jwtDecode } from 'jwt-decode';
 import { View } from 'react-native';
 import Toast, { BaseToastProps } from 'react-native-toast-message';
@@ -183,4 +185,131 @@ export const showToastNotification = (header: string, content: string): void => 
 			Toast.hide();
 		},
 	});
+};
+
+/**
+ * Filters measurements done today from a list of recent measurements.
+ * @param recentMeasurements - The list of recent measurements.
+ * @returns - An array of measurements done today.
+ */
+export const measurementsDoneToday = (
+	recentMeasurements: IMeasurement[] | undefined,
+): IMeasurement[] => {
+	const todayMeasurements = recentMeasurements?.filter((measurement) => {
+		const measurementDate = new Date(measurement.measurementDate);
+		const today = new Date();
+		return (
+			measurementDate.getDate() === today.getDate() &&
+			measurementDate.getMonth() === today.getMonth() &&
+			measurementDate.getFullYear() === today.getFullYear()
+		);
+	});
+	return todayMeasurements ?? [];
+};
+
+/**
+ * Checks which measurements are left to be done today based on the schedule.
+ * @param recentMeasurements - The list of recent measurements.
+ * @param schedule - The schedule containing measurement days.
+ * @returns - An array of measurements left to be done today.
+ */
+export const measurementsLeftToday = (
+	recentMeasurements: IMeasurement[] | undefined,
+	schedule: IPlan | null | undefined,
+): string[] => {
+	const todayMeasurements = measurementsDoneToday(recentMeasurements);
+	const today = new Date();
+	const weekday = today.getDay();
+
+	const todayMeasurementsLeft = [] as string[];
+
+	if (
+		schedule &&
+		schedule.endDate &&
+		today <= new Date(schedule.endDate) &&
+		schedule.startDate &&
+		today >= new Date(schedule.startDate)
+	) {
+		if (schedule.weightMeasurementDays[weekday]) {
+			if (todayMeasurements && todayMeasurements.length > 0) {
+				let found = false;
+				for (let i = 0; i < todayMeasurements.length; i++) {
+					if (todayMeasurements[i].measurementType === 'BodyWeight') {
+						found = true;
+						break;
+					}
+				}
+				if (!found) {
+					todayMeasurementsLeft.push('BodyWeight');
+				}
+			} else {
+				todayMeasurementsLeft.push('BodyWeight');
+			}
+		}
+		if (schedule.bloodSugarMeasurementDays[weekday]) {
+			if (todayMeasurements && todayMeasurements.length > 0) {
+				let found = false;
+				for (let i = 0; i < todayMeasurements.length; i++) {
+					if (todayMeasurements[i].measurementType === 'BloodSugar') {
+						found = true;
+						break;
+					}
+				}
+				if (!found) {
+					todayMeasurementsLeft.push('BloodSugar');
+				}
+			} else {
+				todayMeasurementsLeft.push('BloodSugar');
+			}
+		}
+		if (schedule.bloodPressureMeasurementDays[weekday]) {
+			if (todayMeasurements && todayMeasurements.length > 0) {
+				let found = false;
+				for (let i = 0; i < todayMeasurements.length; i++) {
+					if (todayMeasurements[i].measurementType === 'BloodPressure') {
+						found = true;
+						break;
+					}
+				}
+				if (!found) {
+					todayMeasurementsLeft.push('BloodPressure');
+				}
+			} else {
+				todayMeasurementsLeft.push('BloodPressure');
+			}
+		}
+		if (schedule.oxygenSaturationMeasurementDays[weekday]) {
+			if (todayMeasurements && todayMeasurements.length > 0) {
+				let found = false;
+				for (let i = 0; i < todayMeasurements.length; i++) {
+					if (todayMeasurements[i].measurementType === 'OxygenSaturation') {
+						found = true;
+						break;
+					}
+				}
+				if (!found) {
+					todayMeasurementsLeft.push('OxygenSaturation');
+				}
+			} else {
+				todayMeasurementsLeft.push('OxygenSaturation');
+			}
+		}
+		if (schedule.bodyTemperatureMeasurementDays[weekday]) {
+			if (todayMeasurements && todayMeasurements.length > 0) {
+				let found = false;
+				for (let i = 0; i < todayMeasurements.length; i++) {
+					if (todayMeasurements[i].measurementType === 'BodyTemperature') {
+						found = true;
+						break;
+					}
+				}
+				if (!found) {
+					todayMeasurementsLeft.push('BodyTemperature');
+				}
+			} else {
+				todayMeasurementsLeft.push('BodyTemperature');
+			}
+		}
+	}
+	return todayMeasurementsLeft;
 };

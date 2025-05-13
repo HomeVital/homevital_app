@@ -10,7 +10,7 @@ import { Calendar, LocaleConfig, DateData } from 'react-native-calendars';
 import HvText from '@/components/ui/hvText';
 import React, { useEffect } from 'react';
 import HvImage from '@/components/ui/hvImage';
-import { DARK_GREEN, LIGHT_THEME } from '@/constants/colors';
+import { DARK_GREEN, GREEN, LIGHT_THEME } from '@/constants/colors';
 import HvCard from '@/components/cards/hvCard';
 import { fetchPlan } from '@/queries/get';
 import { formatDate, getClaimBySubstring } from '@/utility/utility';
@@ -18,6 +18,7 @@ import { ErrorView, LoadingView } from '@/components/queryStates';
 
 const Plan = (): JSX.Element => {
 	const { i18n } = useTranslation();
+	const { t } = useTranslation();
 	const { token, signOut } = useSession();
 	const [markedDates, setMarkedDates] = React.useState<{
 		[key: string]: {
@@ -122,9 +123,9 @@ const Plan = (): JSX.Element => {
 
 	const handleArrow = (direction: string) => {
 		if (direction === 'left') {
-			return <HvImage source={'Back'} size={34} />;
+			return <HvImage source={'Back'} size={32} />;
 		} else if (direction === 'right') {
-			return <HvImage source={'Forward'} size={34} />;
+			return <HvImage source={'Forward'} size={32} />;
 		}
 	};
 
@@ -215,6 +216,21 @@ const Plan = (): JSX.Element => {
 
 	return (
 		<View style={STYLES.defaultView}>
+			{!data && (
+				<View style={STYLES.defaultNoPadNoMarginView}>
+					<HvCard
+						padding={20}
+						gap={20}
+						row
+						spacing={'center'}
+						hideShadow
+						fullBorder
+						borderColor={GREEN}
+					>
+						<HvText weight='semibold'>{t('home.noInstructions')}</HvText>
+					</HvCard>
+				</View>
+			)}
 			<Calendar
 				theme={{
 					textSectionTitleDisabledColor: '#d9e1e8',

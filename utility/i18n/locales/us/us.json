@@ -9,7 +9,7 @@
 	"home": {
 		"welcome": "Welcome ",
 		"instructions": "Instructions",
-		"recentMeasurements": "Last 10 measurements",
+		"recentMeasurements": "Recent measurements",
 		"noMeasurements": "No measurements yet",
 		"today": "Measurements left today",
 		"noInstructions": "No schedule assigned"
