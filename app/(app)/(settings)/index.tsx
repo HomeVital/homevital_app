@@ -135,7 +135,7 @@ const MainSettings = (): JSX.Element => {
 							<Switch
 								value={getNotificationState()}
 								onValueChange={() =>
-									setNotificationsOn(getNotificationState() ? null : 'true')
+									setNotificationsOn(getNotificationState() ? 'true' : null)
 								}
 								trackColor={{ false: '#767577', true: GREEN }}
 								thumbColor={getNotificationState() ? DARK_GREEN : '#f4f3f4'}

@@ -155,8 +155,8 @@ const Styles = StyleSheet.create({
 		boxShadow: '0px 2px 4px rgba(0, 0, 0, 0.25)',
 	},
 	itemImage: {
-		width: '60%',
-		minHeight: '70%',
+		width: '66%',
+		height: '66%',
 	},
 });
 

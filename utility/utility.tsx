@@ -1,9 +1,10 @@
 import HvImage from '@/components/ui/hvImage';
 import HvText from '@/components/ui/hvText';
-import { DARK_GREEN, ORANGE, WHITE } from '@/constants/colors';
+import { DARK_GREEN, DARK_RED, WHITE } from '@/constants/colors';
 import { IMeasurement } from '@/interfaces/measurements';
 import { IPlan } from '@/interfaces/patient';
 import { jwtDecode } from 'jwt-decode';
+import { useState } from 'react';
 import { View } from 'react-native';
 import Toast, { BaseToastProps } from 'react-native-toast-message';
 
@@ -84,6 +85,29 @@ export const isExpired = (token: string): boolean => {
 	return exp < now;
 };
 
+let toastTimeoutId: NodeJS.Timeout | null = null;
+
+/**
+ * Hides the toast message after a specified delay.
+ * @param doHide - Boolean indicating whether to hide the toast.
+ * @param delay - Delay in milliseconds before hiding the toast.
+ */
+export const hideToastWithTimeout = (doHide: boolean, delay = 2000): void => {
+	// Clear any existing timeout first
+	if (toastTimeoutId) {
+		clearTimeout(toastTimeoutId);
+		toastTimeoutId = null;
+	}
+
+	// Set a new timeout
+	toastTimeoutId = setTimeout(() => {
+		if (doHide) {
+			Toast.hide();
+		}
+		toastTimeoutId = null;
+	}, delay);
+};
+
 /**
  * Returns a custom toast config.
  * @param type - The type of the toast message.
@@ -91,57 +115,79 @@ export const isExpired = (token: string): boolean => {
  * @param content - The content of the toast message.
  */
 export const toastConfig = {
-	customWarning: ({ ...props }: BaseToastProps): JSX.Element => (
-		<View
-			style={{
-				height: 90,
-				width: 380,
-				backgroundColor: ORANGE,
-				borderRadius: 10,
-				paddingVertical: 20,
-				justifyContent: 'space-between',
-				alignItems: 'center',
-			}}
-			onTouchEnd={props.onPress}
-		>
-			<HvText color='white' weight='bold' size='m'>
-				{props.text1}
-			</HvText>
-			<HvText color='white' weight='normal' size='s'>
-				{props.text2}
-			</HvText>
-		</View>
-	),
+	useCustomWarning: ({ ...props }: BaseToastProps): JSX.Element => {
+		const [doHide, setDoHide] = useState(true);
+		hideToastWithTimeout(doHide);
 
-	customNotification: ({ ...props }: BaseToastProps): JSX.Element => (
-		<View
-			style={{
-				height: 90,
-				width: 380,
-				backgroundColor: WHITE,
-				borderRadius: 10,
-				paddingVertical: 20,
-				paddingHorizontal: 20,
-				flexDirection: 'row',
-				justifyContent: 'flex-start',
-				alignItems: 'center',
-				gap: 20,
-				borderColor: DARK_GREEN,
-				borderWidth: 2,
-			}}
-			onTouchEnd={props.onPress}
-		>
-			<HvImage source='NotificationBell' size={24} />
-			<View style={{ flex: 1, flexDirection: 'column', justifyContent: 'space-between' }}>
-				<HvText weight='bold' size='m'>
+		return (
+			<View
+				style={{
+					height: 90,
+					width: 380,
+					backgroundColor: DARK_RED,
+					borderRadius: 10,
+					paddingVertical: 20,
+					justifyContent: 'space-between',
+					alignItems: 'center',
+				}}
+				onTouchStart={() => {
+					setDoHide(false);
+				}}
+				onTouchEnd={() => {
+					Toast.hide();
+					setTimeout(() => setDoHide(true), 200);
+				}}
+			>
+				<HvText color='white' weight='bold' size='m'>
 					{props.text1}
 				</HvText>
-				<HvText weight='normal' size='s'>
+				<HvText color='white' weight='normal' size='s'>
 					{props.text2}
 				</HvText>
 			</View>
-		</View>
-	),
+		);
+	},
+
+	useCustomNotification: ({ ...props }: BaseToastProps): JSX.Element => {
+		const [doHide, setDoHide] = useState(true);
+		hideToastWithTimeout(doHide, 4000);
+
+		return (
+			<View
+				style={{
+					height: 90,
+					width: 380,
+					backgroundColor: WHITE,
+					borderRadius: 10,
+					paddingVertical: 20,
+					paddingHorizontal: 20,
+					flexDirection: 'row',
+					justifyContent: 'flex-start',
+					alignItems: 'center',
+					gap: 20,
+					borderColor: DARK_GREEN,
+					borderWidth: 2,
+				}}
+				onTouchStart={() => {
+					setDoHide(false);
+				}}
+				onTouchEnd={() => {
+					Toast.hide();
+					setTimeout(() => setDoHide(true), 200);
+				}}
+			>
+				<HvImage source='NotificationBell' size={24} />
+				<View style={{ flex: 1, flexDirection: 'column', justifyContent: 'space-between' }}>
+					<HvText weight='bold' size='m'>
+						{props.text1}
+					</HvText>
+					<HvText weight='normal' size='s'>
+						{props.text2}
+					</HvText>
+				</View>
+			</View>
+		);
+	},
 };
 
 /**
@@ -150,7 +196,7 @@ export const toastConfig = {
  */
 export const showToastWarning = (header: string, content: string): void => {
 	Toast.show({
-		type: 'customWarning',
+		type: 'useCustomWarning',
 		text1: header,
 		text2: content,
 		avoidKeyboard: true,
@@ -162,10 +208,7 @@ export const showToastWarning = (header: string, content: string): void => {
 			fontSize: 14,
 			fontWeight: 'normal',
 		},
-		visibilityTime: 2000,
-		onPress: () => {
-			Toast.hide();
-		},
+		autoHide: false,
 	});
 };
 
@@ -175,7 +218,7 @@ export const showToastWarning = (header: string, content: string): void => {
  */
 export const showToastNotification = (header: string, content: string): void => {
 	Toast.show({
-		type: 'customNotification',
+		type: 'useCustomNotification',
 		text1: header,
 		text2: content,
 		avoidKeyboard: true,
@@ -187,9 +230,7 @@ export const showToastNotification = (header: string, content: string): void => 
 			fontSize: 12,
 			fontWeight: 'normal',
 		},
-		onPress: () => {
-			Toast.hide();
-		},
+		autoHide: false,
 	});
 };
 
