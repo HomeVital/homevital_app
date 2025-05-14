@@ -39,53 +39,36 @@ const HvModalValidation = ({ visible, onClose, validationStatus }: Props): JSX.E
 
 	switch (validationStatus) {
 		case 'Normal':
-			// data.header = 'Vel gert!';
 			data.header = t('modals.validation.normal.header');
-			// data.text = 'Þú ert innan eðlilega marka. Eigðu góðan dag.';
 			data.text = t('modals.validation.normal.text');
 			data.background = '#EEFFEE';
 			data.img = 'Healthy';
 			break;
 		case 'Raised':
-			// data.header = 'Rétt utan marka!';
-			// data.text =
-			// 	'Þetta getur verið eðlilegt en heimahjúkrun fer yfir mælinguna. Eigðu góðan dag.';
 			data.header = t('modals.validation.raised.header');
 			data.text = t('modals.validation.raised.text');
 			data.background = '#FFFFCC';
 			data.img = 'HealthyWarning';
 			break;
 		case 'High':
-			// data.header = 'Utan marka!';
-			// data.text =
-			// 	'Heimahjúkrun mun hafa samband við þig innan stundar og leiðbeina þér með framhaldið.';
 			data.header = t('modals.validation.high.header');
 			data.text = t('modals.validation.high.text');
 			data.background = '#F8E3E3';
 			data.img = 'Unhealthy';
 			break;
 		case 'Critical':
-			// data.header = 'Utan marka!';
-			// data.text =
-			// 	'Heimahjúkrun mun hafa samband við þig innan stundar og leiðbeina þér með framhaldið.';
 			data.header = t('modals.validation.high.header');
 			data.text = t('modals.validation.high.text');
 			data.background = '#F8E3E3';
 			data.img = 'Unhealthy';
 			break;
 		case 'CriticalHigh':
-			// data.header = 'Utan marka!';
-			// data.text =
-			// 	'Heimahjúkrun mun hafa samband við þig innan stundar og leiðbeina þér með framhaldið.';
 			data.header = t('modals.validation.high.header');
 			data.text = t('modals.validation.high.text');
 			data.background = '#F8E3E3';
 			data.img = 'Unhealthy';
 			break;
 		default:
-			// data.header = 'Ógildur?';
-			// data.text =
-			// 	'Eitthvað sem á eftir að laga okkar megin. Hafðu samband við okkur og láttu okkur vita af þessu.';
 			data.header = t('modals.validation.unknown.header');
 			data.text = t('modals.validation.unknown.text');
 			data.background = '#F8E3E3';

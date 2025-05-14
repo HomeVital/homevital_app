@@ -2,7 +2,6 @@ import { StyleSheet, View } from 'react-native';
 import { router } from 'expo-router';
 import { Image } from 'expo-image';
 import { useQueries } from '@tanstack/react-query';
-// components
 import { useSession } from '@/hooks/ctx';
 import {
 	fetchBloodPressure,
@@ -11,22 +10,20 @@ import {
 	fetchBodyWeight,
 	fetchOxygenSaturation,
 } from '@/queries/get';
-// constants
-import { STYLES } from '@/constants/styles';
 import { WHITE } from '@/constants/colors';
 import HvText from '@/components/ui/hvText';
-import { WIN_WIDTH } from '@/constants/window';
 import { PADDING } from '@/constants/constants';
 import { LoadingView } from '@/components/queryStates';
 import { getClaimBySubstring } from '@/utility/utility';
 import { useTranslation } from 'react-i18next';
 import HvButtonContainer from '@/components/ui/hvButtonContainer';
+import { FlatGrid } from 'react-native-super-grid';
 
 const MainMeasurements = (): JSX.Element => {
 	const { t } = useTranslation();
 	const { token, signOut } = useSession();
 
-	const [bloodpressure, bloodsugar, bodytemperature, bodyweight, oxygensaturation] = useQueries({
+	const [BP, BS, BT, BW, OS] = useQueries({
 		queries: [
 			{
 				queryKey: ['bloodpressure'],
@@ -52,134 +49,88 @@ const MainMeasurements = (): JSX.Element => {
 		],
 	});
 
-	if (
-		bloodpressure.isError ||
-		bloodsugar.isError ||
-		bodytemperature.isError ||
-		bodyweight.isError ||
-		oxygensaturation.isError
-	) {
+	// expired, sign out
+	if (BP.isError || BS.isError || BT.isError || BW.isError || OS.isError) {
 		if (
-			bloodpressure.error?.message === 'Token expired' ||
-			bloodsugar.error?.message === 'Token expired' ||
-			bodytemperature.error?.message === 'Token expired' ||
-			bodyweight.error?.message === 'Token expired' ||
-			oxygensaturation.error?.message === 'Token expired'
+			BP.error?.message === 'Token expired' ||
+			BS.error?.message === 'Token expired' ||
+			BT.error?.message === 'Token expired' ||
+			BW.error?.message === 'Token expired' ||
+			OS.error?.message === 'Token expired'
 		) {
 			signOut();
 			return <></>;
 		}
 	}
 
-	if (
-		bloodpressure.isLoading ||
-		bloodsugar.isLoading ||
-		bodytemperature.isLoading ||
-		bodyweight.isLoading ||
-		oxygensaturation.isLoading
-	) {
+	// loading
+	if (BP.isLoading || BS.isLoading || BT.isLoading || BW.isLoading || OS.isLoading) {
 		return <LoadingView />;
 	}
 
+	const mappedData = [
+		{
+			data: BP.data,
+			press: () => router.push('/(app)/(measurements)/(bloodPressure)'),
+			image: require('@/assets/images/heartDark.png'),
+			label: t('measurements.bloodPressure'),
+		},
+		{
+			data: BS.data,
+			press: () => router.push('/(app)/(measurements)/(bloodSugar)'),
+			image: require('@/assets/images/waterDark.png'),
+			label: t('measurements.bloodSugar'),
+		},
+		{
+			data: BW.data,
+			press: () => router.push('/(app)/(measurements)/(weight)'),
+			image: require('@/assets/images/scaleDark.png'),
+			label: t('measurements.bodyWeight'),
+		},
+		{
+			data: BT.data,
+			press: () => router.push('/(app)/(measurements)/(temperature)'),
+			image: require('@/assets/images/warmDark.png'),
+			label: t('measurements.bodyTemperature'),
+		},
+		{
+			data: OS.data,
+			press: () => router.push('/(app)/(measurements)/(oxygenSaturation)'),
+			image: require('@/assets/svgs/lungsDark.svg'),
+			label: t('measurements.oxygenSaturation'),
+		},
+		{
+			data: ['filler'],
+			press: () => router.push('/(app)/(measurements)/(plan)'),
+			image: require('@/assets/svgs/schedule.svg'),
+			label: t('measurements.plan.plan'),
+		},
+	];
+
+	const filteredData = mappedData.filter((item) => item.data && item.data.length > 0);
+
 	return (
-		// <HvScrollView>
-		<View style={STYLES.imageView}>
-			<View style={Styles.container}>
-				{bloodpressure.data && bloodpressure.data.length > 0 && (
+		<FlatGrid
+			itemDimension={130}
+			spacing={20}
+			showsVerticalScrollIndicator={false}
+			data={filteredData}
+			renderItem={({ item }) => {
+				if (item.data && item.data.length === 0) return null;
+				return (
 					<View style={Styles.itemContainer}>
-						<HvButtonContainer
-							style={Styles.item}
-							onPress={() => router.push('/(app)/(measurements)/(bloodPressure)')}
-						>
+						<HvButtonContainer style={Styles.item} onPress={item.press}>
 							<Image
-								source={require('@/assets/images/heartDark.png')}
+								source={item.image}
 								contentFit='contain'
 								style={Styles.itemImage}
 							/>
-							<HvText>{t('measurements.bloodPressure')}</HvText>
+							<HvText>{item.label}</HvText>
 						</HvButtonContainer>
 					</View>
-				)}
-
-				{bloodsugar.data && bloodsugar.data.length > 0 && (
-					<View style={Styles.itemContainer}>
-						<HvButtonContainer
-							style={Styles.item}
-							onPress={() => router.push('/(app)/(measurements)/(bloodSugar)')}
-						>
-							<Image
-								source={require('@/assets/images/waterDark.png')}
-								contentFit='contain'
-								style={Styles.itemImage}
-							/>
-							<HvText>{t('measurements.bloodSugar')}</HvText>
-						</HvButtonContainer>
-					</View>
-				)}
-
-				{bodyweight.data && bodyweight.data.length > 0 && (
-					<View style={Styles.itemContainer}>
-						<HvButtonContainer
-							style={Styles.item}
-							onPress={() => router.push('/(app)/(measurements)/(weight)')}
-						>
-							<Image
-								source={require('@/assets/images/scaleDark.png')}
-								contentFit='contain'
-								style={Styles.itemImage}
-							/>
-							<HvText>{t('measurements.bodyWeight')}</HvText>
-						</HvButtonContainer>
-					</View>
-				)}
-
-				{bodytemperature.data && bodytemperature.data.length > 0 && (
-					<View style={Styles.itemContainer}>
-						<HvButtonContainer
-							style={Styles.item}
-							onPress={() => router.push('/(app)/(measurements)/(temperature)')}
-						>
-							<Image
-								source={require('@/assets/images/warmDark.png')}
-								contentFit='contain'
-								style={Styles.itemImage}
-							/>
-							<HvText>{t('measurements.bodyTemperature')}</HvText>
-						</HvButtonContainer>
-					</View>
-				)}
-
-				{oxygensaturation.data && oxygensaturation.data.length > 0 && (
-					<View style={Styles.itemContainer}>
-						<HvButtonContainer
-							style={Styles.item}
-							onPress={() => router.push('/(app)/(measurements)/(oxygenSaturation)')}
-						>
-							<Image
-								source={require('@/assets/svgs/lungsDark.svg')}
-								contentFit='contain'
-								style={Styles.itemImage}
-							/>
-							<HvText>{t('measurements.oxygenSaturation')}</HvText>
-						</HvButtonContainer>
-					</View>
-				)}
-				<View style={Styles.itemContainer}>
-					<HvButtonContainer
-						style={Styles.item}
-						onPress={() => router.push('/(app)/(measurements)/(plan)')}
-					>
-						<Image
-							source={require('@/assets/svgs/schedule.svg')}
-							contentFit='contain'
-							style={Styles.itemImage}
-						/>
-						<HvText>{t('measurements.plan.plan')}</HvText>
-					</HvButtonContainer>
-				</View>
-			</View>
-		</View>
-		// </HvScrollView>
+				);
+			}}
+		/>
 	);
 };
 
@@ -192,9 +143,7 @@ const Styles = StyleSheet.create({
 		padding: PADDING,
 	},
 	itemContainer: {
-		width: WIN_WIDTH / 2 - PADDING,
-		height: WIN_WIDTH / 2 - PADDING,
-		padding: PADDING,
+		aspectRatio: 1,
 	},
 	item: {
 		justifyContent: 'center',
@@ -206,8 +155,8 @@ const Styles = StyleSheet.create({
 		boxShadow: '0px 2px 4px rgba(0, 0, 0, 0.25)',
 	},
 	itemImage: {
-		width: '70%',
-		minHeight: '70%',
+		width: '66%',
+		height: '66%',
 	},
 });
 

@@ -1,10 +1,7 @@
 import React, { useContext } from 'react';
 import { View, StyleSheet, Switch } from 'react-native';
 import CountryFlag from 'react-native-country-flag';
-// components
-// import HvDivider from '@/components/ui/hvDivider';
 import HvText from '@/components/ui/hvText';
-// constants
 import { DARK_GREEN, DARK_RED, GREEN, LIGHT_THEME } from '@/constants/colors';
 import { STYLES } from '@/constants/styles';
 import { useSession } from '@/hooks/ctx';
@@ -47,22 +44,39 @@ const MainSettings = (): JSX.Element => {
 
 	if (isLoading) return <LoadingView />;
 
-	if (!patient) return <></>;
+	if (!patient)
+		return (
+			<View style={STYLES.defaultView}>
+				<HvCard padding={20} gap={20}>
+					<View style={Styles.partContainer}>
+						<HvText size='xl' weight='semibold' center>
+							{':('}
+						</HvText>
+					</View>
+					<View style={Styles.bottomContainer}>
+						<HvButton
+							text={t('settings.signOut')}
+							onPress={() => signOut()}
+							small
+							bgColor={DARK_RED}
+							bright
+						/>
+					</View>
+				</HvCard>
+			</View>
+		);
 
 	return (
 		<>
 			<View style={STYLES.defaultView}>
-				{/* <HvDivider /> */}
 				<HvCard padding={20} gap={20}>
+					{/* user about */}
 					<View style={Styles.userContainer}>
 						<HvText size='xl' weight='semibold'>
 							{patient.name}
 						</HvText>
 						<View style={Styles.aboutLine}>
-							<HvText style={{ width: '30%' }}>
-								{/* Heimili */}
-								{t('settings.home')}
-							</HvText>
+							<HvText style={{ width: '30%' }}>{t('settings.home')}</HvText>
 							<View>
 								<HvText size='l' weight='semibold'>
 									{patient.address.split(',')[0]}
@@ -73,10 +87,7 @@ const MainSettings = (): JSX.Element => {
 							</View>
 						</View>
 						<View style={Styles.aboutLine}>
-							<HvText style={{ width: '30%' }}>
-								{/* Sími */}
-								{t('settings.phone')}
-							</HvText>
+							<HvText style={{ width: '30%' }}>{t('settings.phone')}</HvText>
 							<HvText size='l' weight='semibold'>
 								{patient.phone.slice(0, 3) + ' ' + patient.phone.slice(3)}
 							</HvText>
@@ -84,7 +95,6 @@ const MainSettings = (): JSX.Element => {
 					</View>
 					<View style={Styles.partContainer}>
 						<HvButton
-							// text='Tengiliðir'
 							text={t('settings.contacts')}
 							onPress={() => {}}
 							small
@@ -92,13 +102,14 @@ const MainSettings = (): JSX.Element => {
 							disabled
 						/>
 						<HvButton
-							// text='Tæki'
 							text={t('settings.devices')}
 							onPress={() => {}}
 							small
 							bright
 							disabled
 						/>
+
+						{/* language */}
 						<HvButtonContainer
 							onPress={() => {
 								modals.setChangeLangVisible(true);
@@ -106,31 +117,25 @@ const MainSettings = (): JSX.Element => {
 							}}
 						>
 							<View style={Styles.leftRightContainer}>
-								<HvText>
-									{/* Tungumál */}
-									{t('settings.language.language')}
-								</HvText>
+								<HvText>{t('settings.language.language')}</HvText>
 								<CountryFlag
 									isoCode={language ? language : i18n.language}
 									size={25}
 									style={{
 										borderRadius: 4,
-										// borderColor: DARK_GREEN,
-										// borderWidth: 1,
 										boxShadow: '0px 0px 4px rgba(0, 0, 0, 0.5)',
 									}}
 								/>
 							</View>
 						</HvButtonContainer>
+
+						{/* notifications */}
 						<View style={Styles.leftRightContainer}>
-							<HvText>
-								{/* Áminningar */}
-								{t('settings.notifications')}
-							</HvText>
+							<HvText>{t('settings.notifications')}</HvText>
 							<Switch
 								value={getNotificationState()}
 								onValueChange={() =>
-									setNotificationsOn(getNotificationState() ? null : 'true')
+									setNotificationsOn(getNotificationState() ? 'true' : null)
 								}
 								trackColor={{ false: '#767577', true: GREEN }}
 								thumbColor={getNotificationState() ? DARK_GREEN : '#f4f3f4'}
@@ -138,9 +143,10 @@ const MainSettings = (): JSX.Element => {
 							/>
 						</View>
 					</View>
+
+					{/* sign out */}
 					<View style={Styles.bottomContainer}>
 						<HvButton
-							// text='Skrá út'
 							text={t('settings.signOut')}
 							onPress={() => signOut()}
 							small

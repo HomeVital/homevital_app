@@ -128,6 +128,11 @@ const HvModalEdit = (): JSX.Element => {
 		},
 	});
 
+	/**
+	 * Handle delete mutation
+	 * @param {IBloodPressure | IOxygenSaturation | IBodyTemperature | IBodyWeight | IBloodSugar} item
+	 * @returns {Promise<void>}
+	 * */
 	const deleteMutation = async (
 		item: IBloodPressure | IOxygenSaturation | IBodyTemperature | IBodyWeight | IBloodSugar,
 	) => {
@@ -146,6 +151,10 @@ const HvModalEdit = (): JSX.Element => {
 		}
 	};
 
+	/**
+	 * Handle mutation
+	 * @returns {Promise<void>}
+	 */
 	const handleMutation = async (
 		item: IBloodPressure | IOxygenSaturation | IBodyTemperature | IBodyWeight | IBloodSugar,
 	): Promise<void> => {
@@ -156,11 +165,19 @@ const HvModalEdit = (): JSX.Element => {
 		}
 	};
 
+	/**
+	 * Handle close modal
+	 * @returns {void}
+	 */
 	const handleOnClose = () => {
 		modals.setIsEditOpen(false);
 		modals.setIsOpen(false);
 	};
 
+	/**
+	 * Handle edit button
+	 * @returns {void}
+	 */
 	const handleOnEdit = () => {
 		modals.setIsEditOpen(false);
 		if (isOxygenSaturation(modals.editModalData.item)) {

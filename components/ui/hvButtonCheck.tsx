@@ -1,20 +1,17 @@
 import { View, StyleSheet, TouchableOpacity } from 'react-native';
 import { useState, useRef, useEffect } from 'react';
-// constants
 import { DARK_GREEN } from '@/constants/colors';
 import HvImage from './hvImage';
 
 interface Props {
-	// text: string;
 	onPress: () => void;
-	// width?: number;
-	style?: object; // optional
-	bgColor?: string; // optional
-	loading?: boolean; // optional
-	disabled?: boolean; // optional
-	small?: boolean; // optional
-	bright?: boolean; // optional
-	cancel?: boolean; // optional
+	style?: object;
+	bgColor?: string;
+	loading?: boolean;
+	disabled?: boolean;
+	small?: boolean;
+	bright?: boolean;
+	cancel?: boolean;
 }
 
 /**
@@ -25,9 +22,7 @@ interface Props {
  * @returns custom button component
  */
 const HvButtonCheck = ({
-	// text,
 	onPress,
-	// width,
 	style = {},
 	bgColor = DARK_GREEN,
 	loading = false,
@@ -49,26 +44,27 @@ const HvButtonCheck = ({
 		};
 	}, []);
 
+	/**
+	 * Handles the press in animation
+	 */
 	const handlePressIn = () => {
 		setIsPressIn(true);
 		wasPressed.current = true;
 	};
 
+	/**
+	 * Handles the press out animation
+	 */
 	const handlePressOut = () => {
 		setIsPressIn(false);
-
 		// Only trigger the press animation if this was a real press (not a cancel)
 		if (wasPressed.current) {
-			// Mark that we've handled this press
 			wasPressed.current = false;
-			// Clear any existing animation
 			if (animationRef.current !== null) {
 				cancelAnimationFrame(animationRef.current);
 			}
-
-			// Use requestAnimationFrame for smooth animation timing
+			// smooth animation timing
 			animationRef.current = requestAnimationFrame(() => {
-				// Schedule the reset of pressed state in the next frame
 				animationRef.current = requestAnimationFrame(() => {
 					animationRef.current = null;
 				});
@@ -76,18 +72,14 @@ const HvButtonCheck = ({
 		}
 	};
 
-	const handlePress = () => {
-		onPress();
-	};
-
 	const disabledBtn = disabled || loading || isPressIn ? true : false;
 
 	return (
 		<TouchableOpacity
-			onPress={handlePress}
+			onPress={onPress}
 			onPressIn={handlePressIn}
 			onPressOut={handlePressOut}
-			activeOpacity={0.3} // Disable default opacity effect
+			activeOpacity={0.3}
 			disabled={disabledBtn}
 			style={[
 				{
@@ -110,7 +102,6 @@ const HvButtonCheck = ({
 
 const Styles = StyleSheet.create({
 	button: {
-		// height: 56, // expected 48
 		borderRadius: 10,
 		alignItems: 'center',
 		justifyContent: 'center',

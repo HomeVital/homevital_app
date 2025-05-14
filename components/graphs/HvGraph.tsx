@@ -82,22 +82,22 @@ const HvGraphObject = <T,>({ data, dataTypes, setItem }: PropsObject<T>): JSX.El
 	const [focusIndex, setFocusIndex] = useState(undefined as number | undefined);
 	const [moving, setMoving] = useState(false);
 	let INDEX = undefined as number | undefined;
-	// month range
-	// const refRanges = { '7': 50, '30': 50 * 0.2333, '90': 50 * 0.0777 };
-	const [dateRange, setDateRange] = useState('7');
+	const [dateRange, setDateRange] = useState('10');
 
 	// Filter data based on the selected date range
 	const dataToShow = data.slice(
 		data.length - (parseInt(dateRange) > data.length ? data.length : parseInt(dateRange)),
 		data.length,
 	);
-
 	// selected data point indexing
 	const filteredData = Object.keys(dataTypes).map((key) =>
 		dataToShow.map((item) => ({ value: Number(item[key as keyof T]) })),
 	);
 
-	// pointer and item data
+	/**
+	 * Handle focus on a data point
+	 * @param index - index of the data point
+	 */
 	const handleFocus = (index: number | undefined) => {
 		const indexRange = data.length;
 		let filterAdjustedIndex =
@@ -130,6 +130,10 @@ const HvGraphObject = <T,>({ data, dataTypes, setItem }: PropsObject<T>): JSX.El
 		setItem(undefined);
 	};
 
+	/**
+	 * Calculate the y-axis bounds based on the data
+	 * @returns y-axis bounds
+	 */
 	const calculateYAxisBounds = () => {
 		const allValues = filteredData
 			.flatMap((dataset) => dataset.map((item) => item.value))
@@ -161,17 +165,17 @@ const HvGraphObject = <T,>({ data, dataTypes, setItem }: PropsObject<T>): JSX.El
 			>
 				<HvButtonContainer
 					onPress={() => {
-						handleDateRange('7');
+						handleDateRange('10');
 					}}
 					style={{
 						marginVertical: 20,
 						paddingVertical: 4,
-						opacity: dateRange === '7' ? 1 : 0.3,
+						opacity: dateRange === '10' ? 1 : 0.3,
 						flex: 1,
 					}}
 				>
 					<HvText weight='bold' size='m' center>
-						{t('measurements.page.days')} 7
+						{t('measurements.page.days')} 10
 					</HvText>
 				</HvButtonContainer>
 				<HvButtonContainer
@@ -191,18 +195,17 @@ const HvGraphObject = <T,>({ data, dataTypes, setItem }: PropsObject<T>): JSX.El
 				</HvButtonContainer>
 				<HvButtonContainer
 					onPress={() => {
-						handleDateRange('90');
+						handleDateRange('60');
 					}}
 					style={{
 						marginVertical: 20,
 						paddingVertical: 4,
-						opacity: dateRange === '90' ? 1 : 0.3,
+						opacity: dateRange === '60' ? 1 : 0.3,
 						flex: 1,
-						// alignItems: 'flex-end',
 					}}
 				>
 					<HvText weight='bold' size='m' center>
-						{t('measurements.page.days')} 90
+						{t('measurements.page.days')} 60
 					</HvText>
 				</HvButtonContainer>
 			</View>
@@ -244,9 +247,7 @@ const HvGraphObject = <T,>({ data, dataTypes, setItem }: PropsObject<T>): JSX.El
 				// data lines
 				curved
 				curveType={CurveType.QUADRATIC}
-				// animateOnDataChange
-				// onDataChangeAnimationDuration={500}
-				animationDuration={2000}
+				animationDuration={500}
 				animationEasing={'ease-in-out'}
 				isAnimated
 				animateTogether
@@ -269,7 +270,6 @@ const HvGraphObject = <T,>({ data, dataTypes, setItem }: PropsObject<T>): JSX.El
 				// y-axis
 				yAxisThickness={0}
 				yAxisTextStyle={{ color: DARK_GREEN, fontSize: 16 }}
-				// horizontalRulesStyle={{ width: 100 }}
 				adjustToWidth={true}
 			/>
 			{HvGraphLegend(legends)}

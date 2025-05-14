@@ -20,54 +20,55 @@ interface Props {
 const HvCardRecentMeasurements = ({ items }: Props): JSX.Element => {
 	const { t } = useTranslation();
 
-	const measurementLink = (item: IMeasurement): RelativePathString => {
-		switch (item.measurementType) {
-			case 'BodyWeight':
-				return '/(app)/(measurements)/(weight)' as RelativePathString;
-			case 'OxygenSaturation':
-				return '/(app)/(measurements)/(oxygenSaturation)' as RelativePathString;
-			case 'BloodSugar':
-				return '/(app)/(measurements)/(bloodSugar)' as RelativePathString;
-			case 'BodyTemperature':
-				return '/(app)/(measurements)/(temperature)' as RelativePathString;
-			case 'BloodPressure':
-				return '/(app)/(measurements)/(bloodPressure)' as RelativePathString;
-			default:
-				return '' as RelativePathString;
-		}
-	};
+	interface IInfo {
+		link: RelativePathString;
+		measurement: string;
+		measurementType: string;
+	}
 
-	const measurementString = (item: IMeasurement): string => {
+	/**
+	 * Parse a measurement item into its information components
+	 * @param item - measurement to parse
+	 * @returns information components of the measurement
+	 */
+	const measurementInfo = (item: IMeasurement): IInfo => {
 		switch (item.measurementType) {
 			case 'BodyWeight':
-				return `${item.measurementValues.weight} Kg`;
+				return {
+					link: '/(app)/(measurements)/(weight)' as RelativePathString,
+					measurement: `${item.measurementValues.weight} Kg`,
+					measurementType: t('measurements.bodyWeight'),
+				};
 			case 'OxygenSaturation':
-				return `${item.measurementValues.oxygenSaturation} %`;
+				return {
+					link: '/(app)/(measurements)/(oxygenSaturation)' as RelativePathString,
+					measurement: `${item.measurementValues.oxygenSaturation} %`,
+					measurementType: t('measurements.oxygenSaturation'),
+				};
 			case 'BloodSugar':
-				return `${item.measurementValues.bloodSugar} mmol/L`;
+				return {
+					link: '/(app)/(measurements)/(bloodSugar)' as RelativePathString,
+					measurement: `${item.measurementValues.bloodSugar} mmol/L`,
+					measurementType: t('measurements.bloodSugar'),
+				};
 			case 'BodyTemperature':
-				return `${item.measurementValues.temperature} °C`;
+				return {
+					link: '/(app)/(measurements)/(temperature)' as RelativePathString,
+					measurement: `${item.measurementValues.temperature} °C`,
+					measurementType: t('measurements.bodyTemperature'),
+				};
 			case 'BloodPressure':
-				return `${item.measurementValues.systolic} / ${item.measurementValues.diastolic}`;
+				return {
+					link: '/(app)/(measurements)/(bloodPressure)' as RelativePathString,
+					measurement: `${item.measurementValues.systolic} / ${item.measurementValues.diastolic}`,
+					measurementType: t('measurements.bloodPressure'),
+				};
 			default:
-				return '';
-		}
-	};
-
-	const measurementTypeString = (item: IMeasurement): string => {
-		switch (item.measurementType) {
-			case 'BodyWeight':
-				return t('measurements.bodyWeight');
-			case 'OxygenSaturation':
-				return t('measurements.oxygenSaturation');
-			case 'BloodSugar':
-				return t('measurements.bloodSugar');
-			case 'BodyTemperature':
-				return t('measurements.bodyTemperature');
-			case 'BloodPressure':
-				return t('measurements.bloodPressure');
-			default:
-				return '';
+				return {
+					link: '' as RelativePathString,
+					measurement: '',
+					measurementType: '',
+				};
 		}
 	};
 
@@ -75,7 +76,7 @@ const HvCardRecentMeasurements = ({ items }: Props): JSX.Element => {
 		<>
 			{items.map((item) => (
 				<HvButtonContainer
-					onPress={() => router.push(measurementLink(item))}
+					onPress={() => router.push(measurementInfo(item).link)}
 					key={item.uid}
 				>
 					<HvCard
@@ -90,11 +91,6 @@ const HvCardRecentMeasurements = ({ items }: Props): JSX.Element => {
 						<View style={Styles.left}>
 							<View style={{ height: 80 }}>
 								<HvImage source={item.measurementType} size={80} />
-								{/* <HvImage
-									source={item.measurementValues.status}
-									size={20}
-									style={{ position: 'absolute', bottom: 0, right: 0 }}
-								/> */}
 							</View>
 							<HvText weight='semibold' size='s'>
 								{formatDate(item.measurementDate)}
@@ -102,7 +98,9 @@ const HvCardRecentMeasurements = ({ items }: Props): JSX.Element => {
 						</View>
 						<View style={Styles.right}>
 							<View style={Styles.text}>
-								<HvText weight='semibold'>{measurementTypeString(item)}</HvText>
+								<HvText weight='semibold'>
+									{measurementInfo(item).measurementType}
+								</HvText>
 								<HvImage
 									source={'View'}
 									size={36}
@@ -112,7 +110,7 @@ const HvCardRecentMeasurements = ({ items }: Props): JSX.Element => {
 							<View style={Styles.measurement}>
 								<View style={Styles.measurementLeft}>
 									<HvText weight='semibold' size='xxl'>
-										{measurementString(item)}
+										{measurementInfo(item).measurement}
 									</HvText>
 									{item.measurementType === 'BloodPressure' && (
 										<HvText weight='semibold' size='l'>

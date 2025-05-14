@@ -1,13 +1,10 @@
 import { View } from 'react-native';
 import { useQuery } from '@tanstack/react-query';
-// components
 import HvToggler from '@/components/ui/hvToggler';
 import { useSession } from '@/hooks/ctx';
 import HvScrollView from '@/components/ui/HvScrollView';
-// constants
 import { STYLES } from '@/constants/styles';
 import { fetchBodyTemperature } from '@/queries/get';
-// hooks
 import { useToggle } from '@/hooks/UseToggle';
 import { HvCardMeasurements } from '@/components/cards/hvCardMeasurements';
 import { DARK_GREEN } from '@/constants/colors';

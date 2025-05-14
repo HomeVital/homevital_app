@@ -1,10 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import { AppState, View, StyleSheet } from 'react-native';
 import { Redirect, Stack } from 'expo-router';
-// components
 import { useSession } from '@/hooks/ctx';
 import HvTabBar from '@/components/ui/hvTabBar/hvTabBar';
-// constants
 import { LIGHT_THEME } from '@/constants/colors';
 import AddBloodSugar from '@/components/modals/AddBloodSugar';
 import HvModalValidation from '@/components/modals/hvModalValidation';
@@ -33,7 +31,6 @@ import { LoadingView } from '@/components/queryStates';
 
 const AppLayout = (): JSX.Element => {
 	const { session, isLoading, signOut, token } = useSession();
-
 	// validation modal
 	const [validationVisible, setValidationVisible] = useState(false);
 	const [validationStatus, setValidationStatus] = useState('');
@@ -88,6 +85,7 @@ const AppLayout = (): JSX.Element => {
 	const [editReady, setEditReady] = useState(false);
 	const [editModalVisible, setEditModalVisible] = useState(0);
 
+	// add handler
 	useEffect(() => {
 		if (isAnyInitModalVisible) {
 			setModalVisible(1);
@@ -98,6 +96,7 @@ const AppLayout = (): JSX.Element => {
 		}
 	}, [isAnyInitModalVisible]);
 
+	// edit handler
 	useEffect(() => {
 		if (isAnyEditModalVisible) {
 			setEditModalVisible(1);
@@ -108,7 +107,6 @@ const AppLayout = (): JSX.Element => {
 		}
 	}, [isAnyEditModalVisible]);
 
-	// temporary sign out on app leave. TODO: CHANGE LATER
 	useEffect(() => {
 		const handleAppStateChange = (nextAppState: string) => {
 			if (nextAppState === 'background') {
@@ -146,7 +144,6 @@ const AppLayout = (): JSX.Element => {
 	}
 
 	if (!session) {
-		// TODO: check if session is expired
 		return <Redirect href='/sign-in' />;
 	}
 
@@ -222,7 +219,6 @@ const AppLayout = (): JSX.Element => {
 				{addBTVisible && <AddBodyTemperature />}
 
 				<HvModalEdit />
-				{/* {isEditOpen && <HvModalEdit />} */}
 
 				{editBOVisible && <EditBloodOxygen />}
 				{editBPVisible && <EditBloodPressure />}
@@ -236,20 +232,12 @@ const AppLayout = (): JSX.Element => {
 					visible={validationVisible}
 					onClose={() => {
 						setValidationVisible(false);
-						// router.dismissAll();
 					}}
 					validationStatus={validationStatus}
 				/>
 			</View>
 			{/* default gray seethrough overlaying background */}
-			<Animated.View
-				style={[
-					styles.defaultSeethrough,
-					animatedStyle, // This already contains the opacity animation
-					// { zIndex: isAnyModalVisible ? 10 : 10 },
-					{ zIndex: 10 },
-				]}
-			/>
+			<Animated.View style={[styles.defaultSeethrough, animatedStyle, { zIndex: 10 }]} />
 			<HvTabBar />
 		</ModalContext.Provider>
 	);

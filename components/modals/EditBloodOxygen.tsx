@@ -1,5 +1,5 @@
 import { IOxygenSaturation, IPatchOxygenSaturation } from '@/interfaces/measurements';
-import { Modal, View, TouchableWithoutFeedback } from 'react-native';
+import { Modal, View, TouchableWithoutFeedback, Keyboard } from 'react-native';
 import HvInputForm from '../ui/hvInputForm/hvInputForm';
 import HvInputFormContainer from '../ui/hvInputForm/hvInputFormContainer';
 import HvInputField from '../ui/hvInputForm/hvInputField';
@@ -45,8 +45,13 @@ const EditBloodOxygen = (): JSX.Element => {
 		},
 	});
 
+	/**
+	 * Handle mutation
+	 * @returns {Promise<void>}
+	 */
 	const HandleMutation = async (): Promise<void> => {
 		try {
+			Keyboard.dismiss();
 			await addMutation({
 				oxygenSaturationValue: parseInt(bloodOxygen, 10),
 				status: item.status,
@@ -56,12 +61,20 @@ const EditBloodOxygen = (): JSX.Element => {
 		}
 	};
 
+	/**
+	 * Handle close modal
+	 * @returns {void}
+	 */
 	const handleClose = (): void => {
 		modals.setEditBOVisible(false);
 		modals.setIsEditOpen(true);
 		modals.setIsOpen(true);
 	};
 
+	/**
+	 * Disable button if input is invalid
+	 * @returns {boolean}
+	 */
 	const DisableButton = (): boolean => {
 		if (bloodOxygen === item.oxygenSaturationValue.toString()) {
 			return true;

@@ -1,5 +1,4 @@
 import { View } from 'react-native';
-// components
 import HvToggler from '@/components/ui/hvToggler';
 import { STYLES } from '@/constants/styles';
 import { useSession } from '@/hooks/ctx';

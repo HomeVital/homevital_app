@@ -1,17 +1,22 @@
 {
 	"signIn": {
-		"title": "Sign in",
+		"title": "Sign in screen",
 		"ssn": "Social Security Number",
 		"ssnRequired": "SSN is missing",
 		"ssnLength": "SSN must be 10 digits",
-		"submit": "Submit"
+		"submit": "Sign in",
+		"enterInSSN": "Enter your SSN",
+		"pressSubmit": "Press 'Sign in'",
+		"skilriki": "Signing in with electronic ID",
+		"followInstructions": "Follow the instructions on the screen"
 	},
 	"home": {
 		"welcome": "Welcome ",
 		"instructions": "Instructions",
-		"recentMeasurements": "Last 10 measurements",
+		"recentMeasurements": "Recent measurements",
 		"noMeasurements": "No measurements yet",
-		"today": "Measurements left today"
+		"today": "Measurements left today",
+		"noInstructions": "No schedule assigned"
 	},
 	"notifications": {
 		"title": "Measurement",

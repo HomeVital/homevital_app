@@ -1,9 +1,7 @@
 import React, { useContext, useEffect, useState } from 'react';
 import { View, StyleSheet, TouchableWithoutFeedback, Modal } from 'react-native';
 import { RelativePathString, router } from 'expo-router';
-// components
 import HvTabItem from './hvTabItem';
-// constants
 import { LIGHT_GRAY, WHITE } from '@/constants/colors';
 import HvTabItemAnimated from './hvTabItemAnimated';
 import HvTabButtonWheel from './hvTabButtonWheel';
@@ -14,7 +12,6 @@ import { useQuery } from '@tanstack/react-query';
 import { fetchPlan } from '@/queries/get';
 import { getClaimBySubstring } from '@/utility/utility';
 import { ErrorView } from '@/components/queryStates';
-// import HideWithKeyboard from 'react-native-hide-with-keyboard';
 
 /**
  * Custom tab bar component with possible large tab, and a rotating tab for a button wheel
@@ -62,9 +59,9 @@ const HvTabBar = (): JSX.Element => {
 		return route;
 	};
 
+	// Define your buttons with isVisible based on data
 	useEffect(() => {
 		if (data) {
-			// Define your buttons with isVisible based on data
 			const updatedButtons = [
 				{
 					title: 'bodyTemperatureMeasurementDays',
@@ -120,6 +117,54 @@ const HvTabBar = (): JSX.Element => {
 			];
 
 			setButtonsToShow(updatedButtons);
+		} else {
+			setButtonsToShow([
+				{
+					title: 'bodyTemperatureMeasurementDays',
+					name: 'BodyTemperatureLight',
+					onPress: () => {
+						modals.setAddBTVisible(true);
+						setWheelOpen(false);
+					},
+					isVisible: false,
+				},
+				{
+					title: 'bloodPressureMeasurementDays',
+					name: 'BloodPressureLight',
+					onPress: () => {
+						modals.setAddBPVisible(true);
+						setWheelOpen(false);
+					},
+					isVisible: false,
+				},
+				{
+					title: 'weightMeasurementDays',
+					name: 'BodyWeightLight',
+					onPress: () => {
+						modals.setAddBWVisible(true);
+						setWheelOpen(false);
+					},
+					isVisible: false,
+				},
+				{
+					title: 'oxygenSaturationMeasurementDays',
+					name: 'OxygenSaturationLight',
+					onPress: () => {
+						modals.setAddBOVisible(true);
+						setWheelOpen(false);
+					},
+					isVisible: false,
+				},
+				{
+					title: 'bloodSugarMeasurementDays',
+					name: 'BloodSugarLight',
+					onPress: () => {
+						modals.setAddBSVisible(true);
+						setWheelOpen(false);
+					},
+					isVisible: false,
+				},
+			]);
 		}
 	}, [data, modals]);
 
@@ -133,25 +178,27 @@ const HvTabBar = (): JSX.Element => {
 						setStackName(handleTabRoute('/(app)/(measurements)', stackName));
 					}}
 					source={require('@/assets/svgs/barChart.svg')}
-					text={'...'}
+					text={t('tabbar.measurements')}
 				/>
-				<HvTabItemAnimated
-					onPress={() => {
-						modals.setIsOpen(!wheelOpen);
-						setWheelOpen(!wheelOpen);
-					}}
-					source={require('@/assets/svgs/add.svg')}
-					source2={require('@/assets/svgs/addRed.svg')}
-					text={'...'}
-					addOpen={wheelOpen}
-					large
-				/>
+				{buttonsToShow.some((button) => button.isVisible) && (
+					<HvTabItemAnimated
+						onPress={() => {
+							modals.setIsOpen(!wheelOpen);
+							setWheelOpen(!wheelOpen);
+						}}
+						source={require('@/assets/svgs/add.svg')}
+						source2={require('@/assets/svgs/addRed.svg')}
+						text={t('tabbar.addMeasurement')}
+						addOpen={wheelOpen}
+						large
+					/>
+				)}
 				<HvTabItem
 					onPress={() => {
 						setStackName(handleTabRoute('/(app)/(settings)', stackName));
 					}}
 					source={require('@/assets/svgs/manUser.svg')}
-					text={'...'}
+					text={t('tabbar.settings')}
 				/>
 			</View>
 		);
@@ -184,7 +231,6 @@ const HvTabBar = (): JSX.Element => {
 					</TouchableWithoutFeedback>
 				</Modal>
 			</View>
-			{/* <HideWithKeyboard> */}
 			<View style={Styles.container}>
 				<HvTabItem
 					onPress={() => {
@@ -193,17 +239,19 @@ const HvTabBar = (): JSX.Element => {
 					source={require('@/assets/svgs/barChart.svg')}
 					text={t('tabbar.measurements')}
 				/>
-				<HvTabItemAnimated
-					onPress={() => {
-						modals.setIsOpen(!wheelOpen);
-						setWheelOpen(!wheelOpen);
-					}}
-					source={require('@/assets/svgs/add.svg')}
-					source2={require('@/assets/svgs/addRed.svg')}
-					text={t('tabbar.addMeasurement')}
-					addOpen={wheelOpen}
-					large
-				/>
+				{buttonsToShow.some((button) => button.isVisible) && (
+					<HvTabItemAnimated
+						onPress={() => {
+							modals.setIsOpen(!wheelOpen);
+							setWheelOpen(!wheelOpen);
+						}}
+						source={require('@/assets/svgs/add.svg')}
+						source2={require('@/assets/svgs/addRed.svg')}
+						text={t('tabbar.addMeasurement')}
+						addOpen={wheelOpen}
+						large
+					/>
+				)}
 				<HvTabItem
 					onPress={() => {
 						setStackName(handleTabRoute('/(app)/(settings)', stackName));
@@ -212,7 +260,6 @@ const HvTabBar = (): JSX.Element => {
 					text={t('tabbar.settings')}
 				/>
 			</View>
-			{/* </HideWithKeyboard> */}
 		</>
 	);
 };

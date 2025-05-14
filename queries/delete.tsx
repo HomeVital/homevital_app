@@ -15,6 +15,12 @@ import {
 } from '@/interfaces/measurements';
 import { isExpired } from '@/utility/utility';
 
+/**
+ * Delete a body weight measurement.
+ * @param itemId - The ID of the item to delete
+ * @param token - The authentication token
+ * @returns The deleted item
+ */
 export const deleteBodyWeight = async (itemId: string, token: string): Promise<IBodyWeight> => {
 	if (isExpired(token)) {
 		return Promise.reject(new Error('Token expired'));
@@ -32,6 +38,12 @@ export const deleteBodyWeight = async (itemId: string, token: string): Promise<I
 	}
 };
 
+/**
+ * Delete a body temperature measurement.
+ * @param itemId - The ID of the item to delete
+ * @param token - The authentication token
+ * @returns The deleted item
+ */
 export const deleteBodyTemperature = async (
 	itemId: string,
 	token: string,
@@ -52,6 +64,12 @@ export const deleteBodyTemperature = async (
 	}
 };
 
+/**
+ * Delete a blood pressure measurement.
+ * @param itemId - The ID of the item to delete
+ * @param token - The authentication token
+ * @returns The deleted item
+ */
 export const deleteBloodPressure = async (
 	itemId: string,
 	token: string,
@@ -72,6 +90,12 @@ export const deleteBloodPressure = async (
 	}
 };
 
+/**
+ * Delete a blood sugar measurement.
+ * @param itemId - The ID of the item to delete
+ * @param token - The authentication token
+ * @returns The deleted item
+ */
 export const deleteBloodSugar = async (itemId: string, token: string): Promise<IBloodSugar> => {
 	if (isExpired(token)) {
 		return Promise.reject(new Error('Token expired'));
@@ -89,6 +113,12 @@ export const deleteBloodSugar = async (itemId: string, token: string): Promise<I
 	}
 };
 
+/**
+ * Delete an oxygen saturation measurement.
+ * @param itemId - The ID of the item to delete
+ * @param token - The authentication token
+ * @returns The deleted item
+ */
 export const deleteOxygenSaturation = async (
 	itemId: string,
 	token: string,

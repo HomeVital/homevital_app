@@ -3,15 +3,20 @@
 		"title": "Innskráning",
 		"ssn": "Kennitala",
 		"ssnRequired": "Vantar kennitölu",
-		"ssnLength": "Kennitala verður að vera 10 tölustafir",
-		"submit": "Skrá inn"
+		"ssnLength": "Verða að vera 10 tölustafir",
+		"submit": "Skrá inn",
+		"enterInSSN": "Sláðu inn kennitölu",
+		"pressSubmit": "Smelltu á 'skrá inn'",
+		"skilriki": "Innskráning með rafrænum skilríkjum",
+		"followInstructions": "Fylgdu leiðbeiningunum á skjánum"
 	},
 	"home": {
 		"welcome": "Hæ ",
 		"instructions": "Leiðbeiningar",
-		"recentMeasurements": "Síðustu 10 mælingar",
+		"recentMeasurements": "Nýjustu mælingar",
 		"noMeasurements": "Engar mælingar skráðar",
-		"today": "Mælingar eftir í dag"
+		"today": "Mælingar eftir í dag",
+		"noInstructions": "Engin áætlun skráð"
 	},
 	"notifications": {
 		"title": "Mæling",

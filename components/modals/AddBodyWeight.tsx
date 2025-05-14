@@ -1,5 +1,5 @@
 import { IAddBodyWeight } from '@/interfaces/measurements';
-import { Modal, TouchableWithoutFeedback, View } from 'react-native';
+import { Modal, TouchableWithoutFeedback, View, Keyboard } from 'react-native';
 import HvInputForm from '../ui/hvInputForm/hvInputForm';
 import HvInputFormContainer from '../ui/hvInputForm/hvInputFormContainer';
 import HvInputField from '../ui/hvInputForm/hvInputField';
@@ -43,8 +43,13 @@ const AddBodyWeight = (): JSX.Element => {
 		},
 	});
 
+	/**
+	 * Handle mutation
+	 * @returns {Promise<void>}
+	 */
 	const HandleMutation = async (): Promise<void> => {
 		try {
+			Keyboard.dismiss();
 			await addMutation({
 				patientID: parseInt(getClaimBySubstring(token, 'sub').toString() || '0', 10),
 				weight: Number(parseFloat(weight).toFixed(1)),
@@ -55,7 +60,10 @@ const AddBodyWeight = (): JSX.Element => {
 		}
 	};
 
-	// validation
+	/**
+	 * Disable button if input is invalid
+	 * @returns {boolean}
+	 */
 	const DisableButton = (): boolean => {
 		return (
 			weight === '' || isNaN(Number(weight)) || Number(weight) <= 0 || Number(weight) > 500

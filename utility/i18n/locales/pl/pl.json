@@ -3,15 +3,20 @@
 		"title": "Logowanie",
 		"ssn": "Numer identyfikacji",
 		"ssnRequired": "Brak numeru identyfikacji",
-		"ssnLength": "Numer identyfikacji musi mieć 10 cyfr",
-		"submit": "Zaloguj się"
+		"ssnLength": "Numer musi mieć 10 cyfr",
+		"submit": "Zaloguj się",
+		"enterInSSN": "Wpisz numer identyfikacji",
+		"pressSubmit": "Naciśnij 'Zaloguj się'",
+		"skilriki": "Logowanie z użyciem 'rafræn skilríki'",
+		"followInstructions": "Postępuj zgodnie z instrukcjami na ekranie"
 	},
 	"home": {
 		"welcome": "Witaj ",
 		"instructions": "Instrukcje",
-		"recentMeasurements": "Ostatnie 10 pomiarów",
+		"recentMeasurements": "Ostatnie pomiary",
 		"noMeasurements": "Brak zarejestrowanych pomiarów",
-		"today": "Pozostałe pomiary na dziś"
+		"today": "Pozostałe pomiary na dziś",
+		"noInstructions": "Brak zarejestrowanego planu"
 	},
 	"notifications": {
 		"title": "Pomiar",
@@ -32,7 +37,7 @@
 	},
 	"measurements": {
 		"bloodPressure": "Ciśnienie krwi",
-		"bloodSugar": "Stężenie cukru we krwi",
+		"bloodSugar": "Stężenie cukru",
 		"bodyWeight": "Waga",
 		"bodyTemperature": "Temperatura",
 		"oxygenSaturation": "Saturacja tlenu",
@@ -109,7 +114,7 @@
 				"text": "Jesteś w normalnych granicach. Miłego dnia."
 			},
 			"raised": {
-				"header": "Dobrze poza granicami!",
+				"header": "Lekko poza granicami!",
 				"text": "To może być normalne, ale pielęgniarka domowa sprawdzi pomiar. Miłego dnia."
 			},
 			"high": {

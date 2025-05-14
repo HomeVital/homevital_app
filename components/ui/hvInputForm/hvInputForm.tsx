@@ -1,5 +1,4 @@
 import { View, StyleSheet, ViewProps } from 'react-native';
-// constants
 import { WHITE } from '@/constants/colors';
 import HvButton from '../hvButton';
 import { useTranslation } from 'react-i18next';
@@ -33,7 +32,6 @@ const HvInputForm = ({
 				onPress={() => {
 					setLoadingState(true);
 					Promise.resolve(onPress()).finally(() => setLoadingState(false));
-					// setLoadingState(false);
 				}}
 				disabled={disabled}
 				loading={loadingState}

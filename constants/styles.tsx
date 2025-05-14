@@ -1,11 +1,13 @@
 import { StyleSheet } from 'react-native';
-// constants
 import { TAB_HEIGHT } from './constants';
 
 const PAD_HORIZONTAL = 20;
 const DEFAULT_GAP = 12;
 const BOTTOM_MARGIN = TAB_HEIGHT - 12;
 
+/**
+ * Default styles for the application
+ */
 export const STYLES = StyleSheet.create({
 	defaultView: {
 		paddingHorizontal: PAD_HORIZONTAL,
@@ -19,6 +21,9 @@ export const STYLES = StyleSheet.create({
 	defaultNoPadView: {
 		gap: DEFAULT_GAP,
 		marginBottom: BOTTOM_MARGIN,
+	},
+	defaultNoPadNoMarginView: {
+		gap: DEFAULT_GAP,
 	},
 	defaultModalView: {
 		flex: 1,

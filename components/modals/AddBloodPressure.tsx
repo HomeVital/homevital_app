@@ -1,5 +1,5 @@
 import { IAddBloodPressure } from '@/interfaces/measurements';
-import { Modal, TouchableWithoutFeedback, View } from 'react-native';
+import { Keyboard, Modal, TouchableWithoutFeedback, View } from 'react-native';
 import HvInputForm from '../ui/hvInputForm/hvInputForm';
 import HvInputFormContainer from '../ui/hvInputForm/hvInputFormContainer';
 import HvInputField from '../ui/hvInputForm/hvInputField';
@@ -54,8 +54,13 @@ const AddBloodPressure = (): JSX.Element => {
 		},
 	});
 
+	/**
+	 * Handle mutation
+	 * @returns {Promise<void>}
+	 */
 	const HandleMutation = async (): Promise<void> => {
 		try {
+			Keyboard.dismiss();
 			await addMutation({
 				patientID: parseInt(getClaimBySubstring(token, 'sub').toString() || '0', 10),
 				measuredHand: measuredHand === t('modals.bloodPressure.left') ? 0 : 1,
@@ -70,7 +75,10 @@ const AddBloodPressure = (): JSX.Element => {
 		}
 	};
 
-	// validation
+	/**
+	 * Disable button if input is invalid
+	 * @returns {boolean}
+	 */
 	const DisableButton = (): boolean => {
 		if (systolic === '' || diastolic === '' || pulse === '') {
 			return true;

@@ -1,7 +1,5 @@
 import { View, StyleSheet, TouchableOpacity } from 'react-native';
-// components
 import HvText from '@/components/ui/hvText';
-// constants
 import { DARK_GREEN, GREEN } from '@/constants/colors';
 
 interface Props {
@@ -15,7 +13,6 @@ interface Props {
 
 /**
  * Toggler component with two sides
- *
  * @param toggler - boolean value to determine which side is toggled
  * @param setToggledTrue - function to set toggler to true
  * @param setToggledFalse - function to set toggler to false

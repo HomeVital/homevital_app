@@ -1,6 +1,8 @@
 import { IPlan, PlanItem } from '@/interfaces/patient';
 import { NotificationService, PlanNotification } from './notificationService';
 import * as Notifications from 'expo-notifications';
+import { measurementsLeftToday } from './utility';
+import { IMeasurement } from '@/interfaces/measurements';
 
 /**
  * Schedules notifications for the given plan.
@@ -10,10 +12,10 @@ import * as Notifications from 'expo-notifications';
 export const scheduleNotifications = async (
 	plan: IPlan,
 	t: (key: string, options?: Record<string, unknown>) => string,
-	todayMeasurements: string[],
+	recentMeasurements: IMeasurement[] | undefined,
 ): Promise<void> => {
 	try {
-		//
+		const todayMeasurements = measurementsLeftToday(recentMeasurements, plan);
 		// Request permissions first
 		const hasPermission = await NotificationService.requestPermissions();
 		if (!hasPermission) {
@@ -81,7 +83,7 @@ export const scheduleNotifications = async (
 							scheduledTime: new Date(planSetDate2).toISOString(),
 							type: 'measurements',
 						});
-					} else if (todayMeasurements.length === 0) {
+					} else {
 						// all missing
 						planItems.push({
 							id: (planItems.length + 1000).toString(),
@@ -168,7 +170,9 @@ export const scheduleNotifications = async (
 				};
 
 				await NotificationService.scheduleNotification(notification);
-				//
+				// console.log(
+				// 	`Scheduled notification for ${item.title}, ${item.description} at ${scheduledDate.toISOString()}`,
+				// );
 			}
 		}
 	} catch (error) {

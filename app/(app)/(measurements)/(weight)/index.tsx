@@ -1,6 +1,5 @@
 import { View } from 'react-native';
 import { useQuery } from '@tanstack/react-query';
-// components
 import HvToggler from '@/components/ui/hvToggler';
 import { useSession } from '@/hooks/ctx';
 import { fetchBodyWeight } from '@/queries/get';

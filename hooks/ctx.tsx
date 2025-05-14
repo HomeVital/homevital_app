@@ -2,8 +2,6 @@ import { useContext, type PropsWithChildren } from 'react';
 import { useStorageState } from './useStorageState';
 import { GetToken } from '@/queries/get';
 import { AuthenticationContext } from '@/contexts/authenticationContext';
-
-// import JWT from 'expo-jwt';
 import { getClaimBySubstring } from '@/utility/utility';
 
 /**
@@ -35,21 +33,20 @@ export const useSession = (): {
 export const SessionProvider = ({ children }: PropsWithChildren): JSX.Element => {
 	const [[isLoading, session], setSession] = useStorageState('session');
 
-	// const queryClient = useQueryClient();
+	/**
+	 * Function to handle sign in process
+	 * @param SSN - social security number
+	 * @returns token
+	 */
 	const HandleSignIn = async (SSN: string): Promise<string> => {
 		const token = await GetToken(SSN);
-
-		// const role = getClaimsBySubstring(token, ['role']);
 		const role = getClaimBySubstring(token, 'role');
 
-		// for (const claim in role) {
-		//
 		if (role === 'Patient') {
 			setSession(token);
 		} else {
 			throw new Error('Wrong social security number');
 		}
-		// }
 		return token;
 	};
 

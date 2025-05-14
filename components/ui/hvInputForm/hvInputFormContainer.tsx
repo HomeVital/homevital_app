@@ -1,5 +1,4 @@
 import { View, StyleSheet, ViewProps } from 'react-native';
-// constants
 import { LIGHT_THEME } from '@/constants/colors';
 
 interface Props extends ViewProps {
@@ -24,7 +23,6 @@ const HvInputFormContainer = ({ textInput = false, ...props }: Props): JSX.Eleme
 
 const Styles = StyleSheet.create({
 	itemsContainer: {
-		// padding: 20,
 		paddingVertical: 15,
 		paddingHorizontal: 20,
 		gap: 20,

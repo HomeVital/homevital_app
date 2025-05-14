@@ -1,5 +1,5 @@
 import { IBloodPressure, IPatchBloodPressure } from '@/interfaces/measurements';
-import { Modal, TouchableWithoutFeedback, View } from 'react-native';
+import { Keyboard, Modal, TouchableWithoutFeedback, View } from 'react-native';
 import HvInputForm from '../ui/hvInputForm/hvInputForm';
 import HvInputFormContainer from '../ui/hvInputForm/hvInputFormContainer';
 import HvInputField from '../ui/hvInputForm/hvInputField';
@@ -53,8 +53,13 @@ const EditBloodPressure = (): JSX.Element => {
 		},
 	});
 
+	/**
+	 * Handle mutation
+	 * @returns {Promise<void>}
+	 */
 	const HandleMutation = async (): Promise<void> => {
 		try {
+			Keyboard.dismiss();
 			await addMutation({
 				measuredHand: hand === t('modals.bloodPressure.left') ? 0 : 1,
 				bodyPosition: position === t('modals.bloodPressure.sitting') ? 0 : 1,
@@ -68,21 +73,21 @@ const EditBloodPressure = (): JSX.Element => {
 		}
 	};
 
+	/**
+	 * Handle close modal
+	 * @returns {void}
+	 */
 	const handleClose = (): void => {
 		modals.setEditBPVisible(false);
 		modals.setIsEditOpen(true);
 		modals.setIsOpen(true);
 	};
 
+	/**
+	 * Disable button if input is invalid
+	 * @returns {boolean}
+	 */
 	const DisableButton = (): boolean => {
-		// return (
-		// 	hand === item.measuredHand &&
-		// 	position === item.bodyPosition &&
-		// 	sys === item.systolic.toString() &&
-		// 	dia === item.diastolic.toString() &&
-		// 	pulse === item.pulse.toString()
-		// );
-
 		if (
 			hand === item.measuredHand.toString() &&
 			position === item.bodyPosition.toString() &&
