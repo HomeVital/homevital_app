@@ -9,24 +9,21 @@ interface Props {
 }
 
 /**
- * Function to go back to the previous screen
- * or dismiss the current screen if it can be dismissed
- */
-const GoBack = () => {
-	if (router.canDismiss()) {
-		router.dismiss();
-	} else {
-		router.back();
-	}
-};
-
-/**
  * Custom back stack component
  * @param title - title of the screen
  * @param ignoreHeaderRoutes - routes for which to ignore the header
  * @returns custom back stack component
  */
 const HvBackStack = ({ title, ignoreHeaderRoutes = [] }: Props): JSX.Element => {
+	/**
+	 * Function to go back to the previous screen if possible
+	 */
+	const GoBack = () => {
+		if (router.canGoBack()) {
+			router.back();
+			return;
+		}
+	};
 	return (
 		<Stack
 			screenOptions={{

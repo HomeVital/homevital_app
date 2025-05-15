@@ -60,12 +60,13 @@ const SignIn = (): JSX.Element => {
 	const onSubmit = async (data: ISignIn) => {
 		try {
 			setLoading(true);
+			await new Promise((resolve) => setTimeout(resolve, 1000));
 			await signIn(data.ssn);
 		} catch (e: unknown) {
 			setError('ssn', { type: 'manual', message: GetErrorMessage(e as AxError, data) });
-			setTimeout(() => {
-				setLoading(false);
-			}, 100);
+			// setTimeout(() => {
+			setLoading(false);
+			// }, 100);
 		}
 	};
 
