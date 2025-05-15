@@ -1,7 +1,8 @@
 import { router, Stack } from 'expo-router';
-import { StyleSheet, TouchableOpacity } from 'react-native';
+import { BackHandler, StyleSheet, TouchableOpacity } from 'react-native';
 import { Image } from 'expo-image';
 import { DARK_GREEN, LIGHT_THEME } from '@/constants/colors';
+import { useEffect } from 'react';
 
 interface Props {
 	title: string;
@@ -18,12 +19,21 @@ const HvBackStack = ({ title, ignoreHeaderRoutes = [] }: Props): JSX.Element => 
 	/**
 	 * Function to go back to the previous screen if possible
 	 */
-	const GoBack = () => {
-		if (router.canGoBack()) {
-			router.back();
-			return;
+	const goBack = (): boolean => {
+		if (router.canDismiss()) {
+			router.dismissAll();
+			return true;
 		}
+		router.back();
+		return true;
 	};
+
+	useEffect(() => {
+		const backHandler = BackHandler.addEventListener('hardwareBackPress', goBack);
+
+		return () => backHandler.remove();
+	}, [goBack]);
+
 	return (
 		<Stack
 			screenOptions={{
@@ -45,7 +55,7 @@ const HvBackStack = ({ title, ignoreHeaderRoutes = [] }: Props): JSX.Element => 
 					headerBlurEffect: 'light',
 					headerShadowVisible: false,
 					headerLeft: () => (
-						<TouchableOpacity style={Styles.headerBack} onPressIn={() => GoBack()}>
+						<TouchableOpacity style={Styles.headerBack} onPressIn={goBack}>
 							<Image
 								source={require('@/assets/svgs/back.svg')}
 								contentFit='contain'
