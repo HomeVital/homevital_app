@@ -64,9 +64,7 @@ const SignIn = (): JSX.Element => {
 			await signIn(data.ssn);
 		} catch (e: unknown) {
 			setError('ssn', { type: 'manual', message: GetErrorMessage(e as AxError, data) });
-			// setTimeout(() => {
 			setLoading(false);
-			// }, 100);
 		}
 	};
 
