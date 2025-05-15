@@ -25,12 +25,12 @@ const InitialScreen = (): JSX.Element => {
 	const { setNotificationCount, setNotifications, language } = useNotification();
 
 	useEffect(() => {
-		// clearing for other potential users
-		setNotificationCount(0);
-		setNotifications([]);
 		i18n.changeLanguage(language || 'is');
 		// log automatically in
 		if (session && !isExpired(token)) {
+			// clearing for other potential users
+			setNotificationCount(0);
+			setNotifications([]);
 			if (router.canDismiss()) {
 				router.dismissAll();
 			}

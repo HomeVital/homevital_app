@@ -112,43 +112,12 @@ export const scheduleNotifications = async (
 			scheduleCounter++;
 		}
 
+		// FOR TESTING PURPOSES. Dont delete this comment!
 		// planItems.push({
 		// 	id: Math.floor(Math.random() * 10000 + 1).toString(),
 		// 	title: t('notifications.titleReminder'),
 		// 	description: t('notifications.messageReminder', { count: 4 }),
 		// 	scheduledTime: new Date(new Date().getTime() + 5000).toISOString(),
-		// 	type: 'test',
-		// });
-
-		// planItems.push({
-		// 	id: Math.floor(Math.random() * 10000 + 1).toString(),
-		// 	title: t('notifications.title'),
-		// 	description: t('notifications.message', { count: 3 }),
-		// 	scheduledTime: new Date(new Date().getTime() + 15000).toISOString(),
-		// 	type: 'test',
-		// });
-
-		// planItems.push({
-		// 	id: Math.floor(Math.random() * 10000 + 1).toString(),
-		// 	title: t('notifications.title'),
-		// 	description: t('notifications.message', { count: 4 }),
-		// 	scheduledTime: new Date(new Date().getTime() + 20000).toISOString(),
-		// 	type: 'test',
-		// });
-
-		// planItems.push({
-		// 	id: Math.floor(Math.random() * 10000 + 1).toString(),
-		// 	title: t('notifications.title'),
-		// 	description: t('notifications.message', { count: 2 }),
-		// 	scheduledTime: new Date(new Date().getTime() + 25000).toISOString(),
-		// 	type: 'test',
-		// });
-
-		// planItems.push({
-		// 	id: Math.floor(Math.random() * 10000 + 1).toString(),
-		// 	title: t('notifications.title'),
-		// 	description: t('notifications.message', { count: 2 }),
-		// 	scheduledTime: new Date(new Date().getTime() + 30000).toISOString(),
 		// 	type: 'test',
 		// });
 
@@ -170,9 +139,6 @@ export const scheduleNotifications = async (
 				};
 
 				await NotificationService.scheduleNotification(notification);
-				// console.log(
-				// 	`Scheduled notification for ${item.title}, ${item.description} at ${scheduledDate.toISOString()}`,
-				// );
 			}
 		}
 	} catch (error) {
