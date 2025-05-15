@@ -12,6 +12,7 @@ import { useQuery } from '@tanstack/react-query';
 import { fetchPlan } from '@/queries/get';
 import { getClaimBySubstring } from '@/utility/utility';
 import { ErrorView } from '@/components/queryStates';
+import { NavigationState, PartialState, useNavigationState } from '@react-navigation/native';
 
 /**
  * Custom tab bar component with possible large tab, and a rotating tab for a button wheel
@@ -21,20 +22,20 @@ const HvTabBar = (): JSX.Element => {
 	const { t } = useTranslation();
 	const { token } = useSession();
 	const modals = useContext(ModalContext);
-	const [stackName, setStackName] = useState('');
 	const [wheelOpen, setWheelOpen] = useState(false);
 	const [buttonsToShow, setButtonsToShow] = useState<
 		{ title: string; name: string; onPress: () => void; isVisible: boolean }[]
 	>([]);
+	// visibility
+	const [contentReady, setContentReady] = useState(false);
+	const [modalVisible, setModalVisible] = useState(0);
+	// state for route getting function
+	const navState = useNavigationState((state) => state);
 
 	const { data, isError, isLoading } = useQuery({
 		queryKey: ['plan'],
 		queryFn: async () => fetchPlan(getClaimBySubstring(token, 'sub'), token),
 	});
-
-	// visibility
-	const [contentReady, setContentReady] = useState(false);
-	const [modalVisible, setModalVisible] = useState(0);
 
 	useEffect(() => {
 		if (wheelOpen) {
@@ -52,11 +53,57 @@ const HvTabBar = (): JSX.Element => {
 	 * @param prev - previous route
 	 * @returns route to navigate to
 	 */
-	const handleTabRoute = (route: string, prev: string): string => {
-		modals.setIsOpen(false);
-		setWheelOpen(false);
-		router.push(route as RelativePathString);
-		return route;
+	const handleTabRoute = (toRoute: string): string => {
+		// not sure if I still need this
+		if (modals.isOpen) {
+			modals.setIsOpen(false);
+		}
+
+		/**
+		 * Function to get the current route name
+		 * @returns current the deepest route name
+		 */
+		const getCurrentRouteName = (): string | undefined => {
+			if (!navState) return undefined;
+
+			let current: NavigationState | PartialState<NavigationState> | undefined = navState;
+
+			while (
+				current &&
+				Array.isArray(current.routes) &&
+				typeof current.index === 'number' &&
+				current.routes[current.index] &&
+				current.routes[current.index].state
+			) {
+				current = current.routes[current.index].state;
+			}
+
+			return Array.isArray(current?.routes) && typeof current?.index === 'number'
+				? current.routes[current.index]?.name
+				: undefined;
+		};
+		// for proper navigation
+		const currentRouteName = getCurrentRouteName();
+		const toGoRouteName = toRoute.replace('/(app)/', '');
+		// if on homescreen
+		if (currentRouteName === 'index' || currentRouteName === '(app)') {
+			router.push(toRoute as RelativePathString);
+		} else {
+			if (toGoRouteName === currentRouteName) {
+				return toRoute;
+			}
+			if (
+				currentRouteName !== 'index' &&
+				currentRouteName !== '(settings)' &&
+				currentRouteName !== '(measurements)' &&
+				toGoRouteName === '(measurements)'
+			) {
+				return toRoute;
+			}
+			router.replace(toRoute as RelativePathString);
+		}
+
+		return toRoute;
 	};
 
 	// Define your buttons with isVisible based on data
@@ -175,7 +222,7 @@ const HvTabBar = (): JSX.Element => {
 			<View style={Styles.container}>
 				<HvTabItem
 					onPress={() => {
-						setStackName(handleTabRoute('/(app)/(measurements)', stackName));
+						handleTabRoute('/(app)/(measurements)');
 					}}
 					source={require('@/assets/svgs/barChart.svg')}
 					text={t('tabbar.measurements')}
@@ -195,7 +242,7 @@ const HvTabBar = (): JSX.Element => {
 				)}
 				<HvTabItem
 					onPress={() => {
-						setStackName(handleTabRoute('/(app)/(settings)', stackName));
+						handleTabRoute('/(app)/(settings)');
 					}}
 					source={require('@/assets/svgs/manUser.svg')}
 					text={t('tabbar.settings')}
@@ -234,7 +281,7 @@ const HvTabBar = (): JSX.Element => {
 			<View style={Styles.container}>
 				<HvTabItem
 					onPress={() => {
-						setStackName(handleTabRoute('/(app)/(measurements)', stackName));
+						handleTabRoute('/(app)/(measurements)');
 					}}
 					source={require('@/assets/svgs/barChart.svg')}
 					text={t('tabbar.measurements')}
@@ -254,7 +301,7 @@ const HvTabBar = (): JSX.Element => {
 				)}
 				<HvTabItem
 					onPress={() => {
-						setStackName(handleTabRoute('/(app)/(settings)', stackName));
+						handleTabRoute('/(app)/(settings)');
 					}}
 					source={require('@/assets/svgs/manUser.svg')}
 					text={t('tabbar.settings')}

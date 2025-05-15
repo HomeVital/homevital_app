@@ -11,6 +11,7 @@ import { useEffect } from 'react';
 import { useNotification } from '@/contexts/notificationContext';
 import { isExpired } from '@/utility/utility';
 import i18n from '@/utility/i18n';
+import { useQueryClient } from '@tanstack/react-query';
 
 /**
  * Initial screen for the app that goes to the sign-in screen
@@ -20,20 +21,22 @@ import i18n from '@/utility/i18n';
 const InitialScreen = (): JSX.Element => {
 	const { t } = useTranslation();
 	const { session, token } = useSession();
+	const queryClient = useQueryClient();
 	const { setNotificationCount, setNotifications, language } = useNotification();
-	// const modals = useContext(ModalContext);
 
 	useEffect(() => {
 		// clearing for other potential users
 		setNotificationCount(0);
 		setNotifications([]);
-		i18n.changeLanguage(language || 'us');
+		i18n.changeLanguage(language || 'is');
 		// log automatically in
 		if (session && !isExpired(token)) {
 			if (router.canDismiss()) {
 				router.dismissAll();
 			}
 			router.replace('/');
+		} else {
+			queryClient.clear();
 		}
 	}, [session, token, setNotificationCount, setNotifications, language]);
 

@@ -144,7 +144,7 @@ const AppLayout = (): JSX.Element => {
 	}
 
 	if (!session) {
-		return <Redirect href='/sign-in' />;
+		return <Redirect href='/initial-screen' />;
 	}
 
 	// This layout can be deferred because it's not the root layout.
