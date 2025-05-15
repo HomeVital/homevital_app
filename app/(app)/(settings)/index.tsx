@@ -94,21 +94,6 @@ const MainSettings = (): JSX.Element => {
 						</View>
 					</View>
 					<View style={Styles.partContainer}>
-						<HvButton
-							text={t('settings.contacts')}
-							onPress={() => {}}
-							small
-							bright
-							disabled
-						/>
-						<HvButton
-							text={t('settings.devices')}
-							onPress={() => {}}
-							small
-							bright
-							disabled
-						/>
-
 						{/* language */}
 						<HvButtonContainer
 							onPress={() => {
