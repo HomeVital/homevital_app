@@ -83,6 +83,7 @@ Here you have two options. You can create a development build which is modifiabl
     ```
 
 4. Scan the generated QR code with your phones camera
+   
    Follow the link and the app will start! Now you can change your code however you want and see all the changes in real time. You need to run *npx expo start* every time you open your project again. 
 
 ### Preview/demo build (option 2)
@@ -93,6 +94,7 @@ Here you have two options. You can create a development build which is modifiabl
     ```
 2. Wait for the build to complete than download it on your phone from the [expo.dev](expo.dev) dashboard
    > In your app project on expo.dev you can press "Install" and scan a qr-code or copy a link from where you can start the download.
+   
    Now you can try out the app like it would be used in once released. 
 
 ***
