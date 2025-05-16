@@ -3,12 +3,18 @@
 # HomeVital Harmony - Mobile application
 
 
+
 This is the mobile app part of a final project in computer science at Reykjavík University, HomeVital Haromny. Patients would use it to manage their individual health measurements.
 Other parts of the project include an API and a web application for the staff of Heimahjúkrun. The entire final project uses all of these in unison to deliver a complete system.
 
 This mobile app part is made with [Expo EAS](https://expo.dev/eas) and [React-native](https://reactnative.dev/), written in [typescript](https://www.typescriptlang.org/). It uses [JWT Bearer](https://jwt.io/) to authenticate queries with [Tanstack react-query](https://tanstack.com/query/latest).
 The tech stack was chosen due to our members familiary with it. 
 
+<br/>
+
+<p align="center">
+  <img src="https://github.com/user-attachments/assets/9412aaa4-9ed7-4b07-925b-4a7254185ad0" width="50%" />
+</p>
 
 #### Group Members
 
