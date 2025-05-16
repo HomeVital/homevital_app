@@ -99,7 +99,7 @@ Here you have two options. You can create a development build which is modifiabl
 
 ## Demo Application Avaliable :iphone:
 
-We have an [APK Demo build](https://expo.dev/accounts/jakub69420/projects/homevital_app/builds/1a24bb00-2c81-4936-9eee-6d5b48fe65ff) available until March 29th, 2025.
+We have an [APK Demo build](https://expo.dev/accounts/jakub69420/projects/homevital_app/builds/1a24bb00-2c81-4936-9eee-6d5b48fe65ff) available until May 29th, 2025.
 > If this build has already run out, follow the **Get started** instructions above to build your own one.
 > You may need to run the HomeVital API on your local machine if the server is down. It is linked in the prerequisites of this **readme** file.
 
